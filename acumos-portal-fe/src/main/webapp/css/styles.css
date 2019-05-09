@@ -84,7 +84,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .icon-attachment {width: 14px; height:8px; background: url("../images/attachment.png") no-repeat center center;}
 
 .mdl-tabs__tab .tab-description {width:19px; height:23px;background: url("../images/model_details/description.png") no-repeat center center; }
-.mdl-tabs__tab .tab-license {width:22px; height:21px;background: url("../images/model_details/icon_license.png") no-repeat center center; }
+.mdl-tabs__tab .tab-license {width:22px; height:21px;background: url("../images/model_details/icon_license_inactive.png") no-repeat center center; }
 .mdl-tabs__tab .tab-signatures {width:18px; height:12px;background: url("../images/model_details/signature.png") no-repeat center center; }
 .mdl-tabs__tab .tab-documents {width:18px; height:22px;background: url("../images/model_details/documents.png") no-repeat center center; }
 .mdl-tabs__tab .tab-versionhistory {width:21px; height:18px;background: url("../images/model_details/version_history.png") no-repeat center center; }
@@ -96,7 +96,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 
 
 .mdl-tabs__tab.is-active .tab-description {background: url("../images/model_details/description_selected.png") no-repeat center center; }
-.mdl-tabs__tab.is-active .tab-license {width:22px; height:21px;background: url("../images/model_details/icon_license_selected.png") no-repeat center center; }
+.mdl-tabs__tab.is-active .tab-license {width:22px; height:21px;background: url("../images/model_details/icon_license_active.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-signatures {background: url("../images/model_details/signature_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-documents {background: url("../images/model_details/documents_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-versionhistory {background: url("../images/model_details/version_history_selected.png") no-repeat center center; }

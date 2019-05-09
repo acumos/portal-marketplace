@@ -32,29 +32,19 @@ limitations under the License.
 						onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name}}	</span>				
 				<div class="md-head-container3">
 					<div class="md-head-containerinner-seperator"></div>
-					<div class="version-container" ng-show="solutionCatalogsList && solutionCatalogsList.length > 0">
-						<button id="demo-menu-lower-right" class="mdl-button mdl-js-button"
-								ng-click="showCatalog();$event.stopPropagation();">
-								<span>Catalog - {{catalogName}} <i class="material-icons">keyboard_arrow_down</i></span>
-						</button>
-						<ul class="md-version-ddl1 catalog-list">
-							<li ng-repeat="catalog in solutionCatalogsList"
-									ng-click="changeSelectedCatalogId(catalog.catalogId, catalog.name)"
-									ng-class="{selected: v.revisionId == revisionId}">{{catalog.name}}</li>
-						</ul>
-					</div>
 					<div class="version-container">
 						<button id="demo-menu-lower-right" class="mdl-button mdl-js-button"
 								ng-click="showVersion();$event.stopPropagation();">
 								<span>Version - {{versionId}} <i class="material-icons">keyboard_arrow_down</i></span>
 						</button>
-						<ul class="md-version-ddl1 version-list">
+						<ul class="md-version-ddl1">
 							<li ng-repeat="v in versionList"
 									ng-click="loadVersionDetails(solution.solutionId, v.revisionId, v.version)"
 									ng-class="{selected: v.revisionId == revisionId}">Version - {{v.version}}</li>
 						</ul>
-					</div>					
-				</div>
+					</div>
+					
+			</div>
 			</div>
 			<div class="md-head-container2">	
 				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true && $root.isONAPCompatible && !audit"
@@ -94,7 +84,7 @@ limitations under the License.
                     <!-- Through Properties File -->
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list" ng-hide="dockerUrlOfModel">
                           <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
-                              	ng-click="showazurePopup()"
+                              	ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()"
                            		class="opacityZero deploy-to-cloud" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
                            		title="{{deployVal.cloudDisplayText}}"
                            		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center"
@@ -225,7 +215,7 @@ limitations under the License.
 						</a> 
 						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
 							<span class="tab-box"> 
-								<span class="tab-icons fas fa-certificate"></span>
+								<span class="tab-icons tab-license"></span>
 								<span>Licenses</span>
 							</span>
 						</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
@@ -323,14 +313,16 @@ limitations under the License.
 									onerror="this.onerror=null;this.src='images/default-model.png'"/>
 						</div>
 						
-						<div ng-bind-html="solutionDescription"></div>
-
-						<h6 ng-if="dockerUrlOfModel" class="md-subhead lbl1"> My Image Model: {{dockerUrlOfModel}}</h6>
+							<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
+							<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
+							<h6 ng-if="dockerUrlOfModel" class="md-subhead lbl1"> My Image Model: {{dockerUrlOfModel}}</h6>
 					</div>
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
 						<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
-
+							<div class="alert c-info" ng-if="!modelSignature">
+							<strong>No model available</strong>
+							</div>
 					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
 						<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
@@ -351,7 +343,7 @@ limitations under the License.
 							</thead>
 							<tbody>
 								<!-- ng-repeat = "value in downloadData" -->
-								<tr class="supporting-doc" ng-repeat="supportingDoc in documents">
+								<tr class="supporting-doc" ng-repeat="supportingDoc in supportingDocsPB" ng-show="showPBDocs">
 									<td><span class="file-type">
 											<i class="far fa-file-word" ng-if="(supportingDoc.ext | lowercase) == 'docx'" aria-hidden="true"></i>
 											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'png'" aria-hidden="true"></i>
@@ -369,6 +361,26 @@ limitations under the License.
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
+								
+								<tr class="supporting-doc" ng-repeat="supportingDoc in supportingDocsOR" ng-show="showORDocs">
+									<td><span class="file-type">
+											<i class="far fa-file-word" ng-if="(supportingDoc.ext | lowercase) == 'docx'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'png'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'jpg'" aria-hidden="true"></i>
+											<i class="far fa-file-pdf" ng-if="(supportingDoc.ext | lowercase) == 'pdf'" aria-hidden="true"></i>
+											<i class="far fa-file-powerpoint" ng-if="(supportingDoc.ext | lowercase) == 'pptx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="(supportingDoc.ext | lowercase) == 'xlsx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="(supportingDoc.ext | lowercase) == 'csv'" aria-hidden="true"></i>
+											<i class="far fa-file-alt" ng-if="(supportingDoc.ext | lowercase)== 'txt'" aria-hidden="true"></i>
+											<i class="far fa-file-archive" ng-if="(supportingDoc.ext | lowercase) == 'zip'" aria-hidden="true"></i>
+									</span><span>{{supportingDoc.name}}</span></td>
+									<td>{{versionId}}</td>
+									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
+									<td><a href="/api/solution/revision/document/{{supportingDoc.documentId}}?jwtToken={{auth}}" alt="Download" title="Download">
+										<i class="fa fa-download" aria-hidden="true"></i>
+									</a></td>
+								</tr>
+
 							</tbody>
 						</table>
 					</div>
@@ -448,7 +460,7 @@ limitations under the License.
 
 					<div class="mdl-tabs__panel" id="tab7-panel">
 						<h6 class="sectiontitle6">LICENSES</h6>
-						<div ng-show= "modelLicense">{{modelLicense | json}}</div>
+						<div ng-show= "modelLicense"><pre class="license-pre">{{modelLicense}}</pre></div>
 						<div ng-show="modelLicenseError">{{modelLicenseError}}</div>
 					</div>
 					
@@ -854,7 +866,7 @@ limitations under the License.
 				</div>
 				<div layout="row" class="pull-right">
 						<md-button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();closePoup();">Deploy
+								ng-disabled="deploy.$invalid" ng-click="showazurePopup()">Deploy
 						</md-button>
 				</div>
 				</form>
@@ -1257,7 +1269,7 @@ limitations under the License.
 			<md-dialog-actions>		  
 		   		<div class="dialog-footer-container1">	   
 					<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
-					<button ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()" class="mdl-button mdl-js-button btn-primary">OK</button>	        
+					<button ng-click="authenticateAnddeployToAzure();closePoup();" class="mdl-button mdl-js-button btn-primary">OK</button>	        
 			</md-dialog-actions>
 		  </md-dialog>
 		  </div>
