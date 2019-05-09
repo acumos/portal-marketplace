@@ -795,7 +795,7 @@ limitations under the License.
 											<div class="dc-row">
 										      <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 										         <md-input-container ng-class="{'available-docker':availableSolution && !createDockerRef ,'non-available-docker':notavailableSolution && !createDockerRef}" class="md-block">
-										            <label><span class="reqfield">* </span>Model Name</label> 
+										            <label>Model Name <span class="reqfield"> *</span></label> 
 										            <input type="text" class="md-input" ng-model="searchModelName" ng-disabled="createDockerRef" ng-class="{'disable-input':checkingSolution || createDockerRef}">
 										            <div ng-if="notavailableSolution" class="help-inline validation-msgs validationmsg"><span>Model name already taken, please use different model name.</span></div>
 										         </md-input-container>
@@ -805,7 +805,7 @@ limitations under the License.
 										         		<span ng-if="!checkingSolution && !notavailableSolution && !availableSolution"  alt="Check availability" title="Check availability">Check availability</span>
 										         </button>
 										         
-										          <button ng-class="{'checking-loader':checkingSolution}" ng-show="checkingSolution || availableSolution || notavailableSolution" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+										          <button ng-show="checkingSolution || availableSolution || notavailableSolution" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 										         		<span ng-if="checkingSolution && !notavailableSolution" alt="Checking" title="Checking">Checking</span>
 										         		<span ng-if="notavailableSolution" alt="Not Available" title="Not Available">Not Available</span>
 										         		<span ng-if="availableSolution" alt="Available" title="Available">Available</span>
@@ -876,7 +876,7 @@ limitations under the License.
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
 								  	<div class="upload-model-bundle-right-content">
 									<h5>Instruction for dockerized model onboarding</h5>
-									<p><a href="https://wiki.acumos.org/display/MOB/Pre-Dockerized+model">Onboard a dockerized model</a></p>
+									<p><a href="https://wiki.acumos.org/display/MOB/Pre-Dockerized+model" target="_blank">Onboard a dockerized model</a></p>
 									</div>								  
 								  </div>								 
 								</div>

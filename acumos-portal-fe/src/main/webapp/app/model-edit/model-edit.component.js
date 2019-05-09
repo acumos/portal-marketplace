@@ -1852,6 +1852,7 @@ angular
 													$scope.showSolutionDocs = true;
 													$scope.showFileUpload = !$scope.showFileUpload;
 													$rootScope.progressBar = 0;
+													chkCount();
 												},
 												function(error) {
 													if (error.error_code == "sv_error") {
@@ -2142,21 +2143,21 @@ angular
 				
 
 					//check the count of success
-					$scope.statusCount = 0;
+
 					function chkCount(){
-						var count = 0, Pbcount = 0, Orcount = 0;
+						var count = 0;
 						if($scope.solution){
 							if($scope.solution.name)count++;
 							if($scope.solution.modelTypeName && $scope.solution.tookitTypeName)count++;
 						}
 						if($scope.supportingDocs.length > 0){
-							Orcount++;
+							count++;
 						}
 						
 						if($scope.tags1.length > 0){
 							count++;
 						}else if($scope.tags1.length < 1){
-							count -1;
+							count-1;
 						}
 						
 						if($scope.showSolutionImage && (  $scope.solImage || ($scope.imgURLdefault != 'images/default-model.png' && $scope.imgURLdefault != 'images/img-list-item.png'))){
@@ -2165,14 +2166,12 @@ angular
 
 						if($scope.company){
 							if($scope.company.skipStep == true){
-								Orcount++;
+								count++;
 							}
 						}
 						
-						if($scope.solutionCompanyDesc)Orcount++;
-
-						$scope.statusCount = count + Orcount;
-
+						if($scope.solutionCompanyDesc) count++;
+						$scope.statusCount = count;
 						if($scope.statusCount > 5){
 							$scope.activePublishBtn = true;
 							$scope.modelDocumentation = true;
@@ -2189,13 +2188,15 @@ angular
 
 					$scope.$watch('solImage', function() {chkCount();});
 					$scope.$watch('imgURLdefault', function() {chkCount();});
-					
+					$scope.$watch('company.skipStep', function() {chkCount();});
+
 					$scope.$watch('file', function() {chkCount();});
 					$scope.$watch('user', function() {chkCount();});
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
 					$scope.$watch('solutionFile', function() {
 						if($scope.solutionFile) {
 							$scope.privatefilename = $scope.solutionFile.name;
+							chkCount();
 						}
 					});
 					
@@ -2203,7 +2204,6 @@ angular
 						if($scope.company){
 							if($scope.company.skipStep == true){
 								$scope.company.step4 = true
-								chkCount();
 							}
 						}else{
 							//empty else required
@@ -2458,11 +2458,10 @@ angular
 							$scope.showSolutionDocs = false;
 							$scope.company.step4 = false;
 							$scope.activePublishBtn = false;
-							chkCount();
 							$scope.company.skipStep = false;
 							$scope.getSolCompanyDesc();
 							$scope.getCompanySolutionDocuments();
-							$scope.getPublishRequestDetail();							
+							$scope.getPublishRequestDetail();
 						}
 					}
 
@@ -2511,17 +2510,15 @@ angular
 									                    		  if(!catalogFound)
 									                    			  ($scope.catalogsAvailable).push($scope.catalogsList[i]);
 									                    	  }
-									                    	  if($scope.catalogsAvailable){
-									                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
-									                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
-									                    		  $scope.getSolCompanyDesc();
-									                    		  $scope.getCompanySolutionDocuments();
-									                    	  }
 								                    	  } else {
-								                    		  $scope.catalogsAvailable = $scope.catalogsList;
-								                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
-								                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+								                    		  $scope.catalogsAvailable = $scope.catalogsList;								                    		  
 								                    	  }
+								                    	  
+								                    	  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
+							                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+							                    		  $scope.getSolCompanyDesc();
+							                    		  $scope.getCompanySolutionDocuments();
+							                    		  $scope.getPublishRequestDetail();
 								                    }
 								                });
 				                    }
