@@ -34,6 +34,7 @@ public class APINames {
 	public static final String AUTH = "/auth";
 	public static final String LOGIN = "/login";
 	public static final String LOGOUT = "/logout";
+	public static final String USERNAME = "/username";
 
 	//Pre-Dockerized model
 	public static final String DOCKER_SEARCH_SOLUTION = "/dockerSearchSolutions";

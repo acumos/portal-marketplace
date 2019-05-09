@@ -184,6 +184,20 @@ public class OauthUserServiceControllerTest {
 		}
 	}
 	
+	@Test
+	public void getUsernameFromAuthTest() {
+		String token = "mockJwtToken";
+		String authorization = "Bearer " + token;
+		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+		mockRequest.addHeader("Authorization", authorization);
+		String usernameIn = "testUser";
+		
+		Mockito.when(jwtTokenUtil.getUsernameFromToken(token)).thenReturn(usernameIn);
+		String usernameOut = oauthServiceController.getUsernameFromAuth(mockRequest, response);
+		Assert.assertNotNull(usernameOut);
+		Assert.assertEquals(usernameIn, usernameOut);
+	}
+	
 	private MLPRole getMLPRole(){
 		MLPRole mlpRole = new MLPRole();
 		mlpRole.setName("Admin");
