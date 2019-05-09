@@ -3224,7 +3224,12 @@ angular.module('admin').filter('abs', function () {
                     });
             }
             $scope.searchFlag = false;
-
+			$scope.editClearSearch = function (){           	 
+            	$scope.searchFlag = false;
+            	$scope.solutionName = undefined;
+            	$scope.associatedModels = undefined;
+            	$scope.fetchedSolutionName = undefined;
+            }
             $scope.getSolution = function () {
                 var rtuReferenceId = $scope.RTUId;
                 var solName = $scope.solutionName;
