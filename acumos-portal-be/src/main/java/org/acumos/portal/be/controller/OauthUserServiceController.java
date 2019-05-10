@@ -263,6 +263,20 @@ public class OauthUserServiceController extends AbstractController {
 		return responseObject;
 	}
 	
+	@ApiOperation(value = "Fetches username from authorization header.", response = String.class)
+	@RequestMapping(value = APINames.USERNAME, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public String getUsernameFromAuth(HttpServletRequest request, HttpServletResponse response) {
+		log.debug("getUsernameFromAuth");
+		String username = null;
+		String auth = request.getHeader("Authorization");
+		if (!PortalUtils.isEmptyOrNullString(auth)) {
+			String token = auth.replace("Bearer ", "");
+			username = jwtTokenUtil.getUsernameFromToken(token);
+		}
+		return username;
+	}
+	
 /*	
 	@ApiOperation(value = "Get Github access Token")
 	@RequestMapping(value = {}, method = RequestMethod.GET, produces = APPLICATION_JSON)
