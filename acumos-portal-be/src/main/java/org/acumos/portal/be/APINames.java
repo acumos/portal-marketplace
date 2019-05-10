@@ -226,6 +226,9 @@ public class APINames {
 	public static final String UPDATE_CAROUSEL_PICTURE = "/content/carouselImages";
 	public static final String DELETE_CAROUSEL_PICTURE = GET_CAROUSEL_PICTURE;
 	public static final String UNREAD_NOTIFICATIONS_COUNT = "/unreadnotifications/count/{userId}";
+	
+	public static final String GET_DISCOVERACUMOS_INFO = "/content/global/discoverAcumos";
+	
 	// Notifications
 	public static final String CREATE_NOTIFICATION = "/notifications/createNotification";
 	public static final String ADD_USER_NOTIFICATIONS = "/notifications/create/{notificationId}/user/{userId}";
