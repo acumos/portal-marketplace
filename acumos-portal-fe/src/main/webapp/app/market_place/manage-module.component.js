@@ -152,11 +152,6 @@ angular.module('manageModule')
                                     }
                         }
 						
-						
-						
-						
-						
-						
 						//added functionality for deleted model category filter starts
 						$scope.delete1=true;
 						$scope.get = function(){
@@ -298,13 +293,6 @@ angular.module('manageModule')
 							
 						    }; 
 											
-						
-												
-							
-													
-							
-						
-						
 						$scope.getPublicModels=function(){
 							$scope.dataLoading = true;
 							$scope.publicDataLoaded = true;
@@ -326,8 +314,6 @@ angular.module('manageModule')
 										    }
 										  }
 										};
-							
-							
 							
 							if($scope.Loadcheck){
 								$scope.SetDataLoaded = true;
@@ -363,8 +349,6 @@ angular.module('manageModule')
 							    $scope.startPageSizePB = $scope.loadpagePB *  $scope.defaultSize + 1;
 								$scope.endPageSizePB =  (($scope.loadpagePB + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpagePB + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
 								 }
-								
-								
 								
 								
 								if($scope.mlSolutionPublic.length != 0){
@@ -1267,6 +1251,14 @@ angular.module('manageModule')
 											});
 						
 						}
+						
+					    $scope.$watchGroup(['privateDataLoaded', 'publicDataLoaded', 'deleteDataLoaded'], function(sections){
+					    	if( sections[0] || sections[1] || sections[2]){
+					    		$rootScope.setLoader = true;
+					    	} else {
+					    		$rootScope.setLoader = false;
+					    	}
+					    })
 						
 					}
 				});
