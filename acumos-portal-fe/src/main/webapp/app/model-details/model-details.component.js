@@ -534,10 +534,12 @@ angular
 									})
 									.then(
 											function successCallback(response) {
-												console.log(response);
-												$scope.modelSignature = response.data;
+											console.log(response);
+											$scope.modelSignature = response.data;
+												
 											});
 					}
+					
 					$scope.getLicenseFile = function() {
 						$scope.modelLicense = "";
 						$scope.modelLicenseError = "";
@@ -1125,12 +1127,18 @@ angular
 														}
 														isDockerArtifactFound = true;
 													}
+													if( response.data.response_body[x].description.endsWith('.pfa') || response.data.response_body[x].description.endsWith('.onnx') ){
+														$scope.isOnnxOrPFAModelFound = true;
+														$scope.signatureFound = false;
+													}
 												}
 												if(isDockerArtifactFound == false){
 													$scope.showMicroService = true;
 												}
-
-											},
+												if($scope.isOnnxOrPFAModelFound != true || $scope.modelSignature){
+													$scope.signatureFound =true;
+												}
+										},
 											function errorCallback(response) {
 												/*alert("Error: "
 														+ response.status
