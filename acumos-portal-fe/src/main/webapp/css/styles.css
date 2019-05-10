@@ -879,6 +879,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .btn-grid-action {color: #0366d6;padding:0; min-width:10px;}
 .btn-grid-action i {font-size:14px !important;}
 .btn-grid-action:hover {background: none;color: #0366d6;}
+.model-details-tabwrapper > .mdl-tabs__panel{min-height:380px;}
 
 a.mdl-tabs__tab.tab5-panel {height:1px;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {max-width: 350px; text-overflow: ellipsis; overflow: hidden;}
