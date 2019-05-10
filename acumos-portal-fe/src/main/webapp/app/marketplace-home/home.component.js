@@ -340,6 +340,31 @@ angular
 		 							};
 		 							$scope.updateViewCount();
 		 						}
+		                         
+		                         
+		                       //Get Discover Acumos Info  
+		                         
+		                          	 apiService.getGlobalDiscoverAcumos()
+		                					.then(
+		                							function(response) {
+		                						     								
+		                							//$scope.discoverAcumosInfo = (response.data.response_body);
+		                							$scope.daMarketPlace = response.data.response_body.marketPlace;
+		                							$scope.daDesignStudio = response.data.response_body.designStudio;
+		                							$scope.daSdnOnap = response.data.response_body.sdnOnap;
+		                							$scope.daPreferredToolkit = response.data.response_body.preferredToolkit;
+		                							$scope.daTeamUp = response.data.response_body.teamUp;
+		                						},
+		                					function(error) {
+		                						console.log(error);
+		                					}
+		                			);
+		                			
+		                         
+		                         
+		                         
+		                		
+		                         
 
 		                         $scope.getCmsHomeScreenDiscoverContentTeamUP = function(name){
 		                        	 var req = {

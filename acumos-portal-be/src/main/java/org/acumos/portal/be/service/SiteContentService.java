@@ -21,6 +21,7 @@
 package org.acumos.portal.be.service;
 
 import org.acumos.cds.domain.MLPSiteContent;
+import org.acumos.portal.be.transport.HomePageModuleNames;
 
 public interface SiteContentService {
 
@@ -113,4 +114,11 @@ public interface SiteContentService {
 	 *            content key
 	 */
 	public void deleteCarouselPicture(String key);
+
+	/**
+	 * Method to fetch the Discover Acumos information for home screen
+	 * 
+	 * @return html embedded in json string
+	 */
+	public HomePageModuleNames getDiscoverAcumosInfo();
 }

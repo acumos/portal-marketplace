@@ -25,6 +25,7 @@ import java.lang.invoke.MethodHandles;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPSiteContent;
 import org.acumos.portal.be.service.SiteContentService;
+import org.acumos.portal.be.transport.HomePageModuleNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,13 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 	public static final String KEY_COBRAND_LOGO = "global.coBrandLogo";
 	public static final String KEY_ONBOARDING_OVERVIEW = "global.onboarding.overview";
 	public static final String KEY_CONTACT_INFO = "global.footer.contactInfo";
-
+	
+	public static final String KEY_DISCOVER_AC_Market = "global.discoverAcumos.marketPlace";
+	public static final String KEY_DISCOVER_AC_DS = "global.discoverAcumos.designStudio";
+	public static final String KEY_DISCOVER_AC_SONAP = "global.discoverAcumos.sdnOnap";
+	public static final String KEY_DISCOVER_AC_PTOOLKIT = "global.discoverAcumos.preferredToolkit";
+	public static final String KEY_DISCOVER_AC_TEAMUP = "global.discoverAcumos.teamUp";
+	
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Override
@@ -130,6 +137,21 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 		} else {
 			dataServiceRestClient.createSiteContent(content);
 		}
+	}
+
+	
+
+	@Override
+	public HomePageModuleNames getDiscoverAcumosInfo() {
+		log.debug("getDiscoverAcumosInfo");
+		HomePageModuleNames homePageModuleNames=new HomePageModuleNames();
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		homePageModuleNames.setMarketPlace(new String(dataServiceRestClient.getSiteContent(KEY_DISCOVER_AC_Market).getContentValue()));
+		homePageModuleNames.setDesignStudio(new String(dataServiceRestClient.getSiteContent(KEY_DISCOVER_AC_DS).getContentValue()));;
+		homePageModuleNames.setSdnOnap(new String(dataServiceRestClient.getSiteContent(KEY_DISCOVER_AC_SONAP).getContentValue()));;
+		homePageModuleNames.setPreferredToolkit(new String(dataServiceRestClient.getSiteContent(KEY_DISCOVER_AC_PTOOLKIT).getContentValue()));;
+		homePageModuleNames.setTeamUp(new String(dataServiceRestClient.getSiteContent(KEY_DISCOVER_AC_TEAMUP).getContentValue()));;
+		return homePageModuleNames;
 	}
 
 }
