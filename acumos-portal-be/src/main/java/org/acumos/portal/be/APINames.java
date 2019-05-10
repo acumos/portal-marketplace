@@ -164,6 +164,7 @@ public class APINames {
 	public static final String GET_PROTO_FILE = "/getProtoFile";
 	public static final String GET_LICENSE_FILE = "/getLicenseFile";
 	public static final String APITOKENVALIDATION = "/validateApiToken";
+	public static final String GET_PROP_VALUE = "/getPropValue";
 
 	// Role APIs for MarketPlace user
 	public static final String ROLES = "/roles";

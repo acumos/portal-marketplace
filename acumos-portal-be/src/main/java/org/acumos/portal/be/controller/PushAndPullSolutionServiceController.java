@@ -43,6 +43,7 @@ import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -74,6 +75,9 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	@Autowired
 	AdminService adminService;
 
+	@Autowired
+	private Environment env;
+	
 	/**
 	 * 
 	 */
@@ -279,4 +283,12 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 					"Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
 		}
 	}
+		
+	@ApiOperation(value = "Get the details from property file for specified key")
+	@RequestMapping(value = { APINames.GET_PROP_VALUE }, method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String getNexusPropUrl(String key) {
+		String nexusUrl = env.getProperty(key);
+		return nexusUrl;
+	}	 
 }

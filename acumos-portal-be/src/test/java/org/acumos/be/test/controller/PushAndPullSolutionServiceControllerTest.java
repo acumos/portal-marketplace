@@ -129,6 +129,15 @@ public class PushAndPullSolutionServiceControllerTest {
 		}
 	}
 	
+	public String getNexusPropUrlTest(String key) {
+		String nexusUrl = getPropertyValue(key);
+		return nexusUrl;
+	}
+
+	private String getPropertyValue(String key) {
+		return "nexus.url";
+	}
+	
 	private User getUser(){
 		User user = new User();
 		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
