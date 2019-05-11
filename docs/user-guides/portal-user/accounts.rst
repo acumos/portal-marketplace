@@ -103,7 +103,7 @@ then choose **Account Settings**.
 
     .. image:: images/portal/userProfile_setupScreen.png
 
-1) The API Token is used to onboard models from the command line
+1) The API Token is used to onboard models from the command line. If you want to delete the API Token for security reasons, you can delete by clicking the **Delete Token** button. if you want API Token, click on **Refresh** button to generate new one.
 2) When you change your email address, you will be automatically logged out of the application and must log in again
 
 From time to time, you may wish to be notified if a process, such has
