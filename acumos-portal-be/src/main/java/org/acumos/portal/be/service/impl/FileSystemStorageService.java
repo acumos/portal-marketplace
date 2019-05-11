@@ -37,8 +37,9 @@ import java.util.zip.ZipInputStream;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.StorageService;
-import org.acumos.portal.be.util.FileUtils;
+import org.acumos.portal.be.util.PortalFileUtils;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,14 +103,14 @@ public class FileSystemStorageService implements StorageService {
 				}
 				
 			} else {
-				if (!filename.endsWith(".zip")) {
-					log.error("Zip File Required. Original File :  " + filename );
-					throw new StorageException("Zip File Required. Original File : " + filename);
+				if (!filename.endsWith(".zip") &&  !filename.endsWith(".onnx") && !filename.endsWith(".pfa")) {
+					log.error(".zip, .onnx or .pfa File Required. Original File :  " + filename );
+					throw new StorageException(".zip, .onnx or .pfa File Required. Original File : " + filename);
 				}
 	
 				if (!validateFile(file)) {
-					log.error("Zip File does not contain required files " + filename );
-					throw new StorageException("Zip File does not contain required files: " + getMissingFiles(file));
+					log.error("Onboarded Model does not contain required files " + filename );
+					throw new StorageException("Onboarded Modele does not contain required files: " + getMissingFiles(file));
 				}
 				// Remove older files before uploading another solution files
 				deleteAll(userId);
@@ -124,7 +125,7 @@ public class FileSystemStorageService implements StorageService {
 				log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
 	
 				try {
-					result = FileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId);
+					result = PortalFileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId);
 					log.debug("Close all File Resource ");
 				} catch (Exception e) {
 					throw new StorageException("Failed to store file " + filename, e);
@@ -145,26 +146,29 @@ public class FileSystemStorageService implements StorageService {
 		String pattern = "(?!^.*(" + blacklist + ")\\/.*$)^.*$";
 		Predicate<ZipEntry> filter = entry -> 
 			!entry.isDirectory() && entry.getName().matches(pattern);
-		ZipInputStream zis = new ZipInputStream(file.getInputStream());
-		ZipEntry zipEntry = zis.getNextEntry();
-		while (zipEntry != null) {
-			if (filter.test(zipEntry)) {
-				if (zipEntry.getName().endsWith(".zip") || zipEntry.getName().endsWith(".jar") || zipEntry.getName().endsWith(".bin") || zipEntry.getName().endsWith(".tar") || zipEntry.getName().toUpperCase().endsWith(".R"))
-					zipFilePresent = true;
-	
-				if (zipEntry.getName().endsWith(".proto"))
-					schemaFilePresent = true;
-	
-				if (zipEntry.getName().endsWith(".json"))
-					metadataFilePresent = true;
-				
-				if (zipEntry.getName().endsWith(".onnx") || zipEntry.getName().endsWith(".pfa"))
-					onnxPfaFilePresent = true;
+			
+		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		if(extension.equalsIgnoreCase("zip")) {
+			ZipInputStream zis = new ZipInputStream(file.getInputStream());
+			ZipEntry zipEntry = zis.getNextEntry();
+			while (zipEntry != null) {
+				if (filter.test(zipEntry)) {
+					if (zipEntry.getName().endsWith(".zip") || zipEntry.getName().endsWith(".jar") || zipEntry.getName().endsWith(".bin") || zipEntry.getName().endsWith(".tar") || zipEntry.getName().toUpperCase().endsWith(".R"))
+						zipFilePresent = true;
+		
+					if (zipEntry.getName().endsWith(".proto"))
+						schemaFilePresent = true;
+		
+					if (zipEntry.getName().endsWith(".json"))
+						metadataFilePresent = true;					
+				}
+				zis.closeEntry();
+				zipEntry = zis.getNextEntry();
 			}
-			zis.closeEntry();
-			zipEntry = zis.getNextEntry();
-		}
-		zis.close();
+			zis.close();
+		}else if(extension.equalsIgnoreCase("onnx") || extension.equalsIgnoreCase("pfa")) {			
+				onnxPfaFilePresent = true;
+		}		
 
 		if (zipFilePresent && schemaFilePresent && metadataFilePresent)
 			return true;
@@ -218,16 +222,6 @@ public class FileSystemStorageService implements StorageService {
 		FileSystemUtils.deleteRecursively(
 				Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId)
 						.toFile());
-	}
-
-	private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
-		byte[] bytesIn = new byte[1024];
-		int read = 0;
-		while ((read = zipIn.read(bytesIn)) != -1) {
-			bos.write(bytesIn, 0, read);
-		}
-		bos.close();
 	}
 
 	public void setEnvironment(Environment environment){

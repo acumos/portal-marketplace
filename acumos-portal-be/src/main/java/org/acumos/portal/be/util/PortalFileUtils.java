@@ -24,40 +24,34 @@
 package org.acumos.portal.be.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileUtils {
+public class PortalFileUtils {
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	public static boolean extractZipFile(MultipartFile file, String destinationPath) {
-	  	
 	    byte[] buf = new byte[1024];
 	    ZipEntry zipentry;
 	    boolean flag = false;
-	   
-	    try (ZipInputStream zipinputstream = new ZipInputStream(file.getInputStream())){
-	        zipentry = zipinputstream.getNextEntry();
-	        
-	        if(zipentry.getName().endsWith(".onnx") || zipentry.getName().endsWith(".pfa")){
-		    	flag = true;
-	        }
-	        
-	        while (zipentry != null) {
+	    String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+	    if(extension.equalsIgnoreCase("zip")) {
+	    	try (ZipInputStream zipinputstream = new ZipInputStream(file.getInputStream())){
+		        zipentry = zipinputstream.getNextEntry();		        		        
+		        while (zipentry != null) {
 		            //for each entry to be extracted
-		            String entryName = destinationPath+File.separator + zipentry.getName();
-		            entryName = entryName.replace('/', File.separatorChar);
-		            entryName = entryName.replace('\\', File.separatorChar);
+	        		String entryName = getFileName(file, destinationPath);
 		            log.info("entryname " + entryName);
-		            int n;
 	                File newFile = new File(entryName);
 		            if (zipentry.isDirectory()){
 		                if (!newFile.mkdirs()) {
@@ -66,21 +60,41 @@ public class FileUtils {
 	                    zipentry = zipinputstream.getNextEntry();
 	                    continue;
 	                }
-                    try(FileOutputStream fileoutputstream = new FileOutputStream(entryName)){
-		            	while ((n = zipinputstream.read(buf, 0, 1024)) > -1) {
-		            	     fileoutputstream.write(buf, 0, n);
-		            	}
-		            }catch(IOException e){
-		            	log.error("Exception occured during extracting File", e.getMessage());
-                	}
+		            FileOutputStream fileoutputstream = new FileOutputStream(entryName);
+		            readWriteOnboardedFile(buf, file, fileoutputstream);
 		            zipinputstream.closeEntry();
 		            zipentry = zipinputstream.getNextEntry();
-	         }
-	     } catch (IOException e) {
-	        log.error("Exception occured during extracting File", e.getMessage());
-	       }
-		return flag;
-	    
+		         }
+		        flag = true;
+		     } catch (IOException e) {
+		        log.error("Exception occured during extracting File", e.getMessage());
+		       }
+	    }else if(extension.equalsIgnoreCase("onnx") || extension.equalsIgnoreCase("pfa")) {
+	    	String entryName = getFileName(file, destinationPath);
+            log.info("entryname onnx / pfa file " + entryName);
+            try {
+            	FileOutputStream fileoutputstream = new FileOutputStream(entryName);
+            	readWriteOnboardedFile(buf, file, fileoutputstream);
+			} catch (IOException e) {
+				 log.error("Exception occured during extracting onnx / pfa File", e.getMessage());
+			}
+	    	flag = true;
+	    }
+		return flag;	    
 	}
 
+	private static void readWriteOnboardedFile(byte[] buf, MultipartFile file, FileOutputStream fileoutputstream) throws IOException, FileNotFoundException {				
+	    File newFile = new File(file.getOriginalFilename());
+	    newFile.createNewFile();
+	    fileoutputstream = new FileOutputStream(newFile);
+	    fileoutputstream.write(file.getBytes());
+	    fileoutputstream.close();				 
+	}
+
+	private static String getFileName(MultipartFile file, String destinationPath) {
+		String entryName = destinationPath+File.separator + file.getName();
+		entryName = entryName.replace('/', File.separatorChar);
+		entryName = entryName.replace('\\', File.separatorChar);
+		return entryName;
+	}
 }
