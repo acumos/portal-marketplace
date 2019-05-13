@@ -65,7 +65,7 @@ public class PortalFileUtils {
 		            zipinputstream.closeEntry();
 		            zipentry = zipinputstream.getNextEntry();
 		         }
-		        flag = true;
+		        flag = false;
 		     } catch (IOException e) {
 		        log.error("Exception occured during extracting File", e.getMessage());
 		       }

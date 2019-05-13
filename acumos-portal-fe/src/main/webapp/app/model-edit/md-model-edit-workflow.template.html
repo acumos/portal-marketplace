@@ -609,8 +609,7 @@ limitations under the License.
 	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
 	                                     </md-select>                         
 	                                </div>
-                                </div>
-                                <div class="mdl-grid mdl-grid--no-spacing catalogList admin-row3">
+
 	                                <div ng-show="solutionCatalogsList.length > 0" class="select-control" style="width:70%;">
 									    <label class="fedlbl4">Catalog(s) of published model</label>
 										<md-select  ng-class="{'selectionActivated':existingCatalogId}" ng-model="existingCatalogId"	placeholder="Select Catalog" ng-change="changeExistingCatalog();">
