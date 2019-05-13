@@ -62,6 +62,7 @@ import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
+import org.acumos.portal.be.transport.MLArtifact;
 import org.acumos.portal.be.transport.MLCatalog;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
@@ -355,40 +356,56 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	 *            revision ID
 	 * @return List of Published ML Solutions in JSON format.
 	 */
+
 	@ApiOperation(value = "Gets a list of Solution Revision Artifacts from the Catalog of the local Acumos Instance .", response = MLPArtifact.class, responseContainer = "List")
-	@RequestMapping(value = {
-			APINames.SOLUTIONS_REVISIONS_ARTIFACTS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<List<MLPArtifact>> getSolutionsRevisionArtifactList(HttpServletRequest request,
-			HttpServletResponse response, @PathVariable("solutionId") String solutionId,
-			@PathVariable("revisionId") String revisionId) {
+    @RequestMapping(value = {
+            APINames.SOLUTIONS_REVISIONS_ARTIFACTS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<List<MLArtifact>> getSolutionsRevisionArtifactList(HttpServletRequest request,
+            HttpServletResponse response, @PathVariable("solutionId") String solutionId,
+            @PathVariable("revisionId") String revisionId) {
 
-		solutionId = SanitizeUtils.sanitize(solutionId);
-		revisionId = SanitizeUtils.sanitize(revisionId);
+        solutionId = SanitizeUtils.sanitize(solutionId);
+        revisionId = SanitizeUtils.sanitize(revisionId);
 
-		JsonResponse<List<MLPArtifact>> data = new JsonResponse<List<MLPArtifact>>();
-		List<MLPArtifact> peerSolutionArtifacts = null;
-		try {
-			peerSolutionArtifacts = marketPlaceService.getSolutionArtifacts(solutionId, revisionId);
-			if (peerSolutionArtifacts != null) {
-				data.setResponseBody(peerSolutionArtifacts);
-				data.setResponseCode(String.valueOf(HttpServletResponse.SC_OK));
-				data.setResponseDetail(JSONTags.TAG_STATUS_SUCCESS);
-				data.setStatus(true);
-				response.setStatus(HttpServletResponse.SC_OK);
-				log.debug("getSolutionsRevisionArtifactList: size is {} ", peerSolutionArtifacts.size());
-			}
-		} catch (AcumosServiceException e) {
-			data.setResponseCode(String.valueOf(HttpServletResponse.SC_BAD_REQUEST));
-			data.setErrorCode(e.getErrorCode());
-			data.setResponseDetail(e.getMessage());
-			data.setStatus(false);
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("Exception Occurred Fetching Solution Revisions Artifacts for Market Place Catalog", e);
-		}
-		return data;
-	}
+        JsonResponse<List<MLArtifact>> data = new JsonResponse<List<MLArtifact>>();
+        List<MLArtifact> filteredPeerSolutionArtifacts = new ArrayList<MLArtifact>();
 
+        List<MLPArtifact> peerSolutionArtifacts = null;
+        try {
+            peerSolutionArtifacts = marketPlaceService.getSolutionArtifacts(solutionId, revisionId);
+            if (peerSolutionArtifacts != null) {
+                peerSolutionArtifacts.forEach((MLPArtifact mlpArtifact) -> {
+                    if ("DI".equals(mlpArtifact.getArtifactTypeCode())) {
+                        String[] st = mlpArtifact.getUri().split("/");
+                        String imagetag_prefix= st[0];
+                        if(env.getProperty("docker.imagetag.prefix") !=null && imagetag_prefix.equalsIgnoreCase(env.getProperty("docker.imagetag.prefix"))) {
+                            filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false));                            
+                        } else {
+                            filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,true));
+                        }
+                    } else {
+                        filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false));
+                    }
+                });                
+                data.setResponseBody(filteredPeerSolutionArtifacts);
+                data.setResponseCode(String.valueOf(HttpServletResponse.SC_OK));
+                data.setResponseDetail(JSONTags.TAG_STATUS_SUCCESS);
+                data.setStatus(true);
+                response.setStatus(HttpServletResponse.SC_OK);
+                log.debug("getSolutionsRevisionArtifactList: size is {} ", peerSolutionArtifacts.size());
+            }
+        } catch (AcumosServiceException e) {
+            data.setResponseCode(String.valueOf(HttpServletResponse.SC_BAD_REQUEST));
+            data.setErrorCode(e.getErrorCode());
+            data.setResponseDetail(e.getMessage());
+            data.setStatus(false);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            log.error("Exception Occurred Fetching Solution Revisions Artifacts for Market Place Catalog", e);
+        }
+        return data;
+    }
+	
 	@ApiOperation(value = "Add tag for a provided SolutionId.", response = MLSolution.class)
 	@RequestMapping(value = { APINames.ADD_TAG }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody

@@ -408,7 +408,7 @@ limitations under the License.
 											<i class="fa fa-download" aria-hidden="true"></i>
 										</md-button>
 									
-										<md-button ng-cloak ng-if="loginUserID" class="mdl-button mdl-js-button btn-grid-action" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" >
+										<md-button ng-cloak ng-if="loginUserID"  ng-disabled="value.mask" class="mdl-button mdl-js-button btn-grid-action" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" >
 											<i class="fa fa-download" aria-hidden="true"></i>
 										</md-button>
 
