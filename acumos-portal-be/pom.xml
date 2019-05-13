@@ -65,7 +65,7 @@ limitations under the License.
 		<dependency>
 		    <groupId>org.acumos.security-verification.license-manager</groupId>
 		    <artifactId>license-manager-client-library</artifactId>
-		    <version>0.0.3</version>
+		    <version>0.0.4</version>
 		    <exclusions>
               <exclusion>
                 <groupId>com.google.collections</groupId>
@@ -133,7 +133,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.security-verification</groupId>
 			<artifactId>security-verification-client</artifactId>
-			<version>0.0.6</version>
+			<version>0.0.16</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
