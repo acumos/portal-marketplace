@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a1f8d54_985c421d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-13T07:22:54Z",
+      "side": 1,
+      "message": "Put another condition for dockerized as there will not be signatures for dockerized model as well\n\nalso update the message accordingly in HTML",
+      "range": {
+        "startLine": 1130,
+        "startChar": 16,
+        "endLine": 1130,
+        "endChar": 139
+      },
+      "revId": "db2f5c17020911337d376e981ca0515f287bf982",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
