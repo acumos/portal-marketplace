@@ -25,17 +25,19 @@ import java.util.Date;
 public class MLArtifact {
 
 	private Long solutionId;
-	private Long artifactId;
+	private String artifactId;
 	private String version;
 	private String artifactType;
 	private String name;
 	private String description;
 	private String artifactUri;
-	private Long ownerId;
+	private String ownerId;
 	private String metadata;
 	private Date created;
 	private Date modified;
-	
+	private boolean mask = false;
+	private int size;
+
 	public MLArtifact() {
 		// TODO Auto-generated constructor stub
 	}
@@ -52,20 +54,6 @@ public class MLArtifact {
 	 */
 	public void setSolutionId(Long solutionId) {
 		this.solutionId = solutionId;
-	}
-
-	/**
-	 * @return the artifactId
-	 */
-	public Long getArtifactId() {
-		return artifactId;
-	}
-
-	/**
-	 * @param artifactId the artifactId to set
-	 */
-	public void setArtifactId(Long artifactId) {
-		this.artifactId = artifactId;
 	}
 
 	/**
@@ -139,20 +127,6 @@ public class MLArtifact {
 	}
 
 	/**
-	 * @return the ownerId
-	 */
-	public Long getOwnerId() {
-		return ownerId;
-	}
-
-	/**
-	 * @param ownerId the ownerId to set
-	 */
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = ownerId;
-	}
-
-	/**
 	 * @return the metadata
 	 */
 	public String getMetadata() {
@@ -192,6 +166,38 @@ public class MLArtifact {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	public boolean isMask() {
+		return mask;
+	}
+
+	public void setMask(boolean mask) {
+		this.mask = mask;
+	}
+
+	public String getArtifactId() {
+		return artifactId;
+	}
+
+	public void setArtifactId(String artifactId) {
+		this.artifactId = artifactId;
+	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 }

@@ -31,13 +31,13 @@ public class MLArtifactTest {
 	@Test
 	public void testMLArtifactParameter(){
 		Long solutionId = 343335l;
-		Long artifactId = 535355l;
+		String artifactId = "535355l";
 		String version = "1.1";
 		String artifactType = "CL";
 		String name = "rahul";
 		String description = "sfsdgd";
 		String artifactUri = "http:fsf/fsf";
-		Long ownerId = 46464646l; 
+		String ownerId = "46464646l"; 
 		String metadata = "sfsfsfs";
 		Date created = new Date();
 		Date modified = new Date();
