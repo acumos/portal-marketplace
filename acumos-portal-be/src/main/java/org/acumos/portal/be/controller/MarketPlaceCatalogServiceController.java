@@ -379,7 +379,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
                     if ("DI".equals(mlpArtifact.getArtifactTypeCode())) {
                         String[] st = mlpArtifact.getUri().split("/");
                         String imagetag_prefix= st[0];
-                        if(env.getProperty("docker.imagetag.prefix") !=null && imagetag_prefix.equalsIgnoreCase(env.getProperty("docker.imagetag.prefix"))) {
+                        if(env.getProperty("docker.registry.url") !=null && imagetag_prefix.equalsIgnoreCase(env.getProperty("docker.registry.url").replaceAll("http://", "").replaceAll("https://",""))) {
                             filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false));                            
                         } else {
                             filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,true));
