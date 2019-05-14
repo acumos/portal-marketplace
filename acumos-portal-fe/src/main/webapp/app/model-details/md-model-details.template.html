@@ -93,9 +93,9 @@ limitations under the License.
 				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID  && !audit && artifactDownload" ng-cloak>
                     <!-- Through Properties File -->
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list" ng-hide="dockerUrlOfModel">
-                          <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
-                              	ng-click="showazurePopup()"
+                          <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"                             	
                            		class="opacityZero deploy-to-cloud" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
+                           		ng-click="showazurePopup(deployVal.cloudName)"  
                            		title="{{deployVal.cloudDisplayText}}"
                            		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center"
                            		ng-disabled="deployVal.cloudEnabled=='false'">
@@ -1241,7 +1241,10 @@ limitations under the License.
 		<md-dialog aria-label="deploy" class="cg-dialog-admin1">
 			<md-toolbar>
 		      <div class="md-toolbar-tools">
-				<h2>Deploy to Microsoft Azure</h2>
+				<h2 ng-show="exportTo=='azure'">Deploy to Microsoft Azure</h2>
+				<h2 ng-show="exportTo=='rackspace'">Deploy to RackSpace</h2>
+				<h2 ng-show="exportTo=='deploylocal'">Deploy to Local</h2>
+				<h2 ng-show="exportTo=='whitebox'">Deploy to White Box</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click='closePoup()'>
 				<i class="material-icons">close</i> </md-button>

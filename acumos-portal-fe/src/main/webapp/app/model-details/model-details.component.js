@@ -1559,6 +1559,12 @@ angular
 									
 							}
 							 $scope.showazurePopup = function(ev){
+								 					
+								 	if(ev === "deploylocal"){
+								 		$rootScope.showPrerenderedDialog("", '#myDialog'); 
+								 		
+								 	}
+								 	else{
 								  $mdDialog.show({
 									  contentElement: '#deploy',
 									  parent: angular.element(document.body),
@@ -1566,7 +1572,7 @@ angular
 									  clickOutsideToClose: true
 								  });
 							 }
-							 
+							 }
 							 $scope.createMicroservice = function(){
 								 
 								 var requestObj =	{
