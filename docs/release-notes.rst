@@ -21,6 +21,34 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.12  13th May 2019 
+=================================
+* <IST><Portal Marketplace> Docker image is getting downloaded with 0KB size for model onboarded using 'Onboard Dockerized Model URI'	ACUMOS-2811
+* Portal publish-to-marketplace screen too little space for catalog drop-down	ACUMOS-2854
+* Portal catalog table omits column self-publish 	ACUMOS-2853
+* <Portal Marketplace><Web Onboarding> Not accepting .ONNX and .PFA files while onboarding	ACUMOS-2746
+* Documentation: Publisher Guide: Approval Comment is displaying as optional in the screenshot	ACUMOS-2478
+* Documentation: User Guide Missing for Delete API Token	ACUMOS-2477
+* IST: RTU Issues	ACUMOS-2807
+* IST: Select Favourite Catalog Issues	ACUMOS-2798
+* Model preview - tabs height are not correct	ACUMOS-2846
+* IST-Portal  federation Admin wrt enabling and disabling	ACUMOS-2881
+* <IST> All the names of modules are not visible in home page in discover acumos section after CMS removal	ACUMOS-2738
+* Add endpoint for fetching username from authorization token	ACUMOS-2882
+* Portal reduce page load time by sending send links to solution images	ACUMOS-2040
+* IST: ONBOARD DOCKERIZED MODEL Issues	ACUMOS-2810
+* When data is loading on my models no indication to user	ACUMOS-2862
+* IST2: Catalog Tab Issue list version 2	ACUMOS-2842
+* Portal extend site config screen to allow removal of the co-brand logo shown at top	ACUMOS-2547
+* Portal - Not able specify Model description	ACUMOS-2839
+* <IST> <Portal Marketplace> My Models > Licenses: License details are not properly displayed on screen	ACUMOS-2797
+* <IST> <Web Onboarding> 'Onboard a dockerized model URI' link not re-directing the user to the required page.	ACUMOS-2734
+* Portal publish to catalog with self-publish flag enabled still goes for approval	ACUMOS-2855
+* Sensitization of pathVariables missing in MarketPlaceCatalogServiceController 	ACUMOS-2707
+* <IST> <Portal Marketplace> Manage My Model: Upload image acceptance criteria is not working properly	ACUMOS-2539
+* IST2: Publish Request: Column getting truncated	ACUMOS-2840
+
+
 Version 2.2.11  06th May 2019 
 =================================
 * IST | On-boarding history| Search functionality is not working for Date & Time, Status column	ACUMOS-2653
