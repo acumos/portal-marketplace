@@ -563,8 +563,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throws AcumosServiceException {
 		List<Map<String, String>> prefTags = new ArrayList<>();
 		try {
-			Long startTime = System.currentTimeMillis();
-			// System.out.println(startTime);
 			List<String> userTagsList = new ArrayList<>();
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			List<String> mlTagsList = getTags(restPageReq);
@@ -586,9 +584,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					prefTags.add(map);
 				}
 
-			}
-			Long endTime = System.currentTimeMillis();
-			log.debug("getPreferredTagsList total time took " + (endTime - startTime));
+			}			
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
@@ -1807,7 +1803,13 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		if (isDescriptionExists) {
 			// Update the existing Description
 			mlpRevDesc.setDescription(description.getDescription());
+			long start = System.currentTimeMillis();
 			dataServiceRestClient.updateRevCatDescription(mlpRevDesc);
+			
+			long finish = System.currentTimeMillis();
+			long timeElapsed = finish - start;
+			
+			System.out.println("######### Time taken for description: "+timeElapsed);
 		} else {
 			// Create a new description in db
 			mlpRevDesc.setDescription(description.getDescription());
@@ -1925,6 +1927,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 										mlSolution.setRevisions(revisionList);
 									}
 								}
+							}else {
+								mlSolution.setRevisions(revisionList);
 							}
 						}
 					} else {

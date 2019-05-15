@@ -317,7 +317,7 @@ angular
 						}
 					
 						$scope.goToRelatedSolutions = function(solutionId){
-							$state.go('marketSolutions', {solutionId : solutionId, parentUrl: 'marketSolutions'});
+							$state.go('marketSolutions', {solutionId : solutionId, revisionId : revisionId, parentUrl: 'marketSolutions'});
 						}
 						
 						if($stateParams.parentUrl){
@@ -384,13 +384,10 @@ angular
 					
 					var modelType = '';
 					$scope.apiUrl;
-					if ($stateParams.solutionId == null) {
-						$scope.apiUrl = '/api/solutions/'
-								+ $scope.solutionId;
-					} else {
+
 						$scope.apiUrl = '/api/solutions/'
 								+ $stateParams.solutionId + '/' + $stateParams.revisionId;
-					}
+				
 					
 					$scope.getModelDetails = function() {
 						
@@ -1377,13 +1374,13 @@ angular
 														function(response) {
 															$scope.status = response.status;
 															$scope.detail = response.data.response_detail;
-															$state.go('marketSolutions', {solutionId : id, parentUrl:'mymodel' });
+															$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel' });
 														},
 														function(error) {
 															$scope.status = 'Unable to load data: '
 																	+ error.data.error;
 															console.log("Error: "+error.data);
-															$state.go('marketSolutions', {solutionId : id, parentUrl:'mymodel'});
+															$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
 														});
 
 									};
