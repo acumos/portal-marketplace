@@ -70,6 +70,7 @@ public class APINames {
 	public static final String CREATE_SOLUTION = "/createSolution";
 	public static final String SOLUTIONS = "/solutions";
 	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}/{revisionId}";
+	public static final String SOLUTIONS_DETAILS_WITHOUT_LOGIN= "/solutions/{solutionId}";
 	public static final String PAGINATED_SOLUTIONS = "/paginatedSolutions";
 	public static final String SOLUTIONS_UPDATE = "/solutions/{solutionId}";
 	public static final String SOLUTIONS_PICTURE = "/solutions/{solutionId}/picture";

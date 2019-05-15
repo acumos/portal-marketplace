@@ -69,7 +69,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			component: 'designStudio'
 		})
 		.state('marketSolutions', {
-			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId',
+			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId&parentUrl',
 			component: 'modelDetails',
 			params: {
 				solutionId : null,

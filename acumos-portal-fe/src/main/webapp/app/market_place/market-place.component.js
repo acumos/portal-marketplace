@@ -610,6 +610,7 @@ angular
 							} else {
 								$state.go('marketSolutions', {
 									solutionId : id,
+									revisionId : revisionId,
 									parentUrl : 'marketplace'
 								});
 							}

@@ -127,11 +127,9 @@ public class JwtTokenUtil {
 	 Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
-			String secret = env.getProperty("jwt.auth.secret.key");
-			log.info("***secret=" + secret);
+			String secret = env.getProperty("jwt.auth.secret.key");			
 			claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			log.error("***secret=" + e.getMessage());
 			claims = null;
 		}
 		return claims;
