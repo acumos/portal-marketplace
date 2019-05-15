@@ -354,12 +354,12 @@ public class SiteContentServiceController extends AbstractController {
 			else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error occured while getting Discover Acumos info");
-				log.error("Error Occurred in Fetching Discover Acumos info :");
+//				log.error("Error Occurred in Fetching Discover Acumos info :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Discover Acumos info");
-			log.error("Exception Occurred Fetching Discover Acumos info", e);
+//			log.error("Exception Occurred Fetching Discover Acumos info", e);
 		}
 		return data;
 	}

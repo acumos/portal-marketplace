@@ -65,6 +65,7 @@ public class TokenValidation extends AbstractServiceImpl implements JWTTokenVali
 						String jwtTokenFromDB = mlpUser.getAuthToken();
 						if (jwtTokenFromDB != null) {
 							String userNameFromDB = jwtTokenUtil.getUsernameFromToken(jwtTokenFromDB);
+							log.info("*******username from db: " + userNameFromDB);
 							MLPUser mlpUserFromDB = userService.findUserByUsername(userNameFromDB);
 							if (mlpUserFromDB != null) {
 								if (mlpUserFromDB.getUserId().equals(mlpUser.getUserId())) {
