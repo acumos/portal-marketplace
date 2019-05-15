@@ -1990,8 +1990,41 @@ angular.module('admin').filter('abs', function () {
             }
             
             $scope.deleteLogoImg = function () {
-               	$rootScope.coBrandingImage = null;
+            	apiService.deleteCobrandLogo()
+                .then(
+                    function (response) {
+                        $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                        $anchorScroll();
+                        $scope.msg = "The cobrand image is deleted successfully.";
+                        $scope.icon = '';
+                        $scope.styleclass = 'c-success';
+                        $scope.showAlertMessage = true;
+                        $timeout(function () {
+                            $scope.showAlertMessage = false;
+                        }, 5000);
+                    },
+                    function (error) {
+                        $scope.serverResponse = 'An error has occurred';
+                        console.error(error);
+                    })
+	
+               $rootScope.coBrandingImage = null;
+               $mdDialog.hide();
             }
+            
+            $scope.showDeleteDialog = function() {
+				$mdDialog.show({
+					templateUrl : '../app/Admin/image-logo-delete.template.html',
+					clickOutsideToClose : true,
+					locals: { parent: $scope},
+					controller : function DialogController($scope, parent) {
+						$scope.parent = parent;
+						$scope.closePoup = function(){
+							$mdDialog.hide();
+						}
+					}
+				});
+			}
 
             //Search Data 
             $scope.searchData = function (searchValue) {
