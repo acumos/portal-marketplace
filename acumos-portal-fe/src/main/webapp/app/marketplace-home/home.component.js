@@ -329,13 +329,13 @@ angular
 		 												function(response) {
 		 													$scope.status = response.status;
 		 													$scope.detail = response.data.response_detail;
-		 													$state.go('marketSolutions', {solutionId : id});
+		 													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId});
 		 												},
 		 												function(error) {
 		 													$scope.status = 'Unable to load data: '
 		 															+ error.data.error;
 		 													console.log("Error: "+error.data);
-		 													$state.go('marketSolutions', {solutionId : id});
+		 													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId});
 		 												});
 		 							};
 		 							$scope.updateViewCount();

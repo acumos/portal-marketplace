@@ -1807,7 +1807,13 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		if (isDescriptionExists) {
 			// Update the existing Description
 			mlpRevDesc.setDescription(description.getDescription());
+			long start = System.currentTimeMillis();
 			dataServiceRestClient.updateRevCatDescription(mlpRevDesc);
+			
+			long finish = System.currentTimeMillis();
+			long timeElapsed = finish - start;
+			
+			System.out.println("######### Time taken for description: "+timeElapsed);
 		} else {
 			// Create a new description in db
 			mlpRevDesc.setDescription(description.getDescription());
@@ -1925,6 +1931,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 										mlSolution.setRevisions(revisionList);
 									}
 								}
+							}else {
+								mlSolution.setRevisions(revisionList);
 							}
 						}
 					} else {
