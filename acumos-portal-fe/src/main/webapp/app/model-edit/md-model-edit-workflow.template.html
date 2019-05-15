@@ -1357,14 +1357,23 @@ limitations under the License.
 															tags if needed. Tags can have 32 characters only.</p>
  
 														<form name="publictags1">
-															<tags-input ng-model="tags1" name="pubtag" id="tagsId1"
+														<md-chips  ng-model="tags1"  name="pubtag" md-on-add="tagAdded($chip)" id="tagsId1"
+														 md-on-remove="tagRemoved($chip)" md-min-chips="1" required>
+														 <md-autocomplete 	
+														  md-items="item in chipSearch(searchText)" md-search-text="searchText" placeholder="Enter a tag"
+														  md-selected-item="selectedItem" md-item-text="item"
+														  md-no-cache="true"
+														  md-require-match="true"> 
+														  <span md-highlight-text="searchText" > {{item}}</span>
+														</md-chips>
+															<!-- <tags-input ng-model="tags1" name="pubtag" id="tagsId1"
 																replace-spaces-with-dashes="false"
 																on-tag-added="tagAdded($tag)" min-tags="1" min-length="0" allow-leftover-text=false
 																required ng-blur="pubtagVisited=true" ng-focus="pubtagVisited=false"
 																on-tag-removed="tagRemoved($tag)"> <auto-complete
 																source="loadAllTags($query)" min-length="0"
 																max-results-to-show="10" load-on-focus="true"
-																load-on-empty="true"></auto-complete> </tags-input>
+																load-on-empty="true"></auto-complete> </tags-input> -->
 															<div class="help-inline validation-msgs"
 																ng-class="{validationmsg:!publictags1.pubtag.$valid}">
 																<span

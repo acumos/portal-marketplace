@@ -111,11 +111,15 @@ angular
 						$scope.docerror = false;
 						$scope.flag = false;
 						$scope.mybody = angular.element(document).find('body');
+						$scope.selectedItem = null;
+						$scope.searchText = null;
 						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
+							$scope.revisionId = $stateParams.revisionId;
 							localStorage.setItem('solutionId',
 									$scope.solutionId);
+							localStorage.setItem('revisionId',$scope.revisionId);
 						}
 						
 						if(browserStorageService.getUserDetail()){
@@ -275,6 +279,7 @@ angular
 						}
 
 						$scope.solutionId = localStorage.getItem('solutionId');
+						$scope.revisionId = localStorage.getItem('revisionId');
 						$scope.currentDate = new Date();
 						$scope.showPrerenderedDialog = function(ev) {
 							componentHandler.upgradeAllRegistered();
@@ -445,10 +450,10 @@ angular
 
 													if ($scope.solution.solutionTagList) {
 														for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
-															$scope.tags1.push({text : $scope.solution.solutionTagList[i].tag});
+															$scope.tags1.push($scope.solution.solutionTagList[i].tag);
 														}
 													} else if ($scope.solution.solutionTag) {
-														$scope.tags1.push({text : $scope.solution.solutionTag});
+														$scope.tags1.push($scope.solution.solutionTag);
 													}
 													$scope.showSolutionDocs = false;
 													$scope.supportingDocs = [];
@@ -945,8 +950,8 @@ angular
 						$scope.createTagMethod = false;
 						$scope.tagAdded = function(tag) {
 							$scope.isTagExists = false;
-							angular.forEach($scope.allTags, function(item) {
-								if (tag.text == item.text) {
+							angular.forEach($scope.allTags, function(item, index) {
+								if (tag == item) {
 									$scope.isTagExists = true; 
 								}
 							});
@@ -958,10 +963,17 @@ angular
 							}
 							
 						};
+						$scope.chipSearch = function(text){
+							var firstPass = $filter('filter')($scope.allTags, text);
+							if(firstPass.length==0){
+							firstPass.push(text+" (New Tag)");
+							}
+							return firstPass;
+							};
 						
 						$scope.addTag = function(tag){
 							apiService.updateAddTag($scope.solution.solutionId,
-									tag.text).then(function(response) {
+									tag).then(function(response) {
 								$scope.status = response.data.response_detail;
 								
 								if( $scope.createTagMethod == false){
@@ -980,10 +992,15 @@ angular
 						}
 						
 						$scope.createTag = function(tag){
-							var addtag = tag;
+							var addtag;
+							if(tag.endsWith('(New Tag)')==true){
+								addtag=tag.replace(' (New Tag)',"");
+							}else{
+							var addtag= tag;
+							}
 							var dataObj = {
 									  		"request_body": {
-									  			"tag": tag.text
+									  			"tag": addtag
 									  			}
 											}
 							apiService.createTags(dataObj).then(function(response) {
@@ -992,7 +1009,7 @@ angular
 								
 								chkCount();
 								var toast = $mdToast.simple()
-						        .content('Tag Added')
+						        .content('Tag Created')
 						        .position('bottom right')
 						        .theme('success-toast')
 						        .hideDelay(2000);
@@ -1007,7 +1024,7 @@ angular
 						$scope.tagRemoved = function(tag) {
 
 							apiService.deleteTag($scope.solution.solutionId,
-									tag.text).then(function(response) {
+									tag).then(function(response) {
 
 								$scope.status = response.data.response_detail;
 								chkCount();
