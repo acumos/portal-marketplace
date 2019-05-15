@@ -1091,15 +1091,6 @@ angular
 														$timeout(function() {$scope.showAlertMessage = false;}, 2500);
 														$scope.loadData();
 													},
-													function(response) {
-														$location.hash('manage-models');
-														$scope.msg = response.data.response_detail;
-														$scope.icon = 'report_problem';
-														$scope.styleclass = 'c-error';
-														$anchorScroll();
-														$scope.showAlertMessage = true;
-														$timeout(function() {$scope.showAlertMessage = false;}, 2500);
-													},
 													function(error) {
 														if (error.data.error_code == "sv_error") {
 															$mdDialog.show({
@@ -1114,25 +1105,13 @@ angular
 																}
 															});
 														} else {
-															$scope.handleError = true;
-															$timeout(
-																	function() {
-																		$scope.handleError = false;
-																	}, 4500);
-	
-															$scope.status = error.data.response_detail;
-															$location
-																	.hash('manage-models');
-															$anchorScroll();
-															$scope.msg = "Error encountered: "
-																	+ $scope.status;
+															$location.hash('manage-models');
+															$scope.msg = response.data.response_detail;
 															$scope.icon = 'report_problem';
 															$scope.styleclass = 'c-error';
+															$anchorScroll();
 															$scope.showAlertMessage = true;
-															$timeout(
-																	function() {
-																		$scope.showAlertMessage = false;
-																	}, 2500);
+															$timeout(function() {$scope.showAlertMessage = false;}, 2500);
 														}
 													});				
 

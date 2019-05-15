@@ -71,16 +71,16 @@ public abstract class AbstractController {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
 				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId);
 				if (!workflow.isWorkflowAllowed()) {
-					String message = (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-							: (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-									: "Unknown problem occurred during security verification";
+					String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
+							: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+							: "Unknown problem occurred during security verification";
 					workflow.setReason(message);
 					log.error("Problem occurred during SV scan: ", message);
 				}
 			} catch (Exception e) {
-				String message = (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-						: (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-								: "Unknown exception occurred during security verification";
+				String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
+						: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+						: "Unknown exception occurred during security verification";
 				workflow = getInvalidWorkflow(message);
 				log.error("Exception occurred during SV scan: ", message);
 			}
@@ -98,18 +98,18 @@ public abstract class AbstractController {
 				for (MLPSolutionRevision rev : revs) {
 					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId);
 					if (!workflow.isWorkflowAllowed()) {
-						String message = (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-								: (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-										: "Unknown problem occurred during security verification";
+						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
+								: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+								: "Unknown problem occurred during security verification";
 						workflow.setReason(message);
 						log.error("Problem occurred during SV scan: ", message);
 						break;
 					}
 				}
 			} catch (Exception e) {
-				String message = (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-						: (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-								: "Unknown exception occurred during security verification";
+				String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
+						: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+						: "Unknown exception occurred during security verification";
 				workflow = getInvalidWorkflow(message);
 				log.error("Exception occurred during SV scan: ", message);
 			}
