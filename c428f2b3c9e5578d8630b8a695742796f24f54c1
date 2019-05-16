@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4053f189_11d74f49",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-16T10:06:27Z",
+      "side": 1,
+      "message": "either separate all types of models with / or ,",
+      "range": {
+        "startLine": 334,
+        "startChar": 81,
+        "endLine": 334,
+        "endChar": 105
+      },
+      "revId": "c428f2b3c9e5578d8630b8a695742796f24f54c1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
