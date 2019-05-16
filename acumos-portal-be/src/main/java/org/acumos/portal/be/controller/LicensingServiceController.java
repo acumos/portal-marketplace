@@ -1,5 +1,6 @@
 package org.acumos.portal.be.controller;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,21 +22,29 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.LicensingService;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.transport.RightToUseDetails;
 import org.acumos.portal.be.transport.RtuUser;
-import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -47,6 +56,12 @@ public class LicensingServiceController extends AbstractController{
 
 	@Autowired
 	private LicensingService licensingService;
+	
+	@Autowired
+	private StorageService storageService;
+	
+	@Autowired
+	private MarketPlaceCatalogService marketPlaceService;
 	
 	@ApiOperation(value = "Gets Solutions and Users details for the given RTU ReferenceId.", response = RightToUseDetails.class)
 	@RequestMapping(value = {APINames.RTU_SOLUTION_USER_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -218,5 +233,94 @@ public class LicensingServiceController extends AbstractController{
 		}
 		return responseVO;
 		
+	}
+	
+	@ApiOperation(value = "API to Upload the license to the server")
+	@RequestMapping(value = {
+			APINames.UPLOAD_LICENSE_MODEL }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@ResponseBody
+	public JsonResponse<String> uploadLicense(@RequestParam("file") MultipartFile file, 
+											@PathVariable("userId") String userId,
+											@PathVariable String solutionId,
+											@PathVariable String revisionId,
+											@PathVariable String versionId,
+											HttpServletRequest request, 
+											HttpServletResponse response) throws IOException {
+		
+		userId = SanitizeUtils.sanitize(userId);
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		JsonResponse<String> responseVO = new JsonResponse<>();	
+		boolean licenseFileNameCheck = false;
+		log.debug("upload License for user " + userId);
+
+		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(solutionId) || StringUtils.isEmpty(revisionId)) {
+			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.info("UserId, SolutionId, RevisionId are required to uplpoad the license");
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail("UserId, SolutionId, RevisionId are required to uplpoad the license");
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("UserId, SolutionId, RevisionId are required to uplpoad the license");
+		}
+		 
+		String licenseFileName = file.getOriginalFilename();
+		if(!licenseFileName.toLowerCase().equalsIgnoreCase(PortalConstants.LICENSE_FILENAME)) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.info("License file name= "+licenseFileName+ " should be license.json");
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail("License file name is not correct to uplpoad. It should be license.json");
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("License file name is not correct to uplpoad. It should be license.json");
+			licenseFileNameCheck = false;
+		}else {
+			licenseFileNameCheck = true;
+		}
+		 
+		try {
+			if(licenseFileNameCheck) {
+				log.info("licenseFileNameCheck-->>"+licenseFileNameCheck);
+				if(!preDeleteLicense(solutionId, revisionId, versionId, PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX)) {
+					storageService.deleteAll(userId, solutionId, versionId);
+				}							
+				boolean resultFlag = storageService.store(file, userId, true, solutionId, versionId);
+				String licenseContent = marketPlaceService.getLicenseUrl(solutionId, versionId, PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX);
+				
+				responseVO.setStatus(resultFlag);
+				responseVO.setResponseDetail("Success");
+				responseVO.setResponseBody(licenseContent);
+				responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			}else {
+				return responseVO;
+			}
+			
+		} catch (StorageException e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(e.getMessage());
+			response.flushBuffer();			
+			log.error(
+					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+		}
+		catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(
+					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+		}
+		return responseVO;
+	}
+	
+	private boolean preDeleteLicense(String solutionId, String revisionId, String versionId, String artifactType, String fileNamePrefix) throws AcumosServiceException {
+		boolean licenseExist = false;
+		String licenseContent = marketPlaceService.getLicenseUrl(solutionId, versionId, PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX);
+		if(!PortalUtils.isEmptyOrNullString(licenseContent)){
+			licenseExist = true;
+		}
+		log.info("preDeleteLicense-->>"+licenseExist);
+		return licenseExist;
 	}
 }

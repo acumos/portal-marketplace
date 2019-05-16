@@ -1529,6 +1529,17 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throw new NoSuchElementException("Failed to fetch the Solution Revision Id of the solutionId for the user");
 		}
 
+		result = readLicenseFile(solutionId, artifactType, fileNamePrefix, result, solutionRevisionId,
+				byteArrayOutputStream);
+		log.debug("getLicenseUrl() : End");
+
+		return result;
+	}
+
+	private String readLicenseFile(String solutionId, String artifactType, String fileNamePrefix, String result,
+			String solutionRevisionId, ByteArrayOutputStream byteArrayOutputStream) throws AcumosServiceException {
+		List<MLPArtifact> mlpArtifactList;
+		log.info("in readLicenseFile -->>>");
 		if (null != solutionRevisionId) {
 			// 3. Get the list of Artifact for the SolutionId and
 			// SolutionRevisionId.
@@ -1540,7 +1551,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							.filter(mlpArt -> mlpArt.getArtifactTypeCode().equalsIgnoreCase(artifactType) && (mlpArt.getName().contains(fileNamePrefix) || mlpArt.getName().contains("licence"))).findFirst()
 							.get().getUri();
 
-					log.debug(" Nexus URI :  {} ", nexusURI);
+					log.info(" Nexus URI :  {} ", nexusURI);
 
 					if (null != nexusURI) {
 						byteArrayOutputStream = getPayload(nexusURI);
@@ -1564,8 +1575,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				}
 			}
 		}
-		log.debug("getLicenseUrl() : End");
-
 		return result;
 	}
 

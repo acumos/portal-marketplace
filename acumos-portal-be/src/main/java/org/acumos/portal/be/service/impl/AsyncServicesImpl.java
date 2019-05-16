@@ -398,7 +398,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			// Remove all files once the process is completed
 			log.info("inside finallly callOnboarding ---->>>");
 
-			fileSystemStorageService.deleteAll(user.getUserId());
+			fileSystemStorageService.deleteAll(user.getUserId(), null, null);
 		}
 		return response;
 	}
