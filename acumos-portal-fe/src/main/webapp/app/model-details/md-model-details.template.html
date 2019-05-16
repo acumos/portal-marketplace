@@ -153,7 +153,7 @@ limitations under the License.
 					</button>
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary createMicroservice"						
-						alt="Create Microservice" title="Create Microservice" ng-if="showMicroService" ng-click="showMicroservice()">
+						ng-disabled="editModel" alt="Create Microservice" title="Create Microservice" ng-if="showMicroService" ng-click="showMicroservice()">
 						Create Microservice
 					</button>
 					</span>
@@ -223,7 +223,7 @@ limitations under the License.
 								<span>Description</span>
 						</span>
 						</a> 
-						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
+						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses" ng-if="loginUserID">
 							<span class="tab-box"> 
 								<span class="tab-icons fas fa-certificate"></span>
 								<span>Licenses</span>

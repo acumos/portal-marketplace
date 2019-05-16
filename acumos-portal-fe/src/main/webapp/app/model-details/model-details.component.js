@@ -317,7 +317,7 @@ angular
 						}
 					
 						$scope.goToRelatedSolutions = function(solutionId){
-							$state.go('marketSolutions', {solutionId : solutionId, revisionId : revisionId, parentUrl: 'marketSolutions'});
+							$state.go('marketSolutions', {solutionId : solutionId, revisionId : $scope.revisionId, parentUrl: 'marketSolutions'});
 						}
 						
 						if($stateParams.parentUrl){
@@ -489,7 +489,8 @@ angular
 											
 											$scope.getProtoFile();
 
-											$scope.getLicenseFile();
+											if($scope.loginUserID !== null && $scope.loginUserID !== "" && $scope.loginUserID !== undefined)
+											   $scope.getLicenseFile();
 											
 											var solutionName = $scope.solution.name;
 										})
@@ -1109,7 +1110,7 @@ angular
 											function successCallback(response) {
 												$scope.artifactDownload = response.data.response_body;
 												for (var x = 0; x < response.data.response_body.length; x++) {
-													if(response.data.response_body[x].artifactTypeCode == "DI"){
+													if(response.data.response_body[x].artifactType == "DI"){
 														$scope.artifactId = response.data.response_body[x].artifactId;
 														$scope.artifactType = response.data.response_body[x].artifactTypeCode;
 														$scope.artifactDesc = response.data.response_body[x].description;
@@ -1374,13 +1375,13 @@ angular
 														function(response) {
 															$scope.status = response.status;
 															$scope.detail = response.data.response_detail;
-															$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel' });
+															$state.go('marketSolutions', {solutionId : id, revisionId : $scope.revisionId, parentUrl:'mymodel' });
 														},
 														function(error) {
 															$scope.status = 'Unable to load data: '
 																	+ error.data.error;
 															console.log("Error: "+error.data);
-															$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
+															$state.go('marketSolutions', {solutionId : id, revisionId : $scope.revisionId, parentUrl:'mymodel'});
 														});
 
 									};
@@ -1587,6 +1588,7 @@ angular
 							        .then(
 							                function(response) {
 							                	$scope.disableCreateButton = false;
+							                	$scope.disableEdit();
 							                    if(response.status == 200){
 							                        $mdDialog.hide();
 													$scope.msg = "Micro service creation has been launched, you will see the micro service in the Model Artifacts once it will be created.";
