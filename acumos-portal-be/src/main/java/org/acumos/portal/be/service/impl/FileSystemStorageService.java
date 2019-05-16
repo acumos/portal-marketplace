@@ -34,6 +34,7 @@ import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.StorageService;
@@ -50,7 +51,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileSystemStorageService extends AbstractServiceImpl implements StorageService {
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
@@ -61,7 +62,7 @@ public class FileSystemStorageService implements StorageService {
 	private static final String LICENSE_FILE = "license.json";
 
 	@Override
-	public boolean store(MultipartFile file, String userId, boolean flag) {
+	public boolean store(MultipartFile file, String userId, boolean flag, String solutionId, String versionId) {
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		
 		log.debug("uploadModel for user " + userId + " file nameeee: " + filename + "fileeee: "+file+ "Fodlerrrrrrrrrrr    "+env.getProperty("model.storage.folder.name"));
@@ -79,29 +80,7 @@ public class FileSystemStorageService implements StorageService {
 			}
 			
 			if(flag){
-				
-				if (!filename.endsWith(".json")) {				
-					log.error("json File Required. Original File :  " + filename );
-					throw new StorageException("json File Required. Original File : " + filename);
-				}		
-				
-				log.debug("Remove Previously Uploaded files for User  " + userId );
-				Path modelFolderLocation = Paths
-						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
-
-				log.debug("Upload Location Path  " + modelFolderLocation);
-				
-				Files.createDirectories(modelFolderLocation);
-				
-				log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
-	
-				try {
-					file.transferTo(new File( env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE ));	
-
-				} catch (Exception e) {
-					throw new StorageException("Failed to store file " + filename, e);
-				}
-				
+				uploadLicenseFile(file, userId, filename, solutionId, versionId);												
 			} else {
 				if (!filename.endsWith(".zip") &&  !filename.endsWith(".onnx") && !filename.endsWith(".pfa")) {
 					log.error(".zip, .onnx or .pfa File Required. Original File :  " + filename );
@@ -113,7 +92,7 @@ public class FileSystemStorageService implements StorageService {
 					throw new StorageException("Onboarded Modele does not contain required files: " + getMissingFiles(file));
 				}
 				// Remove older files before uploading another solution files
-				deleteAll(userId);
+				deleteAll(userId, null, null);
 				log.debug("Remove Previously Uploaded files for User  " + userId );
 				Path modelFolderLocation = Paths
 						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
@@ -135,6 +114,43 @@ public class FileSystemStorageService implements StorageService {
 			throw new StorageException("Failed to store file " + filename, e);
 		}
 		return result;
+	}
+
+	private void uploadLicenseFile(MultipartFile file, String userId, String filename, String solutionId, String versionId) throws IOException {
+		if (!filename.endsWith(".json")) {				
+			log.error("json File Required. Original File :  " + filename );
+			throw new StorageException("json File Required. Original File : " + filename);
+		}		
+		log.debug("Remove Previously Uploaded files for User  " + userId );
+		if(PortalUtils.isEmptyOrNullString(solutionId) && PortalUtils.isEmptyOrNullString(versionId)) {
+			Path modelFolderLocation = Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId );
+			log.debug("Upload Location Path  " + modelFolderLocation);			
+			Files.createDirectories(modelFolderLocation);			
+			log.info("Directory Created at Upload Location Path  " + modelFolderLocation);
+		}else {
+			/*Path modelFolderLocation = Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator +solutionId + File.separator + versionId );
+			log.debug("Upload Location Path  " + modelFolderLocation);			
+			Files.createDirectories(modelFolderLocation);			
+			log.info("Directory Created at Upload Location Path  " + modelFolderLocation);*/
+		}
+		try {
+			if(PortalUtils.isEmptyOrNullString(solutionId) && PortalUtils.isEmptyOrNullString(versionId)) {
+				log.info("---if---versionId->"+versionId+"----solutionId->"+solutionId);
+				file.transferTo(new File( env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE ));	
+			}else {
+				log.info("---else---versionId->"+versionId+"----solutionId->"+solutionId);
+				String fileName = FilenameUtils.getBaseName(file.getOriginalFilename());
+				String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+				long fileSize = file.getSize();
+                                NexusArtifactClient nexusClient = getNexusClient();
+                                String groupId = String.join(".", env.getProperty("nexus.groupId"), solutionId, versionId);
+                                nexusClient.uploadArtifact(groupId, fileName, versionId, fileExtension, fileSize, file.getInputStream());
+                          
+                          	//PortalFileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator +solutionId + File.separator + versionId + File.separator + "LG");
+			}			
+		} catch (Exception e) {
+			throw new StorageException("Failed to store file " + filename, e);
+		}
 	}
 
 	private Boolean validateFile(MultipartFile file) throws IOException, AcumosServiceException {
@@ -218,10 +234,21 @@ public class FileSystemStorageService implements StorageService {
 	}
 
 	@Override
-	public void deleteAll(String userId) {
-		FileSystemUtils.deleteRecursively(
-				Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId)
-						.toFile());
+	public void deleteAll(String userId, String solutionId, String versionId) {
+		log.info("deleteAll-----Start ----");
+		if(!PortalUtils.isEmptyOrNullString(userId)) {
+			if(PortalUtils.isEmptyOrNullString(solutionId) && PortalUtils.isEmptyOrNullString(versionId)) {
+				log.info("deleteAll-if----solutionId"+solutionId+"--versionId ----"+versionId);
+				FileSystemUtils.deleteRecursively(
+						Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId)
+								.toFile());
+			}else {
+				log.info("deleteAll-else----solutionId"+solutionId+"--versionId ----"+versionId);
+				FileSystemUtils.deleteRecursively(
+						Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + solutionId + File.separator + versionId)
+								.toFile());
+			}			
+		}
 	}
 
 	public void setEnvironment(Environment environment){

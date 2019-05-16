@@ -218,7 +218,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		}
 		
 		try {
-			boolean resultFlag = storageService.store(file, userId, licUploadFlag);
+			boolean resultFlag = storageService.store(file, userId, licUploadFlag, null, null);
 			responseVO.setStatus(resultFlag);
 			responseVO.setResponseDetail("Success");
 			responseVO.setResponseBody(resultFlag);

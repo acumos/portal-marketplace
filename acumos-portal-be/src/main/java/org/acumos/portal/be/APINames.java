@@ -164,6 +164,7 @@ public class APINames {
 	public static final String VALIDATION_STATUS = "/validationStatus";
 	public static final String GET_PROTO_FILE = "/getProtoFile";
 	public static final String GET_LICENSE_FILE = "/getLicenseFile";
+	public static final String UPLOAD_LICENSE_MODEL = "/license/upload/{userId}/{solutionId}/{revisionId}/{versionId}";
 	public static final String APITOKENVALIDATION = "/validateApiToken";
 
 	// Role APIs for MarketPlace user
