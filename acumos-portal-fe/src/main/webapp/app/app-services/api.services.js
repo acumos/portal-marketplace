@@ -129,10 +129,15 @@ angular.module('AcumosApp')
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
 	var urlRightToUse="/api/rightToUse";
+	var urlMSStatus = "/api/onboardinghistory/getMSStatus";
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
+        };
+	
+	 this.getMSStatus = function (solutionId, revisionId, userId) {
+            return $http.get(urlMSStatus + '/' + solutionId + '/' + revisionId + '/' + userId);
         };
         
     	this.getAllActiveUser = function (activeStatus) {

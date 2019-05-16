@@ -93,9 +93,9 @@ limitations under the License.
 				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID  && !audit && artifactDownload" ng-cloak>
                     <!-- Through Properties File -->
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list" ng-hide="dockerUrlOfModel">
-                          <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"                             	
+                          <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
+                              	ng-click="showazurePopup()"
                            		class="opacityZero deploy-to-cloud" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
-                           		ng-click="showazurePopup(deployVal.cloudName)"  
                            		title="{{deployVal.cloudDisplayText}}"
                            		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center"
                            		ng-disabled="deployVal.cloudEnabled=='false'">
@@ -149,11 +149,11 @@ limitations under the License.
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
 						ui-sref="modelEdit({solutionId:solutionId, revisionId:revisionId, deployStatus:(dockerUrlOfModel.length)})"
 						ng-disabled="editModel" alt="Manage My Model" title="Manage My Model">
-						 Manage My Model
+						 Manage My Model 
 					</button>
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary createMicroservice"						
-						alt="Create Microservice" title="Create Microservice" ng-if="showMicroService" ng-click="showMicroservice()">
+						alt="Create Microservice" title="Create Microservice" ng-if=" showMicroService && isOnnxOrPFAModelFound !== true  &&  dockerUrlOfModel == '' " ng-click="showMicroservice()">
 						Create Microservice
 					</button>
 					</span>
@@ -225,7 +225,7 @@ limitations under the License.
 						</a> 
 						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
 							<span class="tab-box"> 
-								<span class="tab-icons fas fa-certificate"></span>
+								<span class="tab-icons tab-license"></span>
 								<span>Licenses</span>
 							</span>
 						</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
@@ -330,7 +330,13 @@ limitations under the License.
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
 						<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
-
+                            <div class="alert c-info" ng-if="isOnnxOrPFAModelFound || dockerUrlOfModel" >
+                                <strong>Currently signature is not supported for ONNX/PFA DOCKERIZED MODEL URI Models </strong>
+                            </div>
+                            <div class="alert c-info" ng-if=" signatureNotFound " >
+                                <strong> Signature not found</strong>
+                           </div>
+                           
 					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
 						<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
@@ -408,7 +414,7 @@ limitations under the License.
 											<i class="fa fa-download" aria-hidden="true"></i>
 										</md-button>
 									
-										<md-button ng-cloak ng-if="loginUserID"  ng-disabled="value.mask" class="mdl-button mdl-js-button btn-grid-action" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" >
+										<md-button ng-cloak ng-if="loginUserID" class="mdl-button mdl-js-button btn-grid-action" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" >
 											<i class="fa fa-download" aria-hidden="true"></i>
 										</md-button>
 
@@ -1241,10 +1247,7 @@ limitations under the License.
 		<md-dialog aria-label="deploy" class="cg-dialog-admin1">
 			<md-toolbar>
 		      <div class="md-toolbar-tools">
-				<h2 ng-show="exportTo=='azure'">Deploy to Microsoft Azure</h2>
-				<h2 ng-show="exportTo=='rackspace'">Deploy to RackSpace</h2>
-				<h2 ng-show="exportTo=='deploylocal'">Deploy to Local</h2>
-				<h2 ng-show="exportTo=='whitebox'">Deploy to White Box</h2>
+				<h2>Deploy to Microsoft Azure</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click='closePoup()'>
 				<i class="material-icons">close</i> </md-button>
