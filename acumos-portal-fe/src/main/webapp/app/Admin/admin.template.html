@@ -863,23 +863,26 @@ limitations under the License.
 							<div ng-show="showAssociatedModels">
 								<div class="select-control catalog-select1">
 									<label>Associated Model</label>
-									<md-select ng-model="uploadRtuSolId" placeholder="Select Model" ng-change="sortByAssociatedUsers('associatedWithRtuFlag')">
-									<md-option ng-if="searchFlag" value="{{solution.solutionId}}"
-										ng-repeat='solution in fetchedSolutionName'>{{solution.name}} ({{solution.solutionId}})
-									</md-option> 
-									<md-option ng-if="!searchFlag" value="{{user.solutionId}}"
-										ng-repeat='model in associatedModels'>{{model.name}} ({{model.solutionId}})</md-option>
+									<md-select ng-model="updateUploadRtuSolId" placeholder="Select Model">
+									<md-option ng-if="!searchFlag" value="{{associatedModel.solutionId}}"
+										ng-repeat='associatedModel in associatedModels'>{{associatedModel.name}} ({{associatedModel.solutionId}})</md-option>
 									</md-select>
 								</div>
 							</div>
 							<div ng-show="showAssociatedModels">
-								<md-input-container class="md-block selectModel">
-								<label>Search by Model name</label> <input list="solutions"
-									type="text" ng-model='solutionName' name='RTUId' placeholder="Search by Name"/> <span
-									class="search-icon" style="margin-top: 5px; cursor:pointer;"
-									ng-click="getSolution('RTUId','solutionName')"></span> 
-									
-									</md-input-container>
+								<div class="catalog-select1 select-control">
+									<label>Search by Model name</label> 
+										<md-select ng-model="uploadRtuSolId" placeholder="Search Model">
+											<md-select-header>
+												<input ng-model="solutionName" type="search" placeholder="Search and hit Return key" ng-enter="getSolution('RTUId','solutionName')"
+												autofocus
+												ng-keydown="$event.stopPropagation()">
+											</md-select-header>	
+											<md-option value="{{solution.solutionId}}"
+													ng-repeat='solution in fetchedSolutionName'>{{solution.name}} ({{solution.solutionId}})
+											</md-option> 
+										</md-select>
+								</div>
 							</div>
 						</div>
 						<div ng-show="showAssociatedModels">
@@ -931,14 +934,14 @@ limitations under the License.
 											</tr>
 										</thead>
 										<tbody
-											ng-repeat="val in (filtertedUser = (users | orderBy:propertyName:reverse | orderBy:orderByField:reverseSort | filter:searchLicenceUser))">
+											ng-repeat="val in (filtertedUser = (rtuUsers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchLicenceUser))">
 											<tr>
 
-												<td><label for="checkbox{{$index}}"> <input
-														type="checkbox" id="checkbox{{$index}}"
+												<td><label for="rtuCheckbox{{$index}}"> <input
+														type="checkbox" id="rtuCheckbox{{$index}}"
 														class="mdl-checkbox__input"
-														ng-click='roleCheckbox(selectBox[$index],val)'
-														ng-model='selectBox[$index]' ng-true-value="true"
+														ng-click='rtuCheckbox(rtuSelectBox,val)'
+														ng-model='rtuSelectBox' ng-true-value="true"
 														ng-false-value="false"
 														ng-checked="val.associatedWithRtuFlag" />
 												</label></td>
@@ -960,9 +963,8 @@ limitations under the License.
 						<br /> <br />
 						<div>
 							<button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="((!uploadRtuSolId)  || (!roleArr.length))"
-								ng-click="updateRTU()">Save</button>
-
+								ng-disabled="( (!roleArr.length && isRtuChecked) && !updateUploadRtuSolId) || (!uploadRtuSolId && (!roleArr.length && isRtuChecked))"
+								ng-click="updateRTU()">Save</button> 
 						</div>
 						</div>
 					</div>
