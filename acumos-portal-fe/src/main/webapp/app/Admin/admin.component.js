@@ -3230,26 +3230,31 @@ angular.module('admin').filter('abs', function () {
 
                     $location.hash('myDialog');
                     $anchorScroll();
-                    if (response.data.response_body.mlpSolutionAssociatedWithRtuId.length == 0) {
+
+                    if(response.data.response_body.mlpSolutionAssociatedWithRtuId != null || response.data.response_body.mlpSolutionAssociatedWithRtuId != undefined){
+                        if (response.data.response_body.mlpSolutionAssociatedWithRtuId.length == 0) {
+                            $scope.msg = response.data.response_detail;
+                            $scope.styleclass = 'c-error';
+                            $scope.icon = 'report_problem';
+    
+                        } else {
+                            $scope.msg = response.data.response_detail;
+                            $scope.styleclass = 'c-success';
+                            $scope.icon = '';
+                        }
+                    }else{
                         $scope.msg = response.data.response_detail;
                         $scope.styleclass = 'c-error';
                         $scope.icon = 'report_problem';
-
-                    } else {
-                        $scope.msg = response.data.response_detail;
-                        $scope.styleclass = 'c-success';
-                        $scope.icon = '';
                     }
-
+                   
                     $scope.showAlertMessage = true;
-
-
                     $timeout(
                         function () {
                             $scope.showAlertMessage = false;
-                        }, 3000);
-                    $scope.users = response.data.response_body.rtuUsers;
-                    $scope.users.forEach(function (user) {
+                        }, 5000);
+                    $scope.rtuUsers = response.data.response_body.rtuUsers;
+                    $scope.rtuUsers.forEach(function (user) {
                         if (user.associatedWithRtuFlag == true) {
                             $scope.roleArr.push(user.userId);
                         }
@@ -3262,18 +3267,20 @@ angular.module('admin').filter('abs', function () {
             }
             $scope.searchFlag = false;
 			$scope.editClearSearch = function (){           	 
-            	$scope.searchFlag = false;
-            	$scope.solutionName = undefined;
-            	$scope.associatedModels = undefined;
-            	$scope.fetchedSolutionName = undefined;
+                $scope.searchFlag = false;
+                $scope.propertyName = null;
+            	$scope.solutionName = null;
+            	$scope.associatedModels = null;
+            	$scope.fetchedSolutionName = null;
             }
             $scope.getSolution = function () {
                 var rtuReferenceId = $scope.RTUId;
                 var solName = $scope.solutionName;
                 $scope.searchFlag = true;
+                angular.element(document.body).css('cursor', 'progress');
                 apiService.getRightToUse(rtuReferenceId, solName).then(function successCallback(response) {
-
                     $scope.fetchedSolutionName = response.data.response_body.solutionsByName.content;
+                    angular.element(document.body).css('cursor', 'default');
                 },
                     function errorCallback(response) {
                         $scope.modelname = "Error Fetching Model Name."
@@ -3285,6 +3292,18 @@ angular.module('admin').filter('abs', function () {
                 $scope.uploadRtuSolId = $scope.rtuSolId;
             }
 
+            $scope.isRtuChecked = false;
+            $scope.rtuCheckbox = function(rtuselectBox, obj){
+                $scope.isRtuChecked = true;
+                if (rtuselectBox == true) {
+                    $scope.rtuUsers.push(obj.userId);
+                } else if (rtuselectBox == false) {
+                    $scope.rtuUsers = jQuery.grep($scope.rtuUsers, function (value) {
+                        return value != obj.userId;
+                    });
+                }
+            }
+
             $scope.updateRTU = function () {
 
                 $http(
@@ -3293,9 +3312,9 @@ angular.module('admin').filter('abs', function () {
                         url: '/api/createRtuUser/'
                             + $scope.RTUId + '/'
                             + $scope.uploadRtuSolId,
-                        data: { "request_body": $scope.roleArr }
-
-
+                        data: { 
+                            "request_body": $scope.rtuUsers 
+                        }
                     })
                     .then(
                         function successCallback(response) {
@@ -3329,14 +3348,15 @@ angular.module('admin').filter('abs', function () {
                         });
 
             }
-            // custom sort
+            // custom sort for sorting the checked user on change of associated model.
             $scope.propertyName = null; $scope.reverse = false
             $scope.sortByAssociatedUsers = function (propertyName) {
-                $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : true;
-                $scope.propertyName = propertyName;
+                if(!$scope.propertyName){
+                    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : true;
+                    $scope.propertyName = propertyName;
+                }              
             };
             /* RTU changes end*/
-
         }
     })
     .service('fileUploadService', function ($http, $q) {

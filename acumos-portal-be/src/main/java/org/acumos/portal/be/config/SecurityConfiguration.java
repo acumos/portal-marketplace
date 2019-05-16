@@ -108,6 +108,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         
         .antMatchers(HttpMethod.GET, "/site/content/global/discoverAcumos").permitAll()
         
+        .antMatchers("/notifications/{userId}").permitAll()
+        
         .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/user/carouseConfig").permitAll()	
         .antMatchers(HttpMethod.GET, "/admin/signup/enabled").permitAll()
