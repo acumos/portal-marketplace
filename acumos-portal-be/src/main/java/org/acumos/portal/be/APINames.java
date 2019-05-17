@@ -296,6 +296,7 @@ public class APINames {
 	
 	public static final String GET_TASKS = "/getTasks/{userId}";
 	public static final String GET_STEP_RESULTS = "/getStepResult/{taskId}";
+	public static final String GET_MS_STATUS = "/getMSStatus/{solutionId}/{revisionId}/{userId}";
 	
 
 	public static final String RTU_SOLUTION_USER_DETAILS = "/rightToUse";
