@@ -627,7 +627,8 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var qs = querystring.parse();
     var urlBase = baseURL + '/dsce/';
     var options = Object.assign({
-    	base:"dsce/dsce/",
+    	//base:"dsce/dsce/",
+    	base: 'http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8088/dsce/',
     	catalog: 'solution/getSolutions',
         typeinfo: 'artifact/fetchJsonTOSCA',
         create: 'solution/createNewCompositeSolution',
@@ -1372,7 +1373,8 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .portNodeKey(function(p){return p.value.nodeId})
             .portName(function(p){ return p.value.side})
             .portBounds(function(p){return p.value.bounds})
-            .portElastic(false);
+            .portElastic(false)
+        	.nodeFill('none');
 
         mapper.child('validate', dc_graph.validate('data mapper'));
         mapper.child('place-ports', dc_graph.place_ports());
@@ -1384,7 +1386,8 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .displacement(0)
             .smallRadius(2)
             .mediumRadius(4)
-            .largeRadius(6);
+            .largeRadius(6)
+            .outlineFill('white');
 
         mapper.portStyle('circles', circlePorts)
             .portStyleName('circles');
