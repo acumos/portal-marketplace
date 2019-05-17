@@ -2157,7 +2157,8 @@ limitations under the License.
 			</md-toolbar>
 			<md-dialog-content>
 			<div class="md-dialog-content">
-				<div class="subscontainer">
+				<div class="subscontainer" id="subscontainer"><alert-message msg="msg" icon="icon" styleclass="styleclass"
+	ng-show="showSuccessMessage"></alert-message>
 					<div class="subscontainerinner1">
 						<span class="font600 fedlbl2">Subscription List</span>
 						<!-- <button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button> -->
@@ -2205,7 +2206,7 @@ limitations under the License.
 										<!-- <th>Description</th>	 -->
 										<th>SUBSCRIPTIONS ID</th>
 										<th>Created on</th>
-										<th>Updated on</th>
+										<!-- <th>Updated on</th> -->
 										<th>Frequency of update</th>
 										<th></th>
 										<th>&nbsp;</th>
@@ -2231,7 +2232,7 @@ limitations under the License.
 																</td> -->
 										<td><label>ID {{val.subId}}</label></td>
 										<td><label>{{val.createdOn | date:"MM/dd/yyyy"}}</label></td>
-										<td><label>{{val.updatedOn | date:"MM/dd/yyyy"}}</label></td>
+										<!-- <td><label>{{val.updatedOn | date:"MM/dd/yyyy"}}</label></td> -->
 										<!-- <td><label>Name of Solution</label></td>
 																<td><label>{{val.modelType}}</label></td>
 																<td><label>{{val.toolKitType}}</label></td> -->
@@ -2240,18 +2241,18 @@ limitations under the License.
 												<md-select ng-model="freqOfUpdate"
 													placeholder="Select Frequency of update"> <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
 												<md-option ng-repeat="freq in frequency"
-													ng-value="freq.value"
-													ng-selected="val.frequencySelected[$index]">{{freq.name}}</md-option>
+													ng-value="freq.value" ng-click="toupdatepeer(freq.value,val.subId)" 
+													ng-selected="val.frequencySelected[$index]" >{{freq.name}}</md-option>
 												</md-select>
 											</div>
 										</td>
 										<td class="">
 											<div class="posstatic">
-												<button
+												<!-- <button
 													class="mdl-button mdl-js-button btn-secondary btn-fed2"
 													disabled ng-click="trigger[$index] = !trigger[$index]">Preview</button>
 												<button class="mdl-button mdl-js-button btn-primary"
-													disabled>Trigger</button>
+													disabled>Trigger</button> -->
 												<!-- Fed Preview box Start -->
 												<div class="preview-box" ng-show="trigger[$index]">
 													<div class="preview-box-header">
@@ -2308,14 +2309,14 @@ limitations under the License.
 										</td>
 
 									</tr>
-									<tr ng-show="accordionToggle">
+									<!-- <tr ng-show="accordionToggle">
 										<td colspan="7">
 											<ul>
 												<li>Model Type: {{val.modelType}}</li>
 												<li>Toolkit Type: {{val.toolKitType}}</li>
 											</ul>
 										</td>
-									</tr>
+									</tr> -->
 
 								</tbody>
 							</table>

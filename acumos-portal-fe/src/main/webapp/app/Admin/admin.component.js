@@ -1151,6 +1151,56 @@ angular.module('admin').filter('abs', function () {
                     console.log("success>> ", response);
                 });
             }
+            
+            
+            //update frequency based on peer id subscription starts
+             
+            $scope.toupdatepeer = function(freq,SUBID){
+            	 
+            	
+            	$scope.freqChange(freq);
+   
+            	var cat, toolKit, catToolkit;
+            	 cat = ""; toolKit = ""; catToolkit = "";            	
+            	
+            	 if ($scope.selectedCatalogId !== "undefined" || $scope.selectedCatalogId !== null) {
+                     cat = '"catalogId":"' + $scope.selectedCatalogId + '"'
+                     catToolkit = '{' + cat + '}';
+                 }
+            	 
+            	 
+            	var reqobj1 = {
+            			"request_body":{           				
+            				"peerId" : $scope.peerIdForSubsList,
+            				"refreshInterval":freqChangeValue,            				
+            				"frequencySelected": freq, 
+            				"selector": catToolkit,
+            				"subId":SUBID,
+            				"userId":userId
+            			}           		
+            	}
+                  	
+            	apiService.updatesubscription(reqobj1).then(
+    					function(response) {
+                            $location.hash('subscontainer');  // id of a container on the top of the page - where to scroll (top)
+                            $anchorScroll();
+                            $scope.msg = "Updated successfully.";
+                            $scope.icon = '';
+                            $scope.styleclass = 'c-success';
+                            $scope.showSuccessMessage = true;                           
+                            $timeout(function () {
+                                $scope.showSuccessMessage = false;
+                            }, 5000);                             
+                        },
+                        function (error) {
+                            console.log(error);
+                        });	
+    					}
+            	
+          //update frequency based on peer id subscription  ends
+            
+            
+            
             //delete subscription
             $scope.deleteSub = function (subId, index) {
                 //deleteSubscription
