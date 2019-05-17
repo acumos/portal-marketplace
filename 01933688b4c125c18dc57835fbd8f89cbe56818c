@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e080f231_93fc9d1d",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-17T10:23:23Z",
+      "side": 1,
+      "message": "this file should not be checked in as Ashwini already checked in the same file",
+      "range": {
+        "startLine": 299,
+        "startChar": 1,
+        "endLine": 299,
+        "endChar": 74
+      },
+      "revId": "01933688b4c125c18dc57835fbd8f89cbe56818c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca6267ba_bc7fec09",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-17T10:23:23Z",
+      "side": 1,
+      "message": "put a ng-if\u003dsignatureNotFound\u003d\u003d\u003dfalse",
+      "range": {
+        "startLine": 330,
+        "startChar": 48,
+        "endLine": 330,
+        "endChar": 49
+      },
+      "revId": "01933688b4c125c18dc57835fbd8f89cbe56818c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cfb4b9b_0313c294",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-17T10:23:23Z",
+      "side": 1,
+      "message": "remove trailing spaces",
+      "range": {
+        "startLine": 336,
+        "startChar": 60,
+        "endLine": 336,
+        "endChar": 81
+      },
+      "revId": "01933688b4c125c18dc57835fbd8f89cbe56818c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
