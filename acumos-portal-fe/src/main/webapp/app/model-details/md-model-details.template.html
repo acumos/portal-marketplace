@@ -153,7 +153,7 @@ limitations under the License.
 					</button>
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary createMicroservice"						
-						alt="Create Microservice" title="Create Microservice" ng-if="showMicroService" ng-click="showMicroservice()">
+						ng-disabled="editModel" alt="Create Microservice" title="Create Microservice"  ng-if="showMicroService && isOnnxOrPFAModelFound !== true  &&  dockerUrlOfModel == ''"  ng-click="showMicroservice()">
 						Create Microservice
 					</button>
 					</span>
@@ -223,7 +223,7 @@ limitations under the License.
 								<span>Description</span>
 						</span>
 						</a> 
-						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
+						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses" ng-if="loginUserID">
 							<span class="tab-box"> 
 								<span class="tab-icons fas fa-certificate"></span>
 								<span>Licenses</span>
@@ -329,8 +329,14 @@ limitations under the License.
 					</div>
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
-						<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
-
+						<div ng-show="modelSignature"><pre>{{modelSignature}}</pre></div>
+                            			<div class="alert c-info" ng-if="isOnnxOrPFAModelFound || dockerUrlOfModel" >
+                               				 <strong>Currently signature is not supported for ONNX, PFA, DOCKERIZED MODEL URI Models </strong>
+                            			</div>
+                           			 <div class="alert c-info" ng-if="signatureNotFound" >
+                              				 <strong> Signature not found</strong>
+                          			 </div>
+                           
 					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
 						<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
@@ -408,7 +414,7 @@ limitations under the License.
 											<i class="fa fa-download" aria-hidden="true"></i>
 										</md-button>
 									
-										<md-button ng-cloak ng-if="loginUserID"  ng-disabled="value.mask" class="mdl-button mdl-js-button btn-grid-action" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" >
+										<md-button ng-cloak ng-if="loginUserID"  ng-disabled="value.mask" class="mdl-button mdl-js-button btn-grid-action" ng-click="downloadArtifact(value.artifactId)">
 											<i class="fa fa-download" aria-hidden="true"></i>
 										</md-button>
 

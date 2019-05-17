@@ -317,7 +317,7 @@ angular
 						}
 					
 						$scope.goToRelatedSolutions = function(solutionId){
-							$state.go('marketSolutions', {solutionId : solutionId, revisionId : revisionId, parentUrl: 'marketSolutions'});
+							$state.go('marketSolutions', {solutionId : solutionId, revisionId : $scope.revisionId, parentUrl: 'marketSolutions'});
 						}
 						
 						if($stateParams.parentUrl){
@@ -450,6 +450,7 @@ angular
 													$scope.revisionId = $scope.versionList[0].revisionId;
 													$scope.version = $scope.versionList[0];
 												}
+												$scope.getProtoFile();
 												$scope.getComment();
 												$scope.getArtifacts();
 												
@@ -486,10 +487,8 @@ angular
 											}
 											
 											$scope.checkOnapCompatibility();
-											
-											$scope.getProtoFile();
-
-											$scope.getLicenseFile();
+											if($scope.loginUserID !== null && $scope.loginUserID !== "" && $scope.loginUserID !== undefined)
+											   $scope.getLicenseFile();
 											
 											var solutionName = $scope.solution.name;
 										})
@@ -1096,7 +1095,9 @@ angular
 						$scope.getArtifacts = function() {
 							$scope.showMicroService = false;
 							var isDockerArtifactFound = false;
+							$scope.isOnnxOrPFAModelFound = false;
 							$scope.dockerUrlOfModel = '';
+							
 							$http(
 									{
 										method : 'GET',
@@ -1109,7 +1110,7 @@ angular
 											function successCallback(response) {
 												$scope.artifactDownload = response.data.response_body;
 												for (var x = 0; x < response.data.response_body.length; x++) {
-													if(response.data.response_body[x].artifactTypeCode == "DI"){
+													if(response.data.response_body[x].artifactType == "DI"){
 														$scope.artifactId = response.data.response_body[x].artifactId;
 														$scope.artifactType = response.data.response_body[x].artifactTypeCode;
 														$scope.artifactDesc = response.data.response_body[x].description;
@@ -1119,22 +1120,39 @@ angular
 														// in case of license artifacts count will be 3
 														if($scope.artifactDownload.length == 2 || $scope.artifactDownload.length == 3){
 															$scope.dockerUrlOfModel = response.data.response_body[x].uri;
+															$scope.signatureNotFound = false;
 														}
 														isDockerArtifactFound = true;
 													}
+													if( response.data.response_body[x].description.endsWith('.pfa') || response.data.response_body[x].description.endsWith('.onnx') ){
+														$scope.isOnnxOrPFAModelFound = true;
+													}
 												}
-												if(isDockerArtifactFound == false){
-													$scope.showMicroService = true;
+												if( $scope.isOnnxOrPFAModelFound != true  &&  $scope.dockerUrlOfModel  == ''){
+														if(!$scope.modelSignature){
+															$scope.signatureNotFound = true;
+														}
+														if( isDockerArtifactFound == false ){
+											
+															apiService
+																.getMSStatus( $scope.solution.solutionId, $scope.revisionId, $scope.loginUserID ) .then(
+																		function(response) {
+																			var microserviceStatus = response.data.response_body;
+																			if( !microserviceStatus || ( microserviceStatus && microserviceStatus.statusCode == "FA" )){
+																					$scope.showMicroService = true;	
+																			}
+															});
+														}
 												}
-
 											},
 											function errorCallback(response) {
-												/*alert("Error: "
-														+ response.status
-														+ "Detail: "
-														+ response.data.response_detail);*/
-											});
-
+											/*alert("Error: "
+													+ response.status
+													+ "Detail: "
+													+ response.data.response_detail);*/
+										});
+						}
+						
 						}
 						
 						$scope.authenticateAnddeployToAzure = function() {
@@ -1374,13 +1392,13 @@ angular
 														function(response) {
 															$scope.status = response.status;
 															$scope.detail = response.data.response_detail;
-															$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel' });
+															$state.go('marketSolutions', {solutionId : id, revisionId : $scope.revisionId, parentUrl:'mymodel' });
 														},
 														function(error) {
 															$scope.status = 'Unable to load data: '
 																	+ error.data.error;
 															console.log("Error: "+error.data);
-															$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
+															$state.go('marketSolutions', {solutionId : id, revisionId : $scope.revisionId, parentUrl:'mymodel'});
 														});
 
 									};
@@ -1587,6 +1605,7 @@ angular
 							        .then(
 							                function(response) {
 							                	$scope.disableCreateButton = false;
+							                	$scope.disableEdit();
 							                    if(response.status == 200){
 							                        $mdDialog.hide();
 													$scope.msg = "Micro service creation has been launched, you will see the micro service in the Model Artifacts once it will be created.";
