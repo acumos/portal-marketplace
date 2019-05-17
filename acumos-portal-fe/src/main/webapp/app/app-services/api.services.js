@@ -109,6 +109,9 @@ angular.module('AcumosApp')
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         var urlJupyterUrl = 'api/users/jupyterUrl';
        
+        var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
+        
+        
         var urlGlobalDiscoverAcumos='api/site/content/global/discoverAcumos';
         var urlOnboardingOverviewUrl = '/api/site/content/global/onboarding/overview';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
@@ -293,6 +296,11 @@ angular.module('AcumosApp')
         }
         
         /**************** ALL PUT ******************/
+        
+        this.updateSubscription = function(reqobj){
+        	return $http.put(urlUpdatePeerSubscription,reqobj);
+        }
+        
         this.updateSolutions = function(solution){
         	return $http.put(urlSolutions + '/' + solution.request_body.solutionId, solution);
         }
