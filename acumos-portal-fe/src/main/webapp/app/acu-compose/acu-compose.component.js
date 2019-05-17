@@ -1372,7 +1372,8 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .portNodeKey(function(p){return p.value.nodeId})
             .portName(function(p){ return p.value.side})
             .portBounds(function(p){return p.value.bounds})
-            .portElastic(false);
+            .portElastic(false)
+        	.nodeFill('none');
 
         mapper.child('validate', dc_graph.validate('data mapper'));
         mapper.child('place-ports', dc_graph.place_ports());
@@ -1384,7 +1385,8 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .displacement(0)
             .smallRadius(2)
             .mediumRadius(4)
-            .largeRadius(6);
+            .largeRadius(6)
+            .outlineFill('white');
 
         mapper.portStyle('circles', circlePorts)
             .portStyleName('circles');
