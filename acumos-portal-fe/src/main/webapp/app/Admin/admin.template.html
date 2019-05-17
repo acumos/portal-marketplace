@@ -2417,8 +2417,16 @@ limitations under the License.
 								</div>
 								<div>
 									<button ng-click="addAllSolutions()"
+										id="addSubscriptionBtn"
+										ng-hide='addedAllToSubs'
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
-										Add to Subscription List</button>
+										Add to Subscription List
+									</button>
+									<div ng-show='addedAllToSubs'>
+										<div class="subs-message1">
+											<span class="subs-added"></span> <span>Added</span>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
