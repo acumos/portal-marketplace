@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d2eed20_1a24261b",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-17T20:54:54Z",
+      "side": 1,
+      "message": "I see description is null for all the artifacts for the models i have checked. It has to be name",
+      "revId": "667ba677d7db5d6916580872236bbbd6e1ec9441",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc5e930d_84eeaac2",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-17T20:54:54Z",
+      "side": 1,
+      "message": "This is extra curly brace which will not load model-details page. It is closing the controller in between. Please remove this.",
+      "revId": "667ba677d7db5d6916580872236bbbd6e1ec9441",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
