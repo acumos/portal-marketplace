@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55fb38a7_2d672eb6",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T14:43:03Z",
+      "side": 1,
+      "message": "Please initialize $scope.signatureNotFound as well.",
+      "revId": "e6fc0b602e690e3c4bb8df417e6f1b9471e70062",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cc4bd97_d6bbc947",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T14:43:03Z",
+      "side": 1,
+      "message": "As per the code, I understand that if a model has docker image and artifact length is 2 or 3, you are setting the artifactURI to dockerUrlOfModel. I am worried about below cases:\n1) if we dont have proto file(line 1133 is true) and we dont have docker image(\u0026 is not onnx or pfa model), Then looks like we will get both error messages.\n\n2) If there is a requirement that if docker url of model is found, then we should not show signature, Or if we are trying to show a message that it is a different model like onnx or pfa, then using dockerUrlOfModel as one of the condition to display signature is fine. \n\nCorrect me if i am wrong.",
+      "revId": "e6fc0b602e690e3c4bb8df417e6f1b9471e70062",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8a36a13_0847e1a3",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T14:43:03Z",
+      "side": 1,
+      "message": "There is no artifactTypeCode. It is artifactType like you updated in line 1113.",
+      "revId": "e6fc0b602e690e3c4bb8df417e6f1b9471e70062",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac65309_a0e596b4",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T14:43:03Z",
+      "side": 1,
+      "message": "I dont see uri in the response of each artifact. It is artifactUri. Even line 1119 needs to be changed.",
+      "revId": "e6fc0b602e690e3c4bb8df417e6f1b9471e70062",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d71a5a8_b998e7ef",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T14:43:03Z",
+      "side": 1,
+      "message": "I hope this functionality is tested, else it will not show create microservice button for all models.",
+      "revId": "e6fc0b602e690e3c4bb8df417e6f1b9471e70062",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
