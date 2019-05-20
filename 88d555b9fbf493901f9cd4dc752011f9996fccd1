@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ad0e4e_3616a876",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T22:52:55Z",
+      "side": 1,
+      "message": "I think this condition has to be AND(\u0026\u0026). As per current condition, If it is null, it will still pass the condition and execute the statements, as it is not equal to undefined and vice-versa. Please check.",
+      "revId": "88d555b9fbf493901f9cd4dc752011f9996fccd1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff2fefc0_4a54f321",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-20T22:52:55Z",
+      "side": 1,
+      "message": "Please follow naming convention. Same for line 300.",
+      "revId": "88d555b9fbf493901f9cd4dc752011f9996fccd1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
