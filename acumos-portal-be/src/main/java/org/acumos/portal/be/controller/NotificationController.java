@@ -21,7 +21,9 @@
 package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -158,6 +160,7 @@ public class NotificationController extends AbstractController {
 		try {
 			List<MLPUserNotification> mlNotificationList = notificationService.getUserNotifications(userId,
 					restPageReq.getBody());
+			List<MLPUserNotification> mlNotificationListSorted = mlNotificationList.stream().sorted(Comparator.comparing(MLPUserNotification::getStart).reversed()).collect(Collectors.toList());
 			if (mlNotificationList != null) {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

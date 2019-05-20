@@ -1,0 +1,19 @@
+Add Subscription fix
+
+Change-Id: I5adcf0c11b2bd677ec676cc9e9eb06207689116f
+Signed-off-by: Neeraj Sonar <ns00499861@techmahindra.com>
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Fri May 17 16:18:07 2019 +0530
+#
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   acumos-portal-fe/application.yml
+#	modified:   acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js
+#	modified:   acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html
+#
