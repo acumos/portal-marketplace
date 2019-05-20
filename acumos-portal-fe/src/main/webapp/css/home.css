@@ -95,8 +95,8 @@ position:relative;
 .discover .discover-icon img{width:100%;}
 .discover .discover-description, .hasClass.initialVal .discover .discover-description{float: left; padding: 0 0 0 0;}
 .initialVal .discover .discover-description{padding: 0 0 0 15px;}
-.discover .discover-description p {font-size:15px; line-height:18px;}
-.discover .discover-description h5{margin:10px 0 15px 0; font-size:18px; font-weight:600;}
+.discover .discover-description{font-size:15px; line-height:18px;}
+.discover h5{margin:10px 0 10px 0; font-size:18px; font-weight:600;}
 .discover .marketplace .discover-description, .hasClass.initialVal .discover .marketplace .discover-description {width: 318px; color:#f49419;}
 .discover .desingstudio, .hasClass.initialVal .discover .desingstudio{color:#10a6b5; width:362px; position:absolute; right: 0px; top:260px;}
 .discover .desingstudio .discover-description, .hasClass.initialVal .discover .desingstudio .discover-description {width: 285px; color: #10a6b5;}
@@ -107,6 +107,10 @@ position:relative;
 .discover .onboard, .hasClass.initialVal .discover .onboard{color:#2968f5; width:412px; position:absolute; left: 30px; top: 403px;}
 .discover .onboard .discover-description, .hasClass.initialVal .discover .onboard .discover-description {width:335px; padding: 0 0 0 0; float:left; }
 .discover .onboard .discover-description p{width:275px; float: right;}
+.discover .onboard h5, .discover .community h5{padding-right:77px;}
+.discover .marketplace h5, .discover .desingstudio h5, .discover .sdn h5{padding-left:74px;}
+.discover .desingstudio h5{color:#10a6b5;}
+.discover .marketplace h5{color:#f49419;}
 .discover .community .discover-icon, .discover .onboard .discover-icon{float:right;}
 /*hasClass */
 .hasClass .discover .community{width: 289px;}
