@@ -21,6 +21,36 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.13  21st May 2019 
+=================================
+
+* IST | Alignment issue for Property section	ACUMOS-2538
+* DS missing resource, browser shows 404 on initial load of composition screen	ACUMOS-2645
+* IST | Splitter and Collator | Tag for drop down (' Target Tag Mapping - Map a source field to target field' \ Source Tag Mapping - Map a source field to target field )is missing	* ACUMOS-2369
+* Need a newer version of the applicable code that uses a standard open source license	ACUMOS-2431
+* IST2 - add subscription give no feedback	ACUMOS-2904
+* <IST2><Onboarding> Signatures not displayed properly for ONNX,PFA and DOCKERIZED MODEL URI models	ACUMOS-2784
+* IST2: Favorite Icon is not align with other icon in the tiles	ACUMOS-2915
+* IST2: Catalogs : When a catalog is selected circle is going out of the box	ACUMOS-2913
+* Artifacts accessible without Acumos account	ACUMOS-2702
+* <IST> All the names of modules are not visible in home page in discover acumos section after CMS removal	ACUMOS-2738
+* <IST><Portal Marketplace> Docker image is getting downloaded with 0KB size for model onboarded using 'Onboard Dockerized Model URI'	ACUMOS-2811
+* <IST> <Portal Marketplace> My Model > View Details : Able to click on Create Microservice button when microservice creation is in progress for same model.	ACUMOS-2816
+* Portal extend site config screen to allow removal of the co-brand logo shown at top	ACUMOS-2547
+* IST unable to search based on tag	ACUMOS-2900
+* <IST> Status of unpublished model is not visible in model description	ACUMOS-2895
+* Need to change the label under profile to remove the word Theme	ACUMOS-2634
+* IST: SignIn Popup displaying in the continuous loop when click on ok button	ACUMOS-2879
+* <IST> Withdraw request not visible after submitting the model for publication	ACUMOS-2893
+* Deploy to Local showing Deploy to Azure dialog	ACUMOS-2838
+* Portal-Marketplace README.md description change	ACUMOS-2733
+* IST: Event Carousel is not working	ACUMOS-2762
+* Manage My Models Page Tag field does not work in Chrome	ACUMOS-2644
+* Portal catalog table omits column self-publish 	ACUMOS-2853
+* Portal publish-to-marketplace screen too little space for catalog drop-down	ACUMOS-2854
+* IST: License Icon is not displaying as per VD	ACUMOS-2802
+
+
 Version 2.2.12  13th May 2019 
 =================================
 * <IST><Portal Marketplace> Docker image is getting downloaded with 0KB size for model onboarded using 'Onboard Dockerized Model URI'	ACUMOS-2811
