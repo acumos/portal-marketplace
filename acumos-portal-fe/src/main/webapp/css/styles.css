@@ -1883,8 +1883,19 @@ padding: 20px;background:#e5e5e5;}
 .admin-btn-search[disabled] {background:#efefef !important;}
 .griditem-title-text {margin-left:0px !important;}
 .md-icons-tiles {display: flex; justify-content: space-between; align-items: center;padding: 0;}
-.md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;}
-.mp-grid-list-details-cell .md-icons .mdl-button {position:relative;}
+.md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;top:3px;}
+.mp-grid-list-details-cell .md-icons .mdl-button {position:relative;top:3px;}
+.mp-grid-list-details-cell .mdl-button--icon .material-icons {font-size: 20px !important;}
+.mp-grid-list-details-cell .mdl-button--icon .material-icons.selected-fav {line-height: 20px;width: 20px;-webkit-transform: translate(-10px,-10px); transform: translate(-10px,-10px);}
+.grid-item .mdl-button--icon .material-icons {font-size: 20px !important;-webkit-transform: translate(-12px,-12px); transform: translate(-12px,-12px);line-height: 20px;width: 20px;}
+.grid-item .mdl-button:active,
+.grid-item .mdl-button.mdl-button--colored:focus:not(:active),
+.grid-item .mdl-button.mdl-button--icon:hover,
+.mp-grid-list-details-cell .mdl-button:active,
+.mp-grid-list-details-cell .mdl-button.mdl-button--colored:focus:not(:active),
+.mp-grid-list-details-cell .mdl-button.mdl-button--icon:hover{background: none !important;}
+.mp-grid-list-details-cell .mdl-button--icon .material-icons {font-size: 20px !important;}
+.grid-item .mdl-button--icon .material-icons {font-size: 20px !important;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
 
 /***** Sign-in promt modal start ********/
