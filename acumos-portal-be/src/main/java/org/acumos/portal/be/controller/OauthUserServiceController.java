@@ -266,15 +266,22 @@ public class OauthUserServiceController extends AbstractController {
 	@ApiOperation(value = "Fetches username from authorization header.", response = String.class)
 	@RequestMapping(value = APINames.USERNAME, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public String getUsernameFromAuth(HttpServletRequest request, HttpServletResponse response) {
+	public void getUsernameFromAuth(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("getUsernameFromAuth");
-		String username = null;
-		String auth = request.getHeader("Authorization");
-		if (!PortalUtils.isEmptyOrNullString(auth)) {
-			String token = auth.replace("Bearer ", "");
-			username = jwtTokenUtil.getUsernameFromToken(token);
+		try {
+			String auth = request.getHeader("Authorization");
+			if (!PortalUtils.isEmptyOrNullString(auth)) {
+				String token = auth.replace("Bearer ", "");
+				String username = jwtTokenUtil.getUsernameFromToken(token);
+				response.addHeader("authuser", username);
+				response.setStatus(HttpServletResponse.SC_OK);
+			} else {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			}
+		} catch (Exception e) {
+			log.error("Exception occurred during getUsernameFromAuth", e);
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
-		return username;
 	}
 	
 /*	
