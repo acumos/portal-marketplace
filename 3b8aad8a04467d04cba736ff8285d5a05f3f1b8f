@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1df53a0e_cfadcc18",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1585,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-21T13:57:36Z",
+      "side": 1,
+      "message": "devEnv will be equal to \"1\" when x86 is selected. Is that expected value?",
+      "revId": "3b8aad8a04467d04cba736ff8285d5a05f3f1b8f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd9f7a6_72b16259",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1607,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-21T13:57:36Z",
+      "side": 1,
+      "message": "By this, did you mean if there is any other error response?",
+      "revId": "3b8aad8a04467d04cba736ff8285d5a05f3f1b8f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
