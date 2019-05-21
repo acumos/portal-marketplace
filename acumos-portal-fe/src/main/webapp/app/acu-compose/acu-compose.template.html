@@ -239,7 +239,7 @@ limitations under the License.
 								for="demo-menu-lower-right4">
 								<li class="mdl-menu__item deploy-to-cloud" ng-repeat = "deployVal in checkDeployToCloudResponse track by $index" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
                            		title="{{deployVal.cloudDisplayText}}"
-                           		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center !important; border-bottom: 1px solid #d5d5d5;"
+                           		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center; border-bottom: 1px solid #d5d5d5;"
                            		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy, revisionId: revisionId, deployFromDS: true,deployValue: deployVal.cloudName})">
                            		</li>
 								
@@ -1205,7 +1205,7 @@ limitations under the License.
 																			
 																		</div>
 																		<div ng-if="readSolution" class="select-control">																	
-																			<md-select ng-model="readCollateTagMap[$index]" name="collateMapTag" placeholder="{{readCollateTagMap[$index]}}" ng-change="collateMappingTag($index)">
+																			<md-select ng-model="readCollateTagMap[$index]" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
 																			</md-select>
@@ -1233,7 +1233,7 @@ limitations under the License.
 																			</md-select>
 																		</div>
 																		<div ng-if="readSolution && collateSourceMapTable[$index].tag" class="select-control">																	
-																			<md-select ng-model="readCollateTagMap[$index]" name="collateMapTag" placeholder="{{readCollateTagMap[$index]}}" ng-change="collateMappingTag($index)">
+																			<md-select ng-model="readCollateTagMap[$index]" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
 																			</md-select>
@@ -1324,7 +1324,7 @@ limitations under the License.
 																			</md-select>
 																		</div>
 																		<div ng-if="readSolution && splitTargetMapTable[$index].tag" class="select-control">																	
-																			<md-select ng-model="readSplitTagMap[$index]" name="splitMapTag" placeholder="{{readSplitTagMap[$index]}}" ng-change="splitMappingTag($index)">
+																			<md-select ng-model="readSplitTagMap[$index]" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
 																			</md-select>
@@ -1353,7 +1353,7 @@ limitations under the License.
 																			</md-select>
 																		</div>
 																		<div ng-if="readSolution" class="select-control">																	
-																			<md-select ng-model="readSplitTagMap[$index]" name="splitMapTag" placeholder="{{readSplitTagMap[$index]}}" ng-change="splitMappingTag($index)">
+																			<md-select ng-model="readSplitTagMap[$index]" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
 																			</md-select>

@@ -81,3 +81,7 @@
     opacity: 0.1;
     fill: none;
 }
+
+.dc-graph .node-shape {
+    pointer-events: all;
+}
