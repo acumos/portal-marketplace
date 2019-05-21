@@ -1727,17 +1727,22 @@ angular.module('admin').filter('abs', function () {
                         addAllSolObj
                 }
                 console.clear(); console.log(reqAddObj);
+                angular.element(document.body).css('cursor', 'progress');
+                angular.element('#addSubscriptionBtn').css('cursor', 'progress');
                 apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
                     function (response) {
                         console.log(response);
                         fetchToolKitType();
+                        angular.element(document.body).css('cursor', 'default');
+                        angular.element('#addSubscriptionBtn').css('cursor', 'default');
                         if (response.data.response_detail == "Success") {
                             $scope.addedAllToSubs = true;
-                            //$scope.countSubscriptions();
                         }
 
                     },
                     function (error) {
+                        angular.element(document.body).css('cursor', 'default');
+                        angular.element('#addSubscriptionBtn').css('cursor', 'default');
                         $scope.status = 'Unable to load data: '
                             + error.data.error;
                         console.log($scope.status);
@@ -3283,6 +3288,7 @@ angular.module('admin').filter('abs', function () {
                     angular.element(document.body).css('cursor', 'default');
                 },
                     function errorCallback(response) {
+                        angular.element(document.body).css('cursor', 'default');
                         $scope.modelname = "Error Fetching Model Name."
                     });
             }
