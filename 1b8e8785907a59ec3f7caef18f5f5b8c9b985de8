@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1daec29_ccbf3d6a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-21T12:55:39Z",
+      "side": 1,
+      "message": "Why are we calling twice? in line 455 and 486",
+      "revId": "1b8e8785907a59ec3f7caef18f5f5b8c9b985de8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ab531a4_1384049c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-21T12:55:39Z",
+      "side": 1,
+      "message": "Please initialize signatureNotFound",
+      "revId": "1b8e8785907a59ec3f7caef18f5f5b8c9b985de8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21a6d9f3_36c03d1b",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-21T12:55:39Z",
+      "side": 1,
+      "message": "change this to response.data.response_body[x].artifactType;",
+      "revId": "1b8e8785907a59ec3f7caef18f5f5b8c9b985de8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f253c1c1_1091bd46",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1120,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2019-05-21T12:55:39Z",
+      "side": 1,
+      "message": "I hope this functionality has been tested.",
+      "revId": "1b8e8785907a59ec3f7caef18f5f5b8c9b985de8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
