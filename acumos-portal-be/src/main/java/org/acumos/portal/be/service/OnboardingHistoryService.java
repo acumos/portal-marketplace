@@ -18,7 +18,6 @@
  * ===============LICENSE_END=========================================================
  */
 
-
 package org.acumos.portal.be.service;
 
 import java.util.List;
@@ -28,27 +27,41 @@ import org.acumos.portal.be.transport.MLTask;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 
 public interface OnboardingHistoryService {
-	
+
 	/**
 	 * Searches for all Tasks for a User
 	 * 
 	 * @param pageRequestPortal
-	 *                          Page and sort criteria
+	 *            Page and sort criteria
 	 * @param userId
-	 *                          UserID
+	 *            UserID
 	 * @return List of MLTask, which may be empty.
 	 */
-	
-	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal , String userId);
-	
+
+	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal, String userId);
+
 	/**
 	 * Searches for all StepResults for a User
 	 * 
 	 * @param taskId
-	 *                          TaskID
+	 *            TaskID
 	 * @return List of MLStepResult, which may be empty.
 	 */
-	
+
 	public List<MLStepResult> getStepResults(Long taskId);
-	
+
+	/**
+	 * Searches for MicroService Task Status for a User
+	 * 
+	 * @param userId
+	 * 
+	 * @param solutionId
+	 * 
+	 * @param revisionId
+	 * 
+	 * @return MLTask for MS, which may be empty.
+	 */
+
+	public MLTask getMSTaskStatus(String solutionId, String revisionId, String userId);
+
 }

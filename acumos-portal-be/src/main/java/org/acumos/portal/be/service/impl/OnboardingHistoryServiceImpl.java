@@ -48,11 +48,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements OnboardingHistoryService {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Override
 	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal, String userId) {
-		log.debug( "getTasks");
+		log.debug("getTasks");
 		PagableResponse<List<MLTask>> response = new PagableResponse<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPTask> pageResponse = findTasksByUserId(pageRequestPortal, userId);
@@ -60,7 +60,7 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 		MLSolution mlSolution = null;
 
 		for (MLPTask task : pageResponse) {
-			mlSolution=new MLSolution();
+			mlSolution = new MLSolution();
 			if (task.getSolutionId() != null) {
 				MLPSolution mlpSolution = dataServiceRestClient.getSolution(task.getSolutionId());
 				mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
@@ -81,7 +81,7 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 
 	@Override
 	public List<MLStepResult> getStepResults(Long taskId) {
-		log.debug( "getStepResults");
+		log.debug("getStepResults");
 		List<MLStepResult> mlStepResultList = new ArrayList<MLStepResult>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPTaskStepResult> results = dataServiceRestClient.getTaskStepResults(taskId);
@@ -105,5 +105,27 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 		RestPageResponse<MLPTask> pageResponse = dataServiceRestClient.searchTasks(queryParam, false,
 				pageReqPortal.getPageRequest());
 		return pageResponse;
+	}
+
+	@Override
+	public MLTask getMSTaskStatus(String solutionId, String revisionId, String userId) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLTask mlTask = null;
+		Map<String, Object> searchparam = new HashMap<String, Object>();
+		searchparam.put("solutionId", solutionId);
+		searchparam.put("revisionId", revisionId);
+		searchparam.put("userId", userId);
+		searchparam.put("taskCode", "MS");
+
+		Map<String, String> queryParameters = new HashMap<>();
+		queryParameters.put("created", "DESC");
+
+		RestPageResponse<MLPTask> pageResponse = dataServiceRestClient.searchTasks(searchparam, false,
+				new RestPageRequest(0, 10000, queryParameters));
+		if (pageResponse.getContent().size() > 0) {
+			MLPTask mlpTask = pageResponse.getContent().get(0);
+			mlTask = PortalUtils.convertToMLTask(mlpTask);
+		}
+		return mlTask;
 	}
 }

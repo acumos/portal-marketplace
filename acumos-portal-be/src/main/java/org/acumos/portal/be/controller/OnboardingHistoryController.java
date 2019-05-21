@@ -51,7 +51,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/onboardinghistory")
 public class OnboardingHistoryController extends AbstractController {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	private OnboardingHistoryService onboardingHistoryService;
@@ -103,6 +103,34 @@ public class OnboardingHistoryController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while getStepResults");
 			log.error("Exception Occurred while getStepResults", e);
+			response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "getting status of Microservice task.", response = MLTask.class)
+	@RequestMapping(value = { APINames.GET_MS_STATUS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLTask> getMSTaskStatus(HttpServletRequest request,
+			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId,
+			@PathVariable("userId") String userId, HttpServletResponse response) {
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		userId = SanitizeUtils.sanitize(userId);
+
+		log.debug("getMSTaskStatus");
+		JsonResponse<MLTask> data = new JsonResponse<>();
+		try {
+			MLTask mLTask = onboardingHistoryService.getMSTaskStatus(solutionId, revisionId, userId);
+			data.setResponseBody(mLTask);
+			data.setResponseDetail("getMSTaskStatus Successful");
+			data.setResponseCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+		} catch (Exception e) {
+
+			data.setResponseCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while Retrieving MS task status");
+			log.error("Exception Occurred while Retrieving Task", e);
 			response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
 		}
 		return data;
