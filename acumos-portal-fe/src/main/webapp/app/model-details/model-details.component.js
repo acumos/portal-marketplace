@@ -1570,38 +1570,43 @@ angular
 								  });
 							 }
 							 }
+							 
 							 $scope.createMicroservice = function(){
 								 
-								 var requestObj =	{
-									 "request_body": {									 
-									   "deploymentEnv": $scope.devEnv,
-									   "modName": $scope.solution.name,
-									   "revisionId": $scope.revisionId,
-									   "solutioId": $scope.solutionId,									   
-									 }
-									};
-								 
-								 $scope.showMicroService = false;
-								 apiService
-							        .createMicroservice(requestObj)
-							        .then(
-							                function(response) {
-							                	$scope.disableCreateButton = false;
-							                    if(response.status == 200){
-							                        $mdDialog.hide();
-													$scope.msg = "Micro service creation has been launched, you will see the micro service in the Model Artifacts once it will be created.";
-													$scope.icon = '';
-													$scope.styleclass = 'c-success';
-													$scope.showAlertMessage = true;
-													$timeout(
-													function() {
-														$scope.showAlertMessage = false;
-													}, 5000);
-							                       
-							                    }
-							                },  function(response) {
-							                	$scope.showMicroService = true;
-							                });
+									$mdDialog.hide().then(function(){
+										$scope.msg = "Micro service creation has been launched, you will see the micro service in the Model Artifacts once it will be created.";
+										$scope.icon = '';
+										$scope.styleclass = 'c-success';
+										$scope.showAlertMessage = true;
+										$timeout(function() {$scope.showAlertMessage = false;}, 5000);
+									});	
+									 var requestObj =	{
+										 "request_body": {									 
+										   "deploymentEnv": $scope.devEnv,
+										   "modName": $scope.solution.name,
+										   "revisionId": $scope.revisionId,
+										   "solutioId": $scope.solutionId,									   
+										 }
+										};
+									 
+									 $scope.showMicroService = false;
+									 apiService
+								        .createMicroservice(requestObj)
+								        .then(function(response) {
+							        		$scope.getArtifacts();
+								        	if(response.data.status_code == 0){
+								        		$scope.icon = 'report_problem';
+								        		$scope.styleclass = 'c-error';
+								        		$scope.msg = "Micro service generation failed.";
+								        	}else if(response.data.status_code ==  201) {
+								        		$scope.msg = "Micro service generated successfully.";
+								        	}
+								        	$scope.showAlertMessage = true;
+											$timeout(function() {$scope.showAlertMessage = false;}, 5000);
+											
+								         },  function(response) {
+								             $scope.showMicroService = true;
+								         });
 							 }
 							 
 							 $scope.showMicroservice = function(){

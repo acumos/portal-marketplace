@@ -1884,7 +1884,9 @@ padding: 20px;background:#e5e5e5;}
 .griditem-title-text {margin-left:0px !important;}
 .md-icons-tiles {display: flex; justify-content: space-between; align-items: center;padding: 0;}
 .md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;}
-.mp-grid-list-details-cell .md-icons .mdl-button {position:relative;}
+.mp-grid-list-details-cell .md-icons .mdl-button {position:relative;top:2px;}
+.mp-grid-list-details-cell .mdl-button--icon .material-icons {font-size: 20px !important;}
+.grid-item .mdl-button--icon .material-icons {font-size: 20px !important;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
 
 /***** Sign-in promt modal start ********/

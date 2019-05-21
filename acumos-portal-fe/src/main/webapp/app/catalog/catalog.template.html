@@ -71,13 +71,13 @@ limitations under the License.
 					class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1"
 					style="table-layout: fixed;">
 					<colgroup>
-						<col width="27%">
+						<col width="24%">
 						<col width="20%">
 						<col width="10%">
 						<col width="12%">
 						<col width="12%">
 						<col width="12%">
-						<col width="7%">
+						<col width="10%">
 					</colgroup>
 					<thead>
 						<tr>
@@ -129,7 +129,7 @@ limitations under the License.
 								ng-class="reverseSortcatalog?'ascending':'descending'"
 								class="gridcell-sort"></span>
 							</th>
-							<th>ACTION</th>
+							<th class="text-center">ACTION</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -142,7 +142,7 @@ limitations under the License.
 							<td><span class="md-breadcrumb-item">{{((catalog.solutionCount < 10) ? '0' : '') + catalog.solutionCount}}
 							</span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.created | date :"MM/dd/yyyy" }}</span></td>
-							<td>
+							<td class="text-center">
 								<button ng-click="editCatalog(catalog)" 
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-edit"></span>
