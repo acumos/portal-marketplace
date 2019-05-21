@@ -189,13 +189,16 @@ public class OauthUserServiceControllerTest {
 		String token = "mockJwtToken";
 		String authorization = "Bearer " + token;
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 		mockRequest.addHeader("Authorization", authorization);
-		String usernameIn = "testUser";
+		String username = "testUser";
 		
-		Mockito.when(jwtTokenUtil.getUsernameFromToken(token)).thenReturn(usernameIn);
-		String usernameOut = oauthServiceController.getUsernameFromAuth(mockRequest, response);
-		Assert.assertNotNull(usernameOut);
-		Assert.assertEquals(usernameIn, usernameOut);
+		Mockito.when(jwtTokenUtil.getUsernameFromToken(token)).thenReturn(username);
+		oauthServiceController.getUsernameFromAuth(mockRequest, mockResponse);
+		Assert.assertNotNull(mockResponse);
+		Assert.assertEquals(mockResponse.getStatus(), HttpServletResponse.SC_OK);
+		Assert.assertEquals(true, mockResponse.containsHeader("authuser"));
+		Assert.assertEquals(username, mockResponse.getHeader("authuser"));
 	}
 	
 	private MLPRole getMLPRole(){
