@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e11f5bc5_9dc1476c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/NotificationController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-22T12:23:06Z",
+      "side": 1,
+      "message": "mlNotificationList must be checked for NULL, mlNotificationListSorted  may not required to check null",
+      "range": {
+        "startLine": 161,
+        "startChar": 29,
+        "endLine": 161,
+        "endChar": 48
+      },
+      "revId": "50102326b05b499946298be3bf06544f2b418224",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
