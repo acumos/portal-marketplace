@@ -66,7 +66,7 @@ limitations under the License.
 						ng-cloak
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
-						ng-if="loginUserID"
+						ng-if="loginUserID" ng-disabled="editModel"
 						alt="Download" title="Download">Download</button>
 						
 				<button type="button"
@@ -86,7 +86,7 @@ limitations under the License.
 						alt="Decline Publication" title="{{ requestedByMe ? 'Decline Self Publication is Disabled' : 'Decline Publication'}}">Decline Publication</button>
 						
 				<button type="button" ng-cloak
-						class="mdl-button mdl-js-button btn-primary"
+						class="mdl-button mdl-js-button btn-primary" 
 						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
 				

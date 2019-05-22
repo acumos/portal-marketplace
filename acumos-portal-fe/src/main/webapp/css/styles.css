@@ -67,6 +67,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 
 #uploadFile, #publicUploadFile {position:relative;}
 #uploadFile .upload-txtbox, #publicUploadFile .upload-txtbox{width: 100%; height:33px;}
+.remove-datalist-icon input::-webkit-calendar-picker-indicator {display: none;}
 /*********** Common CSS classes end  ************/
 
 /*********** Icons section start ************/

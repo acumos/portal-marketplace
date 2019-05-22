@@ -105,13 +105,20 @@ angular.module('catalog')
 				if($scope.loginUserID)
 					$scope.loadCatalog(0);	
 				
-				$scope.setAlertMessage = function(msg, styleclass) {
+				// styleclass ------ icons
+				// c-success ------- 
+				// c-warning ------- report_problem
+				// c-error --------- report_problem
+				// c-info ---------- info_outline
+
+				$scope.setAlertMessage = function(msg, styleclass, icon) {
 					$scope.msg = msg;
-					if(styleclass == "c-error"){
-						$scope.icon = 'report_problem';
-					} else {
+					if(icon){
+						$scope.icon = icon;
+					}else{
 						$scope.icon = '';
 					}
+					
 					$scope.styleclass = styleclass;
 					$scope.showAlertMessage = true;
 					$timeout(function() {
@@ -137,7 +144,7 @@ angular.module('catalog')
 							$mdDialog.hide();
 							$scope.loadCatalog(0);
 						}, function errorCallback(response) {
-							$scope.setAlertMessage("Error occurred while creating catalog \"" + reqObject.request_body.name + "\".", 'c-error');
+							$scope.setAlertMessage("Error occurred while creating catalog \"" + reqObject.request_body.name + "\".", 'c-error', 'report_problem');
 							console.error(response);
 							$mdDialog.hide();
 							$scope.SetDataLoaded = false;
@@ -150,7 +157,7 @@ angular.module('catalog')
 				}
 				
 				$scope.isValidCatalog = function(catalog) {
-					return (catalog.name && catalog.accessTypeCode != 0 && catalog.description);
+					return (catalog.name && catalog.accessTypeCode && catalog.description);
 				}
 				
 				$scope.openCatalogDialog = function() {
@@ -198,7 +205,7 @@ angular.module('catalog')
 								$mdDialog.hide();
 								$scope.loadCatalog(0);
 							}, function errorCallback(response) {
-								$scope.setAlertMessage("Error occurred while updating catalog \"" + reqObject.request_body.name + "\".", 'c-error');
+								$scope.setAlertMessage("Error occurred while updating catalog \"" + reqObject.request_body.name + "\".", 'c-error', 'report_problem');
 								console.error(response);
 								$mdDialog.hide();
 								$scope.SetDataLoaded = false;
@@ -213,7 +220,7 @@ angular.module('catalog')
 								$mdDialog.hide();
 								$scope.loadCatalog(0);
 							}, function errorCallback(response) {
-								$scope.setAlertMessage("Error occurred while deleting catalog \"" + catalog.name + "\".", 'c-error');
+								$scope.setAlertMessage("Error occurred while deleting catalog \"" + catalog.name + "\".", 'c-error', 'report_problem');
 								console.error(response);
 								$mdDialog.hide();
 								$scope.SetDataLoaded = false;
