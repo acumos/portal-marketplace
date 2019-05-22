@@ -453,7 +453,8 @@ limitations under the License.
 
 					<div class="mdl-tabs__panel" id="tab7-panel">
 						<h6 class="sectiontitle6">LICENSES</h6>
-						<div ng-show= "modelLicense">{{modelLicense | json}}</div>
+						<pre ng-if="check" ng-show="modelLicense">{{modelLicense | json}}</pre>
+						<pre ng-if="!check" ng-show="modelLicense">{{modelLicense}}</pre>
 						<div ng-show="modelLicenseError">{{modelLicenseError}}</div>
 					</div>
 					
