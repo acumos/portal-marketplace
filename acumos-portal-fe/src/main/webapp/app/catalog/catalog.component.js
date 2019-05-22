@@ -107,7 +107,11 @@ angular.module('catalog')
 				
 				$scope.setAlertMessage = function(msg, styleclass) {
 					$scope.msg = msg;
-					$scope.icon = '';
+					if(styleclass == "c-error"){
+						$scope.icon = 'report_problem';
+					} else {
+						$scope.icon = '';
+					}
 					$scope.styleclass = styleclass;
 					$scope.showAlertMessage = true;
 					$timeout(function() {
