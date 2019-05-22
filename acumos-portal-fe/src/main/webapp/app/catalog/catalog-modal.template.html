@@ -49,18 +49,16 @@ limitations under the License.
 						</div>
 				<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet">				
 					<div class="select-control register-select-control">					
-						<label class="fedlbl4">Select Access Level<span class="reqfield">*</span></label>						
-						<md-select name="accessLevel"
+						<label class="fedlbl4">Access Level<span class="reqfield">*</span></label>						
+						<md-select name="accessLevel" placeholder="Select Access Level"
 							ng-model="parent.catalog.accessTypeCode" class="model-box-dropdown-height">
-							 <md-option selected ng-if="parent.isEdit == false"  value='0'>Access Level</md-option> 	
-							  <md-option ng-if="parent.isEdit == true" value='0'>Access Level</md-option> 						
 							<md-option 
 							value="{{type.value}}" ng-repeat='type in parent.accessType'
 							ng-click=""> {{type.name}} </md-option> </md-select>
 					</div>
 					<div class="help-inline validation-msgs">
 						<span class="model-box-dropdown-error-msg"
-							ng-show="catalogForm.accessLevel.$touched  && parent.catalog.accessTypeCode == '0'">Access Level
+							ng-show="catalogForm.accessLevel.$touched  && !(parent.catalog.accessTypeCode)">Access Level
 							Required.</span>
 
 					</div>
