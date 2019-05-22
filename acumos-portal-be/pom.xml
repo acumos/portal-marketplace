@@ -74,6 +74,11 @@ limitations under the License.
            </exclusions> 
 		</dependency>
 		<dependency>
+          <groupId>me.xdrop</groupId>
+          <artifactId>fuzzywuzzy</artifactId>
+          <version>1.2.0</version>
+        </dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<!-- Spring chooses <version>${slf4j.version}</version> -->

@@ -97,6 +97,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.dockerjava.api.DockerClient;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 /**
  * Service to Support Market Place Catalog and Manage models modules
  */
@@ -1264,9 +1266,22 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		log.debug("findUserSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findUserSolutions(pageReqPortal.isActive(),
-				pageReqPortal.isPublished(), pageReqPortal.getUserId(), pageReqPortal.getNameKeyword(),
+				pageReqPortal.isPublished(), pageReqPortal.getUserId(), new String[0],
 				pageReqPortal.getDescriptionKeyword(), pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(),
 				pageReqPortal.getPageRequest());
+		String[] nameKeywords = pageReqPortal.getNameKeyword();
+		if(nameKeywords != null && nameKeywords.length > 0) {
+			List<MLPSolution> solutions = response.getContent();
+			List<RelevantMLPSolution> rs = solutions.stream()
+			  .collect(
+			    Collectors.mapping(
+			      p -> new RelevantMLPSolution(p, meanScore (nameKeywords, p.getName())),
+			      Collectors.toList()));
+			Comparator<RelevantMLPSolution> solutionScoreComparator
+		      = Comparator.comparingDouble(RelevantMLPSolution::getScore);
+			Collections.sort(rs, solutionScoreComparator.reversed());
+			response = new RestPageResponse<>(new ArrayList<MLPSolution>(rs));
+		} 
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1278,6 +1293,31 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 
 		return mlSolutionsRest;
+	}
+	
+	private double meanScore (String[] keywords, String name) {
+		String keyword = null;
+	    double score = 0;
+		for(int i = 0; i < keywords.length;i++) {
+			keyword = keywords[i];
+			score =+ FuzzySearch.ratio(keyword,name);
+		}
+		return score/keywords.length;
+	}
+		
+	class RelevantMLPSolution extends MLPSolution {
+		
+		private static final long serialVersionUID = 6428511514439879703L;
+
+		RelevantMLPSolution(MLPSolution solution, double score) {
+			super(solution);
+			this.score = score;
+		}
+		private double score;
+		
+		public double getScore() {
+			return this.score;
+		}
 	}
 
 	private MLPSolutionRevision getLatestSolRevision(String solutionId) {
