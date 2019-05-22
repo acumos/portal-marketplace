@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -317,7 +318,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					mlpArtifact.getName().contains(PortalConstants.LICENSE_FILENAME)).collect(Collectors.toList());		
 			 
 			if(artifactList.size() == 0) {
-				String uri = String.join("/", env.getProperty("nexus.groupId"), solutionId, PortalConstants.LICENSE_FILENAME_PREFIX, versionId, PortalConstants.LICENSE_FILENAME_PREFIX+"-"+ versionId+ PortalConstants.LICENSE_EXT);
+				String uri = String.join("/",  Arrays.asList(env.getProperty("nexus.groupId").split("\\.")).stream().collect(Collectors.joining("/")), solutionId, PortalConstants.LICENSE_FILENAME_PREFIX, versionId, PortalConstants.LICENSE_FILENAME_PREFIX+"-"+ versionId+ PortalConstants.LICENSE_EXT);
 				
 				MLPArtifact modelArtifact = new MLPArtifact();
 				modelArtifact.setName(file.getOriginalFilename());
