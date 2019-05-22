@@ -796,7 +796,7 @@ limitations under the License.
 										      <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 										         <md-input-container ng-class="{'available-docker':availableSolution && !createDockerRef ,'non-available-docker':notavailableSolution && !createDockerRef}" class="md-block">
 										            <label>Model Name <span class="reqfield"> *</span></label> 
-										            <input type="text" class="md-input" ng-model="searchModelName" ng-disabled="createDockerRef" ng-class="{'disable-input':checkingSolution || createDockerRef}">
+										            <input type="text" class="md-input" ng-model="searchModelName" ng-readonly="notavailableSolution || availableSolution"  ng-disabled="createDockerRef" ng-class="{'disable-input':checkingSolution || createDockerRef, 'disablecursor':notavailableSolution||availableSolution}">
 										            <div ng-if="notavailableSolution" class="help-inline validation-msgs validationmsg"><span>Model name already taken, please use different model name.</span></div>
 										         </md-input-container>
 										      </div>
@@ -843,7 +843,7 @@ limitations under the License.
 										   	   		<label>Select Model	</label>
 													<div class="search-select">
 														<input name="modelList" id="modelList" list="solutions" type="text" ng-class="{'disable-input':artifactUrl}" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker">
-														<span class="search-icon" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
+														<span class="search-icon cursor-pointer" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
 													</div>
 													<datalist id="solutions">
 	    												<select class="select-control">
