@@ -27,4 +27,8 @@ public class PortalConstants {
 	public static final String PUBLISH_SELF_REQ_ENABLED_PROPERTY = "portal.feature.publishSelfRequestEnabled";
 	public static final int DEFAULT_CATALOG_PAGE_SIZE = 1000;
     public static final String PUBLIC_CATALOG = "PB";
+    public static final String LICENSE_FILENAME = "license.json"; 
+    public static final String LICENSE_ARTIFACT_TYPE = "LG";
+    public static final String LICENSE_FILENAME_PREFIX = "license";
+    public static final String LICENSE_EXT = ".json"; 
 }
