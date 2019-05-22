@@ -21,7 +21,9 @@
 package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -159,11 +161,12 @@ public class NotificationController extends AbstractController {
 			List<MLPUserNotification> mlNotificationList = notificationService.getUserNotifications(userId,
 					restPageReq.getBody());
 			if (mlNotificationList != null) {
-				data.setResponseBody(mlNotificationList);
+				List<MLPUserNotification> mlNotificationListSorted = mlNotificationList.stream().sorted(Comparator.comparing(MLPUserNotification::getStart).reversed()).collect(Collectors.toList());
+				data.setResponseBody(mlNotificationListSorted);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
 				log.debug("getUserNotifications: size is {} ",
-						mlNotificationList.size());
+						mlNotificationListSorted.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("No notifications exist for user : " + userId);
