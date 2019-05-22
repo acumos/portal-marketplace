@@ -1653,8 +1653,9 @@ angular
 											function() {
 												$scope.showAlertMessage = false;
 											}, 5000);
+											$scope.isLicenseFound = true;
+											$scope.modelLicense = response.response_body;
 											
-											getLicenseFile();
 										},
 									function(error) {
 										$scope.modelUploadError = true;
