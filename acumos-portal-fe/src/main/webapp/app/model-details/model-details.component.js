@@ -29,7 +29,7 @@ angular
 					templateUrl : './app/model-details/md-model-details.template.html',
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, browserStorageService) {
+							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, browserStorageService, modelUploadService) {
 
 						$rootScope.isONAPCompatible = false;
 						$scope.version;
@@ -533,9 +533,12 @@ angular
 												$scope.modelSignature = response.data;
 											});
 					}
+					
+					$scope.isLicenseFound = false;
 					$scope.getLicenseFile = function() {
 						$scope.modelLicense = "";
 						$scope.modelLicenseError = "";
+						$scope.isLicenseFound = false;
 						var url = 'api/getLicenseFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
 						$http({
 								method : 'GET',
@@ -543,11 +546,11 @@ angular
 						}).then(function successCallback(response) {
 							console.log(response);
 							if (response.data) {
+								$scope.isLicenseFound = true;
 								$scope.modelLicense = response.data;
 							} else {
 								$scope.modelLicenseError = "No license found";
-							}
-							$scope.check=angular.isObject($scope.modelLicense);
+							}		
 						});
 				 	}
 					
@@ -1612,6 +1615,58 @@ angular
 									  parent: angular.element(document.body),
 									  clickOutsideToClose: true
 								  });
+							 }
+							 
+							 $scope.uploadLicense = function(){
+								
+								 $mdDialog.show({
+									  contentElement: '#uploadLicense',
+									  parent: angular.element(document.body),
+									  clickOutsideToClose: true
+								  });
+							 };
+							 
+							 $scope.closeLicensePopup = function(){
+								 $mdDialog.hide();
+								 $scope.file = '';
+								 $scope.filename = '';
+								 $scope.modelUploadError = false;
+							 }
+							 
+							 $scope.uploadLicenseFile = function(){
+								$scope.modelLicUploadError = false;
+
+								var uploadUrl = "api/license/upload/" + $scope.loginUserID + "/" + $scope.solutionId + "/" + $scope.revisionId + "/" + $scope.versionId;
+								var promise = modelUploadService.uploadFileToUrl($scope.file, uploadUrl);
+								
+								$scope.uploadingFile = true;
+								promise
+								.then(function(response) {
+											$scope.modelUploadError = false;
+											$rootScope.progressBar = 100;
+											$mdDialog.hide();
+											$scope.msg = "Successfully uploaded the license";
+											$scope.icon = '';
+											$scope.styleclass = 'c-success';
+											$scope.showAlertMessage = true;
+											$timeout(
+											function() {
+												$scope.showAlertMessage = false;
+											}, 5000);
+											
+											getLicenseFile();
+										},
+									function(error) {
+										$scope.modelUploadError = true;
+										$scope.modelUploadErrorMsg = error.response_detail;
+										$scope.file = '';
+										$rootScope.progressBar = 0;
+									});
+							}
+							 
+							 $scope.resetProgress = function(){
+								 $rootScope.progressBar = 0;
+								 $scope.modelcUploadError = false;
 							 }
 							
 					}
