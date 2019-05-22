@@ -29,6 +29,7 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.transport.MLSolutionDownload;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -50,4 +51,6 @@ public interface PushAndPullSolutionService {
 	void downloadModelDocument(String documentId, HttpServletResponse response);
 
 	public String getFileNameByDocumentId(String documentId);
+	
+	public boolean uploadLicense(MultipartFile file, String userId, String solutionId, String revisionId, String versionId);
 }
