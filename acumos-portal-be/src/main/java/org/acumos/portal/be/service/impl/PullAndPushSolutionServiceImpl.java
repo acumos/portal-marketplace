@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,17 +37,26 @@ import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.nexus.client.NexusArtifactClient;
+import org.acumos.nexus.client.data.UploadArtifactInfo;
 import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.SaveImageCommand;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.transport.MLSolutionDownload;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.maven.wagon.ConnectionException;
+import org.apache.maven.wagon.ResourceDoesNotExistException;
+import org.apache.maven.wagon.TransferFailedException;
+import org.apache.maven.wagon.authentication.AuthenticationException;
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.dockerjava.api.DockerClient;
 
@@ -268,4 +279,59 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 		return mlSolutionDownload;
 	}
 
+	public boolean uploadLicense(MultipartFile file, String userId, String solutionId, String revisionId, String versionId) {
+		boolean uploadedFile = false;
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		
+		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+		long fileSize = file.getSize();
+        NexusArtifactClient nexusClient = getNexusClient();
+        String groupId = String.join(".", env.getProperty("nexus.groupId"), solutionId);
+        UploadArtifactInfo uploadedArtifact = null;
+		try {
+			uploadedArtifact = nexusClient.uploadArtifact(groupId, PortalConstants.LICENSE_FILENAME_PREFIX, versionId, fileExtension, fileSize, file.getInputStream());
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+			log.error("AuthenticationException failed in uploadLicense", e);
+		} catch (AuthorizationException e) {
+			log.error("AuthorizationException failed in uploadLicense", e);
+		} catch (ConnectionException e) {
+			log.error("ConnectionException failed in uploadLicense", e);
+		} catch (TransferFailedException e) {
+			log.error("TransferFailedException failed in uploadLicense", e);
+		} catch (ResourceDoesNotExistException e) {
+			log.error("ResourceDoesNotExistException failed in uploadLicense", e);
+		} catch (IOException e) {
+			log.error("IOException failed in uploadLicense", e);
+		}
+		
+        if(uploadedArtifact !=null && !PortalUtils.isEmptyOrNullString(uploadedArtifact.getArtifactId())) {
+        	log.info("uploadedFile or not---->>"+uploadedFile);
+        	uploadedFile = true;
+        }
+		if(uploadedFile) {
+			log.info("uploadedFile or not---->>"+uploadedFile);
+			
+			List<MLPArtifact> artifactList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId).stream().filter(
+					mlpArtifact -> mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(PortalConstants.LICENSE_ARTIFACT_TYPE) && 
+					mlpArtifact.getName().contains(PortalConstants.LICENSE_FILENAME)).collect(Collectors.toList());		
+			 
+			if(artifactList.size() == 0) {
+				String uri = String.join("/", env.getProperty("nexus.groupId"), solutionId, PortalConstants.LICENSE_FILENAME_PREFIX, versionId, PortalConstants.LICENSE_FILENAME_PREFIX+"-"+ versionId+ PortalConstants.LICENSE_EXT);
+				
+				MLPArtifact modelArtifact = new MLPArtifact();
+				modelArtifact.setName(file.getOriginalFilename());
+				modelArtifact.setDescription(file.getOriginalFilename());
+				modelArtifact.setVersion(versionId);
+				modelArtifact.setArtifactTypeCode(PortalConstants.LICENSE_ARTIFACT_TYPE);			
+				modelArtifact.setUserId(userId);
+				modelArtifact.setUri(uri);			
+				modelArtifact.setSize((int)file.getSize());
+				modelArtifact = dataServiceRestClient.createArtifact(modelArtifact);				
+				dataServiceRestClient.addSolutionRevisionArtifact(solutionId, revisionId, modelArtifact.getArtifactId());
+			}
+		}
+		
+		return uploadedFile;
+	}
 }

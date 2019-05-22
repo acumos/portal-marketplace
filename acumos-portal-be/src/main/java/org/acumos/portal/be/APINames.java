@@ -302,5 +302,6 @@ public class APINames {
 	public static final String CREATE_RTU_USER = "/createRtuUser/{rtuRefId}/{solutionId}";
 
 	public static final String GET_MS_STATUS = "/getMSStatus/{solutionId}/{revisionId}/{userId}";
+	public static final String UPLOAD_LICENSE_MODEL = "/license/upload/{userId}/{solutionId}/{revisionId}/{versionId}";
 	
 }
