@@ -129,8 +129,9 @@ angular.module('AcumosApp')
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
 		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
-	var urlRightToUse="/api/rightToUse";
-	
+        var urlRightToUse="/api/rightToUse";
+        var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
+
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -498,8 +499,12 @@ angular.module('AcumosApp')
         this.insertAddAllSolutions = function(peeriId, addSolObj){
         	return $http.post(urladdAllSolutionsAdmin + '/' + peeriId , addSolObj);
         }
+
+        this.createRTU = function(rtuRefId, solutionId, reqBody){
+            return $http.post(urlCreateRTU + '/' + rtuRefId + '/' + solutionId, reqBody);
+        }
         
-        
+                
         /**************** ALL DELETE ******************/
         this.deleteTag = function(solutionid, tag){
         	return $http.delete(urlDeleteTag + '/' + solutionid + '/tag/' + tag);

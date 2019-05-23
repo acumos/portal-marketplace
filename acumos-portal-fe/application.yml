@@ -15,7 +15,7 @@ zuul:
     api:
       path: /api/**
       sensitiveHeaders:
-      url: http://localhost:8083
+      url: http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8083
     cmnt:
       path: /cmnt/**
       url: http://localhost:8087

@@ -3227,6 +3227,7 @@ angular.module('admin').filter('abs', function () {
             /* Catalog changes */
             /* RTU changes start*/
             $scope.showAssociatedModels = false;
+            $scope.isRtuUpdate = false;
             $scope.getSearch = function () {
                 var rtuReferenceId = $scope.RTUId;
                 var solName = $scope.solutionName;
@@ -3241,16 +3242,19 @@ angular.module('admin').filter('abs', function () {
                             $scope.msg = response.data.response_detail;
                             $scope.styleclass = 'c-error';
                             $scope.icon = 'report_problem';
+                            $scope.isRtuUpdate = true;
     
                         } else {
                             $scope.msg = response.data.response_detail;
                             $scope.styleclass = 'c-success';
                             $scope.icon = '';
+                            $scope.isRtuUpdate = false;
                         }
                     }else{
                         $scope.msg = response.data.response_detail;
                         $scope.styleclass = 'c-error';
                         $scope.icon = 'report_problem';
+                        $scope.isRtuUpdate = true;
                     }
                    
                     $scope.showAlertMessage = true;
@@ -3312,16 +3316,10 @@ angular.module('admin').filter('abs', function () {
 
             $scope.updateRTU = function () {
 
-                $http(
-                    {
-                        method: 'POST',
-                        url: '/api/createRtuUser/'
-                            + $scope.RTUId + '/'
-                            + $scope.uploadRtuSolId,
-                        data: { 
-                            "request_body": $scope.rtuUsers 
-                        }
-                    })
+                $scope.rtuReqBody = {
+                    "request_body": $scope.rtuUsers                        
+                    }
+                apiService.createRTU($scope.RTUId, $scope.updateUploadRtuSolId, $scope.rtuReqBody)
                     .then(
                         function successCallback(response) {
 
