@@ -264,8 +264,10 @@ public class LicensingServiceController extends AbstractController{
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);			
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
-		 
-		String licenseFileName = file.getOriginalFilename();
+		String licenseFileName = "";
+		if(file!=null)
+			licenseFileName = file.getOriginalFilename();
+		
 		if(!licenseFileName.equalsIgnoreCase(PortalConstants.LICENSE_FILENAME)) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.info("License file name= "+licenseFileName+ " should be license.json");
