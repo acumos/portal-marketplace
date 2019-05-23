@@ -934,16 +934,17 @@ limitations under the License.
 											</tr>
 										</thead>
 										<tbody
-											ng-repeat="val in (filtertedUser = (rtuUsers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchLicenceUser))">
+											ng-repeat="val in (filtertedUser = (rtuUsers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchLicenceUser))" ng-if="val.userId">
 											<tr>
 
 												<td><label for="rtuCheckbox{{$index}}"> <input
 														type="checkbox" id="rtuCheckbox{{$index}}"
+														name="rtuSelectBox"
 														class="mdl-checkbox__input"
 														ng-click='rtuCheckbox(rtuSelectBox,val)'
 														ng-model='rtuSelectBox' ng-true-value="true"
-														ng-false-value="false"
-														ng-checked="val.associatedWithRtuFlag" />
+														ng-checked="val.associatedWithRtuFlag"
+														ng-false-value="false"/>
 												</label></td>
 												<td class="mdl-data-table__cell--non-numeric">{{val.firstName}}
 													{{val.lastName}}</td>
@@ -963,8 +964,14 @@ limitations under the License.
 						<br /> <br />
 						<div>
 							<button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="( (!roleArr.length && isRtuChecked) && !updateUploadRtuSolId) || (!uploadRtuSolId && (!roleArr.length && isRtuChecked))"
-								ng-click="updateRTU()">Save</button> 
+								ng-disabled="(!updateUploadRtuSolId && !isRtuChecked) || (!uploadRtuSolId && !isRtuChecked)"
+								ng-click="updateRTU()">
+								
+								<span ng-show="isRtuUpdate == true"> Save </span>
+								<span	ng-show="isRtuUpdate == false"> Update </span>
+							
+							</button> 
+
 						</div>
 						</div>
 					</div>
@@ -2988,7 +2995,8 @@ limitations under the License.
 							</div>
 							<span class="modal-note"> Please upload background image
 								(png,gif,jpeg). Background size should be less than 2560px X
-								524px. </span> </md-input-container>
+								524px. </span> 
+							</md-input-container>
 						</div>
 						<div class="mdl-cell mdl-cell--6-col add-document">
 							<md-input-container class="md-block">
