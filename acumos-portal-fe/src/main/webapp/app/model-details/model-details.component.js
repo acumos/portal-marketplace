@@ -1116,15 +1116,18 @@ angular
 															$scope.signatureNotFound = true;
 														}
 														if( isDockerArtifactFound == false ){
-											
-															apiService
-																.getMSStatus( $scope.solution.solutionId, $scope.revisionId, $scope.loginUserID ) .then(
-																		function(response) {
-																			var microserviceStatus = response.data.response_body;
-																			if( !microserviceStatus || ( microserviceStatus && microserviceStatus.statusCode == "FA" )){
-																					$scope.showMicroService = true;	
-																			}
-															});
+															if($scope.loginUserID !== null && $scope.loginUserID !== "" && $scope.loginUserID !== undefined){
+																apiService
+																	.getMSStatus( $scope.solution.solutionId, $scope.revisionId, $scope.loginUserID ) .then(
+																			function(response) {
+																				var microserviceStatus = response.data.response_body;
+																				if( !microserviceStatus || ( microserviceStatus && microserviceStatus.statusCode == "FA" )){
+																						$scope.showMicroService = true;	
+																				}
+																});
+															} else{
+																$scope.showMicroService = true;
+															}
 														}
 												}
 											},
