@@ -1077,7 +1077,12 @@ angular
 															$scope.styleclass = 'c-success';
 															$scope.modelDocumentation = true;
 															$scope.activePublishBtn = false;
-															$scope.getCatalogs();
+															if($scope.selectedCatalogObj.selfPublish){
+																$scope.getCatalogs();
+																$scope.loadData();
+															} else {
+																$scope.getPublishRequestDetail();
+															}	
 														}else{
 															$scope.styleclass = 'c-error';
 															$scope.status = response.data.response_detail;
@@ -1089,7 +1094,7 @@ angular
 														$anchorScroll();
 														$scope.showAlertMessage = true;
 														$timeout(function() {$scope.showAlertMessage = false;}, 2500);
-														$scope.loadData();
+														
 													},
 													function(error) {
 														if (error.data.error_code == "sv_error") {
