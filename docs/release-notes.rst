@@ -21,6 +21,28 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.14  21st May 2019 
+=================================
+* Update new Acumos Logs in header and footer	ACUMOS-2958
+* IST: For single character new label is not displaying in the tag	ACUMOS-2938
+* Portal marketplace public model viewing is blocked, requires login	ACUMOS-2888
+* <IST>The first catalog is getting selected alphabetically while publishing any model to marketplace.	ACUMOS-2934
+* IST: License Icon is not displaying as per VD	ACUMOS-2802
+* <IST> <Portal Marketplace> Manage My Model: For some models, microservice start alert message is not displayed on screen on clicking Create Microservice button	ACUMOS-2897
+* User can replace license artifact via Portal	ACUMOS-2613
+* IST2: Create Microservice and download button is enable for deleted model	ACUMOS-2921
+* IST2: Dropdown is not required in the Select Catalog label	ACUMOS-2918
+* IST2: Access Level is displaying in the drop down value	ACUMOS-2919
+* IST: Onboarding naming is not consistent in the application	ACUMOS-2937
+* <IST><Portal Marketplace> Bell notifications are not refreshing when web onboarding is successfully completed	ACUMOS-2769
+* IST2: When user write again in the model name box available/not available Button status is not  changing	ACUMOS-2917
+* IST2: Hand symbol display in place of mouse cursor when user click on search icon in the Upload Revision box	ACUMOS-2916
+* IST2: Notification is overlapping with X in the notification bell icon when model name have more characters	ACUMOS-2912
+* typo in ON-BOARDING MODEL page	ACUMOS-2908
+* IST2: Green tick is displaying in the error message 	ACUMOS-2920
+* <IST> <Portal Marketplace> My Models > Licenses: License details are not properly displayed on screen	ACUMOS-2797
+* IST2: ML Learning Path is displaying in upper case on mouse hover	ACUMOS-2922
+
 Version 2.2.13  21st May 2019 
 =================================
 
