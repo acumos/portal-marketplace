@@ -50,7 +50,7 @@ app.component('notificationModule',{
 			var req = {
 		    	  "request_body": {
 			    	    "page": page,
-			    	    "size": 20
+			    	    "size": 1000
 			    	 } 
 			    	};
 				
@@ -68,7 +68,7 @@ app.component('notificationModule',{
 						});
 					});
 					$scope.totalCount = response.data.response_body.length;
-					if($scope.totalCount == 20){
+					if($scope.totalCount == 1000){
 						$scope.page = $scope.page + 1;
 						$scope.getNotificationMessage($scope.loginUserID,$scope.page);
 					}
