@@ -965,7 +965,7 @@ angular
 						};
 						$scope.chipSearch = function(text){
 							var firstPass = $filter('filter')($scope.allTags, text);
-							if(firstPass.length==0){
+							if(firstPass.length==0 || firstPass.includes(text)==false){
 							firstPass.push(text+" (New Tag)");
 							}
 							return firstPass;
@@ -1022,9 +1022,15 @@ angular
 						}					
 
 						$scope.tagRemoved = function(tag) {
+							var addtag;
+							if(tag.endsWith('(New Tag)')==true){
+								addtag=tag.replace(' (New Tag)',"");
+								} else {
+								var addtag= tag;
+							}
 
 							apiService.deleteTag($scope.solution.solutionId,
-									tag).then(function(response) {
+									addtag).then(function(response) {
 
 								$scope.status = response.data.response_detail;
 								chkCount();
