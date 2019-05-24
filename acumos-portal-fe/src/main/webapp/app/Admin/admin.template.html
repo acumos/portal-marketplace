@@ -941,8 +941,8 @@ limitations under the License.
 														type="checkbox" id="rtuCheckbox{{$index}}"
 														name="rtuSelectBox"
 														class="mdl-checkbox__input"
-														ng-click='rtuCheckbox(rtuSelectBox,val)'
-														ng-model='rtuSelectBox' ng-true-value="true"
+														ng-click='rtuCheckbox(val)'
+														ng-model='val.associatedWithRtuFlag' ng-true-value="true"
 														ng-checked="val.associatedWithRtuFlag"
 														ng-false-value="false"/>
 												</label></td>
@@ -964,7 +964,7 @@ limitations under the License.
 						<br /> <br />
 						<div>
 							<button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="(!updateUploadRtuSolId && !isRtuChecked) || (!uploadRtuSolId && !isRtuChecked)"
+								ng-disabled="!(updateUploadRtuSolId || uploadRtuSolId) || !rtuUsersSelected || rtuUsersSelected.length == 0 || !isRtuChecked"
 								ng-click="updateRTU()">
 								
 								<span ng-show="isRtuUpdate == true"> Save </span>
