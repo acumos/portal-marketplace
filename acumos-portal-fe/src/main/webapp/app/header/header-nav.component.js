@@ -172,7 +172,7 @@ angular.module('headerNav')
 			var req = {
 			    	  "request_body": {
 				    	    "page": page,
-				    	    "size": 20
+				    	    "size": 1000
 				    	 },
 				    	  "request_from": "string",
 				    	  "request_id": "string"
@@ -199,7 +199,7 @@ angular.module('headerNav')
 						
 					});
 					$scope.totalCount = response.data.response_body.length;
-					if($scope.totalCount == 20){
+					if($scope.totalCount == 1000){
 						$scope.page = $scope.page + 1;
 						$scope.totalCount = 0;
 						$scope.moreNotif = true;
