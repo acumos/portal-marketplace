@@ -3263,6 +3263,11 @@ angular.module('admin').filter('abs', function () {
                             $scope.showAlertMessage = false;
                         }, 5000);
                     $scope.rtuUsers = response.data.response_body.rtuUsers;
+                    $scope.rtuUsersSelected = $scope.rtuUsers.filter(function(item) {
+	                    	return item.associatedWithRtuFlag;
+	                    }).map(function(item) {
+	                    	return item.userId;
+	                    });
                     $scope.rtuUsers.forEach(function (user) {
                         if (user.associatedWithRtuFlag == true) {
                             $scope.roleArr.push(user.userId);
@@ -3303,12 +3308,13 @@ angular.module('admin').filter('abs', function () {
             }
 
             $scope.isRtuChecked = false;
-            $scope.rtuCheckbox = function(rtuselectBox, obj){
+            $scope.rtuUsersSelected = [];
+            $scope.rtuCheckbox = function(obj){
                 $scope.isRtuChecked = true;
-                if (rtuselectBox == true) {
-                    $scope.rtuUsers.push(obj.userId);
-                } else if (rtuselectBox == false) {
-                    $scope.rtuUsers = jQuery.grep($scope.rtuUsers, function (value) {
+                if (obj.associatedWithRtuFlag) {
+                    $scope.rtuUsersSelected.push(obj.userId);
+                } else {
+                    $scope.rtuUsersSelected = jQuery.grep($scope.rtuUsersSelected, function (value) {
                         return value != obj.userId;
                     });
                 }
@@ -3317,13 +3323,16 @@ angular.module('admin').filter('abs', function () {
             $scope.updateRTU = function () {
 
                 $scope.rtuReqBody = {
-                    "request_body": $scope.rtuUsers                        
+                    "request_body": $scope.rtuUsersSelected                        
                     }
-                apiService.createRTU($scope.RTUId, $scope.updateUploadRtuSolId, $scope.rtuReqBody)
+                var rtuSolId = ($scope.updateUploadRtuSolId != undefined && $scope.updateUploadRtuSolId != null && $scope.updateUploadRtuSolId != "")
+                	? $scope.updateUploadRtuSolId : $scope.uploadRtuSolId;
+                apiService.createRTU($scope.RTUId, rtuSolId, $scope.rtuReqBody)
                     .then(
                         function successCallback(response) {
 
-                            $scope.uploadRtuSolId = null;
+                        	$scope.updateUploadRtuSolId = null;
+                        	$scope.uploadRtuSolId = null;
                             $location.hash('myDialog');
                             $anchorScroll();
                             if (response.data.status_code == 200) {
