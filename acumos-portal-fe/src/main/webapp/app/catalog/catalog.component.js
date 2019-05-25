@@ -71,17 +71,15 @@ angular.module('catalog')
 				$scope.CatalogType = [{'name':'All Catalog','value':'all'},{'name':'My Catalog','value':'self'}]				
 				$scope.orderByField = 'created'; $scope.reverseSortcatalog = true;
 				
-				
-				
 				$scope.loadCatalog = function(pageNumber, filterValue) {							
 					$scope.allCatalogList = [];													
 					$scope.SetDataLoaded = true;
 					$rootScope.setLoader = true;
 					$scope.pageNumber = pageNumber;
-					$scope.selectedPage = pageNumber;							
+					$scope.selectedPage = pageNumber;
 					var reqObject = {											  							
 						"request_body": {
-							"fieldToDirectionMap": {"created":"ASC"},
+							"fieldToDirectionMap": {"created":"ASC", "filter":$scope.searchtxt},
 					        "page": pageNumber,
 					        "size": $scope.requestResultSize
 						  }

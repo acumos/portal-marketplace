@@ -58,8 +58,8 @@ limitations under the License.
 					value="Restricted Peer">Restricted Peer</md-option> </md-select>
 			</div>
 			<div>
-				<input class="catalog-search-txtbox notification-search" type="text" ng-model="searchtxt.name"
-					placeholder="Search Catalog by name" />
+				<input class="catalog-search-txtbox notification-search" type="text" ng-model="searchtxt"
+					placeholder="Search Catalog by name" ng-change="loadCatalog(0)" />
 			</div>
 		</div>
 	</div>
@@ -133,7 +133,7 @@ limitations under the License.
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="catalog in (SearchData = (allCatalogList | orderBy:orderByFieldFed:reverseSortcatalog | filter : searchtxt))">							
+						<tr ng-repeat="catalog in (SearchData = (allCatalogList | orderBy:orderByFieldFed:reverseSortcatalog))">							
 							<td><span class="md-breadcrumb-item"> <a ng-click="showViewDetailsPopup(this,catalog)"> {{catalog.name}}</a> </span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>							
 							<td><span class="md-breadcrumb-item">{{(catalog.selfPublish) ? "Yes" : "No"}}</span></td>
