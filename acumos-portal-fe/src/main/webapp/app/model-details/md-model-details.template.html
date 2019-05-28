@@ -329,7 +329,7 @@ limitations under the License.
 					</div>
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
-						<div ng-show="modelSignature"><pre>{{modelSignature}}</pre></div>
+						<div ng-show="modelSignature && $scope.isOnnxOrPFAModelFound == false"><pre>{{modelSignature}}</pre></div>
                             			<div class="alert c-info" ng-if="isOnnxOrPFAModelFound || dockerUrlOfModel" >
                                				 <strong>Currently signature is not supported for ONNX, PFA, DOCKERIZED MODEL URI Models </strong>
                             			</div>
