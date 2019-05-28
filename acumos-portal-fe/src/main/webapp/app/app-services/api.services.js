@@ -131,7 +131,7 @@ angular.module('AcumosApp')
 		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
         var urlRightToUse="/api/rightToUse";
         var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
-
+        var urlNotificationPagination = 'api/notifications/pagination';
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -740,5 +740,9 @@ angular.module('AcumosApp')
 
 		this.searchPublishRequestWithCatalogIds = function (revisionId,catalogId) {
         	return $http.get('api/publish/request/search/revision/'+revisionId+'/'+catalogId );
+        };
+        
+        this.getNotificationPagination = function(userId, reqObj){
+        	return $http.post(urlNotificationPagination + '/' + userId, reqObj);
         };
     }]);

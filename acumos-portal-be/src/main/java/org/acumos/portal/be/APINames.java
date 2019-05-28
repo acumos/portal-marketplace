@@ -303,5 +303,6 @@ public class APINames {
 
 	public static final String GET_MS_STATUS = "/getMSStatus/{solutionId}/{revisionId}/{userId}";
 	public static final String UPLOAD_LICENSE_MODEL = "/license/upload/{userId}/{solutionId}/{revisionId}/{versionId}";
+	public static final String USER_NOTIFICATIONS_PAGINATION = "/notifications/pagination/{userId}";
 	
 }

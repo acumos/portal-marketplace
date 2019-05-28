@@ -301,5 +301,13 @@ public class NotificationServiceImpl extends AbstractServiceImpl implements Noti
         Long count=dataServiceRestClient.getUserUnreadNotificationCount(userId);
         return count.intValue();
     }
+	
+	@Override
+	public RestPageResponse<MLPUserNotification> getUserNotificationsPagination(String userId, RestPageRequest restPageRequest) {
+		log.debug("getUserNotificationsPagination");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient(); 
+		RestPageResponse<MLPUserNotification> mlpUserNotification = dataServiceRestClient.getUserNotifications(userId,restPageRequest);	
+		return mlpUserNotification;
+	}
 
 }
