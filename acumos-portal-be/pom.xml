@@ -133,7 +133,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.security-verification</groupId>
 			<artifactId>security-verification-client</artifactId>
-			<version>0.0.18</version>
+			<version>0.0.19-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
