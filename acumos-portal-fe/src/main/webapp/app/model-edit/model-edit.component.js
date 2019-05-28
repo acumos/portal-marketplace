@@ -1052,7 +1052,7 @@ angular
 							});
 						};
 
-						$scope.publishtoMarket = function() {
+						$scope.publishtoMarket = function(selectedCatalogId) {
 							$scope.closeDialog();
 							if ($scope.solution.ownerId) {
 									var data = $.param({
@@ -1095,7 +1095,7 @@ angular
 															$scope.msg = "Unexpected Error Occured";
 															$scope.icon = 'report_problem';
 														}
-														
+														$scope.selectedCatalogId = selectedCatalogId;
 														$location.hash('manage-models');
 														$anchorScroll();
 														$scope.showAlertMessage = true;
@@ -1117,13 +1117,14 @@ angular
 															});
 														} else {
 															$location.hash('manage-models');
-															$scope.msg = response.data.response_detail;
+															$scope.msg = error.data.response_detail;
 															$scope.icon = 'report_problem';
 															$scope.styleclass = 'c-error';
 															$anchorScroll();
 															$scope.showAlertMessage = true;
 															$timeout(function() {$scope.showAlertMessage = false;}, 2500);
 														}
+														$scope.selectedCatalogId = selectedCatalogId;
 													});				
 
 								} 							
