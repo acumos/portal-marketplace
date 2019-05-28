@@ -550,7 +550,8 @@ angular
 								$scope.modelLicense = response.data;
 							} else {
 								$scope.modelLicenseError = "No license found";
-							}		
+							}	
+							$scope.isObject = angular.isObject($scope.modelLicense);
 						});
 				 	}
 					
