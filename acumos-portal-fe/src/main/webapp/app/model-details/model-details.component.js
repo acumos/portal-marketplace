@@ -449,8 +449,7 @@ angular
 													$scope.versionId = $scope.versionList[0].version;
 													$scope.revisionId = $scope.versionList[0].revisionId;
 													$scope.version = $scope.versionList[0];
-												}
-												$scope.getProtoFile();
+												}								
 												$scope.getComment();
 												$scope.getArtifacts();
 												
@@ -531,6 +530,9 @@ angular
 											function successCallback(response) {
 												console.log(response);
 												$scope.modelSignature = response.data;
+												if(!$scope.modelSignature){
+													$scope.signatureNotFound = true;
+												}
 											});
 					}
 					
@@ -986,7 +988,6 @@ angular
 							angular.element('.version-list').hide();
 							$scope.getArtifacts();
 							$scope.checkOnapCompatibility();
-							$scope.getProtoFile();
 							$scope.getLicenseFile();
 						}
 										
@@ -1120,9 +1121,8 @@ angular
 													}
 												}
 												if( $scope.isOnnxOrPFAModelFound != true  &&  $scope.dockerUrlOfModel  == ''){
-														if(!$scope.modelSignature){
-															$scope.signatureNotFound = true;
-														}
+														$scope.getProtoFile();
+														
 														if( isDockerArtifactFound == false ){
 															if($scope.loginUserID !== null && $scope.loginUserID !== "" && $scope.loginUserID !== undefined){
 																apiService
@@ -1140,10 +1140,7 @@ angular
 												}
 											},
 											function errorCallback(response) {
-											/*alert("Error: "
-													+ response.status
-													+ "Detail: "
-													+ response.data.response_detail);*/
+											$scope.getProtoFile();
 										});
 												
 						}
