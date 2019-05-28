@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c06535f_cc3193f2",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-28T09:32:06Z",
+      "side": 1,
+      "message": "I think we can completely avoid creating new variable here.. you can directly use \t\t\t\t\t\t angular.isObject($scope.modelLicense) in template html\nfor now i am giving -1",
+      "range": {
+        "startLine": 554,
+        "startChar": 14,
+        "endLine": 554,
+        "endChar": 23
+      },
+      "revId": "ebe2d5cc4d56c6faed85bdde22155b2e197ec5f4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
