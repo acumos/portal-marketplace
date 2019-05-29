@@ -39,9 +39,9 @@ limitations under the License.
 <section class="onboardpeerinner">
 	<div class="admin-button-row1">
 		<div class="admin-container-row1-inner3">
-			<a class="admin-selected-link" ng-click="loadOnBoardingHistoryTaskList(0)">All</a> <span>|</span> <a
-			ng-click="loadOnBoardingHistoryTaskList(0,'ST')">In Progress</a> <span>|</span> <a ng-click="loadOnBoardingHistoryTaskList(0,'FA')">Failed</a> <span>|</span>
-			<a ng-click="loadOnBoardingHistoryTaskList(0,'SU')">Successful</a>
+			<a ng-click='loadOnBoardingHistoryTaskList(0);select("0")' ng-class="{'admin-selected-link': 0 == selected}">All</a> <span>|</span> <a 
+			ng-click="loadOnBoardingHistoryTaskList(0,'ST');select(1)" ng-class="{'admin-selected-link': 1 == selected}">In Progress</a> <span>|</span> <a ng-click="loadOnBoardingHistoryTaskList(0,'FA');select(2)" ng-class="{'admin-selected-link': 2 == selected}">Failed</a> <span>|</span>
+			<a ng-click="loadOnBoardingHistoryTaskList(0,'SU');select(3)" ng-class="{'admin-selected-link': 3 == selected}">Successful</a>
 		</div>
 		<div>
 			<span class="admin-search-lbl">Search</span>

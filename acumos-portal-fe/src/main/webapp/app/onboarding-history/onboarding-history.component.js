@@ -63,7 +63,15 @@ angular
                                     	$scope.selectedPage = $scope.selectedPage + 1;
                                     }
                         }
-											
+							
+                      //Add Class
+                        
+                        $scope.selected = 0;
+                        $scope.select = function (index) {
+                            $scope.selected = index;
+                        };
+                        
+                        
 						//Open popup 
 			            $scope.showViewResult = function(taskId, solId, revId, modDate, statusCd, modelName){
 			             $scope.modelName = modelName;
