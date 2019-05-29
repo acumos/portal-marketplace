@@ -22,7 +22,10 @@ package org.acumos.portal.be.service.impl;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCatalog;
@@ -37,6 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 @Service
 public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogService {
 
@@ -45,6 +50,8 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	@Override
 	public RestPageResponse<MLCatalog> getCatalogs(String userId, RestPageRequest pageRequest) {
 		log.debug("getCatalogs");
+		String searchName = pageRequest.getFieldToDirectionMap().get("filter");
+		pageRequest.getFieldToDirectionMap().remove("filter");
 		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPCatalog> response = dataServiceRestClient.getCatalogs(pageRequest);
@@ -60,10 +67,41 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 				mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
 				mlCatalogs.add(mlCatalog);
 			}
+			if(searchName != null && searchName.length() >0) {
+				List<RelevantMLCatalog> rs = mlCatalogs.stream()
+					.collect(Collectors.mapping(
+						p -> new RelevantMLCatalog(p, meanScore (searchName, p.getName())),
+						Collectors.toList()));
+				Comparator<RelevantMLCatalog> catalogScoreComparator
+					      = Comparator.comparingDouble(RelevantMLCatalog::getScore);
+				Collections.sort(rs, catalogScoreComparator);
+				mlCatalogs = new ArrayList<MLCatalog>(rs);
+						
+			}
 			out = PortalUtils.convertRestPageResponse(response, mlCatalogs);
 		}
 		return out;
 	}
+	
+	private double meanScore (String searchName, String name) {
+	    return FuzzySearch.ratio(searchName,name);
+	}
+		
+	class RelevantMLCatalog extends MLCatalog {
+
+		private static final long serialVersionUID = 3649399500562546202L;
+
+		RelevantMLCatalog(MLCatalog catalog, double score) {
+			super(catalog);
+			this.score = score;
+		}
+		private double score;
+		
+		public double getScore() {
+			return this.score;
+		}
+	}
+
 
 	@Override
 	public RestPageResponse<MLCatalog> searchCatalogs(CatalogSearchRequest catalogRequest) {

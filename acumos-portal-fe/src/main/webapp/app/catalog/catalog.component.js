@@ -81,7 +81,7 @@ angular.module('catalog')
 					$scope.selectedPage = pageNumber;							
 					var reqObject = {											  							
 						"request_body": {
-							"fieldToDirectionMap": {"created":"ASC"},
+							"fieldToDirectionMap": {"created":"ASC", "filter":$scope.searchtxt},
 					        "page": pageNumber,
 					        "size": $scope.requestResultSize
 						  }
