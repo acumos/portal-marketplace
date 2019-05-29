@@ -70,7 +70,7 @@ limitations under the License.
 		   		<li ng-repeat="menu in listResponse">
 				   <a class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{menu.url}}' title={{menu.name}}  ng-click="$root.parentActive = ''" target="_blank">
 				   		 <img  src='{{menu.imagePath}}'></img>
-						<span class="headertxtspan">{{menu.name}}</span>
+						<span class="headertxtspan">{{menu.name | uppercase}}</span>
 				   </a>
 		   		</li>
 		   </ul>
@@ -121,7 +121,7 @@ limitations under the License.
 		   		<li ng-repeat="menu in listResponse">
 				   <a class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{menu.url}}' title={{menu.name}}  ng-click="$root.parentActive = ''" target="_blank">
 				   		<span class="icon-header icon-qa"></span>
-						<span class="headertxtspan">{{menu.name}}</span>
+						<span class="headertxtspan">{{menu.name | uppercase}}</span>
 				   </a>
 		   		</li>
 		   </ul>
