@@ -131,6 +131,11 @@ limitations under the License.
 			<!-- spring sets version -->
 		</dependency>
 		<dependency>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-provider-api</artifactId>
+        <version>2.12</version>
+</dependency>    
+		<dependency>
 			<groupId>org.acumos.security-verification</groupId>
 			<artifactId>security-verification-client</artifactId>
 			<version>0.0.19-SNAPSHOT</version>

@@ -59,8 +59,10 @@ limitations under the License.
 						<div>
 						    <button ui-sref="onboardingHistory"
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btnhistory"
-								alt="View On-boarding History" title="View On-boarding History">
-								View On-boarding History &nbsp;<img src="images/model_details/onboarding_history.png" alt="" title=""/></button>
+								alt="View On-boarding History" title="View On-boarding History"  ng-disabled="!userLoggedIn">
+								View On-boarding History &nbsp;<img src="images/model_details/onboarding_history.png" alt="" title="" ng-show="userLoggedIn"/>
+								<img src="images/model_details/onboarding_history_disabled.png" alt="" title="" ng-show="!userLoggedIn"/>
+							</button>
 						</div>
 
 					<div class="posrel">
