@@ -133,7 +133,7 @@ limitations under the License.
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="catalog in (SearchData = (allCatalogList | orderBy:orderByFieldFed:reverseSortcatalog | filter : searchtxt))">							
+						<tr ng-repeat="catalog in (SearchData = (allCatalogList | orderBy:orderByField:reverseSortcatalog | filter : searchtxt))">							
 							<td><span class="md-breadcrumb-item"> <a ng-click="showViewDetailsPopup(this,catalog)"> {{catalog.name}}</a> </span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>							
 							<td><span class="md-breadcrumb-item">{{(catalog.selfPublish) ? "Yes" : "No"}}</span></td>
