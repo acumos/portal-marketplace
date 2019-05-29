@@ -401,6 +401,15 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .discover .discover-description, .discover .discover-description, .hasClass.initialVal .discover .discover-description, .hasClass.initialVal .discover .onboard .discover-description, .hasClass.initialVal .discover .community .discover-description{padding: 0 0 0 15px;}
 
 }
+/* wrappable preformatted */
+pre.wrap{
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
 @media(max-width:767px){
 .explore .mdl-grid{padding: 8px 30px;}
 .slide-content .mdl-button{padding: 18px 18px;}

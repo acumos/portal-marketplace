@@ -537,21 +537,29 @@ angular
 					$scope.isLicenseFound = false;
 					$scope.getLicenseFile = function() {
 						$scope.modelLicense = "";
-						$scope.modelLicenseError = "";
+						// avoid license json checks during digest cycle
+						$scope.isLicenseJson = false;
+						$scope.isLoadingLicense = true;
 						$scope.isLicenseFound = false;
 						var url = 'api/getLicenseFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
 						$http({
 								method : 'GET',
 								url : url
 						}).then(function successCallback(response) {
-							console.log(response);
 							if (response.data) {
+								$scope.isLoadingLicense = false;
 								$scope.isLicenseFound = true;
 								$scope.modelLicense = response.data;
+								// avoid license json checks during digest cycle
+								$scope.isLicenseJson = angular.isObject($scope.modelLicense);
 							} else {
 								$scope.modelLicenseError = "No license found";
 							}		
-						});
+						}).catch(function errorCallback(err){
+							console.error(err);
+							$scope.isLoadingLicense = false;
+							$scope.modelLicenseError = "No license found";
+						})
 				 	}
 					
 					$scope.getCatalogsList = function(){
@@ -1657,7 +1665,10 @@ angular
 											$scope.showAlertMessage = false;
 										}, 5000);
 										$scope.isLicenseFound = true;
+										// update license content after upload
 										$scope.modelLicense = response.response_body;
+										// avoid license json checks during digest cycle
+										$scope.isLicenseJson = angular.isObject($scope.modelLicense);
 										
 									},
 									function(error) {
