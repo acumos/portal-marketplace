@@ -456,10 +456,10 @@ limitations under the License.
 							<button ng-if="isLicenseFound===false"  ng-click="uploadLicense()" class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Upload License" title="Upload License">Upload License</button>
 							<button ng-if="isLicenseFound===true" ng-click="uploadLicense()" class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update License" title="Update License">Update License</button>
 						
-						<pre ng-if="angular.isObject($scope.modelLicense)" ng-show= "modelLicense">{{modelLicense | json}}</pre>
-						<pre ng-if="!angular.isObject($scope.modelLicense)" ng-show= "modelLicense">{{modelLicense}}</pre>
-						
-						<div ng-show="isLicenseFound===false">No license found</div>
+						<pre class="wrap" ng-if="!isLicenseJson && modelLicense">{{modelLicense}}</pre>
+						<pre class="wrap" ng-if="isLicenseJson && modelLicense">{{modelLicense | json: 4}}</pre>
+						<div ng-show="isLicenseFound===false && isLoadingLicense===true">Loading Licenses...</div>
+						<div ng-show="isLicenseFound===false && isLoadingLicense===false">No Licenses Found</div>
 						
 					</div>
 					
