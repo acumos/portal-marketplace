@@ -3282,10 +3282,10 @@ angular.module('admin').filter('abs', function () {
             $scope.searchFlag = false;
 			$scope.editClearSearch = function (){           	 
                 $scope.searchFlag = false;
-                $scope.propertyName = null;
-            	$scope.solutionName = null;
-            	$scope.associatedModels = null;
-            	$scope.fetchedSolutionName = null;
+                $scope.propertyName = undefined;
+            	$scope.solutionName = undefined;
+            	$scope.associatedModels = undefined;
+            	$scope.fetchedSolutionName = undefined;
             }
             $scope.getSolution = function () {
                 var rtuReferenceId = $scope.RTUId;
