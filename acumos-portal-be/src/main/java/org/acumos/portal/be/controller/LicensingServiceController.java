@@ -251,7 +251,6 @@ public class LicensingServiceController extends AbstractController{
 		versionId = SanitizeUtils.sanitize(versionId);
 		
 		JsonResponse<String> responseVO = new JsonResponse<>();
-		boolean licenseFileNameCheck = false;
 		log.debug("upload License for user " + userId);
 
 		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(solutionId) || StringUtils.isEmpty(revisionId) || StringUtils.isEmpty(versionId)) {
@@ -262,31 +261,15 @@ public class LicensingServiceController extends AbstractController{
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
-			Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED);
-			if (workflow.isWorkflowAllowed()) {
-				String licenseFileName = "";
-				if (file != null) {
-					licenseFileName = file.getOriginalFilename();
-				}
+			try {
+				String licenseFileName = (file != null) ? file.getOriginalFilename() : "";
+				if (licenseFileName.equalsIgnoreCase(PortalConstants.LICENSE_FILENAME)) {
+					log.info("licenseFileNameCheck passed");
+					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(file, userId, solutionId, revisionId, versionId);
 
-				if (!licenseFileName.equalsIgnoreCase(PortalConstants.LICENSE_FILENAME)) {
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-					log.info("License file name= " + licenseFileName + " should be license.json");
-					responseVO.setStatus(false);
-					responseVO.setResponseDetail("License file name is not correct to upload. It should be license.json");
-					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-					licenseFileNameCheck = false;
-				} else {
-					licenseFileNameCheck = true;
-				}
-
-				try {
-					if (licenseFileNameCheck) {
-						log.info("licenseFileNameCheck-->>" + licenseFileNameCheck);
-						boolean uploadedFile = pushAndPullSolutionService.uploadLicense(file, userId, solutionId, revisionId, versionId);
-
-						if (uploadedFile) {
+					if (uploadedFile) {
+						Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED);
+						if (workflow.isWorkflowAllowed()) {
 							String licenseContent = marketPlaceService.getLicenseUrl(solutionId, versionId,
 									PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX);
 
@@ -295,38 +278,40 @@ public class LicensingServiceController extends AbstractController{
 							responseVO.setResponseBody(licenseContent);
 							responseVO.setStatusCode(HttpServletResponse.SC_OK);
 						} else {
-							response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-							log.info("License file failed to upload in nexus.");
 							responseVO.setStatus(false);
-							responseVO.setResponseDetail("License file failed to upload in nexus.");
+							responseVO.setErrorCode(JSONTags.TAG_ERROR_SV);
 							responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+							responseVO.setResponseDetail(workflow.getReason());
 							response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-							return responseVO;
+							log.error("SV failure while uploadLicense() : " + workflow.getReason());
 						}
-
 					} else {
-						return responseVO;
+						response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+						log.info("License file failed to upload in nexus.");
+						responseVO.setStatus(false);
+						responseVO.setResponseDetail("License file failed to upload in nexus.");
+						responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+						response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					}
-
-				} catch (StorageException e) {
+				} else {
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					log.info("License file name= " + licenseFileName + " should be license.json");
 					responseVO.setStatus(false);
-					responseVO.setResponseDetail(e.getMessage());
+					responseVO.setResponseDetail("License file name is not correct to upload. It should be license.json");
 					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-					response.getWriter().write(e.getMessage());
-					response.flushBuffer();
-					log.error("Exception Occurred while uploading the license in Push and Pull Solution service", e);
-				} catch (Exception e) {
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-					log.error("Exception Occurred while uploading the license in Push and Pull Solution service", e);
 				}
-			} else {
+			} catch (StorageException e) {
 				responseVO.setStatus(false);
-				responseVO.setErrorCode(JSONTags.TAG_ERROR_SV);
+				responseVO.setResponseDetail(e.getMessage());
 				responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-				responseVO.setResponseDetail(workflow.getReason());
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				log.error("SV failure while addSolutionUserAccess() : " + workflow.getReason());
+				response.getWriter().write(e.getMessage());
+				response.flushBuffer();
+				log.error("Exception Occurred while uploading the license in Push and Pull Solution service", e);
+			} catch (Exception e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				log.error("Exception Occurred while uploading the license in Push and Pull Solution service", e);
 			}
 		}
 		return responseVO;
