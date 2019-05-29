@@ -162,8 +162,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 			throws Exception {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient);
- 
+		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
 		List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
 		String[] uIds = userList.stream().toArray(String[]::new);
 		try {
@@ -171,18 +170,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 				CreateRtuRequest createRtu = new CreateRtuRequest(solutionId, uid);
 				List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
 				createRtu.setRtuRefs(rtuRefIdList);
-				ICreatedRtuResponse rtuResponse = licenseSrvc.createRtu(createRtu);
-				MLPRightToUse mlpRtu = new MLPRightToUse();
-				mlpRtu.setRtuId(rtuResponse.getRtus().get(0).getRtuId());				 
-				if (rtuResponse != null) {
-					List<MLPRightToUse> rtus = getRtusByReference(rtuRefId);
-					if( rtus != null ) {
-						for(MLPRightToUse rtu: rtus) {
-							createdRtus.add(rtu);
-							dataServiceRestClient.addUserToRtu(uid,rtu.getRtuId());
-						}
-					}
-				}
+				licenseSrvc.createRtu(createRtu);				 
 			}
 		} catch (Exception e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
