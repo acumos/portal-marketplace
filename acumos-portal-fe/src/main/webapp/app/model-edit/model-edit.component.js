@@ -759,7 +759,6 @@ angular
 															}}, 3500);
 												
 												$scope.tagUpdated = true;
-												$scope.loadData();
 												
 											},
 											function(response) {
@@ -1084,8 +1083,9 @@ angular
 															$scope.modelDocumentation = true;
 															$scope.activePublishBtn = false;
 															if($scope.selectedCatalogObj.selfPublish){
-																$scope.getCatalogs();
+																$scope.getCatalogs($scope.selectedCatalogId);
 																$scope.loadData();
+																
 															} else {
 																$scope.getPublishRequestDetail();
 															}	
@@ -2483,7 +2483,8 @@ angular
 						}
 					}
 					
-					$scope.getCatalogs = function(){
+					$scope.getCatalogs = function(publishedCatalogId){
+						
 						var solutionObj = {
 								"request_body" : {
 									 "fieldToDirectionMap": {"name" : "ASC"},
@@ -2522,10 +2523,16 @@ angular
 								                    		  $scope.catalogsAvailable = $scope.catalogsList;								                    		  
 								                    	  }
 								                    	  
-								                    	  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
-							                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
-							                    		  $scope.getSolCompanyDesc();
-							                    		  $scope.getCompanySolutionDocuments();
+								                    	  if(publishedCatalogId) {
+								  							$scope.existingCatalogId = publishedCatalogId;
+								  							$scope.selectedCatalogId = '';
+								              		      } else {
+								              		    	$scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
+								                    		$scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+								                    		$scope.getSolCompanyDesc();
+								                    		$scope.getCompanySolutionDocuments();
+								              		      }
+
 							                    		  $scope.getPublishRequestDetail();
 								                    }
 								                });
