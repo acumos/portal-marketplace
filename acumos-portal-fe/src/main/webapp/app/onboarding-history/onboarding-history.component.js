@@ -38,7 +38,6 @@ angular
 						$scope.totalPages = 0;
 						$scope.allOnboardingListLength = 0;
 						$scope.requestResultSize = 10;
-
 						$scope.setPageStart = 0;
                         $scope.selectedPage = 0;
                         $scope.setStartCount = function(val){
@@ -63,7 +62,15 @@ angular
                                     	$scope.selectedPage = $scope.selectedPage + 1;
                                     }
                         }
-											
+							
+                      //Add Class
+                        
+                        $scope.selected = 0;
+                        $scope.select = function (index) {
+                            $scope.selected = index;
+                        };
+                        
+                        
 						//Open popup 
 			            $scope.showViewResult = function(taskId, solId, revId, modDate, statusCd, modelName){
 			             $scope.modelName = modelName;
