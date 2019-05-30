@@ -458,7 +458,6 @@ angular
 													$scope.showSolutionDocs = false;
 													$scope.supportingDocs = [];
 													
-													$scope.getCatalogs();
 													$scope.getUserImage();													
 													$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
 													$scope.getAuthorList();
@@ -748,7 +747,7 @@ angular
 
 												$location.hash('manage-models');
 												$anchorScroll();
-
+												$scope.loadData();
 												$scope.msg = "Updated: "+ $scope.detail;
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
@@ -759,7 +758,6 @@ angular
 															}}, 3500);
 												
 												$scope.tagUpdated = true;
-												$scope.loadData();
 												
 											},
 											function(response) {
@@ -1063,9 +1061,6 @@ angular
 									});
 									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
-														if( $scope.validationEnabled == true ){
-															$scope.getModelValidation(data.visibility);
-														}
 														
 														$scope.handleSuccess = true;
 														$timeout(function() {$scope.handleSuccess = false;}, 4500);
@@ -1086,6 +1081,7 @@ angular
 															if($scope.selectedCatalogObj.selfPublish){
 																$scope.getCatalogs();
 																$scope.loadData();
+																
 															} else {
 																$scope.getPublishRequestDetail();
 															}	
@@ -2023,81 +2019,6 @@ angular
 
 						/** file uploading function ends ** */
 
-						
-					/******Model Validataion status*****/
-					$scope.getModelValidation = function(flow){
-
-						$scope.completedSteps = [];
-						if(flow == 'PB'){
-							$scope.idTab = '#public-market';
-						} else {
-							$scope.idTab = '#company-market';
-						}
-						
-						var clearInterval = $interval(function(){
-
-							apiService.getMessagingStatus($scope.loginUserId[1], $scope.trackId).then(
-									function(response) {
-								
-								var data = response.data.response_body;
-								var counter = 0;
-		
-								for(var i=0 ; i< data.length; i++){
-									var stepName = data[i].name;
-									var statusCode =  data[i].statusCode;
-									var hideStep = false;
-									switch(stepName){
-										case 'SecurityScan': {
-												if($scope.scShow == true ){
-													counter = 2; ( statusCode == 'FA' ) ?  $scope.errorSS = data[i].result : $scope.errorSS = ''; break; 
-												} else {
-													hideStep = true;
-												}
-											}
-										case 'LicenseCheck' : {
-											if($scope.lcShow == true ){
-												counter = 4; 
-												( statusCode == 'FA' ) ?  $scope.errorLC = data[i].result : $scope.errorLC = ''; break;
-											}else {
-												hideStep = true;
-											}
-										}
-										case 'TextCheck' :  {
-											if($scope.tcShow == true ){
-												counter = 6; 
-												( statusCode == 'FA' ) ?  $scope.errorTC = data[i].result : $scope.errorTC = ''; break;
-											}else {
-												hideStep = true;
-											}
-										}
-									}
-									if(!hideStep){
-										angular.element(angular.element($scope.idTab + ' li div')[counter]).removeClass('completed incomplet active');
-										if(statusCode == 'FA'){
-											angular.element(angular.element($scope.idTab + ' li div')[counter]).addClass('incomplet');
-											angular.element(angular.element($scope.idTab + ' li')[counter+1]).removeClass('green completed');
-										}else if(statusCode == 'ST'){
-											angular.element(angular.element($scope.idTab + ' li div')[counter]).addClass('active');
-											angular.element(angular.element($scope.idTab + ' li')[counter+1]).addClass('progress-status green');
-											
-										} else if(statusCode == 'SU'){
-											angular.element(angular.element($scope.idTab + ' li div')[counter]).addClass('completed');
-											angular.element(angular.element($scope.idTab + ' li')[counter+1]).addClass('green completed');
-											$scope.completedSteps[stepName] = stepName;
-										}
-									}
-								}											
-							});
-						
-							var allStepsCount = Object.keys($scope.completedSteps);
-							if($scope.completedSteps && $scope.Workflow && allStepsCount.length == (3-$scope.Workflow.ignore_list.length) ){
-								$interval.cancel(clearInterval);
-								angular.element(angular.element($scope.idTab + ' li div')[8]).addClass('completed');
-							}
-							
-						}, 5000);
-							
-					}
 					
 					//redirect to manage model page after all validation is completed and redirect using View Model button.
 					$scope.viewModel = function(){
@@ -2484,6 +2405,7 @@ angular
 					}
 					
 					$scope.getCatalogs = function(){
+						
 						var solutionObj = {
 								"request_body" : {
 									 "fieldToDirectionMap": {"name" : "ASC"},
@@ -2522,16 +2444,24 @@ angular
 								                    		  $scope.catalogsAvailable = $scope.catalogsList;								                    		  
 								                    	  }
 								                    	  
-								                    	  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
-							                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
-							                    		  $scope.getSolCompanyDesc();
-							                    		  $scope.getCompanySolutionDocuments();
+								                    	  if($scope.selectedCatalogId) {
+								  							$scope.existingCatalogId = $scope.selectedCatalogId;
+								  							$scope.selectedCatalogId = '';
+								              		      } else {
+								              		    	$scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
+								                    		$scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+								                    		$scope.getSolCompanyDesc();
+								                    		$scope.getCompanySolutionDocuments();
+								              		      }
+
 							                    		  $scope.getPublishRequestDetail();
 								                    }
 								                });
 				                    }
 				                });
 				    };
+				    
+				    $scope.getCatalogs();
 				    
 				    $scope.unpublish = function(){
 				    	$scope.disableSelectedCatalogIds = true;
@@ -2550,6 +2480,7 @@ angular
 						    		$scope.showAlertMessage = true;
 						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
 						    		$scope.existingCatalogId = '';
+						    		$scope.selectedCatalogId = '';
 									$scope.getCatalogs();
 					        	} else {
 					        		$scope.msg = "Error occurred while unpublishing solution";
