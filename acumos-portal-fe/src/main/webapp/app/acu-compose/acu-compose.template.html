@@ -338,7 +338,7 @@ limitations under the License.
 									</li>
 
 								</ul>
-							 <a ui-sref="marketSolutions({solutionId: solutionDetails.solutionId})" target="_blank">For more details...</a>
+							 <a ui-sref="marketSolutions({solutionId: solutionDetails.solutionId, revisionId: solutionDetails.solutionRevisionId, parentUrl: solutionDetails.author.includes(userDetails[0]) ? 'mymodel': 'marketplace'})" target="_blank">For more details...</a>
 							</div>
 							<div  class="disblock text-semi-bold" style="padding-left:1em;color:black" ng-show="showProperties">
 											message {{messageDet}} {
