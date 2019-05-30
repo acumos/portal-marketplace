@@ -458,7 +458,6 @@ angular
 													$scope.showSolutionDocs = false;
 													$scope.supportingDocs = [];
 													
-													$scope.getCatalogs();
 													$scope.getUserImage();													
 													$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
 													$scope.getAuthorList();
@@ -748,7 +747,7 @@ angular
 
 												$location.hash('manage-models');
 												$anchorScroll();
-
+												$scope.loadData();
 												$scope.msg = "Updated: "+ $scope.detail;
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
@@ -759,7 +758,6 @@ angular
 															}}, 3500);
 												
 												$scope.tagUpdated = true;
-												$scope.loadData();
 												
 											},
 											function(response) {
@@ -1086,6 +1084,7 @@ angular
 															if($scope.selectedCatalogObj.selfPublish){
 																$scope.getCatalogs();
 																$scope.loadData();
+																
 															} else {
 																$scope.getPublishRequestDetail();
 															}	
@@ -2484,6 +2483,7 @@ angular
 					}
 					
 					$scope.getCatalogs = function(){
+						
 						var solutionObj = {
 								"request_body" : {
 									 "fieldToDirectionMap": {"name" : "ASC"},
@@ -2522,16 +2522,24 @@ angular
 								                    		  $scope.catalogsAvailable = $scope.catalogsList;								                    		  
 								                    	  }
 								                    	  
-								                    	  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
-							                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
-							                    		  $scope.getSolCompanyDesc();
-							                    		  $scope.getCompanySolutionDocuments();
+								                    	  if($scope.selectedCatalogId) {
+								  							$scope.existingCatalogId = $scope.selectedCatalogId;
+								  							$scope.selectedCatalogId = '';
+								              		      } else {
+								              		    	$scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
+								                    		$scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+								                    		$scope.getSolCompanyDesc();
+								                    		$scope.getCompanySolutionDocuments();
+								              		      }
+
 							                    		  $scope.getPublishRequestDetail();
 								                    }
 								                });
 				                    }
 				                });
 				    };
+				    
+				    $scope.getCatalogs();
 				    
 				    $scope.unpublish = function(){
 				    	$scope.disableSelectedCatalogIds = true;
@@ -2550,6 +2558,7 @@ angular
 						    		$scope.showAlertMessage = true;
 						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
 						    		$scope.existingCatalogId = '';
+						    		$scope.selectedCatalogId = '';
 									$scope.getCatalogs();
 					        	} else {
 					        		$scope.msg = "Error occurred while unpublishing solution";

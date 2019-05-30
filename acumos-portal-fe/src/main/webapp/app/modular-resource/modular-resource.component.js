@@ -296,6 +296,7 @@ angular.module('modelResource')
 				.getMessagingStatus($scope.userId[1], $scope.trackId ).then(
 						function(reponse) {
 							var data = reponse.data.response_body;
+								
 							$rootScope.trackId = $scope.trackId;
 							$scope.stepfailed = false;
 							$scope.allSuccess = false;
@@ -308,11 +309,13 @@ angular.module('modelResource')
 								if($scope.onap == false){
 									switch(stepName){
 										case 'CreateSolution': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCS = data[i].result : $scope.errorCS = ''; break;
-										case 'AddArtifact' :   
-											if(counter > 3){
-												$scope.clearNotificationInterval(); return;
-											}	
-											var counter = 2;
+										case 'AddArtifact' :
+											if(!((data[i].result).includes('OnboardingLog.txt'))) {
+												if(counter > 3){
+													$scope.clearNotificationInterval(); return;
+												}	
+												var counter = 2;
+											}
 											( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
 										case 'CreateTOSCA' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;	                        
 										case 'Dockerize' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
@@ -358,8 +361,11 @@ angular.module('modelResource')
 										$scope.completedSteps[stepName] = stepName;
 
 										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.dockerURIonboarding && counter == 2) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) || ( counter == 4 && !$rootScope.isMicroserviceEnabled ) ) && $scope.stepfailed == false ) {
-											if($rootScope.isOnnxOrPFAModel || $rootScope.dockerURIonboarding){
-												counter = counter + 2;
+											if($rootScope.isOnnxOrPFAModel){
+												counter = 10;
+												width = 85;
+											} else if($rootScope.dockerURIonboarding){
+												counter = 4;
 												width = 85;
 											} else if(!$rootScope.isMicroserviceEnabled){
 												counter = 10;
@@ -469,6 +475,7 @@ angular.module('modelResource')
 					solutionName = $scope.modelDockerURLName;
 					$rootScope.dockerURIonboarding = true;
 					$rootScope.isMicroserviceEnabled = false;
+					$rootScope.isOnnxOrPFAModel = false;
 					$scope.disableUploadDLCheckbox = true;
 				}
 				
@@ -492,7 +499,7 @@ angular.module('modelResource')
 						}
 					}
 					
-					if($rootScope.isMicroserviceEnabled){
+					 if($rootScope.isMicroserviceEnabled && $rootScope.isOnnxOrPFAModel == false){
 						$scope.addToReqObj = { 
 							  "request_body": {
 								    "deploymentEnv" : $scope.devEnv
