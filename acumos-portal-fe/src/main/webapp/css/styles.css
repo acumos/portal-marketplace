@@ -799,6 +799,7 @@ md-toolbar {background: #671C9D !important;min-height:39px;}
 .head-stat-left {display:flex;}
 .mdchild1 {margin-right: 8px;padding-top: 5px;}
 
+.md-chips .md-chip-input-container md-autocomplete input{outline:2px solid #ffffff !important; padding:0 0 0 2px;}
 .md-chips {padding-left:10px;margin-bottom: 15px;}
 md-chips .md-chips {box-shadow: none;}
 .md-chips md-chip {border-radius: 3px;font-size:12px;padding: 0 6px; height:30px; line-height:30px;}
@@ -2756,6 +2757,11 @@ label.model-name{color:#0366d6;}
 	.header-controls .search-button {margin-top: -7px !important;}
 	
 }
+
+@media (min-width: 1300px) and (max-width: 1500px) {
+     .catalog-grid-item:nth-child(4n) .ct-info-container.a-tooltip .a-tooltiptext {margin-left: -140px !important;}
+     .catalog-grid-item:nth-child(4n) .ct-info-container.a-tooltip .a-tooltiptext::after {margin-left: 26px !important;}
+     }
 
 /* Mozilla Firefox */
 @-moz-document url-prefix() { 
