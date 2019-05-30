@@ -21,6 +21,24 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.15  30th May 2019 
+=================================
+* <IST2>Everytime a new model undergoes publishing methods, after updating the name the catalog name changes automatically	ACUMOS-2972
+* <IST> <ONNX&PFA><MicroserviceGeneration> Validation not provided when microservicegeneration is selected yes while ONNX and PFA onboarding	ACUMOS-2956
+* <IST2><Marketplace><Web Onboarding>: Progress tracker is not completed while ONNX and PFA onboarding. 	ACUMOS-2977
+* <IST2> <Onboarding/Portal Marketplace> Although onboarding completed successfully, progress tracker is remaining in progress at dockerization step	ACUMOS-2936
+* IST: RTU Isssue List	ACUMOS-2896
+* IST2: Not able to publish the model in the restricted Catalog	ACUMOS-2965
+* Portal bad FE request, browser console shows 404 on initial load of composition screen	ACUMOS-2947
+* IST: Sorting with the icons is not working on the catalog screen	ACUMOS-2966
+* IST2: View On-Boarding History button is enable without login	ACUMOS-2970
+* IST2: ML Learning Path is displaying in upper case on mouse hover	ACUMOS-2922
+* IST2: On-boarding History: Always All hyperlink is display in black color	ACUMOS-2964
+* typo in ON-BOARDING MODEL page	ACUMOS-2908
+* <IST> <Portal Marketplace> My Models > Licenses: License details are not properly displayed on screen	ACUMOS-2797
+* <IST>The first catalog is getting selected alphabetically while publishing any model to marketplace.	ACUMOS-2934
+
+
 Version 2.2.14  21st May 2019 
 =================================
 * Update new Acumos Logs in header and footer	ACUMOS-2958
