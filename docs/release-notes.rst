@@ -21,6 +21,16 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.16  31st May 2019 
+=================================
+* IST2: Anchor Messages Icon Issues	ACUMOS-2987
+* IST2: Upload License Issues	ACUMOS-2961
+* <IST2><Manage My Model> Red box unnecessarily displayed while adding tag.	ACUMOS-2967
+* IST2: Select Favorite Catalog: Description box is getting cut down for the last catalog in each row	ACUMOS-2969
+* IST | Find more details link from design studio not showing details of respective model 	ACUMOS-2932
+* IST2: Access Type showing restricted and self publish as no for every catalog on the  View Catalog popup	ACUMOS-2963
+
+
 Version 2.2.15  30th May 2019 
 =================================
 * <IST2>Everytime a new model undergoes publishing methods, after updating the name the catalog name changes automatically	ACUMOS-2972
