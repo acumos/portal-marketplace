@@ -187,7 +187,7 @@ angular
 													$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
 													$anchorScroll(); 							// used to scroll to the id 
 													$scope.msg = "You've rated this model successfully. "; 
-													$scope.icon = 'report_problem';
+													$scope.icon = '';
 													$scope.styleclass = 'c-success';
 													$scope.showAlertMessage = true;
 													$timeout(function() {

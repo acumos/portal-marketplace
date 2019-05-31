@@ -515,8 +515,8 @@ angular.module('modelResource')
 		                        $anchorScroll();
 		                       
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
-		                        $scope.icon = '';
-		                        $scope.styleclass = 'c-warning';
+		                        $scope.icon = 'info_outline';
+		                        $scope.styleclass = 'c-info';
 		                        $scope.showAlertMessage = true;
 		                        $timeout(function() {
 		                        	$scope.showAlertMessage = false;
@@ -678,7 +678,7 @@ angular.module('modelResource')
 						};
 			               
                $scope.msg = "Generating Artifact Url, Please wait."; 
-               $scope.icon = '';
+               $scope.icon = 'info_outline';
                $scope.styleclass = 'c-warning';
                $scope.showAlertMessage = true;
                $timeout(function() {

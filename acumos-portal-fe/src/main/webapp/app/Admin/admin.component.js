@@ -1388,7 +1388,7 @@ angular.module('admin').filter('abs', function () {
                             $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                             $anchorScroll();
                             $scope.msg = "Role Updated successfully.";
-                            $scope.icon = 'report_problem';
+                            $scope.icon = '';
                             $scope.styleclass = 'c-success';
                             $scope.showAlertMessage = true;
                             $timeout(function () {
@@ -3241,7 +3241,7 @@ angular.module('admin').filter('abs', function () {
                         if (response.data.response_body.mlpSolutionAssociatedWithRtuId.length == 0) {
                             $scope.msg = response.data.response_detail;
                             $scope.styleclass = 'c-error';
-                            $scope.icon = 'report_problem';
+                            $scope.icon = 'info_outline';
                             $scope.isRtuUpdate = true;
     
                         } else {
@@ -3253,7 +3253,7 @@ angular.module('admin').filter('abs', function () {
                     }else{
                         $scope.msg = response.data.response_detail;
                         $scope.styleclass = 'c-error';
-                        $scope.icon = 'report_problem';
+                        $scope.icon = 'info_outline';
                         $scope.isRtuUpdate = true;
                     }
                    
