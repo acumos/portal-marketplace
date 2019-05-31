@@ -555,6 +555,7 @@ angular
 								$scope.isLicenseJson = angular.isObject($scope.modelLicense);
 							} else {
 								$scope.modelLicenseError = "No license found";
+								$scope.isLoadingLicense = false;
 							}		
 						}).catch(function errorCallback(err){
 							console.error(err);
