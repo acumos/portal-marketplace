@@ -30,7 +30,8 @@ angular
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, browserStorageService, modelUploadService) {
-
+						
+						$scope.Math = window.Math;
 						$rootScope.isONAPCompatible = false;
 						$scope.version;
 						$scope.showMicroService = false;
@@ -1630,6 +1631,7 @@ angular
 							 
 							 $scope.uploadLicense = function(){
 								
+								 
 								 $mdDialog.show({
 									  contentElement: '#uploadLicense',
 									  parent: angular.element(document.body),
@@ -1656,7 +1658,7 @@ angular
 										$scope.modelUploadError = false;
 										$rootScope.progressBar = 100;
 										$mdDialog.hide();
-										$scope.msg = "Successfully uploaded the license";
+										$scope.msg = ($scope.isLicenseFound)?"License updated successfully":"License uploaded successfully";
 										$scope.icon = '';
 										$scope.styleclass = 'c-success';
 										$scope.showAlertMessage = true;
@@ -1669,7 +1671,7 @@ angular
 										$scope.modelLicense = response.response_body;
 										// avoid license json checks during digest cycle
 										$scope.isLicenseJson = angular.isObject($scope.modelLicense);
-										
+										$scope.closeLicensePopup();
 									},
 									function(error) {
 										if (error.error_code == "sv_error") {
@@ -1691,6 +1693,7 @@ angular
 											$rootScope.progressBar = 0;
 										}
 									});
+								 
 							}
 							 
 							 $scope.resetProgress = function(){
