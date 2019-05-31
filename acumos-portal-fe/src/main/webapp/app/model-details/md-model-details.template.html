@@ -452,9 +452,11 @@ limitations under the License.
 					</div>
 
 					<div class="mdl-tabs__panel" id="tab7-panel">
+						<button ng-disabled="editModel || isLoadingLicense"  class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="uploadLicense()">
+                                                  <span ng-if="isLicenseFound===false"  >Upload</span><span ng-if="isLicenseFound===true" >Update</span> License
+						</button>
 						<h6 class="sectiontitle6">LICENSES</h6>
-							<button ng-if="isLicenseFound===false"  ng-click="uploadLicense()" class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Upload License" title="Upload License">Upload License</button>
-							<button ng-if="isLicenseFound===true" ng-click="uploadLicense()" class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update License" title="Update License">Update License</button>
+							
 						
 						<pre class="wrap" ng-if="!isLicenseJson && modelLicense">{{modelLicense}}</pre>
 						<pre class="wrap" ng-if="isLicenseJson && modelLicense">{{modelLicense | json: 4}}</pre>
@@ -1359,8 +1361,9 @@ limitations under the License.
 									<div ng-if="file.size/1024/1024 < 1">
 										{{Math.ceil(file.size/1024)}}KB
 									</div>
-									<div ng-if="file.size/1024/1024 > 1">
-										{{Math.ceil(file.size/1024/1024)}}MB
+									<div class="help-inline validation-msgs" ng-if="file.size/1024/1024 > 1">
+										<span>License file should be max size of 1MB.</span>
+																				
 									</div>
 									<div ng-show = "$root.progressBar > 0" style="width:80%"> 
 								            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
@@ -1395,7 +1398,7 @@ limitations under the License.
 					<button class="mdl-button mdl-js-button btn-secondary md-button md-ink-ripple" type="button" ng-click="closeLicensePopup()" data-upgraded=",MaterialButton,MaterialRipple">
 						<span> Cancel</span>
 					</button>
-					<button class="mdl-button mdl-js-button btn-primary md-button md-ink-ripple" ng-disabled="!file" type="button"  ng-click="uploadLicenseFile()" data-upgraded=",MaterialButton,MaterialRipple">
+					<button class="mdl-button mdl-js-button btn-primary md-button md-ink-ripple" ng-disabled="!file || file.size/1024/1024 > 1" type="button"  ng-click="uploadLicenseFile()" data-upgraded=",MaterialButton,MaterialRipple">
 						<span ng-if="isLicenseFound===false">Upload</span> <span ng-if="isLicenseFound===true">Update</span>
 					</button>
 				</div>
