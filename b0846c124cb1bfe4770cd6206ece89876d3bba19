@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d795ff2b_0e60cdee",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-31T12:32:50Z",
+      "side": 1,
+      "message": "User may click on upload license button before the fetchLicense API even returned the response in that case isLicenseFound wont be populated.. need to fix that scenario\nmay be disable the \u0027upload license\u0027 button until fetchLicense API response is returned",
+      "range": {
+        "startLine": 1661,
+        "startChar": 31,
+        "endLine": 1661,
+        "endChar": 45
+      },
+      "revId": "b0846c124cb1bfe4770cd6206ece89876d3bba19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
