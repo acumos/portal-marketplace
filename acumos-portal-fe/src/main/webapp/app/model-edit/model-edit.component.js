@@ -2178,13 +2178,13 @@ angular
 	                	$scope.scShow = true;
 
 	                	//** added this to restrict the tag length to 32 characters
-						angular.element('tags-input input')[0].setAttribute("maxlength", "32");
-						angular.element('tags-input input')[1].setAttribute("maxlength", "32");
+						/*angular.element('tags-input input')[0].setAttribute("maxlength", "32");
+						angular.element('tags-input input')[1].setAttribute("maxlength", "32");*/
 	                	
 	                	var flowConfigKey = ""
-	                	if(flow.toUppercase() == "RS"){
+	                	if(flow.toUpperCase() == "RS"){
 	                		flowConfigKey = "local_validation_workflow";
-	                	}else if(flow.toUppercase() == "PB"){
+	                	}else if(flow.toUpperCase() == "PB"){
 	                		flowConfigKey = "public_validation_workflow";
 	                	}
 		                	 apiService
