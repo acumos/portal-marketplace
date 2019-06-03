@@ -679,7 +679,7 @@ angular.module('modelResource')
 			               
                $scope.msg = "Generating Artifact Url, Please wait."; 
                $scope.icon = 'info_outline';
-               $scope.styleclass = 'c-warning';
+               $scope.styleclass = ' c-info';
                $scope.showAlertMessage = true;
                $timeout(function() {
                	$scope.showAlertMessage = false;
