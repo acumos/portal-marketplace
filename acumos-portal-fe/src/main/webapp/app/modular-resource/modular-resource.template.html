@@ -316,7 +316,7 @@ limitations under the License.
 																			       </div>
 																			</div>
 																				<div class="upload-file-container">
-																					<div class="input-div">
+																					<div ng-class="{'disabledbutton': disableOnboardingButton==true}" class="input-div">
 																						<div  file-upload file="file" ng-hide="uploadingFile"
 																						uploadid="bundleuploadid" id="uploadFile"
 																						filename="filename" fileinput="file" 
@@ -411,7 +411,7 @@ limitations under the License.
 																			       </div>
 																			     </div>
 																				<div class="upload-file-container">
-																					<div class="input-div">
+																					<div ng-class="{'disabledbutton': disableOnboardingButton==true}" class="input-div">
 																						<div  file-upload file="licensefile"
 																						uploadid="licenseuploadid" id="uploadFile"
 																						filename="licenseFilename" fileinput="licensefile"
