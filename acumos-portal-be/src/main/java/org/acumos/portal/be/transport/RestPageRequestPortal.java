@@ -20,6 +20,8 @@
 
 package org.acumos.portal.be.transport;
 
+import java.util.Map;
+
 import org.acumos.cds.transport.RestPageRequest;
 
 public class RestPageRequestPortal {
@@ -43,6 +45,7 @@ public class RestPageRequestPortal {
 	private String userId;
 	private String taskStatus;
 	private String[] catalogIds;
+	private Map<String,String> fieldToDirectionMap;
 	
 	/**
 	 * @return the ownerIds
@@ -50,6 +53,15 @@ public class RestPageRequestPortal {
 	public String[] getOwnerIds() {
 		return ownerIds;
 	}
+
+	public Map<String, String> getFieldToDirectionMap() {
+		return fieldToDirectionMap;
+	}
+
+	public void setFieldToDirectionMap(Map<String, String> fieldToDirectionMap) {
+		this.fieldToDirectionMap = fieldToDirectionMap;
+	}
+
 	/**
 	 * @param ownerIds the ownerIds to set
 	 */

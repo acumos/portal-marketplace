@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPTask;
@@ -45,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 @Service
 public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements OnboardingHistoryService {
 
@@ -53,6 +57,9 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal, String userId) {
 		log.debug("getTasks");
+		String searchOnHistoryList = "abc";//pageRequestPortal.getFieldToDirectionMap().get("filter");
+      //  pageRequestPortal.getFieldToDirectionMap().remove("filter");
+
 		PagableResponse<List<MLTask>> response = new PagableResponse<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPTask> pageResponse = findTasksByUserId(pageRequestPortal, userId);
@@ -69,7 +76,17 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 			mlTask.setModelName(mlSolution.getName());
 			mlTaskList.add(mlTask);
 		}
-
+		if(searchOnHistoryList != null && searchOnHistoryList.length() >0) {
+            List<RelevantMLTask> rs = mlTaskList.stream()
+                  .collect(Collectors.mapping(
+                        p -> new RelevantMLTask(p, meanScore (searchOnHistoryList, p.getName())),
+                        Collectors.toList()));
+            Comparator<RelevantMLTask> catalogScoreComparator
+                        = Comparator.comparingDouble(RelevantMLTask::getScore);
+            Collections.sort(rs, catalogScoreComparator);
+            mlTaskList = new ArrayList<MLTask>(rs);
+                        
+      }
 		Collections.sort(mlTaskList, Comparator.comparing(MLTask::getCreatedtDate).reversed());
 
 		response.setResponseBody(mlTaskList);
@@ -78,6 +95,26 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 		response.setTotalPages(pageResponse.getTotalPages());
 		return response;
 	}
+	
+	private double meanScore (String searchName, String name) {
+        return FuzzySearch.ratio(searchName,name);
+    }
+          
+    class RelevantMLTask extends MLTask {
+          
+          private static final long serialVersionUID = -6053085761372930682L;
+
+          RelevantMLTask(MLTask task, double score) {
+                super();
+                this.score = score;
+          }
+          private double score;
+          
+          public double getScore() {
+                return this.score;
+          }
+    }
+
 
 	@Override
 	public List<MLStepResult> getStepResults(Long taskId) {

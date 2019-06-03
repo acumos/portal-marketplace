@@ -104,7 +104,7 @@ angular
 							var reqObject = {
 											  "request_body": {																							
 												    "pageRequest": {
-												        "fieldToDirectionMap": {"created":"DESC"},
+												        "fieldToDirectionMap": {"created":"DESC", "filter":$scope.searchOnHistoryList},
 												        "page": pageNumber,
 												        "size": $scope.requestResultSize
 												      },
