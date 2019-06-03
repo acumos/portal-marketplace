@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -263,9 +264,10 @@ public class LicensingServiceController extends AbstractController{
 		} else {
 			try {
 				String licenseFileName = (file != null) ? file.getOriginalFilename() : "";
-				if (licenseFileName.equalsIgnoreCase(PortalConstants.LICENSE_FILENAME)) {
+				file.getOriginalFilename().replace(licenseFileName, PortalConstants.LICENSE_FILENAME);
+				MultipartFile licenseFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME,file.getOriginalFilename(), file.getContentType(), file.getInputStream());
 					log.info("licenseFileNameCheck passed");
-					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(file, userId, solutionId, revisionId, versionId);
+					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(licenseFile, userId, solutionId, revisionId, versionId);
 
 					if (uploadedFile) {
 						Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED);
@@ -293,14 +295,6 @@ public class LicensingServiceController extends AbstractController{
 						responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 						response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					}
-				} else {
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-					log.info("License file name= " + licenseFileName + " should be license.json");
-					responseVO.setStatus(false);
-					responseVO.setResponseDetail("License file name is not correct to upload. It should be license.json");
-					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				}
 			} catch (StorageException e) {
 				responseVO.setStatus(false);
 				responseVO.setResponseDetail(e.getMessage());
