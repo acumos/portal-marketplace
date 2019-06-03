@@ -638,7 +638,7 @@ limitations under the License.
 													ng-class="{'completed': publishRequest.requestStatusCode === 'AP' && publishRequest.catalogId == selectedCatalogId, 'active': publishRequest.requestStatusCode === 'PE' && publishRequest.catalogId == selectedCatalogId, 'incomplet' : publishRequest.requestStatusCode === 'DC' && publishRequest.catalogId == selectedCatalogId}">
 													<span class="imagecontent request-approval"
 														alt="Security Scan" title=" Request Approval "></span>
-												</div> <md-tooltip>{{publishRequest.comment}}</md-tooltip>
+												</div> <!-- <md-tooltip>{{publishRequest.comment}}</md-tooltip> -->
 												<div class="text">Request Approval</div>
 												<div class="publshbutton ">
 													<button ng-click="showWithdrawRequestModal();"
