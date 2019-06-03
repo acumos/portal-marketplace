@@ -40,6 +40,8 @@ angular.module('admin').filter('abs', function () {
             $scope.showAllModelsTable = false;
             $scope.verify = true;
             $scope.changeOrderfor = 0;
+            $scope.validImageFile = false;
+            $scope.validImageFile = false;
 
             $scope.changeOrderValue = 0
             //Bulk Action
@@ -675,7 +677,9 @@ angular.module('admin').filter('abs', function () {
                 //$log.debug($scope.entity);
             }
 
-
+            $scope.reset = function(){
+            myForm.reset();
+            }
             $scope.removeFile = function (fileLabel) {
                 angular
                     .forEach(
@@ -1942,62 +1946,53 @@ angular.module('admin').filter('abs', function () {
                 $mdDialog.hide();
             };
             // Upload Image
-            $scope.coBrandingLogoError = true;
+           
+            $scope.enableupload=false;
+            $scope.enableclose=false;
+            
             $scope.uploadLogoImg = function () {
-                if ($scope.logoImage) {
-                    var file = $scope.logoImage;
-                    var fileFormData = new FormData();
-                    var validFormats = ['jpg', 'jpeg', 'png', 'gif'];
-                    var fileName = file.name;
-                    var ext = fileName.split('.').pop().toLowerCase();//substr($('#userImage').value.lastIndexOf('.')+1);
-                    var size = file.size;
+            	if($scope.logoImage) {
+                    var data = $scope.fileData.split('base64,').pop();
+                    var ext = $scope.logoImage.name.split('.')[1];
+                    var toSend = {
+                        "request_body": {
+                            "contentValue": data,
+                            "mimeType": "image/" + ((ext == "jpg") ? "jpeg" : ext)
+                        }
+                    };
 
-                    if (validFormats.indexOf(ext) == -1) {
-                        $scope.error = true;
-                        //return value;
-                    } else {
-                        //validImage(true);
-                        $scope.error = false;
+                    apiService.uploadCobrandLogo(toSend)
+                        .then(
+                            function (response) {
 
-                        var reader = new FileReader();
-                        reader.onload = function (event) {
-                            var data = reader.result.split('base64,').pop();
-
-                            var toSend = {
-                                "request_body": {
-                                    "contentValue": data,
-                                    "mimeType": "image/" + ((ext == "jpg") ? "jpeg" : ext)
-                                }
-                            };
-
-                            apiService.uploadCobrandLogo(toSend)
-                                .then(
-                                    function (response) {
-                                        $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-                                        $anchorScroll();
-                                        $scope.msg = "Updated successfully.";
-                                        $scope.icon = '';
-                                        $scope.styleclass = 'c-success';
-                                        $scope.showAlertMessage = true;
-                                        $timeout(function () {
-                                            $scope.showAlertMessage = false;
-                                        }, 5000);
-                                    },
-                                    function (error) {
-                                        $scope.serverResponse = 'An error has occurred';
-                                        console.error(error);
-                                    })
-
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
+                            	//$scope.enablebrowse=false;
+                            	$scope.enableclose=true;
+                            	$scope.getCobrandingLogo();
+                                $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                $anchorScroll();
+                                $scope.msg = "Updated successfully.";
+                                $scope.icon = '';
+                                $scope.styleclass = 'c-success';
+                                $scope.showAlertMessage = true;
+                                $timeout(function () {
+                                    $scope.showAlertMessage = false;
+                                }, 5000);
+                                
+                            },
+                            function (error) {
+                                $scope.serverResponse = 'An error has occurred';
+                            })
+            	}
             }
             
             $scope.deleteLogoImg = function () {
             	apiService.deleteCobrandLogo()
                 .then(
                     function (response) {
+                    	$scope.enablebrowse=true;
+                    	$scope.enableclose=false;
+                    	$scope.showDialogue=false;
+                    	$scope.getCobrandingLogo();
                         $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                         $anchorScroll();
                         $scope.msg = "The cobrand image is deleted successfully.";
@@ -2007,15 +2002,42 @@ angular.module('admin').filter('abs', function () {
                         $timeout(function () {
                             $scope.showAlertMessage = false;
                         }, 5000);
+                        $scope.logoImage={};
+                        $scope.validImageFile = false;
                     },
                     function (error) {
                         $scope.serverResponse = 'An error has occurred';
                         console.error(error);
                     })
 	
-               $rootScope.coBrandingImage = null;
+             
                $mdDialog.hide();
             }
+            
+            //GET Co-Branding Logo
+            
+            $scope.getCobrandingLogo = function() {
+         	   apiService.getCobrandLogo()
+ 				 .then(
+ 						 function(response) {
+ 							if(response.status==204){
+ 								$scope.preview='images/img-list-item.png'
+ 								$scope.upload=true;
+ 							    $scope.showDialogue=false;
+ 							    $scope.enableclose=false;
+ 							   $scope.enablebrowse=true;
+ 							}else{
+ 							$scope.preview="/api/site/content/global/coBrandLogo";
+ 							$scope.enablebrowse=false;
+ 							$scope.enableclose=true;
+ 							//$scope.name=window.localStorage.getItem('cobrandingLogoName');
+ 							$scope.upload=false;
+ 							$scope.showDialogue=true;
+ 							}
+ 							
+ 						 });
+             }
+            $scope.getCobrandingLogo();
             
             $scope.showDeleteDialog = function() {
 				$mdDialog.show({

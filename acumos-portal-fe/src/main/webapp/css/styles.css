@@ -799,7 +799,7 @@ md-toolbar {background: #671C9D !important;min-height:39px;}
 .head-stat-left {display:flex;}
 .mdchild1 {margin-right: 8px;padding-top: 5px;}
 
-.md-chips .md-chip-input-container md-autocomplete input{outline:2px solid #ffffff !important; padding:0 0 0 2px;}
+.md-chips .md-chip-input-container md-autocomplete input{outline:4px solid #ffffff !important; padding:0 0 0 2px;}
 .md-chips {padding-left:10px;margin-bottom: 15px;}
 md-chips .md-chips {box-shadow: none;}
 .md-chips md-chip {border-radius: 3px;font-size:12px;padding: 0 6px; height:30px; line-height:30px;}
@@ -916,6 +916,19 @@ a.mdl-tabs__tab.tab5-panel {height:1px;}
 .supporting-doc a i{color: inherit !important}
 
 /*************progress bar style start **************/
+/* File upload controller starts */
+
+.site-config-uploadfile{position:relative;}
+.site-config-uploadfile .upload-btn{position: absolute;top: 0;right: 0;}
+.site-config-uploadfile .upload-btn-wrapper {position: relative;overflow: hidden;display: inline-block;border: 1px solid #d5d5d5;width: 408px;}
+.site-config-uploadfile .btn {color: #8f8f8f;background: #fff;padding: 5px 20px;font-size: 14px;float: right;border-left: 1px solid #d5d5d5;border-bottom: 0;border-right: 0;border-top: 0;font-weight: 600;}
+.site-config-uploadfile .btn[disabled]{color: #B3B3B3;border-color: #d3d1d1;cursor: not-allowed;}
+.site-config-uploadfile .upload-btn-wrapper input[type=file] {font-size: 100px;position: absolute;left: 0;top: 0;opacity: 0;}
+.site-config-uploadfile .file-name{position: absolute; top: 5px; left: 10px;}
+.site-config-uploadfile .btn-disabled{background: #efefef; color: #8f8f8f; cursor:not-allowed;}
+.admin-note {font-size: 12px; color: #8f8f8f;line-height: 14px !important;text-align: justify !important;display:block; margin-bottom: 12px;}
+
+/* File upload controller ends  */
 
 /* Progress Bar */
 .progress {position: relative; height: 5px; display: block; width: 100%; background-color: #DCDCDC; border-radius: 2px; background-clip: padding-box; margin: 0.5rem 0 1rem 0; overflow: hidden; }
@@ -1449,6 +1462,16 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .tbl-overflowscroll {overflow-x: scroll !important;}
 .disablecursor {cursor: not-allowed;}
 .disablecursor  a{pointer-events: none; color: #CCC}
+
+.co-br_logo_wrapper {border:1px solid #d5d5d5; padding: 8px; position: relative; margin: 10px 0;}
+.co-br_logo_inner-wrapper {display: flex;flex-wrap:nowrap;align-items: stretch; line-height:35px;}
+.co-br_logo_inner-wrapper > div {flex-grow: 1;}
+.co-br-logo {min-width: 10px; height: 40px;margin-right: 8px;}
+.co-br-logo img {position: relative;max-width: 100%; max-height: 100%;}
+.img-lbl-1 {color: #2f2f2f; font-weight: 600;font-size: 13px;display: block;padding-top:4px;}
+.btn-cobr-close {border: none; background: none;position: absolute; top: 5px; right:-2px;}
+.btn-cobr-close .material-icons {font-size: 16px;}
+.co-br_logo_inner-wrapper md-progress-linear .md-container {border-radius: 3px;background: #EFEFEF;}
 /*************Admin User page style End ***************/
 
 /**** Preview box style start ******/
@@ -1558,6 +1581,7 @@ p.error-page-para1 {margin: 0 auto 25px auto;color:#f5f5f5;font-size: 16px;font-
 .accumos-header-logo img {width: 110px; height: 27px;margin-left: 13px;position:relative;cursor:pointer}
 .cobranding-header-logo {margin-left: 25px;position:relative; margin-right: 22px;}
 .cobranding-header-logo img {width: auto; height: 27px; margin-left: 27px;position:relative;cursor:pointer;}
+.co-branding-logo{position:absolute; top:0; right:-92px;}
 
 .header-right1 button md-icon {display: none;}
 
