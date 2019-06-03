@@ -2718,6 +2718,8 @@ label.model-name{color:#0366d6;}
 	.headerdiv {position:absolute; right: 0; top:0;}	
 	.cg-grid-layout {}
 	
+	.disabledbutton { pointer-events: none;  opacity: 0.4; }
+	
 	.header-search-control.mdl-textfield.is-focused .mdl-textfield__input {width:300px;}
 	.user-email { width:43%;}
 	.user-email > md-input-container:first-child {width: calc(100% - 115px);}
