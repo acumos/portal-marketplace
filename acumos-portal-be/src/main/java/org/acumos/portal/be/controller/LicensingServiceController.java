@@ -229,7 +229,7 @@ public class LicensingServiceController extends AbstractController{
 			}
 		} catch (Exception e) {
 			responseVO.setStatus(false);
-			responseVO.setResponseDetail("Failed");
+			responseVO.setResponseDetail(e.getMessage());
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 			log.error( "Exception Occurred while createRtuUser()", e);
 		}
