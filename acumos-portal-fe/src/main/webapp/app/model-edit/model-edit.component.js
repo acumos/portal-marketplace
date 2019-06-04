@@ -1118,7 +1118,7 @@ angular
 															$scope.styleclass = 'c-error';
 															$anchorScroll();
 															$scope.showAlertMessage = true;
-															$timeout(function() {$scope.showAlertMessage = false;}, 2500);
+															$timeout(function() {$scope.showAlertMessage = false;}, 5000);
 														}
 														$scope.selectedCatalogId = selectedCatalogId;
 													});				
