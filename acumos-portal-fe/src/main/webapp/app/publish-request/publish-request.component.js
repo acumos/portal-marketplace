@@ -195,13 +195,17 @@ angular
 													$scope.allPublishRequest[$scope.requestIndex] = response.data.response_body;
 												}
 											},function errorCallback(response) {
-												if (response.data.error_code == "sv_error") {
+												if (response.data.error_code == "sv_info" || response.data.error_code == "sv_error") {
 													$mdDialog.show({
 														templateUrl : '../app/error-page/sv-modal.template.html',
 														clickOutsideToClose : true,
-														locals: { reasons: response.data.response_detail },
-														controller : function DialogController($scope, reasons) {
+														locals: {
+															reasons: response.data.response_detail,
+															isError: response.data.error_code == "sv_error"
+														},
+														controller : function DialogController($scope, reasons, isError) {
 															$scope.reasons = reasons;
+															$scope.isError = isError;
 															$scope.closePoup = function(){
 																$mdDialog.hide();
 															}

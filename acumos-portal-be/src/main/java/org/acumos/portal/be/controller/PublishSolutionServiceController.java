@@ -91,7 +91,7 @@ public class PublishSolutionServiceController extends AbstractController {
 					? SVConstants.PUBLISHPUBLIC : SVConstants.PUBLISHCOMPANY);
 			Workflow workflow = performSVScan(solutionId, revisionId, workflowId);
 			if (!workflow.isWorkflowAllowed()) {
-				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				data.setResponseDetail(workflow.getReason());
 				log.error("SV failure during publish: " + workflow.getReason());

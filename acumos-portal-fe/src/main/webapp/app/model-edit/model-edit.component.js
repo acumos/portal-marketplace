@@ -1099,13 +1099,17 @@ angular
 														
 													},
 													function(error) {
-														if (error.data.error_code == "sv_error") {
+														if (error.data.error_code == "sv_info" || error.data.error_code == "sv_error") {
 															$mdDialog.show({
 																templateUrl : '../app/error-page/sv-modal.template.html',
 																clickOutsideToClose : true,
-																locals: { reasons: error.data.response_detail },
-																controller : function DialogController($scope, reasons) {
+																locals: {
+																	reasons: error.data.response_detail,
+																	isError: error.data.error_code == "sv_error"
+																},
+																controller : function DialogController($scope, reasons, isError) {
 																	$scope.reasons = reasons;
+																	$scope.isError = isError;
 																	$scope.closePoup = function(){
 																		$mdDialog.hide();
 																	}
@@ -1425,13 +1429,17 @@ angular
 											clear();
 										},
 										function(error) {
-											if (error.data.error_code == "sv_error") {
+											if (error.data.error_code == "sv_info" || error.data.error_code == "sv_error") {
 												$mdDialog.show({
 													templateUrl : '../app/error-page/sv-modal.template.html',
 													clickOutsideToClose : true,
-													locals: { reasons: error.data.response_detail },
-													controller : function DialogController($scope, reasons) {
+													locals: {
+														reasons: error.data.response_detail,
+														isError: error.data.error_code == "sv_error"
+													},
+													controller : function DialogController($scope, reasons, isError) {
 														$scope.reasons = reasons;
+														$scope.isError = isError;
 														$scope.closePoup = function(){
 															$mdDialog.hide();
 														}
@@ -1859,13 +1867,17 @@ angular
 													chkCount();
 												},
 												function(error) {
-													if (error.error_code == "sv_error") {
+													if (error.error_code == "sv_info" || error.error_code == "sv_error") {
 														$mdDialog.show({
 															templateUrl : '../app/error-page/sv-modal.template.html',
 															clickOutsideToClose : true,
-															locals: { reasons: error.response_detail },
-															controller : function DialogController($scope, reasons) {
+															locals: {
+																reasons: error.response_detail,
+																isError: error.error_code == "sv_error"
+															},
+															controller : function DialogController($scope, reasons, isError) {
 																$scope.reasons = reasons;
+																$scope.isError = isError;
 																$scope.closePoup = function(){
 																	$mdDialog.hide();
 																}
