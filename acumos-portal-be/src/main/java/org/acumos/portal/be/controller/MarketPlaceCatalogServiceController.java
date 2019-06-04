@@ -674,7 +674,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					log.error("Error User already assigned for solution :" + solutionId);
 				}
 			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				data.setResponseDetail(workflow.getReason());
 				log.error("SV failure while addSolutionUserAccess() : " + workflow.getReason());
@@ -1523,7 +1523,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					log.debug("addDocument: {} ");
 				}
 			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				data.setResponseDetail(workflow.getReason());
 				log.error("SV failure while adding document : " + workflow.getReason());
@@ -1769,7 +1769,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		if (workflow != null) {
 			data.setResponseBody(workflow);
 			response.setStatus(HttpServletResponse.SC_OK);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setErrorCode((workflow.isWorkflowAllowed())
+				? JSONTags.TAG_ERROR_CODE_SUCCESS
+				: (isReasonInfo(workflow.getReason()))
+					? JSONTags.TAG_INFO_SV
+					: JSONTags.TAG_ERROR_SV);
 			data.setResponseDetail("SV Scan completed");
 			log.debug("SV Scan completed :  ", workflow);
 		} else {

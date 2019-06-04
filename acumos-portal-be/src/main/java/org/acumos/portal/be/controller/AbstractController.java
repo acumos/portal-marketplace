@@ -54,6 +54,7 @@ public abstract class AbstractController {
 	private static final String ENV_NEXUS_PSWD = "nexus.password";
 	private static final String ENV_SV_ENABLED = "portal.feature.sv.enabled";
 	private static final String ENV_SV_API = "portal.feature.sv.api";
+	private static final String ENV_SV_INFO_REGEX = "portal.feature.sv.infoRegex";
 
 	protected final ObjectMapper mapper;
 
@@ -71,16 +72,16 @@ public abstract class AbstractController {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
 				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId);
 				if (!workflow.isWorkflowAllowed()) {
-					String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-							: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+					String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
+						? workflow.getSvException()
+						: (!PortalUtils.isEmptyOrNullString(workflow.getReason()))
+							? workflow.getReason()
 							: "Unknown problem occurred during security verification";
 					workflow.setReason(message);
 					log.error("Problem occurred during SV scan: ", message);
 				}
 			} catch (Exception e) {
-				String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-						: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-						: "Unknown exception occurred during security verification";
+				String message = (e.getMessage() != null) ? e.getMessage() : e.getClass().getName();
 				workflow = getInvalidWorkflow(message);
 				log.error("Exception occurred during SV scan: ", message);
 			}
@@ -98,8 +99,10 @@ public abstract class AbstractController {
 				for (MLPSolutionRevision rev : revs) {
 					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId);
 					if (!workflow.isWorkflowAllowed()) {
-						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-								: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
+							? workflow.getSvException()
+							: (!PortalUtils.isEmptyOrNullString(workflow.getReason()))
+								? workflow.getReason()
 								: "Unknown problem occurred during security verification";
 						workflow.setReason(message);
 						log.error("Problem occurred during SV scan: ", message);
@@ -107,9 +110,7 @@ public abstract class AbstractController {
 					}
 				}
 			} catch (Exception e) {
-				String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException())) ? workflow.getSvException()
-						: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-						: "Unknown exception occurred during security verification";
+				String message = (e.getMessage() != null) ? e.getMessage() : e.getClass().getName();
 				workflow = getInvalidWorkflow(message);
 				log.error("Exception occurred during SV scan: ", message);
 			}
@@ -134,5 +135,11 @@ public abstract class AbstractController {
 		workflow.setWorkflowAllowed(false);
 		workflow.setReason(message);
 		return workflow;
+	}
+	
+	public boolean isReasonInfo(String message) {
+		String infoRegex = env.getProperty(ENV_SV_INFO_REGEX);
+		String fullRegex = "^.*(" + infoRegex + ").*$";
+		return message.matches(fullRegex);
 	}
 }

@@ -557,11 +557,11 @@ angular
 								$scope.modelLicenseError = "No license found";
 								$scope.isLoadingLicense = false;
 							}		
-						}).catch(function errorCallback(err){
+						}, function errorCallback(err){
 							console.error(err);
 							$scope.isLoadingLicense = false;
 							$scope.modelLicenseError = "No license found";
-						})
+						});
 				 	}
 					
 					$scope.getCatalogsList = function(){
@@ -857,9 +857,13 @@ angular
 										$mdDialog.show({
 											templateUrl : '../app/error-page/sv-modal.template.html',
 											clickOutsideToClose : true,
-											locals: { reasons: workflow.reason },
-											controller : function DialogController($scope, reasons) {
+											locals: {
+												reasons: workflow.reason,
+												isError: response.data.error_code == "sv_error"
+											},
+											controller : function DialogController($scope, reasons, isError) {
 												$scope.reasons = reasons;
+												$scope.isError = isError;
 												$scope.closePoup = function(){
 													$mdDialog.hide();
 												}
@@ -1541,13 +1545,17 @@ angular
 															}, 3000);
 													$state.go('publishRequest');
 												},function errorCallback(response) {
-													if (response.data.error_code == "sv_error") {
+													if (response.data.error_code == "sv_info" || response.data.error_code == "sv_error") {
 														$mdDialog.show({
 															templateUrl : '../app/error-page/sv-modal.template.html',
 															clickOutsideToClose : true,
-															locals: { reasons: response.data.response_detail },
-															controller : function DialogController($scope, reasons) {
+															locals: {
+																reasons: response.data.response_detail,
+																isError: response.data.error_code == "sv_error"
+															},
+															controller : function DialogController($scope, reasons, isError) {
 																$scope.reasons = reasons;
+																$scope.isError = isError;
 																$scope.closePoup = function(){
 																	$mdDialog.hide();
 																}
@@ -1663,8 +1671,7 @@ angular
 										$scope.icon = '';
 										$scope.styleclass = 'c-success';
 										$scope.showAlertMessage = true;
-										$timeout(
-										function() {
+										$timeout(function() {
 											$scope.showAlertMessage = false;
 										}, 5000);
 										$scope.isLicenseFound = true;
@@ -1675,13 +1682,17 @@ angular
 										$scope.closeLicensePopup();
 									},
 									function(error) {
-										if (error.error_code == "sv_error") {
+										if (error.error_code == "sv_info" || error.error_code == "sv_error") {
 											$mdDialog.show({
 												templateUrl : '../app/error-page/sv-modal.template.html',
 												clickOutsideToClose : true,
-												locals: { reasons: error.response_detail },
-												controller : function DialogController($scope, reasons) {
+												locals: {
+													reasons: error.response_detail,
+													isError: error.error_code == "sv_error"
+												},
+												controller : function DialogController($scope, reasons, isError) {
 													$scope.reasons = reasons;
+													$scope.isError = isError;
 													$scope.closePoup = function(){
 														$mdDialog.hide();
 													}
@@ -1694,8 +1705,7 @@ angular
 											$rootScope.progressBar = 0;
 										}
 									});
-								 
-							}
+							};
 							 
 							 $scope.resetProgress = function(){
 								 $rootScope.progressBar = 0;

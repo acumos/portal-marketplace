@@ -173,7 +173,7 @@ public class PublishRequestController extends AbstractController {
 				data.setResponseDetail("Publish Request updated Successfully.");
 				log.debug("Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
 			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				data.setResponseDetail(workflow.getReason());
 				log.error("SV failure occurred while Updating the request : ", workflow.getReason());
