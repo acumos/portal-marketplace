@@ -618,25 +618,41 @@ limitations under the License.
 							<span class="admin-title2">Site Configuration</span>
 						</div>
 
-						<div class="rowcontainer admin-sccontainer1">
+							<div class="rowcontainer admin-sccontainer1">
 							<form name="uploadImage" enctype="multipart/form-data">
-								<label class="disblock">Co-Branding Logo</label>
-								<div class="disblock">
-									<input type="file" upload-image-model="logoImage"
-										data-ng-model="logoImage" id="logoImage" />
-								</div>
-								<div class="help-inline validation-msgs">
-									<span ng-show="showBrandingLogoExtError">File should be
-										JPG, GIF or PNG</span>
+							<label class="disblock">Co-Branding Logo</label>
+							<div class="site-config-uploadfile">
+								<div class="upload-btn-wrapper">
+								<button class="btn" ng-disabled="enableclose">Browse</button>
+							 		<input type="file"  image-height-error
+											ng-model="logoImage" id="logoImage" ng-disabled="enableclose"/>
 								</div>
 								<button type="button" ng-click='uploadLogoImg()'
-									ng-disabled="coBrandingLogoError == true"
-									class="mdl-button mdl-js-button btn-primary">Upload</button>
-							    <button type="button" ng-click='showDeleteDialog()'
-									ng-disabled="coBrandingLogoError == false"
-									class="mdl-button mdl-js-button btn-primary">Delete</button>		
-							</form>
-
+									ng-disabled="validImageFile == false || enableclose"
+									class="mdl-button mdl-js-button btn-primary upload-btn">Upload</button>
+								<div ng-show="logoImage.name" class="file-name">
+								 		{{logoImage.name}} 
+								</div>
+						
+							<div>
+									<div class="help-inline validation-msgs">
+										<span ng-show="isImageTypeError">File should be
+											JPG, GIF or PNG</span>
+									</div> 
+									<div class="help-inline validation-msgs">
+										<span ng-show="isHeightError">logo height should be less than 54px</span>
+									</div>
+							</div>
+							</div>
+							<span class="admin-note">Accepted logo height is 54 px and the width should be according to the logo size. The supported file format is JPG, PNG and GIF.
+						</form>
+							<div class="co-br_logo_wrapper">
+							<div class="co-br_logo_inner-wrapper" >
+								<span class="co-br-logo"><img ng-src="{{preview}}" ></span>
+								<label class="img-lbl-1">Uploaded co-branding logo</label>			 
+								<button class="btn-cobr-close" ng-click="showDeleteDialog()" ng-hide="!enableclose"><i class="material-icons">close</i></button>
+							</div>
+						</div>
 						</div>
 
 						<!-- Dymanic form Start -->
@@ -817,10 +833,10 @@ limitations under the License.
 
 							</div>
 							<br />
-							<div class="text-right admin-sccontainer1">
-								<button type="submit" id="submit" ng-disabled="!myForm.$dirty"
-									class="mdl-button mdl-js-button btn-primary">Update</button>
-							</div>
+							<div>
+									<button ng-disabled="!myForm.$dirty" class="mdl-button mdl-js-button btn-primary">Save</button>
+									<button class="mdl-button mdl-js-button btn-secondary btn-gap" ng-click="reset()">Cancel</button>
+ 							</div>
 
 
 							<br /> <br />
