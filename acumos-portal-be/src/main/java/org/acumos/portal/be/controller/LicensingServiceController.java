@@ -202,17 +202,32 @@ public class LicensingServiceController extends AbstractController{
 			HttpServletResponse response, 
 			@PathVariable("rtuRefId") String rtuRefId,
 			@PathVariable("solutionId") String solutionId,
-			@RequestBody JsonRequest<List<String>> userList) {
+			@RequestBody(required = false) JsonRequest<List<String>> userList,
+			@RequestParam(value = "siteWideRtu", required = false) boolean siteWideRtu) {
 		
 		log.debug( "createRtuUser={}");
 		JsonResponse<List<MLPRightToUse>> responseVO = new JsonResponse<>();
 		List<MLPRightToUse> responseBody = null;
 		try {
-			if (userList !=null && rtuRefId !=null && solutionId != null) {
+			// site wide rtu
+			if (rtuRefId !=null && solutionId != null && siteWideRtu == true) {
+				responseBody = licensingService.createRtuUser(rtuRefId, solutionId, siteWideRtu);
+				
+				if(!responseBody.isEmpty()) {
+					responseVO.setContent(responseBody );
+					responseVO.setStatus(true);
+					responseVO.setResponseDetail("Saved successfully");
+					responseVO.setStatusCode(HttpServletResponse.SC_OK);
+				}else {
+					responseVO.setStatus(false);
+					responseVO.setResponseDetail("Failed");
+					responseVO.setStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				}
+			}else if (userList !=null && rtuRefId !=null && solutionId != null) {
 				
 				responseBody = licensingService.createRtuUser(rtuRefId, solutionId, userList.getBody());
 				
-				if(responseBody != null) {
+				if(!responseBody.isEmpty()) {
 					responseVO.setContent(responseBody );
 					responseVO.setStatus(true);
 					responseVO.setResponseDetail("Saved successfully");

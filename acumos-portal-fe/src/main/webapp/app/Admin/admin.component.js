@@ -3275,7 +3275,7 @@ angular.module('admin').filter('abs', function () {
                         $scope.icon = 'info_outline';
                         $scope.isRtuUpdate = true;
                     }
-                   
+                    // show alert message after loading rtu
                     $scope.showAlertMessage = true;
                     $timeout(
                         function () {
@@ -3339,6 +3339,15 @@ angular.module('admin').filter('abs', function () {
                 }
             }
 
+            $scope.changeSiteWideRtu = function(){
+                $scope.siteWideUpdated = true;
+            }
+
+            $scope.isSaveDisabled  = function(){
+                var isSaveDisabled = !($scope.updateUploadRtuSolId || $scope.uploadRtuSolId) || ($scope.isSiteWide == false && (!$scope.rtuUsersSelected || $scope.rtuUsersSelected.length == 0 || !$scope.isRtuChecked)) || ($scope.isSiteWide == true && $scope.siteWideUpdated);
+                return isSaveDisabled;
+            }
+
             $scope.updateRTU = function () {
 
                 $scope.rtuReqBody = {
@@ -3346,7 +3355,7 @@ angular.module('admin').filter('abs', function () {
                     }
                 var rtuSolId = ($scope.updateUploadRtuSolId != undefined && $scope.updateUploadRtuSolId != null && $scope.updateUploadRtuSolId != "")
                 	? $scope.updateUploadRtuSolId : $scope.uploadRtuSolId;
-                apiService.createRTU($scope.RTUId, rtuSolId, $scope.rtuReqBody)
+                apiService.createRTU($scope.RTUId, rtuSolId, $scope.siteWideRtu, $scope.rtuReqBody)
                     .then(
                         function successCallback(response) {
 
