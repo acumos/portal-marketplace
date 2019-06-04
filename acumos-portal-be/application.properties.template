@@ -82,6 +82,7 @@ portal.feature.verifyAccount=false
 portal.feature.publishSelfRequestEnabled=false
 portal.feature.sv.enabled=false
 portal.feature.sv.api=http://verification-service:9000/scan
+portal.feature.sv.infoRegex=license scan (not yet started)|(in-progress)
 #Expiration time of verification token in Hours
 portal.feature.verifyToken.exp_time=24
 portal.ui.server.address=http://localhost:8085

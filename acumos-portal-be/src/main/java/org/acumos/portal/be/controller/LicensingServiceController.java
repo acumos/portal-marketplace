@@ -281,7 +281,7 @@ public class LicensingServiceController extends AbstractController{
 							responseVO.setStatusCode(HttpServletResponse.SC_OK);
 						} else {
 							responseVO.setStatus(false);
-							responseVO.setErrorCode(JSONTags.TAG_ERROR_SV);
+							responseVO.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 							responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 							responseVO.setResponseDetail(workflow.getReason());
 							response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

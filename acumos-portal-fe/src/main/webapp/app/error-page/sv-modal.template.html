@@ -32,13 +32,13 @@ limitations under the License.
 		<md-dialog-content>
 			<div class="md-dialog-content">
 				<div style="display: block">
-					<img src="images/general-icons/grid_action_deactivate.png" alt="" title="failed"
+					<img ng-src="{{(isError) ? 'images/general-icons/grid_action_deactivate.png' : 'images/ico_alert_information.png'}}" alt="" title="failed"
 						style="display: block; margin-left: auto; margin-right: auto; height: 50px;">
 				</div>
-				<p class="text-center" style="font-size: 18px; font-weight: bold; margin-top: 8px;">Failed</p>
+				<p class="text-center" style="font-size: 18px; font-weight: bold; margin-top: 8px;">{{(isError) ? "Failed" : "Pending"}}</p>
 				<span style="font-size: 15px; font-weight:550;">Your request could not be completed, for the reason(s) below:</span>
 				<ul style="margin: 8px 0px 0px -24px;">
-					<li ng-repeat="reason in reasons.split(',')" style="color:red;">{{reason}}</li>
+					<li ng-repeat="reason in reasons.split(',')" ng-style="isError && {'color':'red'}" style="color:orange">{{reason}}</li>
 				</ul>
 			</div>
 		</md-dialog-content>
