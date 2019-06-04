@@ -109,6 +109,9 @@ angular.module('AcumosApp')
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         var urlJupyterUrl = 'api/users/jupyterUrl';
        
+        var urlPeerSubsDetails = '/api/admin/peer/subcription';
+        
+        
         var urlGlobalDiscoverAcumos='api/site/content/global/discoverAcumos';
         var urlOnboardingOverviewUrl = '/api/site/content/global/onboarding/overview';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
@@ -132,6 +135,8 @@ angular.module('AcumosApp')
         var urlRightToUse="/api/rightToUse";
         var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
 
+        var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
+        	
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -149,6 +154,11 @@ angular.module('AcumosApp')
         this.getUserNotificationPref = function (userId) {
             return $http.get(urlGetNotificationPref + '/' + userId);
         };
+        
+        
+        this.getSubsDetails = function(subId){
+        	return $http.get(urlPeerSubsDetails + '/' + subId);
+        }
         
         
         this.getRoleCount = function () {
@@ -300,6 +310,10 @@ angular.module('AcumosApp')
         }
         
         /**************** ALL PUT ******************/
+        this.updateSubscription = function(reqobj){
+        	return $http.put(urlUpdatePeerSubscription,reqobj);
+        }
+        
         this.updateSolutions = function(solution){
         	return $http.put(urlSolutions + '/' + solution.request_body.solutionId, solution);
         }
