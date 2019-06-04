@@ -964,6 +964,8 @@ font-size:14px;font-weight: 600; position:relative !important; top: 0; left:0;wi
 .editmodel-alert-container .c-alert {margin-bottom: 20px;}
 .alert {width: 100%;}
 
+.c-error .c-alert-inner .material-icons{transform: scaleY(-1);}
+
 /****************ALERT MESSAGES STYLE END ************/
 .mdl-layout__drawer .header-title {background: #671C9D;}
 .mdl-layout__header .mdl-layout__header-row {background: #050009;}
