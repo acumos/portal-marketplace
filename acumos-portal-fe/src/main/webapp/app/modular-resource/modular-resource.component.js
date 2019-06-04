@@ -114,7 +114,19 @@ angular.module('modelResource')
 			if(browserStorageService.getUserDetail()){
 				$scope.userLoggedIn = true;
 			}else $scope.userLoggedIn = false;
-
+			$scope.loadToolkitType = function() {
+				apiService
+						.getToolkitTypes()
+						.then(
+								function(response) {
+									$scope.alltoolkitType = response.data.response_body;
+									componentHandler.upgradeAllRegistered();
+								},
+								function(error) {
+									console.log("Error in loading");
+								});
+			}
+			$scope.loadToolkitType();
 			$scope.expCont = function() {
 			    var x = document.getElementById("expContTxt");
 			    var y = document.getElementById("expCont");
