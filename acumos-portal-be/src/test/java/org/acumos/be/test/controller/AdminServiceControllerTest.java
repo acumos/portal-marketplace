@@ -49,6 +49,7 @@ import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
+import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.TransportData;
@@ -209,7 +210,7 @@ public class AdminServiceControllerTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void getPeerSubscriptionDetailsTest() {
 
 		try {
@@ -243,7 +244,7 @@ public class AdminServiceControllerTest {
 			logger.info("failed tot execute the above test case");
 		}
 	}
-
+*/
 	@Test
 	public void createPeerSubscriptionTest() {
 		try {

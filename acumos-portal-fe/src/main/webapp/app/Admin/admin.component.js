@@ -35,6 +35,8 @@ angular.module('admin').filter('abs', function () {
                 ]
             };
             //Sorting
+            $rootScope.setLoader = false;
+            //$rootScope.setLoader2 = false;
             $scope.orderByField = 'username'; $scope.reverseSort = false;
             $scope.orderByFieldFed = 'created'; $scope.reverseSortFederation = true;
             $scope.showAllModelsTable = false;
@@ -1011,6 +1013,7 @@ angular.module('admin').filter('abs', function () {
                 $scope.peerIdForSubsList = val.peerId;
                 $scope.peerDetailList = val;
                 var url = 'api/admin/peer/subcriptions/' + val.peerId;
+                $rootScope.setLoader = true;
                 $http.post(url).success(function (response) {
                     fetchToolKitType();
                     $scope.subId = '';
@@ -1019,6 +1022,7 @@ angular.module('admin').filter('abs', function () {
                     }
                     $scope.arrSub = [];
                     angular.forEach(response.response_body, function (value, key) {
+                    	$scope.getCatalogName(value.subId);
                         var catTool = value.selector;
                         var catTool = catTool.split(",");
 
@@ -1071,15 +1075,11 @@ angular.module('admin').filter('abs', function () {
 
                         $scope.arrSub.push({
                             "subId": value.subId,
-                            "toolKitType": $scope.toolKitForSubId.name,
-                            "modelType": $scope.categoryForSubId.name,
                             "updatedOn": value.modified,
                             "createdOn": value.created,
                             "frequencySelected": $scope.frequencySelected
                         })
                     });
-
-                    $scope.arrDetails = $scope.arrSub;
                 });
 
 
@@ -1090,6 +1090,45 @@ angular.module('admin').filter('abs', function () {
                     clickOutsideToClose: true
                 });
             }
+            
+            //get Catalog Names
+            $scope.getCatalogName = function (valSubid) {
+            	$scope.catalogNameArr = [];
+            	$scope.arrDetailsList = [];
+            	
+            	apiService.getSubsDetails(valSubid)
+             	 .then(
+         			 function(response) {
+         				
+         				 $scope.catalogNameArr.push({
+         					"catalogName": response.data.response_body.catalogName,
+         				 	"subId" : response.data.response_body.subId
+         				 });
+         				         				 
+         				angular.forEach($scope.arrSub, function (value1, key1) {
+         					angular.forEach($scope.catalogNameArr, function (value2, key2) {
+         						
+         						if (value1.subId == value2.subId) {
+         							$scope.arrDetailsList.push({
+         	                            "subId": value1.subId,
+         	                            "updatedOn": value1.updatedOn,
+         	                            "createdOn": value1.createdOn,
+         	                            "frequencySelected": value1.frequencySelected,
+         	                            "catalogName": value2.catalogName
+         	                        })
+         	                       
+                                }
+         					});
+                        });         				
+         				$scope.arrDetails = $scope.arrDetailsList;
+         				
+         				$rootScope.setLoader = false;
+         			 },
+                    function (error) {
+         				 console.log(error);
+         			 });	
+            }
+            
             // frequency change from add subscription
             var freqChangeValue = '';
             $scope.freqChange = function (freqOfUpdatePass) {
@@ -1151,6 +1190,60 @@ angular.module('admin').filter('abs', function () {
                     console.log("success>> ", response);
                 });
             }
+            
+       
+            //update frequency based on peer id subscription starts
+            var reqobj1;
+            $scope.toUpdatePeer = function(freq,SUBID){
+            	            	
+            	$scope.freqChange(freq);
+                      	
+            	$rootScope.setLoader = true;
+                 	apiService.getSubsDetails(SUBID)
+                 	 .then(
+              			 function(response) {
+              				
+              				$scope.changedCatalogId=response.data.response_body.selector;
+              				 reqobj1 = {
+                        			"request_body":{           				
+                        				"peerId" : $scope.peerIdForSubsList,
+                        				"refreshInterval":freqChangeValue,            				
+                        				"frequencySelected": freq, 
+                        				"selector": $scope.changedCatalogId,
+                        				"subId":SUBID,
+                        				"userId":userId
+                        			}           		
+                        	}
+              				$scope.CallUpdateSubscrption(reqobj1);
+              			 },
+              			 function (error) {
+                             console.log(error);
+                         });	                 	 
+            }
+            
+            $scope.CallUpdateSubscrption = function(reqobj1)  {              	
+            	apiService.updateSubscription(reqobj1).then(
+    					function(response) {
+    						$rootScope.setLoader = false;
+                            $location.hash('subscontainer');  // id of a container on the top of the page - where to scroll (top)
+                            $anchorScroll();
+                            $scope.msg = "Updated successfully.";
+                            $scope.icon = '';
+                            $scope.styleclass = 'c-success';
+                            $scope.showSuccessMessage = true;                           
+                            $timeout(function () {
+                                $scope.showSuccessMessage = false;
+                            }, 5000);                             
+                        },
+                        function (error) {
+                            console.log(error);
+                        });	
+    					}
+            	
+          //update frequency based on peer id subscription  ends
+            
+            
+                     
             //delete subscription
             $scope.deleteSub = function (subId, index) {
                 //deleteSubscription
@@ -1408,6 +1501,7 @@ angular.module('admin').filter('abs', function () {
                 $scope.solutionDetail = false;
                 //$scope.peerDetailList = val;
                 $scope.arrDetails = '';
+                $rootScope.setLoader = true;
                 var url = 'api/admin/peer/subcriptions/' + $scope.peerDetailList.peerId;
                 $http.post(url).success(function (response) {
                     $scope.subId = '';
@@ -1415,6 +1509,7 @@ angular.module('admin').filter('abs', function () {
 
                     var arrSub = [];
                     angular.forEach(response.response_body, function (value, key) {
+                    	$scope.getCatalogName1(value.subId);
                         var catTool = value.selector;
                         var catTool = catTool.split(",");
                         if (catTool.length > 1) {
@@ -1461,18 +1556,57 @@ angular.module('admin').filter('abs', function () {
 
                         arrSub.push({
                             "subId": value.subId,
-                            "toolKitType": $scope.toolKitForSubId.toolkitName,
-                            "modelType": $scope.categoryForSubId.typeName,
+                            //"toolKitType": $scope.toolKitForSubId.toolkitName,
+                            //"modelType": $scope.categoryForSubId.typeName,
                             "updatedOn": value.modified,
                             "createdOn": value.created,
-                            "frequencySelected": $scope.frequencySelected
+                            "frequencySelected": $scope.frequencySelected,
+                            "catalogName":$scope.name
                         })
                     });
 
-                    $scope.arrDetails = arrSub;
+                    //$scope.arrDetails = arrSub;
 
                 });
             }
+            
+            $scope.getCatalogName1 = function (valSubid) {
+            	$scope.catalogNameArr = [];
+            	$scope.arrDetailsList = [];
+            	
+            	apiService.getSubsDetails(valSubid)
+             	 .then(
+         			 function(response) {
+         				
+         				 $scope.catalogNameArr.push({
+         					"catalogName": response.data.response_body.catalogName,
+         				 	"subId" : response.data.response_body.subId
+         				 });
+         				 
+         				angular.forEach($scope.arrSub, function (value1, key1) {
+         					angular.forEach($scope.catalogNameArr, function (value2, key2) {
+         						if (value1.subId == value2.subId) {
+         							$scope.arrDetailsList.push({
+         	                            "subId": value1.subId,
+         	                            "updatedOn": value1.updatedOn,
+         	                            "createdOn": value1.createdOn,
+         	                            "frequencySelected": value1.frequencySelected,
+         	                            "catalogName": value2.catalogName
+         	                        })
+                                }
+         					});
+                        });
+         				$scope.arrDetails = $scope.arrDetailsList;
+         				$rootScope.setLoader = false;				
+         			 },
+                    function (error) {
+         				 console.log(error);
+         			 });	
+            }  
+            
+            
+            
+            
             //Delete user 
             $scope.deleteUser = function () {
                 var obj = {
@@ -1690,6 +1824,22 @@ angular.module('admin').filter('abs', function () {
 
             /*Add all models start*/
             $scope.addAllSolutions = function () {
+            	 if($scope.selectedCatalogId === ''){
+                	 
+                	  $location.hash('subscontainer');  // id of a container on the top of the page - where to scroll (top)
+                      $anchorScroll();
+                      $scope.msg = "Please select any catalog";
+                      $scope.icon = 'info_outline';
+                      $scope.styleclass = 'c-error';
+                      $scope.showSuccessMessage = true;                           
+                      $timeout(function () {
+                          $scope.showSuccessMessage = false;
+                      }, 5000);         
+                	                 	 
+                 }  
+            	 
+            	 else{
+            		
                 var addAllSolObj = [];
                 var cat, toolKit, catToolkit;
                 //angular.forEach($scope.publicSolList,function(value, key) {  //mlsolutionCatTool
@@ -1748,7 +1898,8 @@ angular.module('admin').filter('abs', function () {
                         console.log($scope.status);
                     });
             }
-
+            }
+            
             /*End add all models*/
 
             /*fetch number of subscriptions per peer. 
