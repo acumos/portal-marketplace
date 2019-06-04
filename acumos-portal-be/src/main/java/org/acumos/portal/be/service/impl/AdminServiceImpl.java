@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ import java.util.UUID;
 
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.PortalUtils;
@@ -37,7 +39,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
@@ -136,14 +143,28 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	}
 
 	@Override
-	public MLPPeerSubscription getPeerSubscription(Long subId) {
+	public MLPeerSubscription getPeerSubscription(Long subId) throws IOException {
 		log.debug("getPeerSubscription ={}", subId);
 		MLPPeerSubscription peerSubscription = null;
-		ICommonDataServiceRestClient dataServiceRestClient = getClient(); 
+		MLPCatalog mLPCatalog = null;
+		String catalogId = null;
+		MLPeerSubscription mLPeerSubscription = null;
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (subId != null) {
 			peerSubscription = dataServiceRestClient.getPeerSubscription(subId);
 		}
-		return peerSubscription;
+		String catalogdetails = peerSubscription.getSelector();
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> catalogMap = mapper.readValue(catalogdetails, Map.class);
+		catalogId = (String) catalogMap.get("catalogId");
+
+		if (catalogId != null) {
+			mLPCatalog = dataServiceRestClient.getCatalog(catalogId);
+		}
+		mLPeerSubscription = PortalUtils.convertToMLPeerSubscription(peerSubscription);
+		mLPeerSubscription.setCatalogName(mLPCatalog.getName());
+
+		return mLPeerSubscription;
 	}
 	
 	@Override
