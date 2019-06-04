@@ -49,5 +49,7 @@ public interface LicensingService {
 	
 	List<MLPRightToUse> getRtusByReference(String rtuReferenceId) throws AcumosServiceException;
 
-	List<MLPRightToUse> createRtuUser(String rtuId, String solutionId, List<String> userList) throws Exception;
+	List<MLPRightToUse> createRtuWithUser(String rtuId, String solutionId, List<String> userList) throws Exception;
+
+	List<MLPRightToUse> createRtuWithSite(String rtuRefId, String solutionId, String site) throws Exception;
 }

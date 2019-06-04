@@ -167,11 +167,13 @@ public class LicensingServiceControllerTest {
 	public void createRtuUser() {
 		String rtuRefId = "ref_01";
 		String solutionId = "4cbf491b-c687-459f-9d81-e150d1a0b972";
+		String site = "e150d1a0b972";
 		JsonRequest<List<String>> userList = new JsonRequest<List<String>>();
 		Assert.assertNotNull(rtuRefId);
 		Assert.assertNotNull(solutionId);
 		Assert.assertNotNull(userList);
-		licensingServiceController.createRtuUser(request, response, rtuRefId, solutionId, userList);
+		Assert.assertNotNull(site);
+		licensingServiceController.createRtuUser(request, response, rtuRefId, solutionId, userList, site);
 		
 	}
 	

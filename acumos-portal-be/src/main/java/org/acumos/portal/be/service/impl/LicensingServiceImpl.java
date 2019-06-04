@@ -42,6 +42,7 @@ import org.acumos.licensemanager.client.model.ILicenseCreator;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.transport.RtuUser;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,20 +159,43 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	}
 
 	@Override
-	public List<MLPRightToUse> createRtuUser(String rtuRefId, String solutionId, List<String> userList)
+	public List<MLPRightToUse> createRtuWithUser(String rtuRefId, String solutionId, List<String> userList)
+			throws Exception {
+
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient);
+ 
+		List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
+		String[] uIds = userList.stream().toArray(String[]::new);
+		for (String uid : uIds) {
+			CreateRtuRequest createRtu = new CreateRtuRequest(solutionId, uid);
+			List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
+			createRtu.setRtuRefs(rtuRefIdList);
+			licenseSrvc.createRtu(createRtu);
+		}		
+
+		return createdRtus;
+	}
+	
+	@Override
+	public List<MLPRightToUse> createRtuWithSite(String rtuRefId, String solutionId, String site)
 			throws Exception {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
 		List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
-		String[] uIds = userList.stream().toArray(String[]::new);
+		
 		try {
-			for (String uid : uIds) {
-				CreateRtuRequest createRtu = new CreateRtuRequest(solutionId, uid);
+				CreateRtuRequest createRtu = new CreateRtuRequest();
 				List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
 				createRtu.setRtuRefs(rtuRefIdList);
-				licenseSrvc.createRtu(createRtu);				 
-			}
+				if(!PortalUtils.isEmptyOrNullString(site) && site.equalsIgnoreCase(PortalConstants.YES)) {
+					createRtu.setSiteWide(true);
+				}else if(!PortalUtils.isEmptyOrNullString(site) && site.equalsIgnoreCase(PortalConstants.NO)) {
+					createRtu.setSiteWide(false);
+				}
+				
+				licenseSrvc.createRtu(createRtu);
 		} catch (Exception e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 		}

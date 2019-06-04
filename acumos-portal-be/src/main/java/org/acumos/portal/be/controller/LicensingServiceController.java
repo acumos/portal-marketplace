@@ -202,16 +202,23 @@ public class LicensingServiceController extends AbstractController{
 			HttpServletResponse response, 
 			@PathVariable("rtuRefId") String rtuRefId,
 			@PathVariable("solutionId") String solutionId,
-			@RequestBody JsonRequest<List<String>> userList) {
+			@RequestBody(required = false) JsonRequest<List<String>> userList,
+			@RequestParam(value = "site", required = false) String site) {
 		
 		log.debug( "createRtuUser={}");
+		rtuRefId = SanitizeUtils.sanitize(rtuRefId);
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		site = SanitizeUtils.sanitize(site);
 		JsonResponse<List<MLPRightToUse>> responseVO = new JsonResponse<>();
 		List<MLPRightToUse> responseBody = null;
 		try {
-			if (userList !=null && rtuRefId !=null && solutionId != null) {
-				
-				responseBody = licensingService.createRtuUser(rtuRefId, solutionId, userList.getBody());
-				
+			
+			if (rtuRefId !=null && solutionId != null) {				 
+				if(site != null && site.equalsIgnoreCase(PortalConstants.YES)) {
+					responseBody = licensingService.createRtuWithSite(rtuRefId, solutionId, site);
+				}else if(userList !=null) {
+					responseBody = licensingService.createRtuWithUser(rtuRefId, solutionId, userList.getBody());
+				}				 							
 				if(responseBody != null) {
 					responseVO.setContent(responseBody );
 					responseVO.setStatus(true);

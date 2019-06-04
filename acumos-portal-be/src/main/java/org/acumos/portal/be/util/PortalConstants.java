@@ -31,4 +31,6 @@ public class PortalConstants {
     public static final String LICENSE_ARTIFACT_TYPE = "LG";
     public static final String LICENSE_FILENAME_PREFIX = "license";
     public static final String LICENSE_EXT = ".json"; 
+    public static final String YES = "Y"; 
+    public static final String NO = "N"; 
 }
