@@ -599,7 +599,6 @@ angular
 							var validFormats = ['jpg','jpeg','png','gif'];
 							var fileName = file.name;
 							var ext = fileName.split('.').pop().toLowerCase(); 
-				            var size = bytesToSize(file.size);
 				           
 				            if(validFormats.indexOf(ext) == -1){
 				            	$scope.extensionError = true;
@@ -607,7 +606,7 @@ angular
 				            }else if(fileName == '' || fileName == undefined || fileName == null){
 				            	$scope.nullFileError = true;
 				            	$scope.disableUsrImgBtn = true;
-				            }else if (size > $scope.imageSize){
+				            }else if (file.size > sizeToBytes($scope.imageSize)){
 				            	$scope.sizeError = true;
 				            	$scope.disableUsrImgBtn = true;
 				            }
@@ -618,14 +617,27 @@ angular
 							 	$scope.disableUsrImgBtn = false;
 				            }
 					 	}
-					 	
-					 	function bytesToSize(bytes) {
-					 	   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-					 	   if (bytes == 0) return '0 Byte';
-					 	   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-					 	   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-					 	};
-						$scope.uploadImg = function(){
+					 	function sizeToBytes(size) {
+					 		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+					 		for (var i = 0; i < sizes.length; i++) { 
+					 		  if(size.endsWith(sizes[i]) && i ==0) {
+					 			 return parseInt(size.substring(0,size.indexOf(sizes[i])),10)
+					 		  }
+					 		  else if(size.endsWith(sizes[i]) && i ==1) {
+					 			 return parseInt(size.substring(0,size.indexOf(sizes[i])),10) * 1024
+					 		  }
+					 		  else if(size.endsWith(sizes[i]) && i ==2) {
+					 			 return parseInt(size.substring(0,size.indexOf(sizes[i])),10) * 1024 * 1024
+					 		  }
+					 		  else if(size.endsWith(sizes[i]) && i ==3) {
+					 			 return parseInt(size.substring(0,size.indexOf(sizes[i])),10) * 1024 * 1024 * 1024
+					 		  }
+					 		  else if(size.endsWith(sizes[i]) && i ==4) {
+						 	     return parseInt(size.substring(0,size.indexOf(sizes[i])),10) * 1024 * 1024 * 1024 * 1024
+						      }
+					 		}
+					 	}
+					 	$scope.uploadImg = function(){
 							var file = $scope.userImage;
 							var fileFormData = new FormData();
 							var validFormats = ['jpg','jpeg','png','gif'];
