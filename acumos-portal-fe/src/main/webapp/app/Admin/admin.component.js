@@ -3247,12 +3247,21 @@ angular.module('admin').filter('abs', function () {
             /* RTU changes start*/
             $scope.showAssociatedModels = false;
             $scope.isRtuUpdate = false;
+
             $scope.getSearch = function () {
+                $scope.isRtuUpdate = false;
+                $scope.showAssociatedModels = false;
+                $scope.siteWideRtu = false;
+                $scope.siteWideUpdated = false;
+                $scope.isRtuLoading = true;
+
+                // TODO handle initial case -- do not show error when it is a new rtu
                 var rtuReferenceId = $scope.RTUId;
                 var solName = $scope.solutionName;
 
                 apiService.getRightToUse(rtuReferenceId, solName).then(function successCallback(response) {
-
+                    $scope.showAssociatedModels = true;
+                    $scope.isRtuLoading = false;
                     $location.hash('myDialog');
                     $anchorScroll();
 
@@ -3261,8 +3270,7 @@ angular.module('admin').filter('abs', function () {
                             $scope.msg = response.data.response_detail;
                             $scope.styleclass = 'c-error';
                             $scope.icon = 'info_outline';
-                            $scope.isRtuUpdate = true;
-    
+                            $scope.isRtuUpdate = true;    
                         } else {
                             $scope.msg = response.data.response_detail;
                             $scope.styleclass = 'c-success';
@@ -3276,11 +3284,13 @@ angular.module('admin').filter('abs', function () {
                         $scope.isRtuUpdate = true;
                     }
                     // show alert message after loading rtu
-                    $scope.showAlertMessage = true;
-                    $timeout(
-                        function () {
-                            $scope.showAlertMessage = false;
-                        }, 5000);
+                    // $scope.showAlertMessage = true;
+                    // $timeout(
+                    //     function () {
+                    //         $scope.showAlertMessage = false;
+                    //     }, 5000);
+                    $scope.rtu = response.data.response_body.rightToUse;
+                    $scope.siteWideRtu = $scope.rtu ? $scope.rtu.site : false;
                     $scope.rtuUsers = response.data.response_body.rtuUsers;
                     $scope.rtuUsersSelected = $scope.rtuUsers.filter(function(item) {
 	                    	return item.associatedWithRtuFlag;

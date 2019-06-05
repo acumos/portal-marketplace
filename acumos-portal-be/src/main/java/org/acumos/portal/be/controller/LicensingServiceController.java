@@ -8,15 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -101,11 +100,13 @@ public class LicensingServiceController extends AbstractController{
 				//Extracting only RtuIds as List from MLPRightToUse
 				List<Long> rtuIds =new ArrayList<Long>();
 				
-				/* if(rtus.size() != 0) { */
+				if(rtus.size() != 0) {
 					
-					for(MLPRightToUse rtu: rtus) {
-						rtuIds.add(rtu.getRtuId());
-					}
+					MLPRightToUse rtu = rtus.get(0);
+					rtuIds.add(rtu.getRtuId());
+					
+					rightToUseDetails.setRightToUse(rtu);
+				}
 					
 					log.debug("List of RTUIDs associated to RTU ReferenceId:  ", rtuReferenceId);
 	
@@ -202,8 +203,8 @@ public class LicensingServiceController extends AbstractController{
 			HttpServletResponse response, 
 			@PathVariable("rtuRefId") String rtuRefId,
 			@PathVariable("solutionId") String solutionId,
-			@RequestBody(required = false) JsonRequest<List<String>> userList,
-			@RequestParam(value = "siteWideRtu", required = false) boolean siteWideRtu) {
+			@PathVariable(value = "siteWideRtu", required = false) boolean siteWideRtu,
+			@RequestBody(required = false) JsonRequest<List<String>> userList) {
 		
 		log.debug( "createRtuUser={}");
 		JsonResponse<List<MLPRightToUse>> responseVO = new JsonResponse<>();
@@ -243,6 +244,11 @@ public class LicensingServiceController extends AbstractController{
 				responseVO.setResponseDetail("Failed");
 				responseVO.setStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			}
+		} catch (RightToUseException rtuExp){
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(rtuExp.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while createRtuUser()", rtuExp);
 		} catch (Exception e) {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail(e.getMessage());
