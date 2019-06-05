@@ -904,9 +904,11 @@ limitations under the License.
 						<div ng-show="showAssociatedModels">
 						<div>
 							<div class="fed-row1">
-								<div class="fedrow-cell1"></div>
+								<div class="fedrow-cell1">
+										<md-checkbox ng-change="changeSiteWideRtu()" ng-model="siteWideRtu" aria-label="Checkbox 1">Sitewide RTU</md-checkbox>
+								</div>
 								<div class="fed-row2">
-									<div class="fed-srch-container">
+									<div ng-show="!siteWideRtu" class="fed-srch-container">
 										<label class="fed-lbl1">Filter</label>
 										<div
 											class="mdl-textfield mdl-js-textfield admin-search-container">
@@ -918,7 +920,7 @@ limitations under the License.
 							</div>
 							<br>
 							<div>
-								<div>
+								<div ng-show="!siteWideRtu">
 									<table
 										class="mdl-data-table mdl-js-data-table mdl-shadow--2dp scroll-table">
 										<colgroup class="fullwidth">
@@ -980,7 +982,7 @@ limitations under the License.
 						<br /> <br />
 						<div>
 							<button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="!(updateUploadRtuSolId || uploadRtuSolId) || !rtuUsersSelected || rtuUsersSelected.length == 0 || !isRtuChecked"
+								ng-disabled="isSaveDisabled()"
 								ng-click="updateRTU()">
 								
 								<span ng-show="isRtuUpdate == true"> Save </span>

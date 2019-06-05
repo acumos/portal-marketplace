@@ -170,7 +170,11 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 				CreateRtuRequest createRtu = new CreateRtuRequest(solutionId, uid);
 				List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
 				createRtu.setRtuRefs(rtuRefIdList);
-				licenseSrvc.createRtu(createRtu);				 
+				ICreatedRtuResponse createRtu2 = licenseSrvc.createRtu(createRtu);
+				List<MLPRightToUse> rtus = createRtu2.getRtus();
+				if(rtus != null){
+					createdRtus.addAll(rtus);
+				}
 			}
 		} catch (Exception e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
@@ -178,4 +182,27 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 
 		return createdRtus;
 	}
+
+	@Override
+	public List<MLPRightToUse> createRtuUser(String rtuRefId, String solutionId, boolean siteWide)
+			throws Exception {
+				ICommonDataServiceRestClient dataServiceRestClient = getClient();
+				ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
+				List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
+				try {
+						CreateRtuRequest createRtu = new CreateRtuRequest();
+						createRtu.setSolutionId(solutionId);
+						createRtu.setSiteWide(true);
+						List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
+						createRtu.setRtuRefs(rtuRefIdList);
+						ICreatedRtuResponse createRtu2 = licenseSrvc.createRtu(createRtu);
+						List<MLPRightToUse> rtus = createRtu2.getRtus();
+						if(rtus != null){
+							createdRtus.addAll(rtus);
+						}
+				} catch (Exception e) {
+					throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+				}
+		
+				return createdRtus;	}
 }
