@@ -264,14 +264,25 @@ angular.module('modelResource')
 			
 			$scope.getOnboardingCLIUrls = function() {
                 apiService
-                .getCLIPushUrl()
+                .getCLIPushModelUrl()
                 .then(
                         function(response) {
-                            $scope.cliPushUrl = response.data.data;
+                            $scope.cliPushModelUrl = response.data.data;
                             componentHandler.upgradeAllRegistered();
                         },
                         function(error) {
-                            $scope.cliPushUrl = 'Push URL unavailable';
+                            $scope.cliPushModelUrl = 'Push Model URL unavailable';
+                        });
+                
+                apiService
+                .getCLIPushModelBundleUrl()
+                .then(
+                        function(response) {
+                            $scope.cliPushModelBundleUrl = response.data.data;
+                            componentHandler.upgradeAllRegistered();
+                        },
+                        function(error) {
+                            $scope.cliPushModelBundleUrl = 'Push Model Bundle URL unavailable';
                         });
 
                 apiService
