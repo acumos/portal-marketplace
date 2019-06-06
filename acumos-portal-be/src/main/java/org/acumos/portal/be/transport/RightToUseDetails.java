@@ -24,7 +24,7 @@
 package org.acumos.portal.be.transport;
 
 import java.util.List;
-
+import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageResponse;
   
@@ -41,6 +41,7 @@ public class RightToUseDetails {
 	private List<MLPSolution> mlpSolutionAssociatedWithRtuId;
 	private List<RtuUser> rtuUsers;
 	private RestPageResponse<MLPSolution> solutionsByName;
+	private MLPRightToUse rightToUse;
 
 	/**
 	 * 
@@ -48,6 +49,16 @@ public class RightToUseDetails {
 	public RightToUseDetails() {
 		// TODO Auto-generated constructor stub
 	}
+
+
+	public MLPRightToUse getRightToUse() {
+		return rightToUse;
+	}
+
+	public void setRightToUse(MLPRightToUse rightToUse) {
+		this.rightToUse = rightToUse;
+	}
+
 
 	public List<MLPSolution> getMlpSolutionAssociatedWithRtuId() {
 		return mlpSolutionAssociatedWithRtuId;
