@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ffeeabcc_7e956cd4",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-06-06T14:54:57Z",
+      "side": 1,
+      "message": "Not present in Release Repo",
+      "revId": "fe5df745c88cf0c21c1e27b6c2e339496c375dff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6efc5df_67947022",
         "filename": "acumos-portal-fe/pom.xml",
         "patchSetId": 7
