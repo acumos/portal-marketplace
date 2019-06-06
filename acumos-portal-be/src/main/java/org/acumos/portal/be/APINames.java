@@ -291,7 +291,8 @@ public class APINames {
 	public static final String CAS = "/cas";
 
 	public static final String PROPERTIES = "/properties";
-	public static final String CLI_PUSH_URL = "/cliPushUrl";
+	public static final String CLI_PUSH_MODEL_BUNDLE_URL = "/cliPushModelBundleUrl";
+	public static final String CLI_PUSH_MODEL_URL = "/cliPushModelUrl";
 	public static final String CLI_AUTH_URL = "/cliAuthUrl";
 	
 	public static final String GET_TASKS = "/getTasks/{userId}";
