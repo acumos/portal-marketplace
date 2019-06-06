@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6efc5df_67947022",
+        "filename": "acumos-portal-fe/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-06-06T14:52:00Z",
+      "side": 1,
+      "message": "This is currently not configured in any LF jobs . Until this is present code cannot be merged.",
+      "revId": "fe5df745c88cf0c21c1e27b6c2e339496c375dff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
