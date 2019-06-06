@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16a59091_977cf990",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 205
+      },
+      "writtenOn": "2019-06-06T20:54:38Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "05bc76f0_c3cf0438",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 121
+      },
+      "revId": "d74cd8c739e0b90e25d8c3ca8c13008795f3033a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97cef2be_8c961338",
         "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.template.html",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-06-06T20:23:16Z",
       "side": 1,
       "message": "Add a space after the colon here; minor formatting fix so that the URL is not pressed up against the preceding text.",
+      "range": {
+        "startLine": 53,
+        "startChar": 64,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "d74cd8c739e0b90e25d8c3ca8c13008795f3033a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1400d672_7699595c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 205
+      },
+      "writtenOn": "2019-06-06T20:54:38Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "97cef2be_8c961338",
       "range": {
         "startLine": 53,
         "startChar": 64,
