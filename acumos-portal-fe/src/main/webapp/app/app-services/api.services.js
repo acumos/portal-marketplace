@@ -500,8 +500,8 @@ angular.module('AcumosApp')
         	return $http.post(urladdAllSolutionsAdmin + '/' + peeriId , addSolObj);
         }
 
-        this.createRTU = function(rtuRefId, solutionId, reqBody){
-            return $http.post(urlCreateRTU + '/' + rtuRefId + '/' + solutionId, reqBody);
+        this.createRTU = function(rtuRefId, solutionId, siteWideRtu, reqBody){
+            return $http.post(urlCreateRTU + '/' + rtuRefId + '/' + solutionId + '/' + siteWideRtu, reqBody);
         }
         
                 
