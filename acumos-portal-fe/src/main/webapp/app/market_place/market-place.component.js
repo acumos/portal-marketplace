@@ -75,34 +75,23 @@ angular
 	  	  									},
 	  	  									"page" : $scope.pageNumber,
 	  	  									"size" : $scope.requestResultSize
-	  	  								},
-	  	  								"request_from" : "string",
-	  	  								"request_id" : "string"
+	  	  								}
 	  	  							};
 	  							
 	  							$scope.response_body = [];
-	  							
+	  							$scope.isFavs = false;
+	  							$scope.hasFavs = false;
 	  							if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
 	  								apiService
 		  							.getCatalogsbyUser(reqObject, $scope.loginUserID)
 		  									.then(
 		  											function successCallback(response) {
-		  												$scope.CatalogList = response.data.response_body.content;
-		  												$scope.allCatalogList = [];
+		  												$scope.allCatalogList = response.data.response_body.content;
 		  												$scope.catalogIds = [];
-		  												var favoriteCatalogs = $scope.CatalogList.filter(function(item) {
+		  												$scope.favoriteCatalogs = $scope.allCatalogList.filter(function(item) {
 		  													return item.favorite;
 		  												});
-		  												var catalogsToMap = (favoriteCatalogs.length > 0) ? favoriteCatalogs : $scope.CatalogList;
-		  												
-		  												$scope.catalogIds = catalogsToMap.map(function(item) {
-	  														return item.catalogId;
-	  													});
-	  													$scope.allCatalogList = catalogsToMap.map(function(item) {
-	  														return {"name": item.name, "catalogId": item.catalogId};
-	  													});
-	  													
-		  												$scope.allCatalogIds = $scope.catalogIds;
+		  												$scope.hasFavs = ($scope.favoriteCatalogs.length > 0);
 		  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 		  											});
 	  							} else {
@@ -560,10 +549,15 @@ angular
 								$scope.catalogIds = [];
 								if(checkbox.catalogId != undefined){
 									$scope.catalogIds.push(checkbox.catalogId);
-								$scope.namecatalog = checkbox.name;
+									$scope.namecatalog = checkbox.name;
+								} else if (checkbox == "favorites") {
+									$scope.catalogIds = $scope.favoriteCatalogs.map(function(item) {
+											return item.catalogId;
+										});
+									$scope.isFavs = true;
+								} else {
+									$scope.isFavs = false;
 								}
-								else
-									$scope.catalogIds = $scope.allCatalogIds;
 							}
 							$scope.loadMore(0);
 						}
@@ -740,21 +734,6 @@ angular
 						};
 
 						$scope.imageUrls = {};
-						
-					/*	$scope.loadCatalog = function() {						
-							apiService
-								.userFavCatalogList($scope.loginUserID)
-								.then(
-										function successCallback(response) {
-											$scope.allCatalogList = response.data.response_body;  												
-										},
-										function errorCallback(response) {
-											
-										});
-						} */
-						
-						if($scope.loginUserID)
-							$scope.loadCatalog(0); 
 						
 						/* Catalog Changes end */
 					}

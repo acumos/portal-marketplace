@@ -30,9 +30,19 @@ limitations under the License.
 										<div class="select-control">
 											<md-select ng-model="SelectedCatalog"  
 												class="btn-sort bdr mdl-button md-no-underline"> 
-												<md-option value='0' ng-selected="true" ng-click="filterChange('','SearchbyCatalog');">All Catalogs</md-option>																							
-												<md-option ng-repeat="catalog in allCatalogList" ng-value="catalog.catalogId"
-												ng-click="filterChange(catalog,'SearchbyCatalog');">{{catalog.name}}</md-option>
+												<md-option value='0' ng-selected="true" ng-click="filterChange('all','SearchbyCatalog');">All Catalogs</md-option>
+												<md-option ng-if="hasFavs" value='favs' ng-click="filterChange('favorites','SearchbyCatalog');">Favorite Catalogs</md-option>
+												<md-divider></md-divider>
+												<md-option ng-if="!hasFavs" ng-repeat="catalog in allCatalogList" ng-value="catalog.catalogId"
+													ng-click="filterChange(catalog,'SearchbyCatalog');">{{catalog.name}}</md-option>
+												<md-optgroup ng-if="hasFavs && !isFavs" label="Full Catalog List">
+													<md-option ng-repeat="catalog in allCatalogList" ng-value="catalog.catalogId"
+													ng-click="filterChange(catalog,'SearchbyCatalog');">{{catalog.name}}</md-option>
+												</md-optgroup>
+												<md-optgroup ng-if="hasFavs && isFavs" label="Favorite Catalogs List">						
+													<md-option ng-repeat="catalog in favoriteCatalogs" ng-value="catalog.catalogId"
+													ng-click="filterChange(catalog,'SearchbyCatalog');">{{catalog.name}}</md-option>
+												</md-optgroup>
 											</md-select>
 									</div>
 									</div>
@@ -194,8 +204,8 @@ limitations under the License.
 											        	</div> -->
 											         </div>					        		
 													<div class="mpdetailscontainer">
-													    <label class="griditem-catalog-title"  ng-if='SelectedCatalog==0'>{{mlsolution.catalogName}}</label>
-                                                          <label class="griditem-catalog-title"  ng-if='SelectedCatalog!=0'>{{namecatalog}}</label>
+													    <label class="griditem-catalog-title"  ng-if='SelectedCatalog==0||SelectedCatalog=="favs"'>{{mlsolution.catalogName}}</label>
+                                                          <label class="griditem-catalog-title"  ng-if='SelectedCatalog!=0&&SelectedCatalog!="favs"'>{{namecatalog}}</label>
 													    <label class="griditem-title">{{mlsolution.name}}</label>
 													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl"
 													    ng-bind=" ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | <span class="griditem-text2">  {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
