@@ -16,9 +16,15 @@ public class AcumosOnboardingPropertiesController {
 	@Autowired
 	private Environment env;
 	
-	@RequestMapping(value = { APINames.CLI_PUSH_URL }, method = RequestMethod.GET)
-    public ResponseEntity<String> getCliPushUrl() {
-		String response = "{\"data\":\"" + env.getProperty("onboarding.cliPushUrl") + "\"}";
+	@RequestMapping(value = { APINames.CLI_PUSH_MODEL_BUNDLE_URL }, method = RequestMethod.GET)
+    public ResponseEntity<String> getCliPushModelBundleUrl() {
+		String response = "{\"data\":\"" + env.getProperty("onboarding.cliPushModelBundleUrl") + "\"}";
+        return new ResponseEntity<String>(response, HttpStatus.OK);
+    }
+	
+	@RequestMapping(value = { APINames.CLI_PUSH_MODEL_URL }, method = RequestMethod.GET)
+    public ResponseEntity<String> getCliPushModelUrl() {
+		String response = "{\"data\":\"" + env.getProperty("onboarding.cliPushModelUrl") + "\"}";
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }
 	
