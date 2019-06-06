@@ -65,7 +65,7 @@ limitations under the License.
 		<dependency>
 		    <groupId>org.acumos.security-verification.license-manager</groupId>
 		    <artifactId>license-manager-client-library</artifactId>
-		    <version>0.0.9</version>
+		    <version>0.0.10</version>
 		    <exclusions>
               <exclusion>
                 <groupId>com.google.collections</groupId>
@@ -133,7 +133,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.security-verification</groupId>
 			<artifactId>security-verification-client</artifactId>
-			<version>0.0.20</version>
+			<version>0.0.21</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -404,8 +404,11 @@ limitations under the License.
 									<runCmd>mkdir /maven/logs</runCmd>
 									<runCmd>chmod -R 777 /maven</runCmd>
 								</runCmds>
+								<env>
+									<JAVA_OPTS>-Xms512m -Xmx1024m</JAVA_OPTS>
+								</env>
 								<cmd>
-									<shell><![CDATA[cd /maven; java -Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
+									<shell><![CDATA[cd /maven; java $JAVA_OPTS  -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
 								</cmd>
 							</build>
 						</image>

@@ -1254,7 +1254,12 @@ md-content{ background:#fff ;}
 .fed-row1 {display: flex;flex-wrap:nowrap; justify-content: space-between; align-content: center;}
 .fed-row2 {display: flex;flex-wrap:nowrap; justify-content: flex-end; align-content: center;width: 60%; }
 .fedrow-cell1 {display: flex;flex-wrap:nowrap;}
-.fedrow-cell1 > span {align-self: center; margin-right: 5px;}
+.fedrow-cell1 > span, .fedrow-cell1 > div {
+	align-self: center; margin-right: 5px;
+}
+.fedrow-cell1 > div{
+	margin-bottom: 16px;
+}
 
 .mdl-textfield.admin-search-container, .fed-row2 .mdl-textfield.admin-search-container input.admin-search-control{ width: 200px !important; margin:0 15px 0 0; padding:0 25px 0 5px; height:30px; font-size: 14px; }
 

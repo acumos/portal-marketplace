@@ -60,6 +60,11 @@ public class AuthenticatedUserDetails implements UserDetails {
 		return null;
 	}
 
+	public String getUserId() {
+		// TODO Auto-generated method stub
+		return user.getUserId();
+	}
+
 	@Override
 	public String getUsername() {
 		return user.getLoginName();
