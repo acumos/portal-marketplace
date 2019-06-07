@@ -20,8 +20,9 @@
 Overview
 ========
 
-The Acumos Portal is designed to enable Modelers to easily on-board,
-document, and package their AI models into reusable microservices.
+The Acumos Portal is designed to enable Modelers to easily on-board AI models and
+associated document/license. For modles built with Java, Python or R language,
+modelers have the possibility to package them into reusable microservices.
 
 A Modeler may test out the Acumos features in a personal
 private/unpublished section of the Marketplace. Additionally, a Modeler may publish
@@ -31,7 +32,8 @@ Modelers are typically subject-matter experts in their fields, so Acumos
 models come from a wide range of domains and applications.
 
 Models may be written in a number of popular programming languages or
-toolkits, including TensorFlow and R.
+toolkits, including Java, R, Python(Scikit Learn, Keras, Tensor FLow), ONNX and PFA. It is 
+also possible to on-board models pre-dockerized outside Acumos.
 
 All of the models that a user has on-boarded can be viewed from the :doc:`My
 Models <portal-my-models>` page. Depending on their history, the models may exist in one
