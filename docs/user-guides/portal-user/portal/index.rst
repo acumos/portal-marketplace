@@ -25,6 +25,7 @@ The Portal - For Modelers
 
    portal-overview.rst
     portal-notifications.rst
+   ../../../../../on-boarding/doc/developer-guide.rst
    portal-onboarding-intro.rst
    portal-onboarding-web.rst
    portal-my-models.rst
