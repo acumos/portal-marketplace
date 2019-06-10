@@ -1964,9 +1964,9 @@ angular.module('admin').filter('abs', function () {
                     apiService.uploadCobrandLogo(toSend)
                         .then(
                             function (response) {
-
+                            	$scope.preview = $scope.fileData;
                             	$scope.enableclose=true;
-                            	$scope.getCobrandingLogo();
+                            	$rootScope.coBrandingImage = $scope.fileData;
                                 $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                 $anchorScroll();
                                 $scope.msg = "Updated successfully.";
@@ -1991,7 +1991,8 @@ angular.module('admin').filter('abs', function () {
                     	
                     	$scope.enableclose=false;
                     	$scope.showDialogue=false;
-                    	$scope.getCobrandingLogo();
+                    	$scope.preview='images/img-list-item.png';
+                    	$rootScope.coBrandingImage = '';
                         $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                         $anchorScroll();
                         $scope.msg = "The cobrand image is deleted successfully.";
