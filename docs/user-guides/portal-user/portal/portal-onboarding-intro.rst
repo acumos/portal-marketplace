@@ -41,10 +41,12 @@ with the others components of Acumos like :
 For model in a model interchange format like ONNX and PFA, only web interface is useable to upload
 them in the platform
 
+For models developped in Java, Python 3.0, R  On-boarding allows user to create containerized
+microservice at the end of the on-boarding process. If user choose to not create the microservice
+during on-boarding he can create it later.
 
-For models developped in Java, Python 3.0, R and sourced from toolkits such as Scikit, TensorFlow,
-H2O, and R, On-boarding allows user to create containerized microservice at the end of the on-boarding
-process. If user choose to not create the microservice during on-boarding he can create it later.
+For model Dockerized and stored in repo outside Acumos (like for example Docker hub) you can save the 
+model URI in Acumos. You can also dockerize your models by yourself and on-board them in Acumos.
 
 These kinds of Models can be easily onboarded and wrapped into containerized microservices which are
 interoperable with many other components.The solution for accommodating a myriad of different model
@@ -80,23 +82,13 @@ High-level architecture Design for Boreas :
 
 .. image:: ../images/onboarding/HighLevelFlow.png
 
-Low-level architecture Design for Boreas :
+Low-level architecture Design for Boreas (R, Python, Java, ONNX, PFA models) :
 
 .. image:: ../images/onboarding/Architecture_Diagram.png
 
+Low-level architecture Design for Boreas (Dockerized model and dockerized model URI) :
 
-.. .. image:: ../images/onboarding/UseCase.png
-
-.. In the illustrations below, custom transformation functions which consume and produce a native DataFrame are converted to standardized native models. The  transforms are then composed together in Acumos as microservices. This illustration begs the question of how the DataFrame can be  represented abstractly in order to validate this workflow.
-
-
-.. .. image:: ../images/onboarding/UG_image3.png
-
-
-.. .. image:: ../images/onboarding/UG_image4.png
-
-
-.. .. image:: ../images/onboarding/UG_image5.png
+.. image:: ../images/onboarding/Architecture_Diagram2.png
 
 
 .. Methods and Semantics (it is rather for developper guide)
@@ -144,7 +136,7 @@ created by the client library. Each client library have a parameter to create th
 at the end of the on-boarding. This parameter is a boolean parameter and the default value is "TRUE",
 users can change this value to "FALSE" if needed. The creation of the micro-service is still possible
 later, after the on-boarding, in the details model page (when you click on the model in the my model
-page). User can also on-board a licence (that must be named "licence.txt") with his model by putting
+page). User can also on-board a licence (that must be named "licence.json") with his model by putting
 the path to the licence file in the corresponding parameter of push function of the client libraries.
 
 On-Boarding By Web
@@ -154,12 +146,12 @@ Users can also onboard model coming from R, python or Java by web, but the first
 on-boarding client to create the model bundle and then upload this model bundle thanks to the web
 on-boarding page of the Acumos portal. In the same way as for the on-boarding with client libraries,
 user can choose to create the microservice at the end of on-boarding and also to upload a licence file
-(that must be named "licence.txt") thanks to checkboxes.
+(that must be named "licence.json") thanks to checkboxes.
 
 For ONNX and PFA models it doesn't exist a client library and so no model bundle. You just have to
 onboard the model itself by using the on-boarding Web page of your acumos portal. Onboard a model
 under a model interchange format like ONNX and PFA is just an upload & store processus. There is no
-possibility to create a micro-service but user can upload a licence file (that must be named licence.txt)
+possibility to create a micro-service but user can upload a licence file (that must be named licence.json)
 
 On-Boarding Server
 ==================

@@ -20,16 +20,17 @@
 Overview
 ========
 
-The Acumos Marketplace is designed to make it easy to discover, explore, and
-use AI models. In addition to displaying models from the local platform's
-catalog, the Public Marketplace can be configured to display models from peer
-Public Marketplaces. Users may view the details of a peer Model. However, users
-aren't able to work with, download, or deploy a peer Model without first
-requesting access to use that model. Public Marketplace peer relationships are
-set up and managed by the administrators of each Acumos instance.
+The Acumos Marketplace is designed to make it easy to discover, explore, and use AI models. 
+In addition to displaying models from the local platform’s catalog, the Public Marketplace 
+can be configured to display models from peer Public Marketplaces. Users may view the details 
+of a peer Model. However, users aren’t able to work with, download, or deploy a peer Model 
+without first requesting access to use that model. Public Marketplace peer relationships 
+are set up and managed by the administrators of each Acumos instance.
 
-The Marketplace only displays Public models to users who have not logged in.
-There is no option to display models from marketplaces other than Public.
+
+The Marketplace only displays Public catalog models to users who have not logged in.
+ There is no option to display models from marketplaces other than Public.
+
 
     .. image:: ../images/portal/marketplace_mainViewNotLoggedIn.png
        :width: 75%
@@ -37,9 +38,10 @@ There is no option to display models from marketplaces other than Public.
 
 The Marketplace has three main views to logged-in users:
 
-- Company: The Company Marketplace only shows models which have been onboarded by local users and published to the local marketplace catalog
-- Public: Models in the Public Marketplace are visible to all Acumos instances with a peer relationship
-- ALL:  This choice displays models in both the user's Company and Public Marketplace
+- My Favorite Catalogs: In the marketplace only shows models which have been selected as a favorite catalog from the account setting page. 
+- Public Catalogs: All public catalog models are displayed in the marketplace.
+- Restricted Catalogs: Logged in user can view the restricted catalogs in the marketplace
+
 
 After you have used models on the Marketplace, you can share your experiences
 by using the comments and ratings capabilities on the Marketplace.
@@ -49,48 +51,19 @@ by using the comments and ratings capabilities on the Marketplace.
        :width: 75%
 
 
-1) Select **Company** or **Public** to display models in those marketplaces, or select **ALL** to view models in both marketplaces
-2) Select an option from the **Sort By** drop down to sort the displayed models
-3) Select one or more checkboxes to **Filter By Category**; clicking the **Show All** link display additional categories if they exist; see the `Filtering by Category`_ section for details
-4) Change from grid view to list view by selecting the corresponding icon
-5) Select an option from the **Showing** drop down to change the number of models displayed on a page
-6) Page navigation
-7) Click the **Manage Themes** link to select, update, or remove your tag choices; see the `Manage Themes`_ section below for instructions
-
-    7a) Select a **tag** to filter the displayed models by tag; see the `Filtering by Tag`_ section for details
-
-8) Click a model's image to access the **Model Detail** page
+1) Select **my favorite catalogs** to display only the favorite catalog models in the marketplace, or select **ALL Catalog** to view all the catalog models there.
+2) Click a **Select Favorite Catalog** button to select your favorite catalogs list from the account setting page.
+3) Select an option from the **Sort By drop down** to sort the displayed models
+4) Select one or more checkboxes to **Filter By Category** **clicking the Show All** link display additional categories if they exist; see the `Filtering by Category` section for details
+5) Change from grid view to list view by selecting the corresponding icon
+6) Select an option from the **Showing** drop down to change the number of models displayed on a page 
+7) Page navigation
+8) Click a model’s image to access the **Model Detail** page
 9) **SITE ADMIN** and **PUBLISH REQUEST** are menu items only available to users with those roles
-10) Model search; see the `Searching by Keyword`_ section for details
-11) Click the **Bell** icon to review your :doc:`notifications <../portal/portal-notifications>`
-12) Click the down arrow next to your name to access **Account Settings** and **Manage Themes**
-13) **Help** and **Log Out**
-
-
-Manage Themes
-=============
-Themes in this context refers to which types of models should be displayed
-before the rest. Themes equate to tags that have been associated with models.
-All the model tags are displayed initially in the **Manage Themes** window.
-
-    .. image:: ../images/portal/themes_defaultView.png
-
-
-1) You can type in the **Filter** field to narrow the displayed list
-
-    .. image:: ../images/portal/themes_selectTheme.png
-
-2) Select the themes that interest you
-3) Press **Continue** and then in the following window, press **Done** to save your changes
-
-Preferred themes are displayed on the left side of the UI.
-
-     .. image:: ../images/portal/themes_preferredThemes.png
-
-**Manage Themes** may also be accessed from User drop-down in the upper right corner of the UI.
-
-    .. image:: ../images/portal/themes_accountThemes.png
-
+10)Model search; see the `Searching by Keyword` section for details
+11) Click the **Bell** icon to review your `notifications`
+12) Click the down arrow next to your name to access **Account Settings**
+13) **Help** and **Log Out**   
 
 Searching by Keyword
 ====================
@@ -124,15 +97,14 @@ To search the Marketplace using Tags, follow these steps:
 3. The screen is updated with only the models that have your selected
    tag
 
-Filtering by Peer
-=================
-To see models from federated peers, choose the PUBLIC marketplace. The default
-view shows all public models from your local Acumos as well as all models from
-all peers. This functionality is only available if your Acumos installation has
-been connected to other Acumos installations.
+Filtering by Catalogs
+=====================
 
-To restrict your view to a particular peer, or set of peers, adjust the
-filters for Peer Catalog.
+User has two option to filter catalogs.
 
-    .. image:: ../images/portal/models_federationBrowse.png
-       :width: 75%
+1. Selecting ‘All Catalogs, user can able see all public catalog models in the marketplace
+2. Selecting ‘My Favorite Catalogs’ user can see only favorite catalog models in the marketplace
+
+	.. image:: ../images/portal/marketplace_filtering_by_catalogs.png
+		:width: 75%
+

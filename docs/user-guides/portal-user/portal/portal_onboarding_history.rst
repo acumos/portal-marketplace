@@ -16,19 +16,28 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-.. _site-content:
+====================
+On-Boarding History
+====================
 
-============
-Site Content
-============
+After On-boarding one or more models in Acumos Portal, you can check the status of the models 
+whether they have been On-boared successfully, failed or in-progress. you can click on **View On-Boarding History** 
+button in the **on-boarding model** page of the Acumos portal to check the history.
 
-Admin users can update 'Footer Contact Information' as well as 'Terms and Conditions' from 
-the site content of acumos site admin page.
+	.. image:: ../images/portal/view_on-boarding_history_nav.png
+	
+You can see all of your On-boarded models with details like modelname, date and status etc. 
 
-Go to **SITE ADMIN** of Acumos Portal page and click on **Site Content** tab , you can see 
-**Footer Contact Information** and **Terms and Conditions** under **CONTENT PAGES** panel.
+	.. image:: ../images/portal/on-boarding_history.png
 
-	.. image:: images/admin_site_content.png
+If you want to know the details of the particular failed model, click on **View Results** button on the 
+**View On-Boarding History** page and find the details in which step it got failed.
+
+	.. image:: ../images/portal/on-boarding_history_results.png
+
+
+
+	
 
 
 

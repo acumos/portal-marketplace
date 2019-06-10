@@ -30,9 +30,9 @@ Prerequisites : You have to create a model bundle in your own environment
 before start to on-board. Acumos cannot transform your model in a microservice 
 with only the model itself, it needs some other relevant information contained 
 in the model bundle. The model bundle consists of component.json defining the 
-component and its metadata, component.bin the binary payload and 
-component.proto with the protobuf specs. You can retrieve all the information 
-to create your model bundle in the "ON-BOARDING BY WEB" home page
+component and its metadata and component.proto with the protobuf specs. 
+You can retrieve all the information to create your model bundle in the 
+"ON-BOARDING BY WEB" home page
 
     .. image:: ../images/portal/models_onboardingWeb.png
 
@@ -66,5 +66,27 @@ you need help debugging, please reach out to the Acumos Community or Dev
 Discuss `mailing lists <https://lists.acumos.org/g/main/subgroups>`_ or post on 
 `StackOverflow <https://stackoverflow.com/search?q=acumos>`_.
 
+The above On-boarding process is along with microservice generation. If you dont
+want MicroService Generation you can uncheck  **Create micro-service during on-boarding**
+checkbox which is checked by default.
+
+    .. image:: ../images/portal/model_onborading_wo_microservice_success.png
+	  
+The above process will skip the steps **Dockerize** and **Add Docker Image** when we uncheck 
+**Create micro-service during on-boarding**. You can see the Create Solution, Add Artifacts 
+and Create Tosca steps turn green. Click the **View Model** button to see your model in the 
+**MY UNPUBLISHED MODELS** section of the :doc:`My Models <portal-my-models>` page. You can 
+see **Create Microservice** button  which is right side of ** Manage My Model** button to 
+create MicroService for your model.
+
+There is a provision to upload a license file while On-boarding the model. You can check 
+**Upload License** checkbox and upload the license file preferably license.json which contains
+high level general terms and conditions for use of your model.
+
+	.. image:: ../images/portal/model_ on-boarding_with_license.png
+	
+If License is not uploaded while On-bording, it can be done through by clicking 
+**Upload License** button on **Licenses** tab of a particular model under **My MODELS** page.
+	
 
 
