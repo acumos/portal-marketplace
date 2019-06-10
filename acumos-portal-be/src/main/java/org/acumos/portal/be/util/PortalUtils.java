@@ -34,6 +34,7 @@ import java.util.Map;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPRole;
@@ -55,6 +56,7 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLArtifact;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
@@ -726,6 +728,23 @@ public class PortalUtils {
           mlArtifact.setArtifactUri(mlpArtifact.getUri());
           mlArtifact.setMask(masked);
 
-          return mlArtifact;
-        }
+		return mlArtifact;
+	}
+
+	public static MLPeerSubscription convertToMLPeerSubscription(MLPPeerSubscription mLPPeerSubscription) {
+
+		MLPeerSubscription mLPeerSubscription = new MLPeerSubscription();
+		mLPeerSubscription.setCreated(mLPPeerSubscription.getCreated());
+		mLPeerSubscription.setModified(mLPPeerSubscription.getModified());
+		mLPeerSubscription.setSubId(mLPPeerSubscription.getSubId());
+		mLPeerSubscription.setPeerId(mLPPeerSubscription.getPeerId());
+		mLPeerSubscription.setUserId(mLPPeerSubscription.getUserId());
+		mLPeerSubscription.setSelector(mLPPeerSubscription.getSelector());
+		mLPeerSubscription.setOptions(mLPPeerSubscription.getOptions());
+		mLPeerSubscription.setRefreshInterval(mLPPeerSubscription.getRefreshInterval());
+		mLPeerSubscription.setMaxArtifactSize(mLPPeerSubscription.getMaxArtifactSize());
+		mLPeerSubscription.setProcessed(mLPPeerSubscription.getProcessed());
+
+		return mLPeerSubscription;
+	}
 }
