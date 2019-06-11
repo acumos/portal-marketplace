@@ -22,8 +22,9 @@ package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.domain.MLPUser;
+import org.acumos.portal.be.security.AuthenticatedUserDetails;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.securityverification.domain.Workflow;
@@ -32,7 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -70,13 +72,14 @@ public abstract class AbstractController {
 		if (Boolean.parseBoolean(env.getProperty(ENV_SV_ENABLED))) {
 			try {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
-				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId);
+
+				String loggedInUserId = getLoggedInUserId();
+				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId, loggedInUserId);
 				if (!workflow.isWorkflowAllowed()) {
 					String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
-						? workflow.getSvException()
-						: (!PortalUtils.isEmptyOrNullString(workflow.getReason()))
-							? workflow.getReason()
-							: "Unknown problem occurred during security verification";
+							? workflow.getSvException()
+							: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+									: "Unknown problem occurred during security verification";
 					workflow.setReason(message);
 					log.error("Problem occurred during SV scan: ", message);
 				}
@@ -89,6 +92,15 @@ public abstract class AbstractController {
 		return workflow;
 	}
 
+	private String getLoggedInUserId() {
+		String loggedInUserId = null;
+		Object principal= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof AuthenticatedUserDetails) {
+			loggedInUserId = ((AuthenticatedUserDetails) principal).getUserId();
+		} 
+		return loggedInUserId;
+	}
+
 	public Workflow performSVScan(String solutionId, String workflowId) {
 		log.debug("performSVScan, solutionId=" + solutionId + ", workflowId=" + workflowId); 
 		Workflow workflow = getValidWorkflow();
@@ -97,7 +109,8 @@ public abstract class AbstractController {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
 				List<MLPSolutionRevision> revs = catalogService.getSolutionRevision(solutionId);
 				for (MLPSolutionRevision rev : revs) {
-					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId);
+					String loggedInUser = getLoggedInUserId();
+					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId, loggedInUser);
 					if (!workflow.isWorkflowAllowed()) {
 						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
 							? workflow.getSvException()
