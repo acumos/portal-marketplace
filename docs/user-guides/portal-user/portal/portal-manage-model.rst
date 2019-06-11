@@ -133,7 +133,7 @@ Un-publishing the model from the catalog
 
 Specific steps:
 
-#. From the My Models page, select the model from the ‘MY PUBLISHED MODELS’ list, open the Model Detail Page and click on Manage My Model at the top
+#. From the My Models page, select the model from the **MY PUBLISHED MODELS** list, open the Model Detail Page and click on Manage My Model at the top
 
 #. Select Publish to Marketplace
 

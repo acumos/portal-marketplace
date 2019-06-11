@@ -29,4 +29,6 @@ The Portal - For Modelers
    portal-onboarding-web.rst
    portal-my-models.rst
    portal-manage-model.rst
-
+   portal-onboarding-dockerized-model.rst
+   portal-onboarding-dockerized-uri.rst
+   portal-onboarding-history.rst
