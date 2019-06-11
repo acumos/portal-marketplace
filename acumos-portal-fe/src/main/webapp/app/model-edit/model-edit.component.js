@@ -964,59 +964,75 @@ angular
 						$scope.chipSearch = function(text){
 							var firstPass = $filter('filter')($scope.allTags, text);
 							if(firstPass.length==0 || firstPass.includes(text)==false){
-							firstPass.push(text+" (New Tag)");
+								firstPass.push(text+" (New Tag)");
+							}
+							if(firstPass.indexOf(text) != -1){
+								firstPass.splice(firstPass.indexOf(text), 1);
+								firstPass.unshift(text);
 							}
 							return firstPass;
-							};
+						};
 						
 						$scope.addTag = function(tag){
 							apiService.updateAddTag($scope.solution.solutionId,
 									tag).then(function(response) {
-								$scope.status = response.data.response_detail;
-								
-								if( $scope.createTagMethod == false){
-									var toast = $mdToast.simple()
-							        .content('Tag Added')
-							        .position('bottom right')
-							        .theme('success-toast')
-							        .hideDelay(2000);
-									$mdToast.show(toast);
-								}
-								 
-							     var refreshTag = $scope.tags1;
-							     chkCount();
-							     
-							});
+										$scope.status = response.data.response_detail;
+
+										if( $scope.createTagMethod == false){
+											var toast = $mdToast.simple()
+											.content('Tag Added')
+											.position('bottom right')
+											.theme('success-toast')
+											.hideDelay(2000);
+											$mdToast.show(toast);
+										}
+
+										var refreshTag = $scope.tags1;
+										chkCount();
+
+									});
 						}
 						
 						$scope.createTag = function(tag){
 							var addtag;
+							$scope.tagsTemp = [];
+							angular.forEach($scope.tags1, function(item, key) {
+								if(item.endsWith('(New Tag)') == true){
+									$scope.tagsFoo = tag.replace(' (New Tag)',"");
+									$scope.tagsTemp.push($scope.tagsFoo);
+								}else{
+									$scope.tagsTemp.push(item);
+								}
+								$scope.tags1 = $scope.tagsTemp;
+							});
 							if(tag.endsWith('(New Tag)')==true){
 								addtag=tag.replace(' (New Tag)',"");
+								$scope.allTags.push(addtag);				// to remove New Tag from the scope of allTags until it loads the response
 							}else{
-							var addtag= tag;
+								var addtag= tag;
 							}
 							var dataObj = {
-									  		"request_body": {
-									  			"tag": addtag
-									  			}
-											}
+									"request_body": {
+										"tag": addtag
+									}
+							}
 							apiService.createTags(dataObj).then(function(response) {
 
 								$scope.status = response.data.response_detail;
-								
+								$scope.loadAllTags();
+
 								chkCount();
 								var toast = $mdToast.simple()
-						        .content('Tag Created')
-						        .position('bottom right')
-						        .theme('success-toast')
-						        .hideDelay(2000);
+								.content('Tag Created')
+								.position('bottom right')
+								.theme('success-toast')
+								.hideDelay(2000);
 								$mdToast.show(toast);
 								$scope.createTagMethod = true;
 								$scope.addTag(addtag);
 
 							});
-						
+
 						}					
 
 						$scope.tagRemoved = function(tag) {
@@ -1049,6 +1065,7 @@ angular
 								$mdToast.show(toast);
 							});
 						};
+
 
 						$scope.publishtoMarket = function(selectedCatalogId) {
 							$scope.closeDialog();
@@ -2190,15 +2207,15 @@ angular
 	                	$scope.scShow = true;
 
 	                	//** added this to restrict the tag length to 32 characters
-						angular.element('tags-input input')[0].setAttribute("maxlength", "32");
-						angular.element('tags-input input')[1].setAttribute("maxlength", "32");
+						/*angular.element('tags-input input')[0].setAttribute("maxlength", "32");
+						angular.element('tags-input input')[1].setAttribute("maxlength", "32");*/
 	                	
 	                	var flowConfigKey = ""
-	                	if(flow.toUppercase() == "RS"){
-	                		flowConfigKey = "local_validation_workflow";
-	                	}else if(flow.toUppercase() == "PB"){
-	                		flowConfigKey = "public_validation_workflow";
-	                	}
+	                		if(flow.toUpperCase() == "RS"){
+	                			flowConfigKey = "local_validation_workflow";
+	                		}else if(flow.toUpperCase() == "PB"){
+	                			flowConfigKey = "public_validation_workflow";
+	                		}
 		                	 apiService
 		 	    			.getSiteConfig(flowConfigKey)
 		 	    			.then(
