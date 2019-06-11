@@ -16,20 +16,31 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-.. _site-content:
 
-============
-Site Content
-============
+=================
+RTU CONFIGURATION
+=================
 
-Admin users can update 'Footer Contact Information' as well as 'Terms and Conditions' from 
-the site content of acumos site admin page.
+Acumos users can be granted access by the portal admin on which model the user has right to use.
 
-Go to **SITE ADMIN** of Acumos Portal page and click on **Site Content** tab , you can see 
-**Footer Contact Information** and **Terms and Conditions** under **CONTENT PAGES** panel.
+RTUID should be entered in the **RTU CONFIGURATION** tab in the Acumos Portal **SITE ADMIN** page.
 
-	.. image:: images/admin_site_content.png
+	 .. image:: images/admin_rtu_home.png
 
+After entering the RTUID, if the the associated model and users are available, then users list
+will be shown and soltution will be available at **Associated Model** dropdown, otherwise it wont
+show any models.If you want to provide access to more users you can select those users and click
+on **Update** button.
 
+	.. image:: images/admin_rturef_success.png
+	
+	.. image:: images/admin_rturef_error.png
 
+If there is no associated model tagged with RTUID, you can search the model by using **Search by Model name**
+and add one or more users who can access this model and click on **Save** buttion to save this.
 
+	.. image:: images/admin_rtu_searchmodel.png
+	
+	.. image:: images/admin_rtu_model_save.png
+
+	 
