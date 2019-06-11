@@ -268,6 +268,7 @@ angular.module('modelResource')
                 .then(
                         function(response) {
                             $scope.cliPushUrl = response.data.data;
+                            componentHandler.upgradeAllRegistered();
                         },
                         function(error) {
                             $scope.cliPushUrl = 'Push URL unavailable';
@@ -278,6 +279,7 @@ angular.module('modelResource')
                 .then(
                         function(response) {
                            $scope.cliAuthUrl = response.data.data;
+                           componentHandler.upgradeAllRegistered();
                         },
                         function(error) {
                             $scope.cliAuthUrl = 'Auth URL unavailable';
