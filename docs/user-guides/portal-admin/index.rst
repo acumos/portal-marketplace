@@ -32,6 +32,7 @@ Portal and Marketplace Admin Guide
    federation.rst
    requests.rst
    configure_workflows.rst
+   rtu_configuration.rst
    addendum/index
 
 

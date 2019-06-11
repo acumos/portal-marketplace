@@ -16,7 +16,6 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-
 =================
 RTU CONFIGURATION
 =================
@@ -25,22 +24,27 @@ Acumos users can be granted access by the portal admin on which model the user h
 
 RTUID should be entered in the **RTU CONFIGURATION** tab in the Acumos Portal **SITE ADMIN** page.
 
-	 .. image:: images/admin_rtu_home.png
+	 .. image:: images/admin-rtu-home.png
+                  :width: 75%
 
 After entering the RTUID, if the the associated model and users are available, then users list
 will be shown and soltution will be available at **Associated Model** dropdown, otherwise it wont
 show any models.If you want to provide access to more users you can select those users and click
 on **Update** button.
 
-	.. image:: images/admin_rturef_success.png
+	.. image:: images/admin-rturef-success.png
+                 :width: 75%
 	
-	.. image:: images/admin_rturef_error.png
+	.. image:: images/admin-rturef-error.png
+                 :width: 75%
 
 If there is no associated model tagged with RTUID, you can search the model by using **Search by Model name**
 and add one or more users who can access this model and click on **Save** buttion to save this.
 
-	.. image:: images/admin_rtu_searchmodel.png
+	.. image:: images/admin-rtu-searchmodel.png
+                 :width: 75%
 	
-	.. image:: images/admin_rtu_model_save.png
+	.. image:: images/admin-rtu-model-save.png
+                 :width: 75%
 
 	 

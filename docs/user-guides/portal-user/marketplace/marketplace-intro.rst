@@ -21,9 +21,9 @@ Overview
 ========
 
 The Acumos Marketplace is designed to make it easy to discover, explore, and use AI models. 
-In addition to displaying models from the local platform’s catalog, the Public Marketplace 
+In addition to displaying models from the local platform's catalog, the Public Marketplace 
 can be configured to display models from peer Public Marketplaces. Users may view the details 
-of a peer Model. However, users aren’t able to work with, download, or deploy a peer Model 
+of a peer Model. However, users aren't able to work with, download, or deploy a peer Model 
 without first requesting access to use that model. Public Marketplace peer relationships 
 are set up and managed by the administrators of each Acumos instance.
 
@@ -58,9 +58,11 @@ by using the comments and ratings capabilities on the Marketplace.
 5) Change from grid view to list view by selecting the corresponding icon
 6) Select an option from the **Showing** drop down to change the number of models displayed on a page 
 7) Page navigation
-8) Click a model’s image to access the **Model Detail** page
+8) Click a model's image to access the **Model Detail** page
 9) **SITE ADMIN** and **PUBLISH REQUEST** are menu items only available to users with those roles
-10)Model search; see the `Searching by Keyword` section for details
+
+10) Model search; see the `Searching by Keyword`_ section for details
+
 11) Click the **Bell** icon to review your `notifications`
 12) Click the down arrow next to your name to access **Account Settings**
 13) **Help** and **Log Out**   
@@ -102,8 +104,8 @@ Filtering by Catalogs
 
 User has two option to filter catalogs.
 
-1. Selecting ‘All Catalogs, user can able see all public catalog models in the marketplace
-2. Selecting ‘My Favorite Catalogs’ user can see only favorite catalog models in the marketplace
+1. Selecting **All Catalogs** , user can able see all public catalog models in the marketplace
+2. Selecting **My Favorite Catalogs** , user can see only favorite catalog models in the marketplace
 
 	.. image:: ../images/portal/marketplace_filtering_by_catalogs.png
 		:width: 75%
