@@ -463,10 +463,14 @@ angular
             imagetypeerror : "=",
             validfilename : "="           
           },
-        link: function (scope, element) {
+        link: function (scope, element, attrs) {
 
-            //scope.fileName = 'Browse';
-
+        	//added this code to clear the existing file 
+        	 element.bind('click', function () {
+        		$('#'+scope.uploadid).val('');
+        		angular.element(this).triggerHandler("change");
+        	 });
+        	 
             element.bind('change', function () {
                 scope.$apply(function () {
                 	//scope.fileinput = changeEvent.target.files[0];
@@ -632,62 +636,47 @@ angular
 app
 .directive(
 		'imageHeightError',
-		function($parse) {
+		function() {
 			return {
-				restrict : 'A', // the directive can be used as an
-								// attribute only
-				
-				/*
-				 * link is a function that defines functionality of
-				 * directive scope: scope associated with the element
-				 * element: element on which this directive used attrs:
-				 * key value pair of element attributes
-				 */
+				restrict : 'A', 
 				link : function(scope, element, attrs) {
 					
 					// Bind change event on the element
-					element.bind('change', function() {
+					element.bind('change', function(event) {
 						
 						scope.$apply(function() {
 							scope.isImageTypeError = false;
 							scope.isHeightError = false;
-							var size = element[0].files[0].size;
 							scope.validImageFile = false;
+							var size = element[0].files[0].size;
+							
 		    	            var coBrandLogo = element[0].files[0];
 		    	            if(coBrandLogo){
 		    	            	var validFormats = ['jpg','jpeg','png','gif'];
 		    	            	var fileName = coBrandLogo.name;
       							var ext = fileName.split('.').pop().toLowerCase();
-      							var imgpath = new Image();
-      							var reader = new FileReader();
       							scope.logoImage = document.getElementById('logoImage').files[0];
+      							if( validFormats.indexOf(ext) == -1){
+      								scope.isImageTypeError = true;
+      								return;
+      							}
+      							var imgpath = new Image();
       							imgpath.src = event.target;
+      							var reader = new FileReader();
       							
       							reader.readAsDataURL(scope.logoImage);
       							reader.onload = function(){
-	      							var imgpath = new Image();
+	      							
 	      							scope.fileData = this.result;
+	      							var imgpath = new Image();
 	      							imgpath.src = scope.fileData;
 	      							
 	      							imgpath.onload = function(){
-		      							scope['imgsrc'] = {'height' : this.height};
-		      							
-		      							if( validFormats.indexOf(ext) == -1){
-		      								scope.isImageTypeError = true;
-		      							} else {
-		      								scope.validImageFile = true;
-		      								scope.isImageTypeError = false;
-		      							}
-		      							
-		      							if(scope['imgsrc'].height>54 && (!scope.isImageTypeError)){
+		      							scope['imgsrc'] = {'height' : this.height};		      						
+	      								if(scope['imgsrc'].height>54){
 		      								scope.isHeightError = true;
 		      								scope.validImageFile = false;
-		      							} else if(scope['imgsrc'].height<54 && (scope.isImageTypeError)) {
-		      								scope.validImageFile = false;
-		      							}
-		      							 else if(scope['imgsrc'].height>54 && (scope.isImageTypeError)) {
-			      								scope.validImageFile = false;
-			      							}else{
+		      							} else{
 		      								scope.validImageFile = true;
 		      							}
 
