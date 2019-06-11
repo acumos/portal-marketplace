@@ -97,7 +97,6 @@ public class OnboardingDockerUploadController<T>  extends AbstractController {
 				}else if(restPageReq.getBody().getDescription().equals("exactSearch")) {					
 					Map<String, Object> solutoinNameParameter =  new HashMap<>();
 					solutoinNameParameter.put("name", restPageReq.getBody().getSearchTerm());
-					solutoinNameParameter.put("userId", restPageReq.getBody().getUserId());
 					mlSolutions = catalogService.getMLPSolutionBySolutionName(solutoinNameParameter, false, new RestPageRequest());
 					data.setResponseBody(mlSolutions);
 				}									
