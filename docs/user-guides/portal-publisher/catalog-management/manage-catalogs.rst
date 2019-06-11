@@ -29,23 +29,24 @@ There are two types of access level Acumos has provided.
 
 #. Restricted : Using this access level option publisher can restrict the catalog access for the marketplace users. For accessing these catalogs user has to login to Acumos. 
 
-	.. image:: ../images/publish/manage_catalogs_overview.png
+	.. image:: ../images/publish/manage-catalogs-overview.png
+                  :width: 75%
 	
-Clicking on ‘Add New Catalog’ button user is able to create new catalog. 
+Clicking on **Add New Catalog** button, user is able to create new catalog. 
 User has to enter the details while creating a new catalog
 
 Catalog Name: User can gives any name to his catalogs
 
 Access level: select this option to restricted your catalogs to be displayed in the marketplace or not.
 
-Add Description: You can provide small details or information about your catlaog.
+Add Description: You can provide small details or information about your catalog.
 
 Self Publish: Using the Self Publish option user can decide to have an admin approval for Publishing the catalogs on the marketplace.
 
-	.. image:: ../images/publish/add_new_catalog.png
+	.. image:: ../images/publish/add-new-catalog.png
+                 :width: 75%
 	
-Clicking on ‘Edit’ icon user is able to edit catalog details
+Clicking on **Edit** icon user is able to edit catalog details
 
-	.. image:: ../images/publish/edit_catalog
-	
-	
+	.. image:: ../images/publish/edit_catalog.png
+                  :width: 75%

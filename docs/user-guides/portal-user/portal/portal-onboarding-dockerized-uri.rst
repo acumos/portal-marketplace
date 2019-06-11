@@ -31,7 +31,8 @@ You can upload the license file associated with this docker URI model as per you
 **On-Board Model** , the model will be on-boarded after completion of backend process steps (like **Create 
 Solution** and **Add Artifacts**) and available in **MY MODELS** page, you can view this by clicking **View Model**. 
 
-   .. image:: ../images/portal/model_onboarding_docker_URI.png
+   .. image:: ../images/portal/model-onboarding-docker-uri.png
+	    :width: 75%
 	
 
 

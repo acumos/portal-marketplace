@@ -24,4 +24,5 @@ Portal and Marketplace Publisher Guide
    :maxdepth: 3
     
    publish/publisher-guide.rst
+   catalog-management/manage-catalogs.rst
   
