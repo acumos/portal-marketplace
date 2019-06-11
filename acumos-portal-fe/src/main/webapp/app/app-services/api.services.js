@@ -101,7 +101,8 @@ angular.module('AcumosApp')
         var urlPutNotificationPref = 'api/notifications/pref'
         var urlValidationstatusUrl = 'api/auth/validationStatus';
         var urlGetCloudEnabledUrl = 'api/cloudEnabled';
-        var urlGetCLIPushUrl = 'api/properties/cliPushUrl';
+        var urlGetCLIPushModelBundleUrl = 'api/properties/cliPushModelBundleUrl';
+        var urlGetCLIPushModelUrl = 'api/properties/cliPushModelUrl';
         var urlGetCLIAuthUrl = 'api/properties/cliAuthUrl';
         var urlGetCauroselUrl = "api/admin/user/carouseConfig";
         var urlPreferredTag ="api/preferredTags"; 	
@@ -590,8 +591,12 @@ angular.module('AcumosApp')
             return $http.post(urlValidationstatusUrl);
         };
         
-        this.getCLIPushUrl = function () {
-            return $http.get(urlGetCLIPushUrl);
+        this.getCLIPushModelBundleUrl = function () {
+            return $http.get(urlGetCLIPushModelBundleUrl);
+        };
+        
+        this.getCLIPushModelUrl = function () {
+            return $http.get(urlGetCLIPushModelUrl);
         };
        
         this.getCLIAuthUrl = function () {
