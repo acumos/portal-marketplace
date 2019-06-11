@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1cb952_a91da4de",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/md-model-edit-workflow.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-06-11T11:19:13Z",
+      "side": 1,
+      "message": "tool-tip should not be shown only when there is no msg to show... we cannot comment it",
+      "range": {
+        "startLine": 641,
+        "startChar": 19,
+        "endLine": 641,
+        "endChar": 79
+      },
+      "revId": "2267427ee0314565a21e7a74f35ae95923f31d98",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e73549_905a6509",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2182,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-06-11T11:19:13Z",
+      "side": 1,
+      "message": "just remove if the code is not needed anymore",
+      "range": {
+        "startLine": 2181,
+        "startChar": 0,
+        "endLine": 2182,
+        "endChar": 79
+      },
+      "revId": "2267427ee0314565a21e7a74f35ae95923f31d98",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
