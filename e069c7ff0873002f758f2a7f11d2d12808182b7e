@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61a826c8_7fb47dc3",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/AdminService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-06-11T08:18:38Z",
+      "side": 1,
+      "message": "do we really need to import these two Exception? i dont find them we have used anywhere",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "e069c7ff0873002f758f2a7f11d2d12808182b7e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e22906_f0463de0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/util/PortalUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-06-11T08:18:38Z",
+      "side": 1,
+      "message": "we can have this method in MLPeerSubscription.java rather in PortalUtils",
+      "range": {
+        "startLine": 734,
+        "startChar": 1,
+        "endLine": 749,
+        "endChar": 2
+      },
+      "revId": "e069c7ff0873002f758f2a7f11d2d12808182b7e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
