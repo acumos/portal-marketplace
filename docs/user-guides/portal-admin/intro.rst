@@ -44,6 +44,8 @@ The Admin Interface is a web-based tool for a site admin to:
 
 7. Configure workflows.
 
+8. Configure RTU
+
 Admin Access to the Acumos Portal
 ---------------------------------
 

@@ -46,6 +46,9 @@ For models developped in Java, Python 3.0, R  On-boarding allows user to create 
 microservice at the end of the on-boarding process. If user choose to not create the microservice
 during on-boarding he can create it later.
 
+For model Dockerized and stored in repo outside Acumos (like for example Docker hub) you can save the 
+model URI in Acumos. You can also dockerize your models by yourself and on-board them in Acumos.
+
 These kinds of Models can be easily onboarded and wrapped into containerized microservices which are
 interoperable with many other components.The solution for accommodating a myriad of different model
 types is to provide a custom wrapping library for each runtime. The client library encapsulates the

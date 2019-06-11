@@ -24,16 +24,19 @@ After On-boarding one or more models in Acumos Portal, you can check the status 
 whether they have been On-boared successfully, failed or in-progress. you can click on **View On-Boarding History** 
 button in the **on-boarding model** page of the Acumos portal to check the history.
 
-	.. image:: ../images/portal/view_on-boarding_history_nav.png
+	.. image:: ../images/portal/view-onboarding-history-nav.png
+                 :width: 75%
 	
 You can see all of your On-boarded models with details like modelname, date and status etc. 
 
-	.. image:: ../images/portal/on-boarding_history.png
+	.. image:: ../images/portal/onboarding-history.png
+                :width: 75%
 
 If you want to know the details of the particular failed model, click on **View Results** button on the 
 **View On-Boarding History** page and find the details in which step it got failed.
 
-	.. image:: ../images/portal/on-boarding_history_results.png
+	.. image:: ../images/portal/onboarding-history-results.png
+                 :width: 75%
 
 
 
