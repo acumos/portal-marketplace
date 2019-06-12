@@ -24,6 +24,7 @@ Portal Marketplace Release Notes
 Version 3.0.0  12th June 2019 
 =================================
 
+* RTU creation/ removal ACUMOS-3003
 * miss url on onboarding page	ACUMOS-3016
 * on-boarding doc not updated in portal	ACUMOS-3011
 * IST2: Top Carousel: Main Backgroud: if image height is more info text going out of the box	ACUMOS-3017
