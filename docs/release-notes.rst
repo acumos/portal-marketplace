@@ -21,6 +21,29 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.17  12th June 2019 
+=================================
+
+* miss url on onboarding page	ACUMOS-3016
+* on-boarding doc not updated in portal	ACUMOS-3011
+* IST2: Top Carousel: Main Backgroud: if image height is more info text going out of the box	ACUMOS-3017
+* Wrong link in "ON-BOARDING BY COMMAND LINE"	ACUMOS-3009
+* <IST2><Onboarding> Signatures not displayed properly for ONNX,PFA and DOCKERIZED MODEL URI models	ACUMOS-2784
+* <IST2><Marketplace>"Model" miss-spelled in error message displayed while onboarding.	ACUMOS-3019
+* Portal management of co-brand logo does not show current logo nor max size	ACUMOS-2725
+* IST2: Validation Message is not displaying on the profile pic when file size exceed the limit	ACUMOS-2989
+* IST2: Incorrect icon is displaying on Security verification status popup	ACUMOS-2999
+* IST2: Anchor Messages Icon Issues	ACUMOS-2987
+* <IST2><Onboarding><ON-BOARDING BY COMMAND LINE> Links not working properly with displaying 404 Error	ACUMOS-2968
+* IST2: Model name is showing available if we are using model name on-boarded by other user	ACUMOS-2959
+* Wrong link in "ON-BOARDING BY Web"	ACUMOS-3010
+* <IST2><Marketplace/My Models> Hand symbol not displayed for tags eventhough those are clickable	ACUMOS-3014
+* Update Marketplace user guide and admin with the front end changes made to the UI for Catalogs	ACUMOS-2914
+* IST: Not able to select the same file again during upload license	ACUMOS-2993
+* <IST><Security and Verification/Portal Marketplace> Error displayed deploy to azure/downloading license and onboarding artifacts	ACUMOS-3000
+* portal marketplace - trying to publish model unable to publish	ACUMOS-2952
+* <IST2><Manage My Model> Red box unnecessarily displayed while adding tag.	ACUMOS-2967
+
 Version 2.2.16  31st May 2019 
 =================================
 * IST2: Anchor Messages Icon Issues	ACUMOS-2987
