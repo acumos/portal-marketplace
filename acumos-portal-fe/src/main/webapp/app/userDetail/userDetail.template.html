@@ -37,7 +37,8 @@ limitations under the License.
 </div>
 <div class="page-wrapper3">
 	<br />
-	<md-tabs class="userdetails_tab" md-dynamic-height md-border-bottom>
+
+	<md-tabs class="userdetails_tab" md-dynamic-height md-border-bottom md-selected="selectedIndex">
 	<md-tab label="Profile Settings"> <md-content
 		class="md-padding">
 	<h6 class="sectiontitle6">PROFILE</h6>
@@ -287,7 +288,9 @@ limitations under the License.
 			class="mdl-button mdl-js-button btn-primary btn-gap"
 			ng-click="putNotificationPref()" alt="Save" title="Save">Save</button>
 	</div>
-	</md-content> </md-tab> <md-tab label="Select Favorite Catalogs">
+	</md-content> </md-tab> 
+	
+	<md-tab label="Select Favorite Catalogs">
 	<md-content class="md-padding">
 	<div
 		class="mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-datalist-icon">
@@ -320,8 +323,6 @@ limitations under the License.
  							  <span class="ct-info-container a-tooltip" ><span class="catalog-icon-info a-tooltipval" ></span><span class="a-tooltiptext">{{Catalog.description}}</span></span>
 							  
 						</div>	
-						
-						  
 															
 					</div>
 					<div class="ct-item-row">
@@ -342,7 +343,8 @@ limitations under the License.
 			<!-- Catalog grid item code -->			
 		</div>
 	</div>
-	</md-content> </md-tab>
+	</md-content> 
+</md-tab>
 	
 	</md-tabs>
 </div>
