@@ -111,7 +111,7 @@ angular
 				'userDetail',
 				{
 					templateUrl : './app/userDetail/userDetail.template.html',
-					controller : function($scope, $http, $location, $rootScope, $timeout,
+					controller : function($scope, $http, $location, $rootScope, $timeout, $stateParams,
 							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll, browserStorageService) {
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
@@ -964,9 +964,12 @@ angular
   											},
   											function errorCallback(response) {  											
   											});
-  						}	
-					 
-					
+						  }	
+						  
+						// if redirected from Marketplace then show the Select Fav Catalog tab
+						  $scope.$watch('$stateParams.isCatalogSelected', function() {
+							$stateParams.isCatalogSelected ? $scope.selectedIndex = 2 : $scope.selectedIndex = 0;
+						});
                           /** catalog Management end **/
 
 					}

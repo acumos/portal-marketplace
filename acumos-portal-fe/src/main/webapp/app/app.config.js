@@ -48,7 +48,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 		})
 		.state('userDetail', {
 			url: '/userDetail',
-			component: 'userDetail'
+			component: 'userDetail',
+			params: {
+				isCatalogSelected : null,
+			}
 		})
 		.state('forgotPswd', {
 			url: '/forgotPswd',
