@@ -246,6 +246,18 @@ angular
 							console.log(newScope);
 						}
 
+						//sort the unique elements in array
+						$scope.getUniqueArrayElements=function(array){
+							var result = [];
+							for(var x = 0; x < array.length; x++){
+							   if(array[x]!=null && array[x]!=''){ 
+								if(result.indexOf(array[x]) == -1)
+									  result.push(array[x]);
+								}
+							} 
+							return result;
+						}
+
 						// Pagination || Load more
 						// var counter = 0;
 						$scope.dataLoading = false;
@@ -306,8 +318,9 @@ angular
 							
 							for(var i = 0 ;i < $scope.selected.length; i++)
                             {
-								if($scope.tagFilter.indexOf($scope.selected[i].tagName) == -1)
-+                                  $scope.tagFilter.push($scope.selected[i].tagName)
+								if($scope.tagFilter.indexOf($scope.selected[i].tagName) == -1){
+									$scope.tagFilter.push($scope.selected[i].tagName)
+								}                                  
                             }
 							
 							dataObj = {
@@ -400,7 +413,15 @@ angular
 								$scope.viewNoMLsolution = 'No More ML Solutions';
 								$rootScope.valueToSearch = '';
 							}
-							$scope.tags = response.data.response_body.filteredTagSet;
+
+							//get filtered tags and push into existing scope of $scope.tags 
+							if(response.data.response_body.filteredTagSet.length > 0){
+								for(var i=0;i< response.data.response_body.filteredTagSet.length;i++){
+									var tag=response.data.response_body.filteredTagSet[i];
+									$scope.tags.push(tag);
+								}
+								$scope.tags=$scope.getUniqueArrayElements($scope.tags);
+							}
 							
 							$scope.selectedChip = $scope.tags.map(function(value) {
 								return $scope.mktPlaceStorage.tagFilter.includes(value);
