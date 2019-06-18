@@ -1290,7 +1290,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// Sort revision according to created date
 			Collections.sort(revisions, new Comparator<MLPSolutionRevision>() {
 				public int compare(MLPSolutionRevision m1, MLPSolutionRevision m2) {
-					return m2.getCreated().compareTo(m1.getCreated());
+					return m2.getModified().compareTo(m1.getModified());
 				}
 			});
 		}
