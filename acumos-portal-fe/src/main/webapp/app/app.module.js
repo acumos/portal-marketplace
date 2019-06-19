@@ -636,34 +636,44 @@ angular
 app
 .directive(
 		'imageHeightError',
-		function() {
+		function($rootScope) {
 			return {
 				restrict : 'A', 
 				link : function(scope, element, attrs) {
-					
+					element.bind('click', function () {
+						$('#logoImage').val('');
+					});
 					// Bind change event on the element
 					element.bind('change', function(event) {
 						
 						scope.$apply(function() {
 							scope.isImageTypeError = false;
+							scope.isLogoImageError = false;
 							scope.isHeightError = false;
 							scope.validImageFile = false;
-							var size = element[0].files[0].size;
-							
-		    	            var coBrandLogo = element[0].files[0];
+						
+							var coBrandLogo = element[0].files[0];
 		    	            if(coBrandLogo){
 		    	            	var validFormats = ['jpg','jpeg','png','gif'];
 		    	            	var fileName = coBrandLogo.name;
       							var ext = fileName.split('.').pop().toLowerCase();
       							scope.logoImage = document.getElementById('logoImage').files[0];
+      							var LogoSize = element[0].files[0].size;
+
       							if( validFormats.indexOf(ext) == -1){
       								scope.isImageTypeError = true;
       								return;
       							}
+      							
+      							if((LogoSize/1024)>500){
+      								scope.isLogoImageError = true;
+      								return;
+      							}
+      							
       							var imgpath = new Image();
       							imgpath.src = event.target;
       							var reader = new FileReader();
-      							
+      							$rootScope.setCobrandingLoader = true;
       							reader.readAsDataURL(scope.logoImage);
       							reader.onload = function(){
 	      							
@@ -672,7 +682,8 @@ app
 	      							imgpath.src = scope.fileData;
 	      							
 	      							imgpath.onload = function(){
-		      							scope['imgsrc'] = {'height' : this.height};		      						
+		      							scope['imgsrc'] = {'height' : this.height};	
+		      							$rootScope.setCobrandingLoader = false;
 	      								if(scope['imgsrc'].height>54){
 		      								scope.isHeightError = true;
 		      								scope.validImageFile = false;

@@ -1995,7 +1995,7 @@ angular.module('admin').filter('abs', function () {
                     	$rootScope.coBrandingImage = '';
                         $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                         $anchorScroll();
-                        $scope.msg = "The cobrand image is deleted successfully.";
+                        $scope.msg = "The Co-Branding Logo image is deleted successfully..";
                         $scope.icon = '';
                         $scope.styleclass = 'c-success';
                         $scope.showAlertMessage = true;
