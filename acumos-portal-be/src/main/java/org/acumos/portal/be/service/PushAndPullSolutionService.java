@@ -28,6 +28,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,5 +53,5 @@ public interface PushAndPullSolutionService {
 
 	public String getFileNameByDocumentId(String documentId);
 	
-	public boolean uploadLicense(MultipartFile file, String userId, String solutionId, String revisionId, String versionId);
+	public boolean uploadLicense(MultipartFile file, String userId, String solutionId, String revisionId, String versionId)  throws AcumosServiceException;
 }

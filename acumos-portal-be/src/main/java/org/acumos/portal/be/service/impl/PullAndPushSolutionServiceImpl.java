@@ -39,6 +39,7 @@ import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.data.UploadArtifactInfo;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.SaveImageCommand;
@@ -280,7 +281,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 		return mlSolutionDownload;
 	}
 
-	public boolean uploadLicense(MultipartFile file, String userId, String solutionId, String revisionId, String versionId) {
+	public boolean uploadLicense(MultipartFile file, String userId, String solutionId, String revisionId, String versionId) throws AcumosServiceException {
 		boolean uploadedFile = false;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		
@@ -292,18 +293,29 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 		try {
 			uploadedArtifact = nexusClient.uploadArtifact(groupId, PortalConstants.LICENSE_FILENAME_PREFIX, versionId, fileExtension, fileSize, file.getInputStream());
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
 			log.error("AuthenticationException failed in uploadLicense", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+					"AuthenticationException failed in uploadLicense");
 		} catch (AuthorizationException e) {
 			log.error("AuthorizationException failed in uploadLicense", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+					"AuthorizationException failed in uploadLicense");
 		} catch (ConnectionException e) {
 			log.error("ConnectionException failed in uploadLicense", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+					"ConnectionException failed in uploadLicense");
 		} catch (TransferFailedException e) {
 			log.error("TransferFailedException failed in uploadLicense", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+					"TransferFailedException failed in uploadLicense");
 		} catch (ResourceDoesNotExistException e) {
 			log.error("ResourceDoesNotExistException failed in uploadLicense", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+					"ResourceDoesNotExistException failed in uploadLicense");
 		} catch (IOException e) {
 			log.error("IOException failed in uploadLicense", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+					"IOException failed in uploadLicense");
 		}
 		
         if(uploadedArtifact !=null && !PortalUtils.isEmptyOrNullString(uploadedArtifact.getArtifactId())) {
