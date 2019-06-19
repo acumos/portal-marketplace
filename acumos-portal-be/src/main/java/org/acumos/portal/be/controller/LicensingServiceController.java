@@ -326,6 +326,10 @@ public class LicensingServiceController extends AbstractController{
 				log.error("Exception Occurred while uploading the license in Push and Pull Solution service", e);
 			} catch (Exception e) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				responseVO.setStatus(false);
+				responseVO.setResponseDetail(e.getMessage());
+				responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				log.error("Exception Occurred while uploading the license in Push and Pull Solution service", e);
 			}
 		}
