@@ -922,7 +922,7 @@ a.mdl-tabs__tab.tab5-panel {height:1px;}
 .site-config-uploadfile{position:relative;}
 .site-config-uploadfile .upload-btn{position: absolute;top: 0;right: 0;}
 .site-config-uploadfile .upload-btn-wrapper {position: relative;overflow: hidden;display: inline-block;border: 1px solid #d5d5d5;width: 408px;}
-.site-config-uploadfile .btn {color: #8f8f8f;background: #fff;padding: 5px 20px;font-size: 14px;float: right;border-left: 1px solid #d5d5d5;border-bottom: 0;border-right: 0;border-top: 0;font-weight: 600;}
+.site-config-uploadfile .btn {color: #2B262D;background: #fff;padding: 5px 20px;font-size: 14px;float: right;border-left: 1px solid #d5d5d5;border-bottom: 0;border-right: 0;border-top: 0;font-weight: 600;cursor: pointer;}
 .site-config-uploadfile .btn[disabled]{color: #B3B3B3;border-color: #d3d1d1;cursor: not-allowed;}
 .site-config-uploadfile .upload-btn-wrapper input[type=file] {font-size: 100px;position: absolute;left: 0;top: 0;opacity: 0;}
 .site-config-uploadfile .file-name{position: absolute; top: 5px; left: 10px;}
