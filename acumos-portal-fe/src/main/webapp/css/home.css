@@ -112,6 +112,9 @@ position:relative;
 .discover .desingstudio h5{color:#10a6b5;}
 .discover .marketplace h5{color:#f49419;}
 .discover .community .discover-icon, .discover .onboard .discover-icon{float:right;}
+.discover .community .discover-icon, .discover .sdn .discover-icon{cursor:default;}
+.discover .community h5, .discover .sdn h5{cursor:default;}
+.discover .onboard h5{cursor:pointer;}
 /*hasClass */
 .hasClass .discover .community{width: 289px;}
 .hasClass .discover .community .discover-description{width: 207px;}
