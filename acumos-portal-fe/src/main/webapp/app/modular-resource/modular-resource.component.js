@@ -145,6 +145,7 @@ angular.module('modelResource')
 			$scope.resetProgress = function(){
 				$rootScope.progressBar = 0;
 				$scope.file = undefined;
+				$scope.fileSubmit = false;
 				$scope.filename = undefined;
 				$scope.modelUploadErrorMsg = undefined;
 				$scope.modelUploadError = false;				
@@ -154,9 +155,11 @@ angular.module('modelResource')
 				$rootScope.progressBar = 0;
 				if(dockerURL){
 					$scope.licenseDocfile = undefined;
+					$scope.fileSubmitDocLicense = false;
 					$scope.licenseDockerFilename = undefined
 				} else {
 					$scope.licensefile = undefined;
+					$scope.fileSubmitLicense = false;
 					$scope.licenseFilename = undefined;
 				}
 				$scope.modelLicUploadErrorMsg = undefined;
