@@ -1841,11 +1841,34 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 			if (mlpSolution != null) {
 				boolean isPublished = !PortalUtils.isEmptyList(dataServiceRestClient.getSolutionCatalogs(solutionId));
+				
+				List<User> users = null;
+				// Set co-owners list for model
+				try {
+					List<MLPUser> mlpUsersList = dataServiceRestClient
+							.getSolutionAccessUsers(solutionId);
+					if (!PortalUtils.isEmptyList(mlpUsersList)) {
+						users = new ArrayList<>();
+						for (MLPUser mlpusers : mlpUsersList) {
+							User user = PortalUtils.convertToMLPuser(mlpusers);
+							users.add(user);
+						}
+					}					
+				} catch (Exception e) {
+					log.error("No co-owner for SolutionId={}", mlSolution.getSolutionId());
+				}
+			
+				List<String> co_owners_Id = new ArrayList<String>();
+				if (users != null) {
+					co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
+				}
+				
 				if (mlpSolutionRevision != null) {
 					if ((PortalUtils.isEmptyOrNullString(loginUserId) && isPublished)
 							|| (!PortalUtils.isEmptyOrNullString(loginUserId)
-									&& (isPublished || loginUserId.equals(mlpSolution.getUserId())))) {
+									&& (isPublished || co_owners_Id.contains(loginUserId) || loginUserId.equals(mlpSolution.getUserId())))) {
 						mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
+						mlSolution.setOwnerListForSol(users);
 						List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient
 								.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
 						if (toolkitTypeList.size() > 0) {
@@ -1882,28 +1905,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							mlSolution.setSolutionTagList(tagList);
 						}
 
-						List<User> users = null;
-						// Set co-owners list for model
-						try {
-
-							List<MLPUser> mlpUsersList = dataServiceRestClient
-									.getSolutionAccessUsers(mlSolution.getSolutionId());
-							if (!PortalUtils.isEmptyList(mlpUsersList)) {
-								users = new ArrayList<>();
-								for (MLPUser mlpusers : mlpUsersList) {
-									User user = PortalUtils.convertToMLPuser(mlpusers);
-									users.add(user);
-								}
-							}
-							mlSolution.setOwnerListForSol(users);
-						} catch (Exception e) {
-							log.error("No co-owner for SolutionId={}", mlSolution.getSolutionId());
-						}
-
-						List<String> co_owners_Id = new ArrayList<String>();
-						if (users != null) {
-							co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
-						}
 						List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
 						if (!PortalUtils.isEmptyList(revisionList)) {
 							// filter the private versions if loggedIn User is not the
