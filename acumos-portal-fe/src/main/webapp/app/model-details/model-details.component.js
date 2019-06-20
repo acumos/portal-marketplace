@@ -431,8 +431,8 @@ angular
 												
 												($scope.versionList).sort(function(a, b) {
 													  // sort version according to created date
-													  const genreA = a.created;
-													  const genreB = b.created;
+													  const genreA = a.onboarded;
+													  const genreB = b.onboarded;
 
 													  let comparison = 0;
 													  if (genreA < genreB) {
