@@ -748,7 +748,7 @@ angular
 												$location.hash('manage-models');
 												$anchorScroll();
 												$scope.loadData();
-												$scope.msg = "Updated: "+ $scope.detail;
+												$scope.msg = $scope.detail;
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
 												$scope.showAlertMessage = true;
@@ -825,7 +825,7 @@ angular
 													$anchorScroll();
 													$scope.getSolCompanyDesc();
 													
-													$scope.msg = "Updated: Solution Description";
+													$scope.msg = "Solution description updated successfully.";
 													$scope.icon = '';
 													$scope.styleclass = 'c-success';
 													$scope.showAlertMessage = true;
