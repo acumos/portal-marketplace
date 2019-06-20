@@ -605,12 +605,12 @@ public class MarketPlaceControllerTest {
 				"/ccds/solution/search/user?active=true&publ=true&user=bc961e2a-9506-4cf5-bbdb-009558b79e29&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"created\":1535603044000,\"onboarded\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody(
-						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
+						"{\"created\":1535603044000,\"onboarded\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/tag")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
@@ -619,7 +619,7 @@ public class MarketPlaceControllerTest {
 		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody(
-						"{\"created\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
+						"{\"created\":1535602889000,\"onboarded\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
 
 		stubFor(get(urlEqualTo("/ccds/access/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user"))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
@@ -628,7 +628,7 @@ public class MarketPlaceControllerTest {
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/revision")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody(
-						"[{\"created\":1535603252000,\"modified\":1536354698000,\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"version\":\"2\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"OR\",\"validationStatusCode\":\"PS\",\"authors\":[],\"publisher\":\"Acumos\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null},{\"created\":1535603044000,\"modified\":1535603044000,\"revisionId\":\"f6b577a1-1849-4965-b77e-2ea11ab0b327\",\"version\":\"1\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"PB\",\"validationStatusCode\":\"IP\",\"authors\":[],\"publisher\":null,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null}]")));
+						"[{\"created\":1535603252000,\"onboarded\":1535603252000,\"modified\":1536354698000,\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"version\":\"2\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"OR\",\"validationStatusCode\":\"PS\",\"authors\":[],\"publisher\":\"Acumos\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null},{\"created\":1535603044000,\"onBoarded\":1535603044000,\"modified\":1535603044000,\"revisionId\":\"f6b577a1-1849-4965-b77e-2ea11ab0b327\",\"version\":\"1\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"PB\",\"validationStatusCode\":\"IP\",\"authors\":[],\"publisher\":null,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null}]")));
 
 		stubFor(get(urlEqualTo(
 				"/ccds/thread/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/revision/02c5f263-c612-4bd2-abaa-d12ccc0d2476/comment/count"))
@@ -640,7 +640,7 @@ public class MarketPlaceControllerTest {
 				"/ccds/task/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=created,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"taskId\":5,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"taskCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"created\":1535603254000,\"modified\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"taskId\":5,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"taskCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"created\":1535603254000,\"onboarded\":1535603254000,\"modified\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo(
 				"/ccds/task/5/stepresult"))
@@ -656,7 +656,9 @@ public class MarketPlaceControllerTest {
 
 		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," 
+						+ "\"onboarded\": \"2019-04-05T20:47:03Z\","
+				        + "\"modified\": \"2019-04-05T20:47:03Z\","
 						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
 						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
 						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
