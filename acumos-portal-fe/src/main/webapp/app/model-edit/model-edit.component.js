@@ -2532,6 +2532,7 @@ angular
 				    $scope.getLicenseFile = function() {
 						$scope.modelLicense = "";
 						$scope.modelLicenseError = "";
+						$scope.isLicenseJson = false;
 						var url = 'api/getLicenseFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
 						$http({
 								method : 'GET',
@@ -2540,6 +2541,7 @@ angular
 							console.log(response);
 							if (response.data) {
 								$scope.modelLicense = response.data;
+								$scope.isLicenseJson = angular.isObject($scope.modelLicense);
 							} else {
 								$scope.modelLicenseError = "No license found";
 							}		
