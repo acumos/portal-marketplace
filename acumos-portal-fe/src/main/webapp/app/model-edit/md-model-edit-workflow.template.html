@@ -1770,7 +1770,7 @@ limitations under the License.
 																				</span>
 																				</a><a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
 																					<span class="tab-box"> 
-																						<span class="tab-icons fas fa-certificate"></span>
+																						<span class="tab-icons tab-license"></span>
 																						<span>Licenses</span>
 																					</span>
 																				</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
@@ -1824,8 +1824,11 @@ limitations under the License.
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab7-panel">
 																				<h6 class="sectiontitle6">LICENSES</h6>
-																				<div ng-show= "modelLicense"><pre class="license-pre">{{modelLicense | json}}</pre></div>
-																				<div ng-show="modelLicenseError">{{modelLicenseError}}</div>
+																				<div ng-show= "modelLicense">
+																					<pre class="wrap" ng-if="!isLicenseJson && modelLicense">{{modelLicense}}</pre>
+																					<pre class="wrap" ng-if="isLicenseJson && modelLicense">{{modelLicense | json: 4}}</pre>
+																				</div>
+																				<pre ng-show="modelLicenseError">{{modelLicenseError}}</pre>
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab2-panel">
 																				<h6 class="sectiontitle6">SIGNATURE</h6>
