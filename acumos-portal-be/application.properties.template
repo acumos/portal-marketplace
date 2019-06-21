@@ -105,8 +105,6 @@ model.storage.folder.path=./temp
 #Documentation URL
 doc.url=http://docs.acumos.org/
 
-onboarding.cliPushModelBundleUrl = http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8090/onboarding-app/v2/models
-onboarding.cliPushModelUrl = http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8090/onboarding-app/v2/advancedModel
 onboarding.push.model.dcae_url=http://localhost:8090/onboarding-app/v2/dcae_models
 dcae.model.name.prefix=ONAP
 onboarding.tokenmode=jwtToken
