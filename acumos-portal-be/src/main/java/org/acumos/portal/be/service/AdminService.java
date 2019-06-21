@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 
@@ -45,9 +47,9 @@ public interface AdminService {
 
     MLPPeer getPeerDetail(String peerId);
 
-    List<MLPPeerSubscription> getPeerSubscriptions(String peerId); 
+    List<MLPeerSubscription> getPeerSubscriptions(String peerId) throws IOException; 
 
-	MLPPeerSubscription getPeerSubscription(Long subId);
+	MLPeerSubscription getPeerSubscription(Long subId) throws IOException;
 	
 	Map<String,Integer> getPeerSubscriptionCounts(List<String> peerIds);
 
