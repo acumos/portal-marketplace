@@ -50,6 +50,7 @@ import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MailData;
@@ -264,14 +265,14 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Gets paginated list of Peer Subscriptions.", response = MLPPeerSubscription.class, responseContainer = "List")
     @RequestMapping(value = { APINames.PEERSUBSCRIPTION_PAGINATED }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse<List<MLPPeerSubscription>> getPeerSubscriptions(
+    public JsonResponse<List<MLPeerSubscription>> getPeerSubscriptions(
             @PathVariable("peerId") String peerId) {
         log.debug( "getPeerList");
         
         peerId = SanitizeUtils.sanitize(peerId);
         
-        List<MLPPeerSubscription> subscriptionList = null;
-        JsonResponse<List<MLPPeerSubscription>> data = new JsonResponse<>();
+        List<MLPeerSubscription> subscriptionList = null;
+        JsonResponse<List<MLPeerSubscription>> data = new JsonResponse<>();
         try {
             subscriptionList = adminService.getPeerSubscriptions(peerId);
             if (subscriptionList != null) {
@@ -328,10 +329,10 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Gets Subscription details.", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse<MLPPeerSubscription> getPeerSubscriptionDetails(@PathVariable("subId") Long subId) {
+    public JsonResponse<MLPeerSubscription> getPeerSubscriptionDetails(@PathVariable("subId") Long subId) {
         log.debug( "getPeerDetails");
-        MLPPeerSubscription mlpSubscription = null;
-        JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
+        MLPeerSubscription mlpSubscription = null;
+        JsonResponse<MLPeerSubscription> data = new JsonResponse<>();
         try {
             mlpSubscription = adminService.getPeerSubscription(subId);
             if (mlpSubscription != null) {
