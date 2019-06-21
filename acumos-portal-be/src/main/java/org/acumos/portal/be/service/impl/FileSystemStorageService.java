@@ -109,8 +109,8 @@ public class FileSystemStorageService implements StorageService {
 				}
 	
 				if (!validateFile(file)) {
-					log.error("Onboarded Model does not contain required files " + filename );
-					throw new StorageException("Onboarded Model does not contain required files: " + getMissingFiles(file));
+					log.error("On-boarded Model does not contain required files " + filename );
+					throw new StorageException("On-boarded Model does not contain required files: " + getMissingFiles(file));
 				}
 				// Remove older files before uploading another solution files
 				deleteAll(userId);
