@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPTask;
@@ -45,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 @Service
 public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements OnboardingHistoryService {
 
@@ -53,12 +57,74 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal, String userId) {
 		log.debug("getTasks");
+		String searchTerm = pageRequestPortal.getPageRequest().getFieldToDirectionMap().get("filter");
+		pageRequestPortal.getPageRequest().getFieldToDirectionMap().remove("filter");
 		PagableResponse<List<MLTask>> response = new PagableResponse<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPTask> pageResponse = findTasksByUserId(pageRequestPortal, userId);
+		List<MLTask> mlTaskList =  getMLTaskList(pageRequestPortal,  pageResponse, userId,  dataServiceRestClient);
+		if(searchTerm != null && searchTerm.length() >0) {
+			List<MLTask> newMLTaskList = new ArrayList<>();
+			newMLTaskList.addAll(mlTaskList);
+			RestPageRequest currentPageRequest = new RestPageRequest();
+			currentPageRequest.setPage(pageRequestPortal.getPageRequest().getPage());
+			
+			if(currentPageRequest.getPage() == 0) {
+				pageRequestPortal.getPageRequest().setPage(currentPageRequest.getPage()+1);
+			} else {
+				pageRequestPortal.getPageRequest().setPage(currentPageRequest.getPage()-1);	
+		    }
+			RestPageResponse<MLPTask> pageResponse2 = findTasksByUserId(pageRequestPortal, userId);
+			List<MLTask> mlTaskList2 =  getMLTaskList(pageRequestPortal, pageResponse2, userId,  dataServiceRestClient);
+			newMLTaskList.addAll(mlTaskList2);
+			if(currentPageRequest.getPage() == 0) {
+				pageRequestPortal.getPageRequest().setPage(currentPageRequest.getPage()+2);
+			} else {
+				pageRequestPortal.getPageRequest().setPage(currentPageRequest.getPage()+1);	
+			}
+			pageResponse2 = findTasksByUserId(pageRequestPortal, userId);
+			mlTaskList2 =  getMLTaskList(pageRequestPortal, pageResponse2, userId,  dataServiceRestClient);
+			newMLTaskList.addAll(mlTaskList2);
+			List<RelevantMLTask> rs = newMLTaskList.stream()
+				.collect(Collectors.mapping(
+					p -> new RelevantMLTask(p, meanScore (searchTerm, p.getModelName())),
+					Collectors.toList()));
+			Comparator<RelevantMLTask> taskScoreComparator
+				      = Comparator.comparingDouble(RelevantMLTask::getScore);
+			Collections.sort(rs, taskScoreComparator.reversed());
+			mlTaskList = new ArrayList<MLTask>(rs);
+			if(pageResponse.getPageable().getPageNumber() == 0) {
+				mlTaskList = mlTaskList.stream().limit(pageResponse.getPageable().getPageSize()).collect(Collectors.toList());
+			}
+			else {
+				List<MLTask> filterdMLTasks = new ArrayList<MLTask>();
+				int size = pageResponse.getPageable().getPageSize();
+				for (int i = 0; i < mlTaskList.size();i++) {
+					if(i < pageResponse.getPageable().getPageNumber() * size) continue;
+					if(filterdMLTasks.size() <= size) {
+						filterdMLTasks.add(mlTaskList.get(i));
+					} else {
+						break;
+					}
+				}
+				mlTaskList = filterdMLTasks;
+			}
+					
+		} else {
+		  Collections.sort(mlTaskList, Comparator.comparing(MLTask::getCreatedtDate).reversed());
+		}
+
+		response.setResponseBody(mlTaskList);
+		response.setSize(pageResponse.getSize());
+		response.setTotalElements(pageResponse.getTotalElements());
+		response.setTotalPages(pageResponse.getTotalPages());
+		return response;
+	}
+	
+	private List<MLTask> getMLTaskList(RestPageRequestPortal pageRequestPortal,RestPageResponse<MLPTask> pageResponse, String userId, ICommonDataServiceRestClient dataServiceRestClient) {
 		List<MLTask> mlTaskList = new ArrayList<MLTask>();
 		MLSolution mlSolution = null;
-
+		
 		for (MLPTask task : pageResponse) {
 			mlSolution = new MLSolution();
 			if (task.getSolutionId() != null) {
@@ -69,14 +135,37 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 			mlTask.setModelName(mlSolution.getName());
 			mlTaskList.add(mlTask);
 		}
+		return mlTaskList;
 
-		Collections.sort(mlTaskList, Comparator.comparing(MLTask::getCreatedtDate).reversed());
+	}
+	
+	private double meanScore (String searchName, String name) {
+		if(name == null || name.length() == 0) return 0.0;
+		return FuzzySearch.ratio(searchName,name);
+	}
+		
+	class RelevantMLTask extends MLTask {
 
-		response.setResponseBody(mlTaskList);
-		response.setSize(pageResponse.getSize());
-		response.setTotalElements(pageResponse.getTotalElements());
-		response.setTotalPages(pageResponse.getTotalPages());
-		return response;
+		
+		RelevantMLTask(MLTask task, double score) {
+			super.setTaskId(task.getTaskId());
+			super.setTaskCode(task.getTaskCode());
+			super.setStatusCode(task.getStatusCode());
+			super.setName(task.getName());
+			super.setSolutionId(task.getSolutionId());
+			super.setRevisionId(task.getRevisionId());
+			super.setCreatedtDate(task.getCreatedtDate());
+			super.setModifiedDate(task.getModifiedDate());
+			super.setTrackingId(task.getTrackingId());
+			super.setUserId(task.getUserId());
+			super.setModelName(task.getModelName());
+			this.score = score;
+		}
+		private double score;
+		
+		public double getScore() {
+			return this.score;
+		}
 	}
 
 	@Override

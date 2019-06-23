@@ -50,7 +50,7 @@ limitations under the License.
 				data-upgraded=",MaterialTextfield">
 				<input
 					class="mdl-textfield__input adminsearchicon ng-pristine ng-untouched ng-valid ng-empty"
-					type="text" ng-model="searchOnHistoryList" aria-invalid="false">
+					type="text" ng-model="searchtxt" placeholder="Search model by name" ng-change="loadOnBoardingHistoryTaskList(0)" aria-invalid="false">
 			</div>
 		</div>
 	</div>
@@ -81,7 +81,7 @@ limitations under the License.
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList" >						
+				<tr ng-repeat="Task in allOnBoardingHistoryTaskList" >						
 					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
 					<td>{{Task.taskCode}}</td>			
 					<td><span class="md-breadcrumb-item"> {{Task.solutionId}}</span></td>
