@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPTask;
@@ -45,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 @Service
 public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements OnboardingHistoryService {
 
@@ -53,6 +57,8 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 	@Override
 	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal, String userId) {
 		log.debug("getTasks");
+		String searchTerm = pageRequestPortal.getPageRequest().getFieldToDirectionMap().get("filter");
+		pageRequestPortal.getPageRequest().getFieldToDirectionMap().remove("filter");
 		PagableResponse<List<MLTask>> response = new PagableResponse<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPTask> pageResponse = findTasksByUserId(pageRequestPortal, userId);
@@ -70,13 +76,53 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 			mlTaskList.add(mlTask);
 		}
 
-		Collections.sort(mlTaskList, Comparator.comparing(MLTask::getCreatedtDate).reversed());
+		if(searchTerm != null && searchTerm.length() >0) {
+			List<RelevantMLTask> rs = mlTaskList.stream()
+				.collect(Collectors.mapping(
+					p -> new RelevantMLTask(p, meanScore (searchTerm, p.getModelName())),
+					Collectors.toList()));
+			Comparator<RelevantMLTask> taskScoreComparator
+				      = Comparator.comparingDouble(RelevantMLTask::getScore);
+			Collections.sort(rs, taskScoreComparator.reversed());
+			mlTaskList = new ArrayList<MLTask>(rs);
+					
+		} else {
+		  Collections.sort(mlTaskList, Comparator.comparing(MLTask::getCreatedtDate).reversed());
+		}
 
 		response.setResponseBody(mlTaskList);
 		response.setSize(pageResponse.getSize());
 		response.setTotalElements(pageResponse.getTotalElements());
 		response.setTotalPages(pageResponse.getTotalPages());
 		return response;
+	}
+	
+	private double meanScore (String searchName, String name) {
+	    return FuzzySearch.ratio(searchName,name);
+	}
+		
+	class RelevantMLTask extends MLTask {
+
+		
+		RelevantMLTask(MLTask task, double score) {
+			super.setTaskId(task.getTaskId());
+			super.setTaskCode(task.getTaskCode());
+			super.setStatusCode(task.getStatusCode());
+			super.setName(task.getName());
+			super.setSolutionId(task.getSolutionId());
+			super.setRevisionId(task.getRevisionId());
+			super.setCreatedtDate(task.getCreatedtDate());
+			super.setModifiedDate(task.getModifiedDate());
+			super.setTrackingId(task.getTrackingId());
+			super.setUserId(task.getUserId());
+			super.setModelName(task.getModelName());
+			this.score = score;
+		}
+		private double score;
+		
+		public double getScore() {
+			return this.score;
+		}
 	}
 
 	@Override
