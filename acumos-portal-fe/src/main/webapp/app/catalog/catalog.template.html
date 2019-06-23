@@ -58,8 +58,8 @@ limitations under the License.
 					value="Restricted Peer">Restricted Peer</md-option> </md-select>
 			</div>
 			<div>
-				<input class="catalog-search-txtbox notification-search" type="text" ng-model="searchtxt.name"
-					placeholder="Search Catalog by name" />
+				<input class="catalog-search-txtbox notification-search" type="text" ng-model="searchtxt"
+					placeholder="Search Catalog by name" ng-change="loadCatalog(0)" />
 			</div>
 		</div>
 	</div>
