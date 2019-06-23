@@ -79,6 +79,11 @@ limitations under the License.
 			<!-- Spring chooses <version>${slf4j.version}</version> -->
 		</dependency>
 		<dependency>
+		  <groupId>me.xdrop</groupId>
+          <artifactId>fuzzywuzzy</artifactId>
+          <version>1.2.0</version>
+        </dependency>
+		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<!-- Spring chooses <version>${logback.version}</version> -->
