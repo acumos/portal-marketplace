@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae382b0e_519be997",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AdminServiceImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-06-24T15:17:06Z",
+      "side": 1,
+      "message": "check here if mLPCatalog is not null return mLPCatalog.getName();",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "2a214ffb535d69831e6ea0894da80302d2677de2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10f8b315_19a63d34",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AdminServiceImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-06-24T15:17:06Z",
+      "side": 1,
+      "message": "throw exception saying mLPTCatalog details not found or something",
+      "range": {
+        "startLine": 170,
+        "startChar": 9,
+        "endLine": 170,
+        "endChar": 29
+      },
+      "revId": "2a214ffb535d69831e6ea0894da80302d2677de2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
