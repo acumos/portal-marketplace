@@ -22,7 +22,10 @@ package org.acumos.portal.be.service.impl;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCatalog;
@@ -37,6 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+
 @Service
 public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogService {
 
@@ -45,8 +50,62 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	@Override
 	public RestPageResponse<MLCatalog> getCatalogs(String userId, RestPageRequest pageRequest) {
 		log.debug("getCatalogs");
+		String searchName = pageRequest.getFieldToDirectionMap().get("filter");
+		pageRequest.getFieldToDirectionMap().remove("filter");
 		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if(searchName != null && searchName.length() >0) {
+			List<MLCatalog> mlCatalogs = new ArrayList<>();
+			List<String> favorites = (PortalUtils.isEmptyOrNullString(userId)) ? new ArrayList<>()
+					: dataServiceRestClient.getUserFavoriteCatalogIds(userId);
+			RestPageResponse<MLPCatalog> response = dataServiceRestClient.getCatalogs(pageRequest);
+			mlCatalogs.addAll(getMLCatalogs(response, favorites, dataServiceRestClient));
+			RestPageRequest currentPageRequest = new RestPageRequest();
+			currentPageRequest.setFieldToDirectionMap(pageRequest.getFieldToDirectionMap());
+			currentPageRequest.setPage(pageRequest.getPage());
+			currentPageRequest.setSize(pageRequest.getSize());
+			
+			if(currentPageRequest.getPage() == 0) {
+			  pageRequest.setPage(currentPageRequest.getPage()+1);
+			} else {
+			  pageRequest.setPage(currentPageRequest.getPage()-1);	
+			}
+			RestPageResponse<MLPCatalog> response2 = dataServiceRestClient.getCatalogs(pageRequest);
+			mlCatalogs.addAll(getMLCatalogs(response2, favorites, dataServiceRestClient));
+			if(currentPageRequest.getPage() == 0) {
+			  pageRequest.setPage(currentPageRequest.getPage()+2);
+			} else {
+			  pageRequest.setPage(currentPageRequest.getPage()+1);	
+			}
+			response2 = dataServiceRestClient.getCatalogs(pageRequest);
+			mlCatalogs.addAll(getMLCatalogs(response2, favorites, dataServiceRestClient));
+			List<RelevantMLCatalog> rs = mlCatalogs.stream()
+					.collect(Collectors.mapping(
+						p -> new RelevantMLCatalog(p, meanScore (searchName, p.getName())),
+						Collectors.toList()));
+		    Comparator<RelevantMLCatalog> catalogScoreComparator
+					      = Comparator.comparingDouble(RelevantMLCatalog::getScore);
+			Collections.sort(rs, catalogScoreComparator.reversed());
+			mlCatalogs = new ArrayList<MLCatalog>(rs);
+			if(response.getPageable().getPageNumber() == 0) {
+			  mlCatalogs = mlCatalogs.stream().limit(response.getPageable().getPageSize()).collect(Collectors.toList());
+			}
+			else {
+				List<MLCatalog> newCatalogs = new ArrayList<MLCatalog>();
+				int size = response.getPageable().getPageSize();
+				for (int i = 0; i < mlCatalogs.size();i++) {
+					if(i < response.getPageable().getPageNumber() * size) continue;
+					if(newCatalogs.size() <= size) {
+					  newCatalogs.add(mlCatalogs.get(i));
+					} else {
+						break;
+					}
+				}
+				mlCatalogs = newCatalogs;
+			}
+			System.out.println("=====================after search:" + mlCatalogs.size());
+			return PortalUtils.convertRestPageResponse(response, mlCatalogs);
+		}
 		RestPageResponse<MLPCatalog> response = dataServiceRestClient.getCatalogs(pageRequest);
 		if (response != null) {
 			List<MLPCatalog> mlpCatalogs = response.getContent();
@@ -64,6 +123,41 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 		}
 		return out;
 	}
+	
+	private List<MLCatalog> getMLCatalogs(RestPageResponse<MLPCatalog> response, List<String> favorites, ICommonDataServiceRestClient dataServiceRestClient) {
+		ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
+		if (response != null) {
+			List<MLPCatalog> mlpCatalogs = response.getContent();
+			MLCatalog mlCatalog;
+			for (MLPCatalog mlpCatalog : mlpCatalogs) {
+				mlCatalog = new MLCatalog(mlpCatalog);
+				mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+				mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
+				mlCatalogs.add(mlCatalog);
+			}
+		}
+		return mlCatalogs;
+	}
+	
+	private double meanScore (String searchName, String name) {
+	    return FuzzySearch.ratio(searchName,name);
+	}
+		
+	class RelevantMLCatalog extends MLCatalog {
+
+		private static final long serialVersionUID = 3649399500562546202L;
+
+		RelevantMLCatalog(MLCatalog catalog, double score) {
+			super(catalog);
+			this.score = score;
+		}
+		private double score;
+		
+		public double getScore() {
+			return this.score;
+		}
+	}
+
 
 	@Override
 	public RestPageResponse<MLCatalog> searchCatalogs(CatalogSearchRequest catalogRequest) {
