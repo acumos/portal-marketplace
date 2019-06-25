@@ -21,6 +21,22 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.18  25th June 2019 
+=================================
+
+* IST : Home Page : Onboarding and Team UP Text need to be corrected	ACUMOS-3100
+* IST-GUI for federation Admin not correct	ACUMOS-2880
+* miss url on onboarding page	ACUMOS-3016
+* Wrong link in On-boarding model page	ACUMOS-3033
+* <IST>My Models > Model Details: Signature are displayed blank after onboarding models	ACUMOS-3051
+* Versioning order not displaying correctly for models federated	ACUMOS-2386
+* IST: Shared Model : User is getting access denied error when he click on  model 	ACUMOS-3092
+* <IST2><Portal Marketplace><Web Onboarding>Onboarding History: text overlapping on screen when Mozilla browser used 	ACUMOS-3023
+* IST: Error message : ONNX / PFA Model Onboarded text need to display consistent with the application	ACUMOS-3048
+* IST: Text size and text alignment is incorrect in create micro service button 	ACUMOS-3056
+* IST2: If user is adding two tag with same name at same time it is displaying with new tag	ACUMOS-2960
+* <IST2><Marketplace/My Models> Tag display format not consistent	ACUMOS-3013
+
 Version 2.2.17  12th June 2019 
 =================================
 
