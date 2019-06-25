@@ -115,7 +115,10 @@ angular
 							    .onBoardingHistoryTaskList($scope.loginUserID, reqObject)
 									.then(
 											function successCallback(response) {
+												if(response.data.response_body.length > 0){
 												$scope.allOnBoardingHistoryTaskList = response.data.response_body;
+												$scope.CheckallOnBoardingHistoryTaskList = $scope.allOnBoardingHistoryTaskList;
+												
 												$scope.allOnBoardingHistoryTaskList.forEach(function(element) {
 												element.textDate = $filter('date')(element.modifiedDate, "MM/dd/yyyy '|' h:mm a");
 												element.status = element.statusCode == "ST" ? "InProgress" : element.statusCode == "SU" ? "Successful" : "Failed"
@@ -124,7 +127,12 @@ angular
 												$scope.totalElements = response.data.totalElements;
 												$scope.allOnboardingListLength = response.data.totalElements;
 												$scope.SetDataLoaded = false;
-												$rootScope.setLoader = false;																																																																																			
+												$rootScope.setLoader = false;
+											}
+												else{
+													$scope.SetDataLoaded = false;
+													$rootScope.setLoader = false;
+												}
 											},function errorCallback(response) {
 												$scope.SetDataLoaded = false;
 												$rootScope.setLoader = false;
