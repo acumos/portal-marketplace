@@ -2161,7 +2161,7 @@ angular
 					$scope.skipStep = function(){
 						if($scope.company){
 							if($scope.company.skipStep == true){
-								$scope.company.step4 = true
+								$scope.company.step4 = true;
 							}
 						}else{
 							//empty else required
@@ -2545,6 +2545,17 @@ angular
 							}		
 						});
 				 	}
+				    $scope.showazurePopup = function(ev){
+
+				    	$scope.confirmSelection=false;
+				    	$mdDialog.show({
+				    		contentElement: '#deploy',
+				    		parent: angular.element(document.body),
+				    		targetEvent: ev,
+				    		clickOutsideToClose: true
+				    	});
+
+				    } 
 				    
 					}
 
