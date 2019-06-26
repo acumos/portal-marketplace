@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe482739_4b881d5a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1597,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-06-26T23:18:18Z",
+      "side": 1,
+      "message": "We should not invoke a SV scan then do action .. it is easy to override and bypass the sv scan.. the /package/getSolutionZip/ api should do the sv scan check and provide result to client.",
+      "revId": "3f8abab679d9d18e4730fda2e745ecc58717e3fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
