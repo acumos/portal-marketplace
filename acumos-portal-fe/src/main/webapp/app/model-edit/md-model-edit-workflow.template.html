@@ -2259,46 +2259,28 @@ limitations under the License.
 								label="Export to Local"> <md-content class="md-padding">
 							<div class="response">
 								<h6 class="sectiontitle">Export To Local</h6>
-								<table class="autoheight mdl-data-table mdl-js-data-table">
-									<thead>
-										<tr>
-											<th class="mdl-data-table__cell--non-numeric">Name</th>
-											<th>Type</th>
-											<th>Version</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody ng-repeat="value in artifactDownload">
-										<tr>
-											<td data-label="Name">{{value.name}}</td>
-											<td data-label="Type">{{value.artifactTypeCode}}</td>
-											<td data-label="Version">{{value.version}}</td>
-											<td data-label="Action"><a href
-												ng-click="exportToLocal(value.artifactId)"><img
-													src="images/view-download-1.png" alt="" title="" /></a></td>
-										</tr>
-										<tr class="removebefore">
-											<td colspan="4" class="mercol">
-												<div>
-													<label>Label : </label><span>{{value.name}}</span>
-												</div>
-												<div>
-													<label>UUID : </label><span></span>
-												</div>
-												<div>
-													<label>Description : </label><span>{{value.description}}</span>
-												</div>
-											</td>
-										</tr>
-										
-									</tbody>
-								</table>
+								 <!-- Deploy To Local starts -->
+								<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+									<form name="deployToLocal">
+										<md-input-container class="md-icon-float md-block">
+											<label>Click here to download Deployable Solution Package for Private Kubernetes Cloud</label> 
+											<md-button class="mdl-button mdl-js-button btn-primary" ng-click="deployLocalPackage()"> Download Solution Package</md-button>
+										</md-input-container>
+										<br />
+										<p>More Info at <a href="{{kubernetesDocUrl}}" target="_blank">help</a></p>
+									</form>
+								</div>
+								<div class="dialog-btn-container-deploy-to-cloud" ng-show="exportTo=='deploylocal'">
+									<md-button
+										class="mdl-button mdl-js-button btn-secondary"
+										ng-click="handleDismiss()"> Cancel </md-button>
+								</div>
+								<!-- Deploy To Local ends -->
 							</div>
-							</md-content> </md-tab> </md-tabs>
-
+							</md-content> 
+							</md-tab> 
+							</md-tabs>
 						</div>
-
-
 					</div>
 					<!-- cloud end -->
 					<!-- view download start -->
