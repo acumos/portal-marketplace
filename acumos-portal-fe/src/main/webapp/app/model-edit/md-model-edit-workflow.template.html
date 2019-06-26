@@ -858,7 +858,7 @@ limitations under the License.
 																			<md-input-container class="md-icon-float md-block">
 																			<!-- Use floating label instead of placeholder --> <label class="md-required">Model
 																				Name </label> <input ng-model="solutionName" type="text" name="OrModelName"
-																				ng-pattern="/^[a-zA-Z0-9_-]*$/">
+																				ng-pattern="/^[a-zA-Z0-9_-]+$/" ng-trim="false">
 																				<span  ng-show="ORmodelNameForm.OrModelName.$error.pattern">
 																					Model Name can consists of alphanumeric, hyphen and underscore characters only.
 																				</span>
