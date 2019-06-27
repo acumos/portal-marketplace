@@ -1361,8 +1361,8 @@ limitations under the License.
 														 md-on-remove="tagRemoved($chip)" md-min-chips="1" required>
 														<md-autocomplete md-input-name="tagsAutocomplete"	
 														 md-items="item in chipSearch(searchText)" md-search-text="searchText" placeholder="Enter a tag" name="pubtag"
-														 md-selected-item="selectedItem" md-item-text="item" md-input-maxlength="32"
-														 md-no-cache="true" ng-required="true" md-autoselect="true"
+														 md-selected-item="selectedItem" md-item-text="item" md-input-maxlength="32" 
+														 md-no-cache="true" ng-required="true" md-autoselect="true" ng-pattern="/^[A-Za-z0-9 ]+$/"
 														 md-require-match="true"> 
 														  <span md-highlight-text="searchText" > {{item}}</span>
 														  </md-autocomplete>
@@ -1373,6 +1373,7 @@ limitations under the License.
 																<span
 																	ng-show="tags1.length == 0 && publictags1.$error.required[0].$touched">Minimum one tag is required.</span>
 																	<span ng-show="publictags1.tagsAutocomplete.$viewValue.length>32">Maximum input length is 32</span>
+																	<span ng-show="publictags1.tagsAutocomplete.$error.pattern;">Special Characters are not allowed.</span>
 															</div>
 															
 														</form>
