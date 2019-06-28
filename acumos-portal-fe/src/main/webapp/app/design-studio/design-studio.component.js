@@ -28,9 +28,9 @@ angular
             controller : DSController
         }
     );
-DSController.$inject = ['$scope','$window','$rootScope','$mdDialog','$state','$injector','browserStorageService'];
+DSController.$inject = ['$scope','$window','$rootScope','$mdDialog','$state','$injector','browserStorageService','apiService'];
 
-function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, browserStorageService) {
+function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, browserStorageService, apiService) {
 	componentHandler.upgradeAllRegistered();
 
 	$scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
@@ -47,7 +47,22 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 		     } }
 			});
 	} else{
+		apiService.getDSMenu().then(
+				function successCallback(response) {
+					var body = JSON.parse(response.data.response_body);
+					console.log("DS,",body);
+					$scope.isWorkbenchActive = body.isWorkbenchActive;
+					$scope.isAcucomposeActive = body.isAcucomposeActive;
+					$scope.blocks = body.blocks.filter(function(item) {
+						return item.active;
+					});
+				}, function errorCallback(error) {
+					console.error(error);
+				});
 		
+		$scope.openBlockUrl = function(url) {
+			window.open(url, '_blank');
+		};
 		
 		var pathArray = location.href.split( '/' );
 	    var protocol = pathArray[0];
@@ -59,7 +74,7 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 	    
 	    $scope.launchFlag = false;
 		$scope.launchWorkbench = function(e){
-			iframeEl.onload = function() { 
+			/*iframeEl.onload = function() { 
 				window.setTimeout(function() {                                
 					iframeEl.contentWindow.postMessage('iframeMsg', '*');
         		}, 500);
@@ -67,7 +82,8 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 			};
 			$scope.launchFlag = true;
 			document.getElementById("workbenchLaunch").style.display="block";
-			document.getElementById("workbenchLaunch").src = urlBase;
+			document.getElementById("workbenchLaunch").src = urlBase;*/
+			$scope.openBlockUrl(urlBase);
 		}
 		
 		window.onmessage = function(event) {

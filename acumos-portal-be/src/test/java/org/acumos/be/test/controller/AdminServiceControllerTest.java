@@ -776,7 +776,15 @@ public class AdminServiceControllerTest {
 	
 	@Test
 	public void getDynamicMenu() {
+		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
 		JsonResponse<String> responseVO = adminController.getDynamicMenu(request, response);
+		Assert.assertNotNull(responseVO);
+	}
+	
+	@Test
+	public void getDesignStudioMenu() {
+		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
+		JsonResponse<String> responseVO = adminController.getDesignStudioMenu(request, response);
 		Assert.assertNotNull(responseVO);
 	}
 		
