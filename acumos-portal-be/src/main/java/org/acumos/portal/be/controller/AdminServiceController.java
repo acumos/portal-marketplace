@@ -844,4 +844,19 @@ public class AdminServiceController extends AbstractController {
 		responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		return responseVO;
 	}
+	
+	@ApiOperation(value = "Get dynamic list for design studio menu", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.GET_DESIGN_STUDIO_MENU }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> getDesignStudioMenu(HttpServletRequest request, HttpServletResponse response) {
+
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		String menu = env.getProperty("portal.feature.ds.menu");
+
+		responseVO.setResponseBody(menu);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
 }

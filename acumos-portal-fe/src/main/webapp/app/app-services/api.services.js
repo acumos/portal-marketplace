@@ -120,7 +120,8 @@ angular.module('AcumosApp')
         var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks";
         var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";
 
-        var urlgetMenuUrl = 'api/admin/getMenu';	      
+        var urlgetMenuUrl = 'api/admin/getMenu';
+        var urlgetDSMenuUrl = 'api/admin/getDSMenu';
         var urlPublisher =  "/api/solution";
         var urlSearchSolutionsByName = '/api/onboardingDocker/dockerSearchSolutions';
         var urlUpdateDockerImage = '/api/onboardingDocker/artifactsUrl';
@@ -722,8 +723,12 @@ angular.module('AcumosApp')
         
         this.getMenu = function () {
             return $http.get(urlgetMenuUrl);
-        };   
+        };
 
+        this.getDSMenu = function () {
+            return $http.get(urlgetDSMenuUrl);
+        };
+        
         this.searchSolutionsByName = function(request) {
         	return $http.post(urlSearchSolutionsByName, request);
         };
