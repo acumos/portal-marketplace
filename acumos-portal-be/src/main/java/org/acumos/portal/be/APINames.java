@@ -189,6 +189,7 @@ public class APINames {
 	public static final String PEERS = "/peers";
 	public static final String PEER_DETAILS = "/peers/{peerId}";
 	public static final String GET_DYNAMIC_MENU = "/getMenu";
+	public static final String GET_DESIGN_STUDIO_MENU = "/getDSMenu";
 	
 	// Peer subscription API for Admin
 	public static final String PEERSUBSCRIPTION_PAGINATED = "/peer/subcriptions/{peerId}";
