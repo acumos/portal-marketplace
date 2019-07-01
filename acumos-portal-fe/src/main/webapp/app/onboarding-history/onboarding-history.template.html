@@ -92,9 +92,9 @@ limitations under the License.
 						'history-progress': Task.statusCode == 'ST', 
 						'history-success': Task.statusCode == 'SU' }" >{{Task.status}}</td>
 					<td>					
-						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA"' ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode, Task.modelName)">View
+						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA" || Task.statusCode == "SU"' ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode, Task.modelName)">View
 							Results</button>
-						<span ng-if='Task.statusCode == "SU" || Task.statusCode == "ST" '> -- </span>											
+						<span ng-if='Task.statusCode == "ST" '> -- </span>											
 					</td>
 					
 				</tr>				
@@ -203,7 +203,7 @@ limitations under the License.
 			<label>Status: </label><span class="red"
 					ng-class="{'history-error': Task.statusCode == 'FA', 
 						'history-progress': Task.statusCode == 'ST', 
-						'history-success': Task.statusCode == 'SU' }" >{{statusCd == "ST" ? "InProgress" : Task.statusCode == "SU" ? "Success" : "Fail"}}</span>
+						'history-success': Task.statusCode == 'SU' }" >{{statusCd == "ST" ? "InProgress" :statusCd == "SU" ? "Success" : "Fail"}}</span>
 		</div>
 	</div>
 	<div class="md-dialog-content" ng-if="stepResults">
