@@ -3338,13 +3338,13 @@ angular.module('admin').filter('abs', function () {
                 // TODO handle initial case -- do not show error when it is a new rtu
                 var rtuReferenceId = $scope.RTUId;
                 var solName = $scope.solutionName;
-
+                $rootScope.setLoader = true;
                 apiService.getRightToUse(rtuReferenceId, solName).then(function successCallback(response) {
                     $scope.showAssociatedModels = true;
                     $scope.isRtuLoading = false;
                     $location.hash('myDialog');
                     $anchorScroll();
-
+                    $rootScope.setLoader = false;
                     if(response.data.response_body.mlpSolutionAssociatedWithRtuId != null || response.data.response_body.mlpSolutionAssociatedWithRtuId != undefined){
                         if (response.data.response_body.mlpSolutionAssociatedWithRtuId.length == 0) {
                             $scope.msg = response.data.response_detail;
@@ -3385,6 +3385,7 @@ angular.module('admin').filter('abs', function () {
                     $scope.associatedModels = response.data.response_body.mlpSolutionAssociatedWithRtuId;
                 },
                     function errorCallback(response) {
+                	$rootScope.setLoader = false;
                         $scope.modelname = "Error Fetching Model Name."
                     });
             }
