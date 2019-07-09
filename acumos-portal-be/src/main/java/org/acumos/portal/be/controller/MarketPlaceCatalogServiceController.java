@@ -247,7 +247,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				marketPlaceService.updateSolution(mlSolution.getBody(), solutionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions updated Successfully");
+				data.setResponseDetail("Solution updated successfully.");
 				response.setStatus(HttpServletResponse.SC_OK);
 			} else
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -288,7 +288,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				marketPlaceService.deleteSolutionArtifacts(mlSolution.getBody(), solutionId, revisionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions updated Successfully");
+				data.setResponseDetail("Solution updated successfully.");
 				response.setStatus(HttpServletResponse.SC_OK);
 			} else
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -422,7 +422,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(tag)) {
 				marketPlaceService.addSolutionTag(solutionId, tag);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions updated Successfully");
+				data.setResponseDetail("Solution updated successfully.");
 				response.setStatus(HttpServletResponse.SC_OK);
 			} else
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -451,7 +451,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(tag)) {
 				marketPlaceService.dropSolutionTag(solutionId, tag);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions updated Successfully");
+				data.setResponseDetail("Solution updated successfully.");
 				response.setStatus(HttpServletResponse.SC_OK);
 			} else
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
