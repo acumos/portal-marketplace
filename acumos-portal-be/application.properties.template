@@ -92,6 +92,8 @@ portal.feature.catalog.pagesize=1000
 
 portal.feature.cloud_enabled =    [{"cloudEnabled" : "true", "cloudName" : "azure", "cloudDisplayText" : "Microsoft Azure", "imageUrl": "/images/deploy-cloud/microsoft_azure.png" },{ "cloudEnabled" : "true", "cloudName" : "rackspace", "cloudDisplayText" : "Rackspace", "imageUrl": "/images/deploy-cloud/rackspace.png" },{ "cloudEnabled" : "false",  "cloudName" : "gcp", "cloudDisplayText" : "Google Cloud Platform", "imageUrl": "/images/deploy-cloud/google_cloud_platform.png" }]
 portal.feature.menu =  [{"name": "ML Learning Path","url":"","imagePath":"/images/sidebar-icons/ML_learning_path_selected.png"}]
+portal.feature.ds.menu = {"isWorkbenchActive":false,"isAcucomposeActive":true,"blocks":[{"active":false,"title":"Block 3","description":"Inactive block","url":"http://localhost:8085/index.html#/home"},{"active":true,"title":"Block 4","description":"Active block","url":"http://localhost:8085/index.html#/home"},{"active":false,"title":"Block 5","description":"Inactive block 2","url":"http://localhost:8085/index.html#/home"}]}
+
 #QAndA Url 
 qanda.url=https://stackoverflow.com/search?q=acumos
 

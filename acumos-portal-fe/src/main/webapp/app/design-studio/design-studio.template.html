@@ -31,7 +31,7 @@
 					</div>
 					<div class="ds-content-center">
 						<button id="launchButton" type="submit"
-							class="btn-company btn-primary" ng-click="launchWorkbench()">Launch</button>
+							class="btn-company btn-primary" ng-click="launchWorkbench()" ng-disabled="!isWorkbenchActive">Launch</button>
 					</div>
 				</div>
 			</div>
@@ -53,35 +53,29 @@
 					</div>
 					<div class="ds-content-center">
 						<button id="acucompose" type="submit"
-							class="btn-company btn-primary" ui-sref="acuCompose">Launch</button>
+							class="btn-company btn-primary" ng-click="openBlockUrl('index.html#/acuCompose')" ng-disabled="!isAcucomposeActive">Launch</button>
 					</div>
 				</div>
 			</div>
 		
-			<!-- <div class="grid-item ds-grid-item">
-					<div class="grid-top-section">
-						<div class="product-image ds-content-center">
-							<div class="mdl-navigation__link active" title="CMLP Studio"> <span
-								class="icon-header icon-design_studio"></span>
-	
-							</div>
-						</div>
-						<div class="mpdetailscontainer ds-content-center">
-							<label class="griditem-title ds-griditem-title"> CMLP Studio
-								</label> <label class="grid-item-text-container"><span
-								class="griditem-text2 grid-item-lbl ds-griditem-span">
-									Sample-Drag and drop models to create composite solutions </span> </label>
-	
-						</div>
-						<div class="ds-content-center">
-							<button id="cmlpStudio" type="submit"
-								class="gridlistview-btnactive ds-disable-button" ng-click="">Download</button>
+			<div ng-repeat="block in blocks" class="grid-item ds-grid-item">
+				<div class="grid-top-section">
+					<div class="product-image ds-content-center">
+						<div class="mdl-navigation__link active" title="{{block.title}}"> <span
+							class="icon-header icon-design_studio"></span>
 						</div>
 					</div>
-				</div> -->
-			</div> 
-		
-		
+					<div class="mpdetailscontainer ds-content-center ds-tile-height">
+						<label class="griditem-title ds-griditem-title">{{block.title}}</label> <label class="grid-item-text-container"><span
+							class="griditem-text2 grid-item-lbl ds-griditem-span">{{block.description}}</span></label>
+					</div>
+					<div class="ds-content-center">
+						<button id="launchButton" type="submit"
+							class="btn-company btn-primary" ng-click="openBlockUrl(block.url)">Launch</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<iframe id="workbenchLaunch" width="100%" height="100%" src=""
 			class="ds-iframe"></iframe>
