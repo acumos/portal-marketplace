@@ -947,6 +947,12 @@ angular
 						$scope.loadAllTags();
 						$scope.createTagMethod = false;
 						$scope.tagAdded = function(tag) {
+							//added this for special character validation
+							if($scope.publictags1.tagsAutocomplete.$error.pattern){
+								$scope.tags1.pop();
+								return;
+							}
+							
 							$scope.isTagExists = false;
 							angular.forEach($scope.allTags, function(item, index) {
 								if (tag == item) {
