@@ -37,9 +37,10 @@ limitations under the License.
 				</div>
 				<p class="text-center" style="font-size: 18px; font-weight: bold; margin-top: 8px;">{{(isError) ? "Failed" : "Pending"}}</p>
 				<span style="font-size: 15px; font-weight:550;">Your request could not be completed, for the reason(s) below:</span>
-				<ul style="margin: 8px 0px 0px -24px;">
+				<ul style="margin: 8px 0px 0px -24px;" ng-style="!isError && {'margin':'8px 0px 8px -24px'}">
 					<li ng-repeat="reason in reasons.split(',')" ng-style="isError && {'color':'red'}" style="color:orange">{{reason}}</li>
 				</ul>
+				<span ng-if="!isError" style="font-size: 15px; font-weight:550;">Please wait and try again later.</span>
 			</div>
 		</md-dialog-content>
 		<!-- <md-dialog-actions>
