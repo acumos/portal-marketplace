@@ -2236,39 +2236,37 @@ limitations under the License.
 									<col>
 									<col>
 									<col>
-									<col>
-									<col>
-									<col style="width: 6%;">
+									 
 								</colgroup>
 								<thead>
 									<tr>
-										<th>&nbsp;</th>
+										 
 										<!-- <th>Description</th>	 -->
 										<th>SUBSCRIPTIONS ID</th>
 										<th>CATALOG NAME </th>
 										<th>Created on</th>
 										<!-- <th>Updated on</th> -->
 										<th>Frequency of update</th>
-										<th></th>
-										<th>&nbsp;</th>
+										<th class="text-center">ACTION</th>
+										 
 									</tr>
 								</thead>
 								<tbody
 									ng-repeat="val in arrDetails | unique:'subId' | orderBy :'subId' |filter: arrDetails.subId as filte ">
 									<!-- | filter: arrDetails.subId as filte -->
 									<tr>
-										<td><span aria-label="More" style="cursor: pointer"
-											ng-click="accordionToggle = !accordionToggle"> <!-- <md-icon>
+										<!-- <td><span aria-label="More" style="cursor: pointer"
+											ng-click="accordionToggle = !accordionToggle"> <md-icon>
 												<i class="material-icons" style="margin: 0"
 													ng-show="!accordionToggle">add</i> <i
 													class="material-icons" style="margin: 0"
-													ng-show="accordionToggle">indeterminate_check_box</i> </md-icon> -->
-										</span> <!-- <md-button class="md-icon-button" aria-label="More">
+													ng-show="accordionToggle">indeterminate_check_box</i> </md-icon>
+										</span> <md-button class="md-icon-button" aria-label="More">
 															        <md-icon>
 															        	<i class="material-icons">add</i>
 															        	<i class="material-icons">indeterminate_check_box</i>
 															        </md-icon>
-															      </md-button> --> <!-- text --></td>
+															      </md-button> text</td> -->
 										<!-- <td>
 																	Description Text:
 																</td> -->
@@ -2289,14 +2287,14 @@ limitations under the License.
 												</md-select>
 											</div>
 										</td>
-										<td class="">
+									<!-- 	<td class="">
 											<div class="posstatic">
-												<!-- <button
+												<button
 													class="mdl-button mdl-js-button btn-secondary btn-fed2"
 													disabled ng-click="trigger[$index] = !trigger[$index]">Preview</button>
 												<button class="mdl-button mdl-js-button btn-primary"
-													disabled>Trigger</button> -->
-												<!-- Fed Preview box Start -->
+													disabled>Trigger</button>
+												Fed Preview box Start
 												<div class="preview-box" ng-show="trigger[$index]">
 													<div class="preview-box-header">
 														<label class="preview-title">Preview Next Transfer</label>
@@ -2341,9 +2339,9 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												<!-- Fed Preview box end -->
+												Fed Preview box end
 											</div>
-										</td>
+										</td> -->
 										<td class="text-center">
 											<button ng-click="deleteSub(val.subId,$index)"
 												class="mdl-button mdl-js-button mdl-button--icon">
