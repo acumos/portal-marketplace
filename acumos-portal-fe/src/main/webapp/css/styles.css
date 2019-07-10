@@ -1954,7 +1954,7 @@ padding: 20px;background:#e5e5e5;}
 .mp-grid-list-details-cell .mdl-button--icon .material-icons {font-size: 20px !important;}
 .grid-item .mdl-button--icon .material-icons {font-size: 20px !important;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
-
+.disabledButton { pointer-events: none;  opacity: 0.4; }
 /***** Sign-in promt modal start ********/
 .sign-in-promt-modal-box {width: 400px;margin-left: auto; margin-right: auto;}
 .sign-in-promt-modal-box .md-dialog-content {min-height: 80px;}
