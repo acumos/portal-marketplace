@@ -52,6 +52,7 @@ import org.acumos.portal.be.service.impl.AdminServiceImpl;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
@@ -775,17 +776,22 @@ public class AdminServiceControllerTest {
 	}
 	
 	@Test
-	public void getDynamicMenu() {
-		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
-		JsonResponse<String> responseVO = adminController.getDynamicMenu(request, response);
+	public void getDynamicMenuTest() {
+		PortalMenu menu=new PortalMenu();
+		menu.setName("test");
+		menu.setUrl("test");
+		menu.setImagePath("iVBORw0KGgoAAAANSUhEUgAAABwAAAAZCAYAAAAiwE4nAAABS2lU");
+		
+		List<PortalMenu> menuList=new ArrayList<>();
+		menuList.add(menu);
+		JsonResponse<List<PortalMenu>> responseVO = new JsonResponse<>();
+		responseVO.setContent(menuList);
+		
+		responseVO = adminController.getDynamicMenu(request, response);
+		Assert.assertNotNull(menu);
+		Assert.assertNotNull(menuList);
 		Assert.assertNotNull(responseVO);
-	}
-	
-	@Test
-	public void getDesignStudioMenu() {
-		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
-		JsonResponse<String> responseVO = adminController.getDesignStudioMenu(request, response);
-		Assert.assertNotNull(responseVO);
+		logger.info("getDynamicMenu Details  : " + responseVO.getResponseBody());
 	}
 		
 }
