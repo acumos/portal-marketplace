@@ -832,170 +832,29 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		try {
 			if (restPageReqBe != null && restPageReqBe.getBody() != null) {
 				RestPageRequest pageRequest = new RestPageRequest();
-
-				// ----------------------------------------------------------
-
 				List<MLPSolution> filteredMLPSolutions = new ArrayList<>();
-				List<MLPSolution> filteredMLPSolutionsTemp = new ArrayList<>();
-				List<MLPSolution> originalSolutionsList = new ArrayList<MLPSolution>();
+				//List<MLPSolution> originalSolutionsList = new ArrayList<MLPSolution>();
 				int pageSize = 0;
-				int index = 0;
-				int interateCopy = 0;
-				while (restPageReqBe.getBody().getSize().intValue() != filteredMLPSolutions.size()) {
-					pageSize = pageSize + restPageReqBe.getBody().getPage();
-
-					/*
-					 * if(restPageReqBe.getBody().getPage()!=null) {
-					 * pageRequest.setPage(pageSize); } else { //default to 0
-					 * pageRequest.setPage(0); }
-					 * if(restPageReqBe.getBody().getSize()!=null &&
-					 * restPageReqBe.getBody().getSize() > 0) {
-					 * pageRequest.setSize(restPageReqBe.getBody().getSize()); }
-					 */
-
-					// code addition to display models as per timestamp
-					queryParameters.put("created", "DESC");
-					if (restPageReqBe.getBody().getPage() != null && restPageReqBe.getBody().getSize() != null) {
-						pageRequest = new RestPageRequest(pageSize, restPageReqBe.getBody().getSize(), queryParameters);
-					}
-
-					// TODO Need to revisit the Sorting logic once Common Data
-					// Service Client
-
-					// 1. Check if searchTerm exists, if yes then use
-					// findSolutionsBySearchTerm
-					if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getSearchTerm())) {
-						log.debug("getSearchedSolutions: searching Solutions with searcTerm:",
-								restPageReqBe.getBody().getSearchTerm());
-						mlpSolutionsRest = dataServiceRestClient.findSolutionsBySearchTerm(
-								restPageReqBe.getBody().getSearchTerm(),
-								new RestPageRequest(pageSize, restPageReqBe.getBody().getSize(), queryParameters));
-					} else {
-						// 2. If searchTerm does not exists, get all the
-						// Solutions
-
-						pageRequest.setFieldToDirectionMap(queryParameters);
-						mlpSolutionsRest = dataServiceRestClient.getSolutions(
-								new RestPageRequest(pageSize, restPageReqBe.getBody().getSize(), queryParameters));
-					}
-
-					// 3. Filter the RestPageResponse to use only Published,
-					// ValitionStatuCode as PS and Active Solutions and
-					// ModelType/ModelToolkitType
-
-					originalSolutionsList = mlpSolutionsRest.getContent();
-					if (mlpSolutionsRest.getContent().size() == 0)
-						break;
-					filteredMLPSolutionsTemp = originalSolutionsList;
-					// filteredMLPSolutionsTemp =
-					// originalSolutionsList.stream().filter(mlpSolution ->
-					// (!PortalUtils.isEmptyOrNullString(mlpSolution.getOwnerId())
-					// &&
-					// userId.equalsIgnoreCase(mlpSolution.getOwnerId()))).collect(Collectors.toList());
-
-					/*
-					 * if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody
-					 * (). getAccessType())) { filteredMLPSolutionsTemp =
-					 * filteredMLPSolutionsTemp.stream().filter(mlpSolution ->
-					 * (PortalUtils.isEmptyOrNullString(mlpSolution.
-					 * getAccessTypeCode())
-					 * ||(!PortalUtils.isEmptyOrNullString(mlpSolution.
-					 * getAccessTypeCode()) &&
-					 * restPageReqBe.getBody().getAccessType().contains(
-					 * mlpSolution. getAccessTypeCode())))
-					 * ).collect(Collectors.toList()); }
-					 * 
-					 * if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody
-					 * (). getModelToolkitType())) { filteredMLPSolutionsTemp =
-					 * filteredMLPSolutionsTemp.stream().filter(mlpSolution ->
-					 * (PortalUtils.isEmptyOrNullString(mlpSolution.
-					 * getToolkitTypeCode())
-					 * ||(!PortalUtils.isEmptyOrNullString(mlpSolution.
-					 * getToolkitTypeCode()) &&
-					 * restPageReqBe.getBody().getModelToolkitType().contains(
-					 * mlpSolution.getToolkitTypeCode())))).collect(Collectors.
-					 * toList()); }
-					 */
-
-					if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getModelType())) {
-						filteredMLPSolutionsTemp = filteredMLPSolutionsTemp.stream().filter(mlpSolution -> (PortalUtils
-								.isEmptyOrNullString(mlpSolution.getModelTypeCode())
-								|| (!PortalUtils.isEmptyOrNullString(mlpSolution.getModelTypeCode()) && restPageReqBe
-										.getBody().getModelType().contains(mlpSolution.getModelTypeCode()))))
-								.collect(Collectors.toList());
-					}
-
-					/*
-					 * if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody
-					 * (). getActiveType())) { Boolean isActive =false;
-					 * if(restPageReqBe.getBody().getActiveType().
-					 * equalsIgnoreCase( "Y")){ isActive = true; }else
-					 * if(restPageReqBe.getBody().getActiveType().
-					 * equalsIgnoreCase( "N")){ isActive = false; }
-					 * filteredMLPSolutionsTemp =
-					 * filteredMLPSolutionsTemp.stream().filter(mlpSolution ->
-					 * Boolean.compare(restPageReqBe.getBody().getActiveType().
-					 * equalsIgnoreCase("Y"),
-					 * mlpSolution.isActive())==0).collect(Collectors.toList());
-					 * }
-					 */
-
-					/*
-					 * for(int k=0;k<filteredMLPSolutionsTemp.size()&&
-					 * index<9;k++){ filteredMLPSolutions.add(index,
-					 * filteredMLPSolutionsTemp.get(k)); index++;
-					 * if(filteredMLPSolutionsTemp.size()==index) break; }
-					 */
-
-					for (int k = 0; k < filteredMLPSolutionsTemp.size() && index < 9; k++) {
-						if (filteredMLPSolutions.size() > 0) {
-							for (int j = 0; j < filteredMLPSolutions.size(); j++) {
-								boolean checkTemp = false;
-								if (filteredMLPSolutionsTemp.get(k).getSolutionId() != null
-										&& filteredMLPSolutions.get(j).getSolutionId() != null) {
-									if (!filteredMLPSolutionsTemp.get(k).getSolutionId()
-											.equalsIgnoreCase(filteredMLPSolutions.get(j).getSolutionId())) {
-
-										for (int n = 0; n < filteredMLPSolutions.size(); n++) {
-											if (filteredMLPSolutionsTemp != null && filteredMLPSolutions != null) {
-												if (!filteredMLPSolutionsTemp.get(k).getSolutionId().equalsIgnoreCase(
-														filteredMLPSolutions.get(n).getSolutionId())) {
-													checkTemp = true;
-												} else if (filteredMLPSolutionsTemp.get(k).getSolutionId()
-														.equalsIgnoreCase(
-																filteredMLPSolutions.get(n).getSolutionId())) {
-													checkTemp = false;
-													break;
-												}
-											} else if (filteredMLPSolutionsTemp == null
-													&& filteredMLPSolutions == null) {
-												break;
-											}
-										}
-										if (checkTemp) {
-											filteredMLPSolutions.add(index, filteredMLPSolutionsTemp.get(k));
-											index++;
-										}
-
-									} else if (filteredMLPSolutionsTemp.get(k).getSolutionId()
-											.equalsIgnoreCase(filteredMLPSolutions.get(j).getSolutionId())) {
-										interateCopy++;
-									}
-								}
-							}
-						} else if (filteredMLPSolutions.size() == 0) {
-							filteredMLPSolutions.add(index, filteredMLPSolutionsTemp.get(k));
-							index++;
-						}
-					}
-
-					if (mlpSolutionsRest.getContent().size() == filteredMLPSolutions.size())
-						break;
-					else if (interateCopy == filteredMLPSolutions.size() && interateCopy != 0)
-						break;
-
-					pageSize++;
+				pageSize = pageSize + restPageReqBe.getBody().getPage();
+				queryParameters.put("created", "DESC");
+				if (restPageReqBe.getBody().getPage() != null && restPageReqBe.getBody().getSize() != null) {
+					pageRequest = new RestPageRequest(pageSize, restPageReqBe.getBody().getSize(), queryParameters);
 				}
+				pageRequest.setFieldToDirectionMap(queryParameters);					
+				String[] keywords = null;
+				String[] userIds = null;
+				String[] modelTypeCodes = null;
+				String[] allTags = null;
+				String[] anyTags = null;
+				String[] catalogIds = null;
+                          	if(restPageReqBe.getBody().getModelType()!=null)
+					modelTypeCodes = new String[] {restPageReqBe.getBody().getModelType()};
+				mlpSolutionsRest = dataServiceRestClient.findPublishedSolutionsByKwAndTags(keywords , true, userIds ,
+						 modelTypeCodes , allTags ,  anyTags , catalogIds , pageRequest);
+
+				if(mlpSolutionsRest != null)				
+					filteredMLPSolutions = mlpSolutionsRest.getContent();
+
 				// ----------------------------------------------------------
 				String userFirstName = "";
 				String userLastName = "";
@@ -1020,7 +879,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 									userName = userName + " " + userLastName;
 								}
 							}
-
 							mlSolution.setOwnerName(userName);
 						}
 
@@ -1037,7 +895,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					}
 					mlSolutionsRest = new RestPageResponseBE<>(content);
 				}
-				// mlpSolutionsRest.setNumberOfElements(filteredMLPSolutions.size());
 				mlSolutionsRest.setFilteredTagSet(filteredTagSet);
 			}
 		} catch (IllegalArgumentException e) {
@@ -1046,7 +903,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return mlSolutionsRest;
-	}
+	} 
 
 	@Override
 	public void addSolutionUserAccess(String solutionId, List<String> userList) throws AcumosServiceException {
