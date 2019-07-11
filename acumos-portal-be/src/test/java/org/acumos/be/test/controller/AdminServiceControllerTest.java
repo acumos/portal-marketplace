@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,9 +55,11 @@ import org.acumos.portal.be.service.impl.AdminServiceImpl;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -775,17 +780,23 @@ public class AdminServiceControllerTest {
 	}
 	
 	@Test
-	public void getDynamicMenu() {
-		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
-		JsonResponse<String> responseVO = adminController.getDynamicMenu(request, response);
-		Assert.assertNotNull(responseVO);
-	}
-	
-	@Test
-	public void getDesignStudioMenu() {
-		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
-		JsonResponse<String> responseVO = adminController.getDesignStudioMenu(request, response);
-		Assert.assertNotNull(responseVO);
+	public void getDynamicMenuTest() {
+			File file = new File("test.png");
+			try {
+			file.createNewFile();
+			String str = file.getAbsolutePath();
+			String path = str.replace("\\", "/");
+			String featureMenu = "[{\"name\": \"ML Learning Path\",\"url\":\"\",\"imagePath\":\"" + path + "\"}]";
+			System.out.println(featureMenu);
+			when(env.getProperty("portal.feature.menu")).thenReturn(featureMenu);
+			JsonResponse<List<PortalMenu>> responseVO = adminController.getDynamicMenu(request, response);
+			Assert.assertNotNull(responseVO);
+			logger.info("getDynamicMenu Details  : " + responseVO.getResponseBody());
+		} catch (IOException e) {
+			logger.info("Eception while  ", e);
+		} finally{
+			file.deleteOnExit();
+		}
 	}
 		
 }
