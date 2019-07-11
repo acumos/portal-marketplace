@@ -205,7 +205,7 @@ angular.module('catalog')
 								$mdDialog.hide();
 								$scope.loadCatalog(0);
 							}, function errorCallback(response) {
-								$scope.setAlertMessage("Error occurred while updating catalog \"" + reqObject.request_body.name + "\".", 'c-error', 'report_problem');
+								$scope.setAlertMessage("Error occurred while updating catalog \"" + reqObject.request_body.name + "\".", 'c-error', 'info_outline');
 								console.error(response);
 								$mdDialog.hide();
 								$scope.SetDataLoaded = false;
