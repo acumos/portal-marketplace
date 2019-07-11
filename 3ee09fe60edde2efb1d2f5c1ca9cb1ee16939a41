@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e77997b0_b380adb0",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-07-11T13:05:34Z",
+      "side": 1,
+      "message": "This test case must be rewritten.. responseVO must be mocked and then mock method should be called to return the responseVO",
+      "range": {
+        "startLine": 790,
+        "startChar": 15,
+        "endLine": 790,
+        "endChar": 64
+      },
+      "revId": "3ee09fe60edde2efb1d2f5c1ca9cb1ee16939a41",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8cdb6ea_042e0422",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/sidebar-nav.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-07-11T13:05:34Z",
+      "side": 1,
+      "message": "please rename the file name to default_menu_icon.png",
+      "range": {
+        "startLine": 72,
+        "startChar": 125,
+        "endLine": 72,
+        "endChar": 141
+      },
+      "revId": "3ee09fe60edde2efb1d2f5c1ca9cb1ee16939a41",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
