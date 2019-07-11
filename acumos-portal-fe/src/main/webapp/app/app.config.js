@@ -69,14 +69,15 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			component: 'designStudio'
 		})
 		.state('marketSolutions', {
-			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId&parentUrl',
+			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId&parentUrl&requestStatusCode',
 			component: 'modelDetails',
 			params: {
 				solutionId : null,
 				revisionId : null,
 				parentUrl: null,
 				publishRequestId: null,
-				requestUserId: null
+				requestUserId: null,
+				requestStatusCode: null
 				}
          })
           .state('modelEdit', {
