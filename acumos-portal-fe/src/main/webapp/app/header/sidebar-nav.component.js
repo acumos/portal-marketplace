@@ -87,7 +87,9 @@ app.component('sidebarNav',{
 	       .then(
 	                function(response) {
 	                    if(response.status == 200){
-	                        $scope.listResponse = JSON.parse(response.data.response_body);	                      
+	                    	
+	                        $scope.listResponse = (response.data.response_body);
+	                    	                     	                     
 	                    }
 	                },
 	                function(error) {
