@@ -73,7 +73,7 @@ angular
 
 					templateUrl : './app/model-edit/md-model-edit-workflow.template.html',
 					controller : function($scope, $location, $http, $rootScope,
-							$stateParams, $sessionStorage, $localStorage,
+							$stateParams, $sessionStorage, $localStorage, $window,
 							$anchorScroll, $timeout, FileUploader, apiService,
 							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval, $sce, browserStorageService) {
 						$scope.hideTabs = $stateParams.deployStatus; 
@@ -1596,6 +1596,57 @@ angular
 						}
 
 						/** ****** Export to local ends *** */
+						
+						/***********Deploy to Local method****/
+						$scope.performSVScan = function(solutionId, revisionId, workflowId, successFunc) {
+							apiService.performSVScan(solutionId, revisionId, workflowId)
+								.then(function(response) {
+									var workflow = response.data.response_body;
+									if (!workflow.workflowAllowed) {
+										$mdDialog.show({
+											templateUrl : '../app/error-page/sv-modal.template.html',
+											clickOutsideToClose : true,
+											locals: {
+												reasons: workflow.reason,
+												isError: response.data.error_code == "sv_error"
+											},
+											controller : function DialogController($scope, reasons, isError) {
+												$scope.reasons = reasons;
+												$scope.isError = isError;
+												$scope.closePoup = function(){
+													$mdDialog.hide();
+												}
+											}
+										});
+									} else {
+										successFunc();
+									}
+		                        },
+		                    	function(error) {
+									$location.hash('manage-models');
+									$anchorScroll();
+									$scope.msg = "An exception occurred during SV scan";
+									$scope.icon = '';
+									$scope.styleclass = 'c-error';
+									$scope.showAlertMessage = true;
+									$timeout(function() {
+											$scope.showAlertMessage = false;
+										}, 5000);
+									$mdDialog.hide();
+									console.error("SV Exception occured,", error);
+		                        });
+						};
+						
+						$scope.deployLocalPackage = function(){
+							$scope.performSVScan($scope.solution.solutionId, $scope.revisionId, "deploy", function() {
+								$window.location.assign("/package/getSolutionZip/" + $scope.solution.solutionId + "/" + $scope.revisionId);
+							});
+						}
+						
+						apiService.getKubernetesDocUrl().then( function(response){
+							$scope.kubernetesDocUrl = response.data.response_body;
+						});
+						
 
 						/** ****** Export/Deploy to Azure starts *** */
 						if($scope.checkboxExport === undefined)
