@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f7d702d_6434ea12",
+        "filename": "acumos-portal-fe/src/main/webapp/app/catalog/catalog.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-07-11T14:28:48Z",
+      "side": 1,
+      "message": "If existing class is not used anywhere else, update the same class rather creating new class...\nif existing class is being used elsewhere and should not be updated then create new class but with better name...",
+      "range": {
+        "startLine": 257,
+        "startChar": 28,
+        "endLine": 257,
+        "endChar": 49
+      },
+      "revId": "37e40b05583559723f74ef46b7edfe3f6004116c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
