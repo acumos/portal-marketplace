@@ -41,7 +41,7 @@ public class MLSolution {
 	private String ownerName;
 	private String metadata;
 	private boolean active;
-	private String catalogName;
+	private List<String> catalogNames;
 	private Instant created;
 	private Instant modified;
 	private String tookitType;
@@ -81,7 +81,6 @@ public class MLSolution {
 	private boolean pendingApproval;
 	private Instant lastDownload;
 	private boolean featured;
-	private String catalogId;
 	
 	/**
 	 * @return the onboardingStatusFailed
@@ -195,17 +194,17 @@ public class MLSolution {
 	}
 
 	/**
-	 * @return the catalog name
+	 * @return the catalog names
 	 */
-	public String getCatalogName() {
-		return catalogName;
+	public List<String> getCatalogNames() {
+		return catalogNames;
 	}
 	
 	/**
-	 * @param catalogName the catalog name to set
+	 * @param catalogNames the catalog names to set
 	 */
-	public void setCatalogName(String catalogName) {
-		this.catalogName = catalogName;
+	public void setCatalogNames(List<String> catalogNames) {
+		this.catalogNames = catalogNames;
 	}
 
 	/**
@@ -573,14 +572,6 @@ public class MLSolution {
 
 		public void setFeatured(boolean featured) {
 			this.featured = featured;
-		}
-
-		public String getCatalogId() {
-			return catalogId;
-		}
-
-		public void setCatalogId(String catalogId) {
-			this.catalogId = catalogId;
 		}
 
 }

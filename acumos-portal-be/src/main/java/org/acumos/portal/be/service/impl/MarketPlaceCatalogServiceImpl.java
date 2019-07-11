@@ -1205,13 +1205,14 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			}
 			
 			List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(mlpSol.getSolutionId());
-			if (!PortalUtils.isEmptyList(catalogs)) {
+			if (catalogs != null) {
+				List<String> catalogNames = new ArrayList<>();
 				for (MLPCatalog catalog : catalogs) {
 					if (catalog != null && !PortalUtils.isEmptyOrNullString(catalog.getName())) {
-						mlSolution.setCatalogName(catalog.getName());
-						break;
+						catalogNames.add(catalog.getName());
 					}
 				}
+				mlSolution.setCatalogNames(catalogNames);
 			}
 
 			// get latest step Result for solution
