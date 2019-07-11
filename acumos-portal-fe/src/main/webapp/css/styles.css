@@ -2333,6 +2333,7 @@ label.model-name{color:#0366d6;}
 
 .catalog-title-container {border-bottom: 1px solid #E5E5E5;padding-top: 15px;margin-bottom: 7px;display:flex; flex-direction: row;justify-content: space-between;align-content: flex-end;}
 .catalog-title-heading {font-size:16px;letter-spacing:0;font-weight: 600; color: #671C9D;text-transform: uppercase;}
+.catalog-title-heading1{font-size:16px;}
 .catalog-sub-heading1 {font-size:13px;text-transform: initial;}
 .catalog-sub-heading2 {font-weight:600;}
 
