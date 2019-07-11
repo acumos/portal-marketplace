@@ -68,12 +68,12 @@ limitations under the License.
 		   </a>
 		   <ul>
 		   		<li ng-repeat="menu in listResponse">
-				   <a class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{menu.url}}' title={{menu.name}}  ng-click="$root.parentActive = ''" target="_blank">
-				   		 <img  src='{{menu.imagePath}}'></img>
+				   <a class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{menu.url}}'  title={{menu.name}}  ng-click="$root.parentActive = ''" target="_blank">
+				   		<img ng-src="data:image/PNG;base64,{{menu.imagePath}}"  onerror="this.onerror=null;this.src ='/images/sidebar-icons/default_icon.png'; this.title ='Image path is not valid';"  />  
 						<span class="headertxtspan">{{menu.name | uppercase}}</span>
 				   </a>
 		   		</li>
-		   </ul>
+		   </ul> 
 	</nav>
 	
 	<!-- Sidebar Mobile View -->	
