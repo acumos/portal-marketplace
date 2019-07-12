@@ -79,6 +79,11 @@ limitations under the License.
 			<!-- Spring chooses <version>${slf4j.version}</version> -->
 		</dependency>
 		<dependency>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-provider-api</artifactId>
+        <version>2.12</version>
+</dependency>   
+		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<!-- Spring chooses <version>${logback.version}</version> -->
