@@ -21,6 +21,32 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.20  12th July 2019 
+=================================
+* ACUMOS-3210	Download button in upper right corner is disabled (greyed out) for all models
+* ACUMOS-3123	IST - Publishing message but don't know what to do with it.
+* ACUMOS-2996	<IST><Portal Marketplace><Web Onboarding>Upload button remains disabled if we add back to back two files for onboarding and license 
+* ACUMOS-2995	<IST> <Portal Marketplace > Microservice start message is displayed in "Green" and Microservice successful message displayed immediately
+* ACUMOS-3057	wrong link in on-board pre-dockerized model
+* ACUMOS-3140	IST: Error Icon is incorrect when user update catalog name with existing one
+* ACUMOS-3013	<IST2><Marketplace/My Models> Tag display format not consistent
+* ACUMOS-2978	<Portal Marketplace><Web Onboarding>Browse button remains enabled on completing onboarding process
+* ACUMOS-3120	<IST><Portal Marketplace> My Models > Manage My Model: Tag not accepting special characters like  #@%&+
+* ACUMOS-3150	IST: Action Column name is missing on the header on View/Add Subscriptions popup
+* ACUMOS-3149	IST: Breadcrumb is incorrect for SITE CONTENT screen
+* ACUMOS-3091	On-Boarding History: No Result found should display if data is not available
+* ACUMOS-3119	<IST><Portal Marketplace>My Models > Manage My Model: Space is accepted as a last character in model name
+* ACUMOS-3098	IST: Deploy to Azure Agreement popup is not displaying when user click on deploy to cloud from manage my model screen
+* ACUMOS-3099	Manage My Model: Success message need to  corrected for all the 3 steps in the manage my model.
+* ACUMOS-3089	As a system admin would like to be able to add tools to design studio
+* ACUMOS-3050	IST: Co-Brand Logo Issues
+* ACUMOS-3093	IST: Preview Model: License is not displaying properly in preview model screen
+* ACUMOS-3049	IST: RTU: Loading message is not consistent with the application
+* ACUMOS-3094	IST: Pending Icon is showing incorrect in the Security Verification Status Popup
+* ACUMOS-3034	<IST2> <Portal Marketplace> Links not clickable eventhough hand symbols are displayed
+* ACUMOS-3100	IST : Home Page : Onboarding and Team UP Text need to be corrected
+* ACUMOS-2724	Use stackoverflow tag "acumos" in Q&A link to improve user experience
+
 Version 2.2.19  27th June 2019 
 =================================
 
