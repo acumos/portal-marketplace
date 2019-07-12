@@ -21,6 +21,19 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.20  12th July 2019 
+=================================
+* ACUMOS-3210	Download button in upper right corner is disabled (greyed out) for all models
+* ACUMOS-3123	IST - Publishing message but don't know what to do with it.
+* ACUMOS-3089	As a system admin would like to be able to add tools to design studio
+* ACUMOS-3050	IST: Co-Brand Logo Issues
+* ACUMOS-3099	Manage My Model: Success message need to  corrected for all the 3 steps in the manage my model.
+* ACUMOS-3049	IST: RTU: Loading message is not consistent with the application
+* ACUMOS-3094	IST: Pending Icon is showing incorrect in the Security Verification Status Popup
+* ACUMOS-3034	<IST2> <Portal Marketplace> Links not clickable eventhough hand symbols are displayed
+* ACUMOS-3093	IST: Preview Model: License is not displaying properly in preview model screen
+
+
 Version 2.2.19  27th June 2019 
 =================================
 
