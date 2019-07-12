@@ -415,6 +415,7 @@ angular
 											$scope.getUserImage($scope.modelOwnerId);
 											relatedSoltion();
 											$scope.disableEdit();
+											$scope.enableDownload();
 											if (data.response_body.revisions) {
 												var length = data.response_body.revisions.length;
 												
@@ -1463,6 +1464,13 @@ angular
 									}else{
 										$scope.editModel = false;
 									}
+								}
+							}
+							
+							$scope.enableDownload = function() {
+								$scope.downloadModel = false;
+								if ($scope.solution.active) {
+									$scope.downloadModel = true;
 								}
 							}
 							
