@@ -197,11 +197,18 @@ limitations under the License.
 													    <label class="griditem-title">{{mlsolution.name}}</label>
 													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl"
 													    ng-bind=" ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | <span class="griditem-text2">  {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
-													     <p class="disblock mp-para" ng-if="mlsolution.publisher">
-													         <label class="grid-item-text-container2">
-													            <span>Pub: </span><span class="publisher-title" title="{{mlsolution.publisher}}">{{mlsolution.publisher}}</span>
-													         </label>
-													     </p>
+													     <div class="tile-icons">
+													     
+														     <label class="a-tooltip"><span class="icon-header tile_icon-catalogs"></span>
+																<span class="a-tooltiptext">{{mlsolution.catalogNames.join(', ')}}</span>
+															</label>
+															<span>|</span>
+															<label class="a-tooltip"><span class="icon-header tile_icon-publish-request"></span>
+																<span class="a-tooltiptext">Pub: {{mlsolution.publisher}}</span>
+															</label>
+													    	
+												    	</div>
+
 													</div>
 													<div class="a-mp-container1">
 														<div class="stars-outer">
@@ -209,10 +216,7 @@ limitations under the License.
 																ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
 														</div>
 														
-												    	<div style="margin: 10px 0 0 0;">
-													    	<span class="icon-header" style="width: 24px; height: 18px; background: url('../images/sidebar-icons/catalogs_inactive.png') no-repeat center center;"></span>
-													    	<md-tooltip>{{mlsolution.catalogNames.join(', ')}}</md-tooltip>
-												    	</div>
+												    	
 																			
 														<div class="posrel" ng-if="mlsolution.solutionTagList.length > 0">										
 															<div class="manage-taglist">
@@ -264,19 +268,21 @@ limitations under the License.
 																<span class="griditem-text2" ng-bind="'by ' + ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | 
 																<span class="griditem-text2">on {{mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | 
 																<span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span> |
-																<span class="text-small" ng-if="mlsolution.publisher">Pub: {{mlsolution.publisher}}</span>
 															</div>
 												<div class="a-mp-container1">
 													<div class="stars-outer">
-														<div class="stars-inner"
-															ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
+															<div class="stars-inner" ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
+															
 													</div>
-													
-													<div style="margin: 10px 0 0 0;">
-												    	<span class="icon-header" style="width: 24px; height: 18px; background: url('../images/sidebar-icons/catalogs_inactive.png') no-repeat center center;"></span>
-												    	<md-tooltip>{{mlsolution.catalogNames.join(', ')}}</md-tooltip>
-											    	</div>
-			
+													<div class="tile-icons">
+															     <label class="a-tooltip"><span class="icon-header tile_icon-catalogs"></span>
+																	<span class="a-tooltiptext">{{mlsolution.catalogNames.join(', ')}}</span>
+																</label>
+																<span>|</span>
+																<label class="a-tooltip"><span class="icon-header tile_icon-publish-request"></span>
+																	<span class="a-tooltiptext">Pub: {{mlsolution.publisher}}</span>
+																</label>
+													    	</div>
 													<div class="posrel"
 														ng-if="mlsolution.solutionTagList.length > 0">
 														<div class="manage-taglist">
