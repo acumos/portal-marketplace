@@ -406,6 +406,7 @@ angular.module('modelResource')
 									
 									if($rootScope.dockerURIonboarding){
 										$scope.disableDockerRefreshButton = false;
+										$rootScope.isMicroserviceEnabled = true;
 									} else {
 										$scope.disableRefreshButton = false;
 									}
