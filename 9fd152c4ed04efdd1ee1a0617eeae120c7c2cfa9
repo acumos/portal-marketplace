@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e61ff1a_3a27dc41",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-07-12T14:13:03Z",
+      "side": 0,
+      "message": "Sovit\nis this the correct changes? this change is not related to dynamic menu task right?",
+      "range": {
+        "startLine": 883,
+        "startChar": 7,
+        "endLine": 885,
+        "endChar": 13
+      },
+      "revId": "9fd152c4ed04efdd1ee1a0617eeae120c7c2cfa9",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
