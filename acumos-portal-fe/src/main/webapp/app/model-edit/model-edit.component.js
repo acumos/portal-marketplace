@@ -1141,7 +1141,7 @@ angular
 														} else {
 															$location.hash('manage-models');
 															$scope.msg = error.data.response_detail;
-															$scope.icon = 'report_problem';
+															$scope.icon = 'info_outline';
 															$scope.styleclass = 'c-error';
 															$anchorScroll();
 															$scope.showAlertMessage = true;
