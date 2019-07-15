@@ -95,10 +95,15 @@ angular
 		  												});
 		  												var catalogsToMap = (favoriteCatalogs.length > 0) ? favoriteCatalogs : $scope.CatalogList;
 		  												
-		  												$scope.catalogIds = catalogsToMap.map(function(item) {
+		  												$scope.favCatalogIds = catalogsToMap.map(function(item) {
 	  														return item.catalogId;
-	  													});
-	  													$scope.allCatalogList = catalogsToMap.map(function(item) {
+														});
+		  												
+		  												$scope.catalogIds = $scope.CatalogList.map(function(item) {
+															return item.catalogId;
+														});
+		  												
+		  												$scope.allCatalogList = $scope.CatalogList.map(function(item) {
 	  														return {"name": item.name, "catalogId": item.catalogId};
 	  													});
 	  													
@@ -558,9 +563,10 @@ angular
 								$scope.sortById = checkbox.value;	
 							else if(type == 'SearchbyCatalog'){
 								$scope.catalogIds = [];
-								if(checkbox.catalogId != undefined){
-									$scope.catalogIds.push(checkbox.catalogId);
-								$scope.namecatalog = checkbox.name;
+								if(checkbox != undefined){
+									angular.forEach(checkbox, function(item) {
+										$scope.catalogIds.push(item);
+									});
 								}
 								else
 									$scope.catalogIds = $scope.allCatalogIds;
