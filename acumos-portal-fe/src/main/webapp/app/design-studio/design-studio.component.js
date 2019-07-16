@@ -74,7 +74,7 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 	    
 	    $scope.launchFlag = false;
 		$scope.launchWorkbench = function(e){
-			/*iframeEl.onload = function() { 
+			iframeEl.onload = function() { 
 				window.setTimeout(function() {                                
 					iframeEl.contentWindow.postMessage('iframeMsg', '*');
         		}, 500);
@@ -82,8 +82,7 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 			};
 			$scope.launchFlag = true;
 			document.getElementById("workbenchLaunch").style.display="block";
-			document.getElementById("workbenchLaunch").src = urlBase;*/
-			$scope.openBlockUrl(urlBase);
+			document.getElementById("workbenchLaunch").src = urlBase;
 		}
 		
 		window.onmessage = function(event) {
