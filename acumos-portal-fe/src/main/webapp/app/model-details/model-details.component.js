@@ -151,8 +151,10 @@ angular
 										if($scope.averageRatings !== null)
 											{
 												var starPercentage = ($scope.averageRatings.ratingAverageTenths / 5) * 100;
-												var starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);																						
-												angular.element(document.querySelector(".stars-inner"))[0].style.width= starPercentageRounded + "%";
+												var starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);
+												if((angular.element(document.querySelector(".stars-inner")).length)>0){
+													angular.element(document.querySelector(".stars-inner"))[0].style.width= starPercentageRounded + "%";
+												}										
 											}
 									}).error(function(data, status, headers, config) {
 										console.warn("Error: ",data);

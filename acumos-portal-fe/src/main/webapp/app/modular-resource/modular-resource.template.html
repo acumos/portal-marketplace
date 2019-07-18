@@ -321,7 +321,7 @@ limitations under the License.
 																						uploadid="bundleuploadid" id="uploadFile"
 																						filename="filename" fileinput="file" 
 																						ng-model="file" accept = ""
-																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
+																						alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
 																						</div>																						
 																						<div class="upload-image-input files-uploaded" >
 																		    				<input class="mdl-textfield__input disabledClick"
@@ -416,7 +416,7 @@ limitations under the License.
 																						uploadid="licenseuploadid" id="uploadFile"
 																						filename="licenseFilename" fileinput="licensefile"
 																						ng-model="licensefile" accept = ""
-																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetLicenseUpload()" readonly>
+																						alt="Browse" title="Browse" ng-click="resetLicenseUpload()" readonly>
 																						</div>																						
 																						<div class="upload-image-input files-uploaded" >
 																		    				<input class="mdl-textfield__input disabledClick"
@@ -657,7 +657,7 @@ limitations under the License.
 													uploadid="dockerLicuploadid" id="uploadFile"
 													filename="licenseDockerFilename" fileinput="licenseDocfile"
 													ng-model="licenseDocfile" accept = ""
-													upload-image-model="file" alt="Browse" title="Browse" ng-click="resetLicenseUpload(true)" readonly>
+													alt="Browse" title="Browse" ng-click="resetLicenseUpload(true)" readonly>
 													</div>																						
 													<div class="upload-image-input files-uploaded" >
 									    				<input class="mdl-textfield__input disabledClick"
@@ -944,7 +944,7 @@ limitations under the License.
                           <div class="imageplace">
                                  <span class="imagecontent check_compatibility" alt="Check Compatibility" title="Check Compatibility"></span>
                           </div>
-                          <md-tooltip>{{errorCC}}</md-tooltip>
+                          <md-tooltip ng-if="errorCC">{{errorCC}}</md-tooltip>
                           <div class="text">Check Compatibility</div>
                           
                    </li>
@@ -955,7 +955,7 @@ limitations under the License.
                             <div class="imageplace">
                                    <span class="imagecontent dockerize" alt="Dockerize" title="Create Docker Image"></span>
                             </div>
-                            <md-tooltip>{{errorDO}}</md-tooltip>
+                            <md-tooltip ng-if="errorDO">{{errorDO}}</md-tooltip>
                             <div class="text">Dockerize</div>
                             
                      </li>
@@ -964,7 +964,7 @@ limitations under the License.
                             <div class="imageplace">
                                    <span class="imagecontent package" alt="Add Docker Image" title="Add Docker Image to repository"></span>
                             </div>
-                            <md-tooltip>{{errorDI}}</md-tooltip>
+                            <md-tooltip ng-if="errorDI">{{errorDI}}</md-tooltip>
                             <div class="text">Add Docker Image</div>
                             
                      </li>
@@ -974,7 +974,7 @@ limitations under the License.
                             <div class="imageplace">
                                    <span class="imagecontent add-repository" alt="Add Artifacts" title="Add Artifacts"></span>
                             </div>
-                            <md-tooltip>{{errorAA}}</md-tooltip>
+                            <md-tooltip ng-if="errorAA">{{errorAA}}</md-tooltip>
                             <div class="text">Add Artifacts</div>
                             
                      </li>
@@ -983,7 +983,7 @@ limitations under the License.
                           <div class="imageplace">
                                  <span class="imagecontent not-yet-onboarded" alt="Onboarding Status" title="Onboarding Status"></span>
                           </div>
-                          <md-tooltip>{{errorVM}}</md-tooltip>
+                          <md-tooltip ng-if="errorVM">{{errorVM}}</md-tooltip>
                           <div class="publshbutton hide">
                                  <button ng-click="viewModel()"
                                      class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">View Model</button>
