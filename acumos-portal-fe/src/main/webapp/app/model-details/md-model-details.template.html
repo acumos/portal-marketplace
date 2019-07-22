@@ -142,7 +142,7 @@ limitations under the License.
 			<div>
 				<div>
 					<span class="text-medium font600"><span
-						class="md-created-label" style="text-overflow: unset; max-width: none;">Created by {{(authorList) ? authorList[0].name: solution.ownerName}}</span></span>
+						class="md-created-label" style="text-overflow: unset; max-width: none;">Created by {{authorList[0].name||solution.ownerName}}</span></span>
 					| <span class="text-xsmall">Created on {{solution.created |
 						date:'MM/dd/yyyy'}} </span><span ng-if="!audit">|
 					<button
@@ -370,7 +370,7 @@ limitations under the License.
 									</span><span>{{supportingDoc.name}}</span></td>
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-									<td><a href="/api/solution/revision/document/{{supportingDoc.documentId}}?jwtToken={{auth}}" alt="Download" title="Download">
+									<td><a ng-click="!loginUserID ? $root.showAdvancedLogin() : documentDownload(supportingDoc.documentId)" alt="Download" title="Download">
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
