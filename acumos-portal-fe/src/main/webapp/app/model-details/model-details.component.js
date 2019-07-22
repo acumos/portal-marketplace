@@ -901,6 +901,10 @@ angular
 							});
 						}
 
+						$scope.documentDownload = function(documentId) {
+							$window.location.assign("/api/solution/revision/document/" + documentId + "?jwtToken=" + $scope.auth);
+						}
+						
 						// Publish the solution to Market place if both solution
 						// author and loged in user same
 						$scope.publishtoMarket = function(pub_value) {
