@@ -1137,8 +1137,8 @@ h1, h2, h3, h4, h5, h6 {
 .popupbox-cloud-modalfooter{display:flex; flex-wrap: nowrap; justify-content:space-between; padding:15px 24px; background-color:#F1F1F1; border-top:1px solid #CCC; margin-top:10px; border-radius: 0px 0px 4px 4px;}
 .popupbox .addcomments{margin:-10px 0 20px 0; display:inline-block;}
 /* active deactive images*/
-.managelefticon i.launcherimg{background-image:url("../images/launcher1.png"); background-repeat:no-repeat; margin-top:5px; width:18px; height:37px; display:inline-block;}
-.isActive .managelefticon i.launcherimg{background-image:url("../images/launcher2.png"); margin-top:5px;  } 
+.managelefticon i.launcherimg{background-image:url("../images/sidebar-icons/on_boarding.png"); background-repeat:no-repeat; margin-top:5px; background-size:23px;  display:inline-block; width:100%; height:20px;}
+.isActive .managelefticon i.launcherimg{background-image:url("../images/sidebar-icons/on_boarding_selected.png"); margin-top:5px; background-size:23px; width:100%; height:20px; display:inline-block; } 
 .shareimg{background-image:url("../images/share1.png"); background-repeat:no-repeat; width:18px; height:18px; display:inline-block;}
 .isActive .shareimg{background-image:url("../images/share2.png");}
 .companyimg{background-image:url("../images/Publish1.png"); background-repeat:no-repeat; width:20px; height:18px; display:inline-block;}
