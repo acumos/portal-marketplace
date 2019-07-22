@@ -25,6 +25,7 @@ import java.util.List;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLUserNotifPref;
@@ -139,4 +140,15 @@ public interface NotificationService {
          */
     	int getUserUnreadNotificationCount(String userId);
 
+    	/**
+    	 * Get the List of notifications for a user
+    	 * 
+    	 * @param userId
+    	 * @param restPageRequest
+    	 * @return List of notifications for user
+    	 */
+        RestPageResponse<MLPUserNotification> getUserNotificationsPagination(String userId, RestPageRequest restPageRequest);
+
+    	
+    	
 }

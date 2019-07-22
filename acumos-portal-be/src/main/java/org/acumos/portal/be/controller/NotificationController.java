@@ -32,6 +32,7 @@ import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -492,4 +493,34 @@ public class NotificationController extends AbstractController {
         }
         return data;
     }
+    
+	@ApiOperation(value = "Gets a list of Paginated Notifications for Market Place Catalog.", response = MLPUserNotification.class, responseContainer = "List")
+	@RequestMapping(value = { APINames.USER_NOTIFICATIONS_PAGINATION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponse<MLPUserNotification>> getUserNotificationsPagination(HttpServletRequest request,
+			@PathVariable("userId") String userId, @RequestBody JsonRequest<RestPageRequest> restPageReq,
+			HttpServletResponse response) {
+		
+		userId = SanitizeUtils.sanitize(userId);
+		
+		JsonResponse<RestPageResponse<MLPUserNotification>> data = new JsonResponse<>();
+		try {
+			RestPageResponse<MLPUserNotification> mlNotification = notificationService.getUserNotificationsPagination(userId,
+					restPageReq.getBody());
+			if (mlNotification != null) {
+				data.setResponseBody(mlNotification);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Notifications fetched Successfully");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("No notifications exist for user : " + userId);
+				log.debug("No notifications exist for user : " + userId);
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception Occurred in getUserNotificationsPagination");
+			log.error("Exception Occurred in getUserNotificationsPagination", e);
+		}
+		return data;
+	}
 }
