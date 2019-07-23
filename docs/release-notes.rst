@@ -21,6 +21,14 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.21  22nd July 2019 
+=================================
+* ACUMOS-3196 Boreas Marketplace Model Tile Re-arrangement
+* ACUMOS-3089 As a system admin would like to be able to add tools to design studio
+* ACUMOS-2808 Portal marketplace catalog drop-down contents for authenticated user
+* ACUMOS-3233 IST: Without Login: Documentation: White error page is displaying when user click on download icon
+* ACUMOS-3234 Portal UI - Created By is now showing for some models
+
 Version 2.2.20  12th July 2019 
 =================================
 * ACUMOS-3210	Download button in upper right corner is disabled (greyed out) for all models
