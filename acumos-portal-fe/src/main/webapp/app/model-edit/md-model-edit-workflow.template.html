@@ -1644,7 +1644,7 @@ limitations under the License.
 
 									<div>
 										<button ng-click="publishConfirmation(true)"
-											ng-disabled="activePublishBtn == false || !selectedCatalogId || existingCatalogId"
+											ng-disabled=" checkPublish ? 'false' : (activePublishBtn == false || !selectedCatalogId || existingCatalogId) "
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
 										<button ng-click="publishConfirmation(false)"
