@@ -1841,10 +1841,11 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 			if (mlpSolution != null) {
 				boolean isPublished = !PortalUtils.isEmptyList(dataServiceRestClient.getSolutionCatalogs(solutionId));
+				boolean isPublisher = userService.isPublisherRole(loginUserId);
 				if (mlpSolutionRevision != null) {
 					if ((PortalUtils.isEmptyOrNullString(loginUserId) && isPublished)
 							|| (!PortalUtils.isEmptyOrNullString(loginUserId)
-									&& (isPublished || loginUserId.equals(mlpSolution.getUserId())))) {
+									&& (isPublished || isPublisher || loginUserId.equals(mlpSolution.getUserId())))) {
 						mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
 						List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient
 								.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
@@ -1911,7 +1912,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							if (loginUserId != null) {
 								// if logged In user is owner/co-owner then show all revisions
 								if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId)
-										|| userService.isPublisherRole(loginUserId)) {
+										|| isPublisher) {
 									mlSolution.setRevisions(revisionList);
 								} else {
 									List<MLPCatalog> catalogList = dataServiceRestClient.getSolutionCatalogs(solutionId);
