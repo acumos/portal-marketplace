@@ -1863,10 +1863,12 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
 				}
 				
+				boolean isPublisher = userService.isPublisherRole(loginUserId);
+				
 				if (mlpSolutionRevision != null) {
 					if ((PortalUtils.isEmptyOrNullString(loginUserId) && isPublished)
 							|| (!PortalUtils.isEmptyOrNullString(loginUserId)
-									&& (isPublished || co_owners_Id.contains(loginUserId) || loginUserId.equals(mlpSolution.getUserId())))) {
+									&& (isPublished || co_owners_Id.contains(loginUserId) || isPublisher || loginUserId.equals(mlpSolution.getUserId())))) {
 						mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
 						mlSolution.setOwnerListForSol(users);
 						List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient
