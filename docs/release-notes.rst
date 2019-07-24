@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.22  24th July 2019 
+=================================
+* ACUMOS-3264 IST: User is redirecting to 403 page when click on model name link for decline request
+
 Version 2.2.21  22nd July 2019 
 =================================
 * ACUMOS-3196 Boreas Marketplace Model Tile Re-arrangement
