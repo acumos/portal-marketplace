@@ -1113,14 +1113,14 @@ input:-webkit-autofill {-webkit-box-shadow: 0 0 0 30px #fff inset;}
 md-input-container {margin:0;}
 md-input-container label:not(.md-container-ignore) {display:block; position: static;}
 md-input-container label,md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore) {transform:none;transition:none;-webkit-transform:none;-webkit-transition:none;padding-left:0;}
-md-input-container .md-input {border-width: 1px;height:35px; padding-left: 10px;border-radius: 2px;border-color:#d5d5d5;}
+md-input-container .md-input {border-width: 1px;height:35px; padding-left: 10px;border-radius: 2px;border-color:#d5d5d5;cursor:pointer;}
 .ud-row input.uploadtxtbox {border-right: 1px solid #d5d5d5 !important;}
 md-input-container.md-input-focused .md-input {border-width: 1px;border-color: #671C9D;}
 .profile-txtarea:focus {border-color: #671C9D;}
 md-input-container.md-icon-float>md-icon {top: 32px;}
 md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty{border-width: 1px;}
 md-input-container .md-errors-spacer {min-height: 17px;}
-md-input-container .md-input[disabled] { border-bottom-color: #d5d5d5;}
+md-input-container .md-input[disabled] { border-bottom-color: #d5d5d5;cursor: not-allowed;}
 
 .mdl-textfield.is-focused .mdl-textfield__input {border: 1px solid #d5d5d5 !important; padding-left:5px;padding-right:5px; }
 
@@ -1213,7 +1213,7 @@ a {text-decoration: none;}
 .admin-row4 > div:first-child{width:33.33%; margin-left:0;}
 .rtu-btn-container1 {margin-left:2px !important;}
 .rtu-btn-container1 > button[disabled] {cursor:not-allowed;}
-.rtu-btn-container1 > button {height: 35px; position: relative;top:-1px; border: 1px solid#d5d5d5;}
+.rtu-btn-container1 > button {height: 35px; background-color: #fff; position: relative;top:-1px; border: 1px solid#d5d5d5;}
 .rtu-btn-container1 > button > .material-icons {position: relative;top:2px;}
 .admin-row4 > div:nth-child(2){width:6%; padding-top:28px; margin-left:1%;}  
 .admin-row4 > div:nth-child(2)button{background-color: #efefef; border: 1px solid #d5d5d5; border-radius: 3px;margin-top: 27px; margin-left: -8px;
