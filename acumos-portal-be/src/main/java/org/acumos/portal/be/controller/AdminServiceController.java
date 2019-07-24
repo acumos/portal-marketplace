@@ -20,8 +20,11 @@
 
 package org.acumos.portal.be.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,11 +57,13 @@ import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MailData;
+import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +79,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiOperation;
@@ -829,34 +836,42 @@ public class AdminServiceController extends AbstractController {
 					"sendCredentialsmail: failed to send mail to user " + mlpUser.getEmailId(), ex);
 		}
 	}
-	
-	@ApiOperation(value = "Get dynamic list for menu", response = JsonResponse.class)
-	@RequestMapping(value = { APINames.GET_DYNAMIC_MENU }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<String> getDynamicMenu(HttpServletRequest request, HttpServletResponse response) {
 
-		JsonResponse<String> responseVO = new JsonResponse<String>();
-		String cloudEnabled = env.getProperty("portal.feature.menu");
+    @ApiOperation(value = "Get dynamic list for menu", response = JsonResponse.class)
+    @RequestMapping(value = { APINames.GET_DYNAMIC_MENU }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<List<PortalMenu>> getDynamicMenu(HttpServletRequest request, HttpServletResponse response) {
+          JsonResponse<List<PortalMenu>> responseVO = new JsonResponse<List<PortalMenu>>();
+          String portalMenuJson = env.getProperty("portal.feature.menu");
+          ObjectMapper mapper = new ObjectMapper();
+          List<PortalMenu> menuList = null;
+          try {
+                menuList = mapper.readValue(portalMenuJson, new TypeReference<List<PortalMenu>>() {
+                });
+                for (PortalMenu m : menuList) {
+                      byte[] fileContent = FileUtils.readFileToByteArray(new File(m.getImagePath()));
+                      String encodedString = Base64.getEncoder().encodeToString(fileContent);
+                      m.setImagePath(encodedString);
+                }
+                responseVO.setStatus(true);
+                responseVO.setResponseDetail("Success");
+                responseVO.setStatusCode(HttpServletResponse.SC_OK);
 
-		responseVO.setResponseBody(cloudEnabled);
-		responseVO.setStatus(true);
-		responseVO.setResponseDetail("Success");
-		responseVO.setStatusCode(HttpServletResponse.SC_OK);
-		return responseVO;
-	}
-	
-	@ApiOperation(value = "Get dynamic list for design studio menu", response = JsonResponse.class)
-	@RequestMapping(value = { APINames.GET_DESIGN_STUDIO_MENU }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<String> getDesignStudioMenu(HttpServletRequest request, HttpServletResponse response) {
+          } catch (IOException e) {
+                e.printStackTrace();
+                responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                responseVO.setResponseDetail("Exception Occurred while parsing json or reading file");
+                log.error("Exception Occurred while parsing json or reading file", e);
 
-		JsonResponse<String> responseVO = new JsonResponse<String>();
-		String menu = env.getProperty("portal.feature.ds.menu");
+          } catch (Exception e) {
+                responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                responseVO.setResponseDetail("Exception Occurred while parsing json or reading file");
+                log.error("Exception Occurred in getDynamicMenu()", e);
+          }
 
-		responseVO.setResponseBody(menu);
-		responseVO.setStatus(true);
-		responseVO.setResponseDetail("Success");
-		responseVO.setStatusCode(HttpServletResponse.SC_OK);
-		return responseVO;
-	}
+          responseVO.setResponseBody(menuList);
+          
+          return responseVO;
+    }
+
 }
