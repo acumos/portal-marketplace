@@ -379,7 +379,7 @@ limitations under the License.
 																			</md-input-container>
 																		</div>
 																		<div id="modelName" ng-hide="$root.isOnnxOrPFAModel">
-																			<md-checkbox aria-label="Create micro-service during on-boarding" ng-model="$root.isMicroserviceEnabled" ng-disabled="disableOnboardingButton==true  || $root.trackId"></md-checkbox>					
+																			<md-checkbox aria-label="Create micro-service during on-boarding" ng-model="$root.isMicroserviceEnabled" ng-disabled="disableOnboardingButton==true  || ($root.trackId && !$root.dockerURIonboarding)"></md-checkbox>					
 																			<span>Create micro-service during on-boarding</span>
 																		</div>
 																		<div ng-show="$root.isMicroserviceEnabled && !$root.isOnnxOrPFAModel" class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
