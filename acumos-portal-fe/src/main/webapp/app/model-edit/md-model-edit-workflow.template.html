@@ -1774,9 +1774,9 @@ limitations under the License.
 																						<span class="tab-icons tab-license"></span>
 																						<span>Licenses</span>
 																					</span>
-																				</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
+																				</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signature" title="Signature"> <span
 																					class="tab-box"> <span
-																						class="tab-icons tab-signatures"></span> <span>Signatures</span>
+																						class="tab-icons tab-signatures"></span> <span>Signature</span>
 																				</span>
 																				</a> <a href="#tab3-panel" class="mdl-tabs__tab" alt="Documents" title="Documents"> <span
 																					class="tab-box"> <span
@@ -1796,8 +1796,9 @@ limitations under the License.
 																				</h6>
 																				<div class="box-inner2 rowcontainer">
 																					<md-chips
-																						ng-repeat="tag in tags1">
-																					<md-chip>{{tag.text}}</md-chip> </md-chips>
+																						ng-model="tags1" readonly="true">
+																						<md-chip-template>{{$chip}}</md-chip-template 
+																					</md-chips>
 																				</div>
 																			</div>
 																			<hr class="hor-seperator" />

@@ -519,7 +519,7 @@ angular.module('modelResource')
 								$location.hash('webonboarding');  // id of a container on the top of the page - where to scroll (top)
 		                        $anchorScroll();
 		                       
-		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
+		                        $scope.msg = "On-boarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = 'info_outline';
 		                        $scope.styleclass = 'c-info';
 		                        $scope.showAlertMessage = true;
@@ -545,7 +545,7 @@ angular.module('modelResource')
 								$scope.trackId = response.data.response_detail;
 								$location.hash('onap-onboarding');  // id of a container on the top of the page - where to scroll (top)
 		                        $anchorScroll(); 
-		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
+		                        $scope.msg = "On-boarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
 		                        $scope.styleclass = 'c-warning';
 		                        $scope.showAlertMessage = true;

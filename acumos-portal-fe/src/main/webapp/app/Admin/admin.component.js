@@ -1,4 +1,4 @@
-/*
+	/*
 ===============LICENSE_START=======================================================
 Acumos  Apache-2.0
 ===================================================================================
@@ -1409,7 +1409,7 @@ angular.module('admin').filter('abs', function () {
                     $scope.confirmMsg = "Do you want to update user's Role ?";
                     $scope.warningMsg = "Change Role";
                 } else if ($scope.functionCall == 'deleteValue') {
-                    $scope.confirmMsg = "Do you want to " + $scope.activeYN + " users ?";
+                   $scope.confirmMsg = "Do you want to " + $scope.activeYN.slice(0, $scope.activeYN.length-1) + "ate users ?";
                     $scope.warningMsg = $scope.activeYN[0].toUpperCase() + $scope.activeYN.slice(1) + " Confirmation";
                 }
                 $mdDialog.show({
