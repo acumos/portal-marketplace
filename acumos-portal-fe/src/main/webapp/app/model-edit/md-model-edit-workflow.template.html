@@ -638,7 +638,7 @@ limitations under the License.
 													ng-class="{'completed': publishRequest.requestStatusCode === 'AP' && publishRequest.catalogId == selectedCatalogId, 'active': publishRequest.requestStatusCode === 'PE' && publishRequest.catalogId == selectedCatalogId, 'incomplet' : publishRequest.requestStatusCode === 'DC' && publishRequest.catalogId == selectedCatalogId}">
 													<span class="imagecontent request-approval"
 														alt="Security Scan" title=" Request Approval "></span>
-												</div> <md-tooltip>{{publishRequest.comment}}</md-tooltip>
+												</div> <md-tooltip ng-if="publishRequest.comment">{{publishRequest.comment}}</md-tooltip>
 												<div class="text">Request Approval</div>
 												<div class="publshbutton ">
 													<button ng-click="showWithdrawRequestModal();"
@@ -708,7 +708,7 @@ limitations under the License.
 													<button ng-click="viewModel()"
 														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 														View Model</button>
-												</div> <md-tooltip>{{errorPM}}</md-tooltip>
+												</div> <md-tooltip ng-if="errorPM">{{errorPM}}</md-tooltip>
 												<div class="text">Not yet published</div>
 												<div class="text-completed">Successfully Published</div>
 											</li>
@@ -733,7 +733,7 @@ limitations under the License.
 												<span class="imagecontent security-scan" alt="Security scan" title="Security scan">
 												</span>
 											</div>
-											<md-tooltip>{{errorSS}}</md-tooltip>
+											<md-tooltip ng-if="errorSS">{{errorSS}}</md-tooltip>
 											<div class="text">Security scan</div>
 										
 										</li>
@@ -744,7 +744,7 @@ limitations under the License.
 												<span class="imagecontent license-check" alt="License Check" title="License Check">
 												</span>
 											</div>
-											<md-tooltip>{{errorLC}}</md-tooltip>
+											<md-tooltip ng-if="errorLC">{{errorLC}}</md-tooltip>
 											<div class="text">License Check</div>
 										</li>
 										<li class="progress-status" ng-show = "lcShow"></li>
@@ -753,7 +753,7 @@ limitations under the License.
 												<span class="imagecontent text-check" alt="Text Check" title="Text Check">
 												</span>
 											</div>
-											<md-tooltip>{{errorTC}}</md-tooltip>
+											<md-tooltip ng-if="errorTC">{{errorTC}}</md-tooltip>
 											<div class="text">Text Check</div>
 										</li >
 										<li  ng-hide = "tcShow"></li>	
@@ -1528,7 +1528,7 @@ limitations under the License.
 																						uploadid="companyuploadid" id="solImage" size = 1000000 imageerror = "imageerror"
 																						filename="filename" fileinput="file" accept="image/*" validfilename = "validfilename" imagetypeerror = "imagetypeerror"
 																						filepreview="previewImage" ng-model="solImage"
-																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
+																						icon="icon" alt="Browse" title="Browse" readonly ></div>
 																					<input class="mdl-textfield__input disabledClick"
 																						placeholder="Upload Image" type="text"
 																						ng-model="filename" readonly />
