@@ -522,6 +522,73 @@ public class AuthServiceController extends AbstractController {
 		return responseVO;
 	}
 
+	@ApiOperation(value = "Validate the Cookie based Api Token for third party access", response = JsonResponse.class)
+	@RequestMapping(value = {
+			APINames.APITOKEN_COOKIE_VALIDATION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> validateCookieApiToken(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody JsonRequest<String> cookieStr) throws MalformedException {
+
+		String cookieApiToken = cookieStr.getBody();
+
+		JsonResponse<Object> responseVO = new JsonResponse<Object>();
+
+		if (PortalUtils.isEmptyOrNullString(cookieApiToken)) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Token Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return responseVO;
+		}
+
+		MLPUser user = null;
+
+		Map<String, String> map = new HashMap<>();
+		String[] keyvalues = cookieApiToken.split(";");
+
+		for (String pair : keyvalues) {
+			String[] entry = pair.split("=");
+			map.put(entry[0].trim(), entry[1].trim());
+		}
+
+		String apiToken = map.get("authToken");
+		apiToken = apiToken.replace("Bearer ", "");
+		String userName = jwtTokenUtil.getUsernameFromToken(apiToken);
+
+		if (userName == null) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Token Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return responseVO;
+		}
+
+		Map<String, String> queryParams = new HashMap<>();
+		queryParams.put("loginName", userName);
+		user = userService.findUserByUsername(userName);
+
+		if (user == null) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Token Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return responseVO;
+		}
+
+		if (jwtTokenUtil.validateToken(apiToken, user)) {
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Valid Token");
+			responseVO.setResponseBody(user.getUserId());
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		}
+		return responseVO;
+	}
+	
 	@ApiOperation(value = "Provide the Validation status for the application", response = JsonResponse.class)
 	@RequestMapping(value = { APINames.VALIDATION_STATUS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
