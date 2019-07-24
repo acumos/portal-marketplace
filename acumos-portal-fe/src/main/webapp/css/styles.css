@@ -1482,6 +1482,12 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .btn-cobr-close {border: none; background: none;position: absolute; top: 5px; right:-2px;}
 .btn-cobr-close .material-icons {font-size: 16px;}
 .co-br_logo_inner-wrapper md-progress-linear .md-container {border-radius: 3px;background: #EFEFEF;}
+.row-main {display: flex;flex-wrap:nowrap; justify-content: space-between; align-content: center;}
+.row-cell-left {display: flex;flex-wrap:nowrap; justify-content: space-between; align-content: center;}
+.row-cell-right .mdl-textfield.admin-search-container input.admin-search-control { width: 200px !important; margin:0 15px 0 0; padding:0 25px 0 5px; height:30px; font-size: 14px; }
+.row-cell-left md-checkbox {margin-bottom:0;}
+.row-cell-left .md-label > span {line-height:30px;}
+.row-cell-left > div {line-height:30px;padding-left:5px;}
 /*************Admin User page style End ***************/
 
 /**** Preview box style start ******/
