@@ -1,4 +1,4 @@
-<!--  
+<!--    
 ===============LICENSE_START=======================================================
 Acumos Apache-2.0
 ===================================================================================
@@ -75,7 +75,7 @@ limitations under the License.
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="showModalPublishReq('approve',solution.name, publishRequestId)"
 						ng-if="loginUserID && audit"
-						ng-disabled="requestedByMe"
+						ng-disabled="requestedByMe || requestStatusCode=='AP'|| requestStatusCode=='DC'"
 						alt="Approve Publication" title="{{ requestedByMe ? 'Approve Self Publication is Disabled' : 'Approve Publication'}}">Approve Publication</button>
 						
 				<button type="button"
@@ -83,7 +83,7 @@ limitations under the License.
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="showModalPublishReq('decline',solution.name, publishRequestId)"
 						ng-if="loginUserID && audit"
-						ng-disabled="requestedByMe"
+						ng-disabled="requestedByMe || requestStatusCode=='AP'|| requestStatusCode=='DC'"
 						alt="Decline Publication" title="{{ requestedByMe ? 'Decline Self Publication is Disabled' : 'Decline Publication'}}">Decline Publication</button>
 						
 				<button type="button" ng-cloak
@@ -1221,9 +1221,9 @@ limitations under the License.
 									the publish request for {{requestedModelName}}
 								</span>
 
-								<p class="peerpara1">Please add note (optional).</p>
+								<p class="peerpara1">Please add note (Mandatory).</p>
 								<br />
-								<textarea ng-model="descriptionPop" rows="4"></textarea> </md-input-container>
+								<textarea ng-model="descriptionPop" name="textArea" rows="4" required></textarea> </md-input-container>
 							</div>
 						</div>
 					</div>
@@ -1236,7 +1236,7 @@ limitations under the License.
 						</div>
 						<div>
 							<button ng-click="publishReqeuest(requestApprovalModal)"
-								class="mdl-button mdl-js-button btn-primary">
+								class="mdl-button mdl-js-button btn-primary" ng-disabled="!!publishRequestForm.textArea.$error.required">
 								<span ng-show="requestApprovalModal == 'approve' ">Approve</span>
 								<span ng-show="requestApprovalModal == 'decline' ">Decline</span>
 							</button>

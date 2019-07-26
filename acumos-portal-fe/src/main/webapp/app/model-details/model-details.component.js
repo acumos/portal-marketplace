@@ -52,6 +52,7 @@ angular
 								$scope.audit = true;
 								$scope.requestedByMe = false;
 								$scope.publishRequestId = $stateParams.publishRequestId;
+								$scope.requestStatusCode = $stateParams.requestStatusCode;
 								if ($scope.loginUserID == $stateParams.requestUserId && $scope.publishOwnRequestsEnabled ==='false'){
 									$scope.requestedByMe = true;
 								}
