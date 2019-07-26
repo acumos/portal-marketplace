@@ -137,7 +137,7 @@ angular.module('AcumosApp')
         var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
 
         var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
-        	
+        var urlNotificationPagination = 'api/notifications/pagination';	
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -309,6 +309,10 @@ angular.module('AcumosApp')
         this.getUnreadNotificationCount = function(userID){
             return $http.get(urlUnreadNotification + '/' + userID);
         }
+        
+        this.getNotificationPagination = function(userId, reqObj){
+        	return $http.post(urlNotificationPagination + '/' + userId, reqObj);
+        };
         
         /**************** ALL PUT ******************/
         this.updateSubscription = function(reqobj){

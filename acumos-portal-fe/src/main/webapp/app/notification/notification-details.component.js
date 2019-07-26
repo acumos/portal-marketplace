@@ -45,19 +45,31 @@ app.component('notificationModule',{
 					.getAuthToken();
 		}
 
-		$scope.getNotificationMessage=function (userId,page){
+		$scope.getNotificationMessage=function (userId,page,size){
 			
 			var req = {
 		    	  "request_body": {
 			    	    "page": page,
-			    	    "size": 1000
+			    	    "size": size
 			    	 } 
 			    	};
-				
-				apiService.getNotification(userId,req).then(function(response) {
+				$scope.Loadcheck = true;
+				apiService.getNotificationPagination(userId,req).then(function(response) {
+					var totalElements = response.data.response_body.totalElements;
+					$scope.totalPages = response.data.response_body.totalPages;
+					// var totalPages = (totalElements / page ) + 1;
+					$scope.loadpage = $scope.selectedPage;
+					$scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
+					$scope.endPageSize = (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalElements ? (($scope.loadpage + 1) * $scope.defaultSize)
+							: $scope.totalElements;
+					$scope.SetDataLoaded = false;
+					$rootScope.setLoader = false;
+					if ($scope.notificationManageObj
+							&& $scope.notificationManageObj.length !== 0)
+						$scope.notificationManageObj = [];
 					
-				if(response.data != null && response.data.response_body.length > 0 ){
-					angular.forEach(response.data.response_body,function( value, key) {
+				if(response.data != null && response.data.response_body.totalElements > 0 ) {
+					angular.forEach(response.data.response_body.content,function( value, key) {
 						$scope.notificationManageObj
 						.push({
 							message : $sce.trustAsHtml(value.message),
@@ -67,23 +79,81 @@ app.component('notificationModule',{
 							notificationId : value.notificationId
 						});
 					});
-					$scope.totalCount = response.data.response_body.length;
-					if($scope.totalCount == 1000){
+					/*$scope.totalCount = response.data.response_body.length;
+					if($scope.totalCount == 20){
 						$scope.page = $scope.page + 1;
 						$scope.getNotificationMessage($scope.loginUserID,$scope.page);
-					}
-				}else{
+					} */
+				} else {
 					
 					/*$rootScope.notificationCount=0;
 					$scope.notificationManageObj=[];*/
 				}
-			});
-			
+				$scope.Loadcheck = false;
+			});	
 		}
-		$scope.getNotificationMessage($scope.loginUserID, $scope.page);
+		
+		// Change pagination Size starts
+		$scope.defaultSize = 10;
+		$scope.getNotificationMessage($scope.loginUserID,$scope.page, $scope.defaultSize);
+
+		$scope.filterChange = function(checkbox, type) {
+			$rootScope.setLoader = true;
+			$scope.pageNumber = 0;
+			$scope.setPageStart = 0;
+			$scope.selectedPage = 0;
+			if (type == 'paginationSize') {
+				$scope.defaultSize = checkbox;
+				$scope.getNotificationMessage($scope.loginUserID, $scope.selectedPage, $scope.defaultSize);
+			}
+		}
+		$scope.setPageStart = 0;
+		$scope.selectedPage = 0;
+		
+		$scope.setStartCount = function(val) {
+			$location.hash('notification-details');
+			$anchorScroll();
+			if (val == "preBunch") {
+				$scope.setPageStart = $scope.setPageStart - 5
+			}
+			if (val == "nextBunch") {
+				$scope.setPageStart = $scope.setPageStart + 5
+			}
+			if (val == "pre") {
+				if ($scope.selectedPage == $scope.setPageStart) {
+					$scope.setPageStart = $scope.setPageStart - 1;
+					$scope.selectedPage = $scope.selectedPage - 1;
+				} else
+					$scope.selectedPage = $scope.selectedPage - 1;
+			}
+			if (val == "next") {
+				if ($scope.selectedPage == $scope.setPageStart + 4) {
+					$scope.setPageStart = $scope.setPageStart + 1;
+					$scope.selectedPage = $scope.selectedPage + 1;
+				} else
+					$scope.selectedPage = $scope.selectedPage + 1;
+			}
+		}
+		
+		$scope.Navigation = function(selectedPage) {
+			//$scope.SetDataLoaded = true;
+			$rootScope.setLoader = true;
+			$location.hash('notification-details');
+			$anchorScroll();
+			if ($scope.defaultSize <= 10)
+				$scope.defaultSize = 10;
+			else
+				$scope.defaultSize;
+
+			$scope.notificationManageObj = [];
+			$scope.pageNumber = selectedPage;
+			$scope.selectedPage = selectedPage;
+			$scope.getNotificationMessage($scope.loginUserID,$scope.selectedPage,$scope.defaultSize);
+		}
 		
 		$scope.refreshNotification=function(){
-			$scope.page = 0;
+			$scope.selectedPage = 0;
+			$scope.Navigation($scope.selectedPage)
 			$scope.notificationManageObj=[];
 			$scope.selectAllStatus = false;
 			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
@@ -97,8 +167,10 @@ app.component('notificationModule',{
 			$http(req).success(function(data, status, headers,config) {
 				if(data!=null){
 					$scope.notificationManageObj=[];
-					$scope.page = 0;
-					$scope.getNotificationMessage($scope.loginUserID, $scope.page);
+					//$scope.page = 0;
+					$scope.selectedPage = 0;
+					$scope.defaultSize = 10;
+					$scope.getNotificationMessage($scope.loginUserID,$scope.selectedPage,$scope.defaultSize);
 				 }
 			}).error(function(data, status, headers, config) {
 				
@@ -111,6 +183,7 @@ app.component('notificationModule',{
 			for (var i = 0; i < $scope.notificationManageObj.length; i++) {
                 if ($scope.notificationManageObj[i].Selected){
                 	if ($scope.notificationManageObj[i].viewed != null){
+                		$location.hash('notification-details');
 	                	$anchorScroll(); 							// used to scroll to the id 
 						$scope.msg = "Already marked as read."; 
 						$scope.icon = 'report_problem';
