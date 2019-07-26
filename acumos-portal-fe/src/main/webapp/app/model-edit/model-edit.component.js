@@ -113,6 +113,8 @@ angular
 						$scope.mybody = angular.element(document).find('body');
 						$scope.selectedItem = null;
 						$scope.searchText = null;
+					
+						$scope.checkPublish  = false;
 						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -517,7 +519,11 @@ angular
 									var keyVal= response.data.response_body[i].name + response.data.response_body[i].contact;									 
 										response.data.response_body[i][keyName] = keyVal;
 									}
-									$scope.AuthorsTag = response.data.response_body;								
+									$scope.AuthorsTag = response.data.response_body;
+									if($scope.AuthorsTag){
+										$scope.checkPublish = false;
+									}
+									
 							});
 						}
 							
@@ -601,8 +607,16 @@ angular
 									}
 									$scope.AuthorsTag = response.data.response_body;
 									
-									if($scope.flag)
+									if($scope.AuthorsTag){
+										$scope.checkPublish = false;
+									}
+									
+									
+									
+									if($scope.flag ){
 							    		$scope.msg = " Author updated  successfully";
+							    		
+									}
 							    	else
 							    		$scope.msg = " Author added successfully";
 							    		$scope.icon = '';
@@ -1075,16 +1089,17 @@ angular
 
 						$scope.publishtoMarket = function(selectedCatalogId) {
 							$scope.closeDialog();
+							if($scope.AuthorsTag.length > 0){
 							if ($scope.solution.ownerId) {
 									var data = $.param({
 										visibility : $scope.selectedCatalogObj.accessTypeCode,
 										userId : $scope.solution.ownerId,
 										revisionId : $scope.revisionId,
 										ctlg : $scope.selectedCatalogId
-									});
+									});																														
 									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
-														
+														$scope.checkPublish = false;																									
 														$scope.handleSuccess = true;
 														$timeout(function() {$scope.handleSuccess = false;}, 4500);
 
@@ -1094,7 +1109,11 @@ angular
 															$scope.msg = "Solution Not Published";
 															$scope.icon = 'report_problem';
 															
-														}else if (response.data.error_code == 100){
+														}
+														
+														
+														
+														else if (response.data.error_code == 100){
 															$scope.trackId = response.data.response_detail;
 															$scope.msg = "Solution Published Successfully";
 															$scope.icon = '';
@@ -1161,8 +1180,24 @@ angular
 								$scope.showAlertMessage = true;
 								$timeout(function() {$scope.showAlertMessage = false;}, 3500);
 							}
-
-						}
+							
+							}
+							else{
+								$scope.status = 'Please add author'
+								$location.hash('manage-models');
+								$anchorScroll();
+								$scope.msg = "You can't publish the catalog without an author name. Please add author name in Manage Publisher/Author page.";
+								$scope.icon = 'info_outline';
+								$scope.styleclass = 'c-error';
+							
+								$scope.checkPublish = true;
+															
+								$scope.showAlertMessage = true;
+								$timeout(function() {								
+									$scope.showAlertMessage = true;}, 3500);
+							}
+							}
+						
 
 						/** * shared with team members functionalities START* */
 
