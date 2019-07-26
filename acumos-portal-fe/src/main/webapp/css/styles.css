@@ -1488,6 +1488,28 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .row-cell-left md-checkbox {margin-bottom:0;}
 .row-cell-left .md-label > span {line-height:30px;}
 .row-cell-left > div {line-height:30px;padding-left:5px;}
+
+/******** Maintained Backup Logs CSS start *****/
+.large-size-dialog {width: 680px;}
+.small-size-dialog {width: 450px;}
+.popup-input-container {display: flex;flex-wrap:nowrap; margin-bottom: 20px; }
+.popup-input-container > div:not(:last-child) {margin-right: 10px;}
+input[type="text"].medium-textbox {width: 300px;}
+.popup-input-container .select-control {width:250px;}
+.btn-valign-horizontal {position: relative; top:1px;height:35px;}
+.btn-valign-horizontal2 {position: relative; top:1px;}
+.popup-input-container md-select {height:31px;}
+
+.flex {display:flex;}
+.items-align-horizontal {flex-direction: row; flex-wrap: nowrap; justify-content: flex-start;}
+.items-align-horizontal *:not(:last-child) {margin-right: 10px;}
+.vertical-bottom-alignment {align-self: flex-end;}
+.margin-left-auto {margin-left: auto;}
+.btn-icon-valign-horizontal {height: 33px;padding:0 5px; min-width: 20px;margin-bottom:2px;}
+.grid-small-text {font-size: 11px; color:#999;margin-left: 7px;}
+
+/******** Maintained Backup Logs CSS end *****/
+
 /*************Admin User page style End ***************/
 
 /**** Preview box style start ******/

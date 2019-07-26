@@ -75,6 +75,11 @@ limitations under the License.
 								class="tab-icons tab-rtu_configuration"></span> <span>RTU
 									Configuration</span>
 						</span>
+						</a> <a href="#tab9-panel" ng-click='menuName = "Maintained Backup Logs"'
+							class="mdl-tabs__tab"> <span class="tab-box"> <span
+								class="tab-icons "></span> <span>Maintained 
+								Backup Logs</span>
+						</span>
 						</a> <a href="#tab5-panel" ng-click='menuName = "Federation"'
 							class="mdl-tabs__tab "> <span class="tab-box"> <span
 								class="tab-icons tab-federation"></span> <span>Federation</span>
@@ -1005,6 +1010,154 @@ limitations under the License.
 						</div>
 						</div>
 					</div>
+					<!-- HTML code for Maintained Backup Logs page -->
+					<div class="mdl-tabs__panel" id="tab9-panel">
+						<div class="admin-tab-heading">
+							<span class="admin-title2">Maintained Backup Logs</span>
+						</div>
+						<div class="site-content-wrapper">
+							<md-tabs md-dynamic-height md-border-bottom>
+								<md-tab label="Backup Logs">
+									<md-content class="md-padding">
+										<div class="fed-row1">
+											<div class="fedrow-cell1">
+													<button class="mdl-button mdl-js-button btn-primary">Create Backup</button>
+													<button class="mdl-button mdl-js-button btn-secondary btn-gap">Archive</button>												
+											</div>
+											<div class="fed-row2">
+												<div class="fed-srch-container">
+													<label class="fed-lbl1">Filter</label>
+													<div class="mdl-textfield mdl-js-textfield admin-search-container">
+														<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
+															ng-model="searchPeerDetails">
+													</div>
+												</div>												
+											</div>
+										</div>
+										<hr />
+										<div>
+											<table class="mdl-data-table mdl-js-data-table fullwidth">
+												<colgroup>
+													<col style="width:5%;">
+													<col>
+													<col>
+													<col>
+													<col style="width:7%;">
+												</colgroup>
+												<thead>
+													<tr>
+														<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1"
+																id="checkbox-label">
+																<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model="selectAll"
+																	ng-click="setSelectAll(selectAll)" ng-checked="selectAllStatus" />
+																<span class="mdl-checkbox__label"></span>
+															</label></th>
+														<th>Backup Name</th>
+														<th>Repository</th>
+														<th>Created Date</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
+																id="checkBox_{{$index}}">
+																<input type="checkbox" class="mdl-checkbox__input" ng-model="notification.Selected"
+																	ng-checked="notification.Selected" ng-click="removeSelectAll()">
+																<span class="mdl-checkbox__label"></span>
+															</label>
+														</td>
+														<td><span>ABC DEV</span></td>
+														<td><span>Logstash</span></td>
+														<td><span>7/4/2019</span></td>
+														<td class="text-center">
+															<md-button class="md-icon-button md-primary" aria-label="Settings">
+																<i class="material-icons">
+																	close
+																</i>
+															</md-button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</md-content>
+								</md-tab>
+								<md-tab label="Archived Logs">
+									<md-content class="md-padding">
+											<div class="fed-row1">
+													<div class="fedrow-cell1">
+															<button class="mdl-button mdl-js-button btn-primary">Restore</button>
+															<button class="mdl-button mdl-js-button btn-secondary btn-gap">Delete</button>											
+													</div>
+													<div class="fed-row2">
+														<div class="fed-srch-container">
+															<label class="fed-lbl1">Filter</label>
+															<div class="mdl-textfield mdl-js-textfield admin-search-container">
+																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
+																	ng-model="searchPeerDetails">
+															</div>
+														</div>												
+													</div>
+												</div>
+										<hr />
+										<p class="reqfield">Note: If you delete any backup from this page it will be deleted permanently from here</p>
+					
+										<div>
+											<table class="mdl-data-table mdl-js-data-table fullwidth">
+												<colgroup>
+													<col style="width:5%;">
+													<col>
+													<col>
+													<col>
+													<col style="width:7%;">
+												</colgroup>
+												<thead>
+													<tr>
+														<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1"
+																id="checkbox-label">
+																<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model="selectAll"
+																	ng-click="setSelectAll(selectAll)" ng-checked="selectAllStatus" />
+																<span class="mdl-checkbox__label"></span>
+															</label></th>
+														<th>Backup Name</th>
+														<th>Repository</th>
+														<th>Created Date</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
+																id="checkBox_{{$index}}">
+																<input type="checkbox" class="mdl-checkbox__input" ng-model="notification.Selected"
+																	ng-checked="notification.Selected" ng-click="removeSelectAll()">
+																<span class="mdl-checkbox__label"></span>
+															</label>
+														</td>
+														<td><span>ABC DEV</span></td>
+														<td><span>Logstash</span></td>
+														<td><span>7/4/2019</span></td>
+														<td class="text-center">
+															<md-button class="md-icon-button md-primary" aria-label="Settings">
+																<i class="material-icons">
+																	close
+																</i>
+															</md-button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</md-content>
+								</md-tab>
+							</md-tabs>
+						</div>
+					</div>
+					<!-- HTML code for Maintained Backup Logs page Ends -->
+					
 					<div class="mdl-tabs__panel" id="tab5-panel">
 						<div class="admin-tab-heading admin-box2">
 							<div>

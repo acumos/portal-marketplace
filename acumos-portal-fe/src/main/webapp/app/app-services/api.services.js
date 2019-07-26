@@ -20,7 +20,7 @@ limitations under the License.
 
 angular.module('AcumosApp')
     .service('apiService', ['$http', function ($http, $window) {
-
+    	
         var urlModelTypes = '/api/filter/modeltype';
         var urlAllUserCount = '/api/users/userDetails';
         var urlAllRole = '/api/roles';
@@ -111,7 +111,6 @@ angular.module('AcumosApp')
        
         var urlPeerSubsDetails = '/api/admin/peer/subcription';
         
-        
         var urlGlobalDiscoverAcumos='api/site/content/global/discoverAcumos';
         var urlOnboardingOverviewUrl = '/api/site/content/global/onboarding/overview';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
@@ -134,11 +133,26 @@ angular.module('AcumosApp')
         var urlgatewayCatalogPath = "api/gateway/catalogs";
 		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
         var urlRightToUse="/api/rightToUse";
-        var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
-
-        var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
+        var urlCreateRTU = "api/createRtuUser"; /*Create RTU User based on the RTU_ID, Solution_ID and list of 
+												Users of the local Acumos Instance*/ 
+        var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update';
         	
-			
+        //Acumos ELk Client REST APIs : Elastic Search Service Controller (all Methods at end)
+        var elkapi = "http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:9600/elkclient";
+        	
+        //var urlGetAllSnapshot = elkapi + "/all/snapshot";				//Get all the elasticsearch snapshot.
+        var urlGetAllSnapshot =  "/app/jsons/snapshot.json"				// Added hardcoded JSON file for now in the json folder. Need to replace with above line
+        	
+        var urlGetAllRepositories = elkapi + "/all/repositories";		//Get all the elasticsearch repositories details of Elasticstack.
+        var urlCreateSnapshot = elkapi + "/create/snapshot";				//Create elasticstack snapshot.
+        var urlGetAllIndices = elkapi + "/all/indices";					//Get all the indices of Elasticstack.
+        var urlDeleteSnapshot = elkapi + "/delete/snapshot";				//Delete elasticstack snapshot.
+        var urlDeleteRepositories = elkapi + "/delete/repositories";		//Delete Elasticstack repository.
+        var urlRestoreSnapshot = elkapi + "/restore/snapshot";			//Restore elasticstack snapshot.
+        var urlCreateRepositories = elkapi + "/create/repositories";		//Create Elasticstack repository.
+        var urlDeleteIndices = elkapi + "/delete/indices";				//Delete elasticstack Indices.
+        
+	
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
@@ -760,4 +774,52 @@ angular.module('AcumosApp')
 		this.searchPublishRequestWithCatalogIds = function (revisionId,catalogId) {
         	return $http.get('api/publish/request/search/revision/'+revisionId+'/'+catalogId );
         };
+        
+        /**ELk Client REST APIs Methods**/
+        //Get all the elasticsearch snapshot.
+        this.getAllSnapshot = function () {
+            return $http.get(urlGetAllSnapshot);
+        };
+        
+        //Get all the elasticsearch repositories details of Elasticstack.
+        this.getAllRepositories = function () {
+            return $http.get(urlGetAllRepositories);
+        };
+        
+        //Create elasticstack snapshot.
+        this.createSnapshot = function (request) {
+            return $http.post(urlCreateSnapshot, request);
+        };
+        
+        //Get all the indices of Elasticstack.
+        this.getAllIndices = function () {
+            return $http.get(urlGetAllIndices);
+        };
+        
+        //Delete elasticstack snapshot.
+        this.deleteSnapshot = function (request) {
+            return $http.post(urlDeleteSnapshot, request);
+        };
+        
+        //Delete Elasticstack repository.
+        this.deleteRepositories = function (request) {
+            return $http.post(urlDeleteRepositories, request);
+        };
+        
+        //Restore elasticstack snapshot.
+        this.restoreSnapshot = function (request) {
+            return $http.post(urlRestoreSnapshot, request);
+        };
+        
+        //Create Elasticstack repository.
+        this.createRepositories = function (request) {
+            return $http.post(urlCreateRepositories, request);
+        };
+        
+        //Delete elasticstack Indices.
+        this.deleteIndices = function (request) {
+            return $http.post(urlDeleteIndices, request);
+        };
+        
+        
     }]);
