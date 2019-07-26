@@ -3396,7 +3396,26 @@ angular.module('admin').filter('abs', function () {
             	$scope.solutionName = undefined;
             	$scope.associatedModels = undefined;
             	$scope.fetchedSolutionName = undefined;
+				$scope.updateUploadRtuSolId = false;
+            	$scope.uploadRtuSolId = false;
+            	$scope.isUserChanged = false;
+            	$scope.selectAll = false;
             }
+			
+			$scope.setSelectAll = function(selected){
+            	$scope.selectAll = selected;
+            	$scope.isUserChanged = true;
+            	for (var i = 0; i < $scope.rtuUsers.length; i++) {
+            		$scope.rtuUsers[i].associatedWithRtuFlag = $scope.selectAll;
+            		if($scope.selectAll){
+            			$scope.rtuUsersSelected.push($scope.rtuUsers[i].userId);
+            		}
+            	}
+            	if($scope.selectAll == false){
+            		$scope.rtuUsersSelected=[];
+            		}
+            	};
+            
             $scope.getSolution = function () {
                 var rtuReferenceId = $scope.RTUId;
                 var solName = $scope.solutionName;
@@ -3418,7 +3437,9 @@ angular.module('admin').filter('abs', function () {
             }
 
             $scope.isRtuChecked = false;
+			$scope.isUserChanged = false;
             $scope.rtuUsersSelected = [];
+			$scope.selectAll = false;
             $scope.rtuCheckbox = function(obj){
                 $scope.isRtuChecked = true;
                 if (obj.associatedWithRtuFlag) {
@@ -3435,7 +3456,7 @@ angular.module('admin').filter('abs', function () {
             }
 
             $scope.isSaveDisabled  = function(){
-                var isSaveDisabled = !($scope.updateUploadRtuSolId || $scope.uploadRtuSolId) || ($scope.isSiteWide == false && (!$scope.rtuUsersSelected || $scope.rtuUsersSelected.length == 0 || !$scope.isRtuChecked)) || ($scope.isSiteWide == true && $scope.siteWideUpdated);
+                var isSaveDisabled = !($scope.updateUploadRtuSolId || $scope.uploadRtuSolId) || ($scope.isSiteWide == false && (!$scope.rtuUsersSelected || $scope.rtuUsersSelected.length == 0 || !$scope.isRtuChecked)) || ($scope.isSiteWide == true && $scope.siteWideUpdated) || (!($scope.updateUploadRtuSolId || $scope.uploadRtuSolId) && $scope.isUserChanged==false);
                 return isSaveDisabled;
             }
 
@@ -3460,7 +3481,7 @@ angular.module('admin').filter('abs', function () {
                             }
                             else {
                                 $scope.styleclass = 'c-error';
-                                $scope.icon = 'report_problem';
+                                $scope.icon = 'info_outline';
                             }
                             $scope.msg = response.data.response_detail;
                             $scope.showAlertMessage = true;
