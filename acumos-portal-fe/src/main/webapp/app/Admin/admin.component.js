@@ -3489,6 +3489,23 @@ angular.module('admin').filter('abs', function () {
                 }              
             };
             /* RTU changes end*/
+            
+            /************Maintained Backup Logs Methods***********/
+            
+            $scope.getAllSnapshot = function () {
+
+                apiService.getAllSnapshot()
+                    .then(
+                        function (response) {
+                        	$scope.allSnapshot =  response.data.elasticsearchSnapshots;
+                        },
+                        function (error) {
+                        	console.log(error);
+                        });
+            };
+            $scope.getAllSnapshot();
+            
+            
         }
     })
     .service('fileUploadService', function ($http, $q) {
