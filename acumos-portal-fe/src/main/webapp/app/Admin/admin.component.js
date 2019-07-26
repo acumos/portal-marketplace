@@ -2048,7 +2048,7 @@ angular.module('admin').filter('abs', function () {
                             	$rootScope.coBrandingImage = $scope.fileData;
                                 $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                 $anchorScroll();
-                                $scope.msg = "Updated successfully.";
+                                $scope.msg = "The Co-Branding Logo is updated successfully.";
                                 $scope.icon = '';
                                 $scope.styleclass = 'c-success';
                                 $scope.showAlertMessage = true;
@@ -2074,7 +2074,7 @@ angular.module('admin').filter('abs', function () {
                     	$rootScope.coBrandingImage = '';
                         $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                         $anchorScroll();
-                        $scope.msg = "The Co-Branding Logo image is deleted successfully.";
+                        $scope.msg = "The Co-Branding Logo is deleted successfully.";
                         $scope.icon = '';
                         $scope.styleclass = 'c-success';
                         $scope.showAlertMessage = true;
