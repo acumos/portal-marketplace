@@ -107,8 +107,8 @@ position:relative;
 .discover .onboard, .hasClass.initialVal .discover .onboard{color:#2968f5; width:412px; position:absolute; left: 30px; top: 403px;}
 .discover .onboard .discover-description, .hasClass.initialVal .discover .onboard .discover-description {width:335px; padding: 0 0 0 0; float:left; }
 .discover .onboard .discover-description p{width:275px; float: right;}
-.discover .onboard h5, .discover .community h5{padding-right:77px;}
-.discover .marketplace h5, .discover .desingstudio h5, .discover .sdn h5{padding-left:74px;}
+.discover .onboard h5, .discover .community h5{padding-right:0px;}
+.discover .marketplace h5, .discover .desingstudio h5, .discover .sdn h5{padding-left:0px;}
 .discover .desingstudio h5{color:#10a6b5;}
 .discover .marketplace h5{color:#f49419;}
 .discover .community .discover-icon, .discover .onboard .discover-icon{float:right;}
