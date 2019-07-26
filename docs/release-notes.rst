@@ -21,6 +21,50 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.1  26th July 2019 
+=================================
+
+* ACUMOS-3157	Approve/Decline Publication button enabled for already approve/decline publish request
+* ACUMOS-3240	IST: Preview Model: Tag value is not displaying
+* ACUMOS-3277	DS should append first four digits of Revision Id (UUID) only for duplication Solutions (viz., Solution with same name and version )
+* ACUMOS-3239	IST: On-Boarding Icon: Icon is not same for On-Boarding
+* ACUMOS-3255	IST: Old icon is displaying for Not Yet On-boarded Box
+* ACUMOS-3262	Publish Request: Non-clickable icon is not displaying for already approve and decline option
+* ACUMOS-3245	Portal Auth API develop (cookie)
+* ACUMOS-3153	New wireframe for RTU
+* ACUMOS-2118	Portal implement paginated display of user notifications
+* ACUMOS-3105	<IST><Web Onboarding> Create Microservice checkbox displayed not selected by default after completing onboarding process through 'On-Boarding Dockerized model uri'
+* ACUMOS-3203	Remove duplicate header
+* ACUMOS-2763	IST: Add Infographics in not working on carousel
+* ACUMOS-2119	Portal incorporate author entry when publishing to any catalog
+* ACUMOS-3241	Reduce the size of the popup displaying in Site Admin(Activate User / Update Role)
+* ACUMOS-3238	IST: Model Details: Signatures should be replace by Signature
+* ACUMOS-3095	IST: Wireframe/VD is not available for Export To Local Screen at share point
+* ACUMOS-2995	<IST> <Portal Marketplace > Microservice start message is displayed in "Green" and Microservice successful message displayed immediately
+* ACUMOS-3057	wrong link in on-board pre-dockerized model
+* ACUMOS-3098	IST: Deploy to Azure Agreement popup is not displaying when user click on deploy to cloud from manage my model screen
+* ACUMOS-2713	As a model builder I would like to view on-boarding history of successful jobs
+* ACUMOS-3141	Hide the Request and Configuration workflows menus from site admin
+* ACUMOS-3170	Portal - Sidebar menu item is not configurable through properties 
+* ACUMOS-2951	Multiple NPE errors showing in console 
+* ACUMOS-3223	IST: Update Success Message and Text consistency for Co-Brand Screen
+* ACUMOS-3122	IST: Icon is incorrect in the error message of model name uniqueness
+* ACUMOS-3139	IST: Calalog name displaying in upper case in View Catalog Popup
+* ACUMOS-3106	RTU: Checkbox , Created and Last Updated Date is not displaying in the single line
+* ACUMOS-3169	Portal FE: Default Acumos Home Page: Padding is missing between the home page image and paragraph text.
+* ACUMOS-3049	IST: RTU: Loading message is not consistent with the application
+* ACUMOS-2996	<IST><Portal Marketplace><Web Onboarding>Upload button remains disabled if we add back to back two files for onboarding and license 
+* ACUMOS-3140	IST: Error Icon is incorrect when user update catalog name with existing one
+* ACUMOS-3013	<IST2><Marketplace/My Models> Tag display format not consistent
+* ACUMOS-2978	<Portal Marketplace><Web Onboarding>Browse button remains enabled on completing onboarding process
+* ACUMOS-3120	<IST><Portal Marketplace> My Models > Manage My Model: Tag not accepting special characters like  #@%&+
+* ACUMOS-3150	IST: Action Column name is missing on the header on View/Add Subscriptions popup
+* ACUMOS-3149	IST: Breadcrumb is incorrect for SITE CONTENT screen
+* ACUMOS-3091	On-Boarding History: No Result found should display if data is not available
+* ACUMOS-3119	<IST><Portal Marketplace>My Models > Manage My Model: Space is accepted as a last character in model name
+* ACUMOS-2724	Use stackoverflow tag "acumos" in Q&A link to improve user experience
+
+
 Version 3.0.0  12th June 2019 
 =================================
 
