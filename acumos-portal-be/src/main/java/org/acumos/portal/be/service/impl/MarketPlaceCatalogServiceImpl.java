@@ -1114,7 +1114,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPublishedSolutionsByKwAndTags(
 				pageReqPortal.getNameKeyword(), pageReqPortal.isActive(), pageReqPortal.getOwnerIds(),
-				pageReqPortal.getModelTypeCodes(), null, pageReqPortal.getTags(), pageReqPortal.getCatalogIds(), pageReqPortal.getPageRequest());
+				pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, pageReqPortal.getCatalogIds(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1206,12 +1206,14 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			
 			List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(mlpSol.getSolutionId());
 			if (!PortalUtils.isEmptyList(catalogs)) {
+				List<String> catalogNames = new ArrayList<String>();
 				for (MLPCatalog catalog : catalogs) {
 					if (catalog != null && !PortalUtils.isEmptyOrNullString(catalog.getName())) {
-						mlSolution.setCatalogName(catalog.getName());
-						break;
+						catalogNames.add(catalog.getName());
 					}
 				}
+				if(catalogNames.size() > 0)
+					mlSolution.setCatalogNames(catalogNames);
 			}
 
 			// get latest step Result for solution

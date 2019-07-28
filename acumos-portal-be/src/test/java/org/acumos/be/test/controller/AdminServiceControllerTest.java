@@ -798,5 +798,12 @@ public class AdminServiceControllerTest {
 			file.deleteOnExit();
 		}
 	}
+	
+	@Test
+	public void getDesignStudioMenu() {
+		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
+		JsonResponse<String> responseVO = adminController.getDesignStudioMenu(request, response);
+		Assert.assertNotNull(responseVO);
+	}
 		
 }

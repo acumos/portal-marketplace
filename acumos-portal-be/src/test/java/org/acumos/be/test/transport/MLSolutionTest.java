@@ -41,7 +41,8 @@ public class MLSolutionTest {
 		String ownerName = "abc";
 		String metadata = "sffsf";
 		boolean active = true;
-		String catalogName = "Test catalog";
+		List<String> catalogNames = new ArrayList<>();
+		catalogNames.add("Test catalog");
 		Instant created = Instant.now();
 		Instant modified = Instant.now();
 		String tookitType = "SK";
@@ -96,7 +97,7 @@ public class MLSolutionTest {
 		mlRole.setName(name);
 		mlRole.setOwnerId(ownerId);
 		mlRole.setOwnerName(ownerName);
-		mlRole.setCatalogName(catalogName);
+		mlRole.setCatalogNames(catalogNames);
 		mlRole.setPageNo(pageNo);
 		mlRole.setRatingAverageTenths(ratingAverageTenths);
 		mlRole.setRatingCount(ratingCount);
@@ -140,7 +141,7 @@ public class MLSolutionTest {
 		Assert.assertEquals(modelTypeName, mlRole.getModelType());
 		Assert.assertEquals(modelTypeName, mlRole.getModelTypeName());
 		Assert.assertEquals(name, mlRole.getName());
-		Assert.assertEquals(catalogName, mlRole.getCatalogName());
+		Assert.assertEquals(catalogNames, mlRole.getCatalogNames());
 		Assert.assertEquals(ownerId, mlRole.getOwnerId());
 		Assert.assertEquals(ownerName, mlRole.getOwnerName());
 		Assert.assertEquals(pageNo, mlRole.getPageNo());
