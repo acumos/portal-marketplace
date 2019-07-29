@@ -861,7 +861,7 @@ public class AdminServiceController extends AbstractController {
                 e.printStackTrace();
                 responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 responseVO.setResponseDetail("Exception Occurred while parsing json or reading file");
-                log.error("Exception Occurred while parsing json or reading file", e);
+                log.error("Exception Occurred while parsing json or reading file", e.getMessage());
 
           } catch (Exception e) {
                 responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
