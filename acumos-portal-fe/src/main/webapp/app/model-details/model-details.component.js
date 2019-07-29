@@ -1130,6 +1130,22 @@ angular
 														}
 														isDockerArtifactFound = true;
 													}
+													
+													if(response.data.response_body[x].artifactType == "MI" || response.data.response_body[x].artifactType == "CD" || response.data.response_body[x].artifactType == "BP" ){
+														$scope.artifactType = response.data.response_body[x].artifactType;
+														$scope.artifactUri = response.data.response_body[x].artifactUri;
+														// in case of license artifacts count will be 3
+														if($scope.artifactDownload.length >=3){
+															$scope.dockerUrlOfModel = "";
+															$scope.signatureNotFound = false;
+														}
+														else{
+															
+															$scope.dockerUrlOfModel = $scope.artifactUri;
+														}
+														
+													}
+													
 													if( response.data.response_body[x].name.endsWith('.pfa') || response.data.response_body[x].name.endsWith('.onnx') ){
 														$scope.isOnnxOrPFAModelFound = true;
 													}
