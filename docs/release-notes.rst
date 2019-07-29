@@ -21,7 +21,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.1  26th July 2019 
+Version 3.0.2  29th July 2019 
 =================================
 
 * ACUMOS-3157	Approve/Decline Publication button enabled for already approve/decline publish request
@@ -31,7 +31,6 @@ Version 3.0.1  26th July 2019
 * ACUMOS-3255	IST: Old icon is displaying for Not Yet On-boarded Box
 * ACUMOS-3262	Publish Request: Non-clickable icon is not displaying for already approve and decline option
 * ACUMOS-3245	Portal Auth API develop (cookie)
-* ACUMOS-3153	New wireframe for RTU
 * ACUMOS-2118	Portal implement paginated display of user notifications
 * ACUMOS-3105	<IST><Web Onboarding> Create Microservice checkbox displayed not selected by default after completing onboarding process through 'On-Boarding Dockerized model uri'
 * ACUMOS-3203	Remove duplicate header
