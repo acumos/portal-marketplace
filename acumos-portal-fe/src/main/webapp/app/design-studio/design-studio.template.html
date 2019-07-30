@@ -61,8 +61,9 @@
 			<div ng-repeat="block in blocks" class="grid-item ds-grid-item">
 				<div class="grid-top-section">
 					<div class="product-image ds-content-center">
-						<div class="mdl-navigation__link active" title="{{block.title}}"> <span
-							class="icon-header icon-design_studio"></span>
+						<div class="mdl-navigation__link active" title="{{block.title}}">
+							<img ng-src="data:image/PNG;base64,{{block.imagePath}}"
+								onerror="this.onerror=null; this.src ='/images/sidebar-icons/design_studio.png';" />
 						</div>
 					</div>
 					<div class="mpdetailscontainer ds-content-center ds-tile-height">
