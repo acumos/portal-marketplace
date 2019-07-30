@@ -251,7 +251,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					post.setHeader("modelname", modelName);
 					if (!dockerfileURI.equals("DockerModel")) {
 						post.setHeader("dockerfileURL", dockerfileURI);
-						post.setHeader("isCreateMicroservice", "true");
+						post.setHeader("isCreateMicroservice", "false");
 					}
 
 				} else if (onnxFile != null) {
