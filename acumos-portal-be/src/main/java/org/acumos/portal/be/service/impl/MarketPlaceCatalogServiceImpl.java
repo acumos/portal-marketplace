@@ -1864,7 +1864,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
 				}
 				
-				boolean isPublisher = userService.isPublisherRole(loginUserId);
+				boolean isPublisher = false;
+				if(!PortalUtils.isEmptyOrNullString(loginUserId)){
+					isPublisher = userService.isPublisherRole(loginUserId);
+				}
 				
 				if (mlpSolutionRevision != null) {
 					if ((PortalUtils.isEmptyOrNullString(loginUserId) && isPublished)
