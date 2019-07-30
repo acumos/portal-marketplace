@@ -50,7 +50,6 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 		apiService.getDSMenu().then(
 				function successCallback(response) {
 					var body = JSON.parse(response.data.response_body);
-					console.log("DS,",body);
 					$scope.isWorkbenchActive = body.isWorkbenchActive;
 					$scope.isAcucomposeActive = body.isAcucomposeActive;
 					$scope.blocks = body.blocks.filter(function(item) {
