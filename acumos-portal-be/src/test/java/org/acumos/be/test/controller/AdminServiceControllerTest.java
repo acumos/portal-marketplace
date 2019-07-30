@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +51,8 @@ import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
+import org.acumos.portal.be.transport.DesignStudioBlock;
+import org.acumos.portal.be.transport.DesignStudioMenu;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
@@ -59,7 +60,6 @@ import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
-import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -801,9 +801,25 @@ public class AdminServiceControllerTest {
 	
 	@Test
 	public void getDesignStudioMenu() {
-		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
-		JsonResponse<String> responseVO = adminController.getDesignStudioMenu(request, response);
+		when(env.getProperty("portal.feature.ds.menu")).thenReturn("{\"workbenchActive\":false,\"acucomposeActive\":true,\"blocks\":[{\"active\":true,\"title\":\"Extra Block\",\"description\":\"Description here\",\"url\":\"http://localhost:8085/index.html#/home\",\"imagePath\":\"/images/sidebar-icons/icon_competition_active.png\"}]}");
+		JsonResponse<DesignStudioMenu> responseVO = adminController.getDesignStudioMenu(request, response);
 		Assert.assertNotNull(responseVO);
+		
+		DesignStudioMenu menu = responseVO.getResponseBody();
+		Assert.assertEquals(false, menu.isWorkbenchActive());
+		Assert.assertEquals(true, menu.isAcucomposeActive());
+		
+		List<DesignStudioBlock> blocks = menu.getBlocks();
+		Assert.assertNotNull(menu.getBlocks());
+		Assert.assertEquals(1, menu.getBlocks().size());
+		
+		DesignStudioBlock block = blocks.get(0);
+		Assert.assertNotNull(block);
+		Assert.assertEquals(true, block.isActive());
+		Assert.assertEquals("Extra Block", block.getTitle());
+		Assert.assertEquals("Description here", block.getDescription());
+		Assert.assertEquals("http://localhost:8085/index.html#/home", block.getUrl());
+		Assert.assertEquals("/images/sidebar-icons/icon_competition_active.png", block.getImagePath());
 	}
 		
 }
