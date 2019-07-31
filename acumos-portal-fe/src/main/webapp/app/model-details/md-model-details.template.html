@@ -224,10 +224,10 @@ limitations under the License.
 								<span>Description</span>
 						</span>
 						</a> 
-						<a ng-show="loginUserID" href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
+						<a ng-show="loginUserID" href="#tab7-panel" class="mdl-tabs__tab" alt="License" title="License">
 							<span class="tab-box"> 
 								<span class="tab-icons tab-license"></span>
-								<span>Licenses</span>
+								<span>License</span>
 							</span>
 						</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
 							class="tab-box"> <span class="tab-icons tab-signatures"></span>
@@ -456,13 +456,13 @@ limitations under the License.
 						<button ng-disabled="editModel || isLoadingLicense"  class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="uploadLicense()">
                                                   <span ng-if="isLicenseFound===false"  >Upload</span><span ng-if="isLicenseFound===true" >Update</span> License
 						</button>
-						<h6 class="sectiontitle6">LICENSES</h6>
+						<h6 class="sectiontitle6">LICENSE</h6>
 							
 						
 						<pre class="wrap" ng-if="!isLicenseJson && modelLicense">{{modelLicense}}</pre>
 						<pre class="wrap" ng-if="isLicenseJson && modelLicense">{{modelLicense | json: 4}}</pre>
-						<div ng-show="isLicenseFound===false && isLoadingLicense===true">Loading Licenses...</div>
-						<div ng-show="isLicenseFound===false && isLoadingLicense===false">No Licenses Found</div>
+						<div ng-show="isLicenseFound===false && isLoadingLicense===true">Loading License...</div>
+						<div ng-show="isLicenseFound===false && isLoadingLicense===false">No License Found</div>
 						
 					</div>
 					
