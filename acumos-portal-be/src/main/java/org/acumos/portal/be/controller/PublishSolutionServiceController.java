@@ -132,9 +132,15 @@ public class PublishSolutionServiceController extends AbstractController {
 		 JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			//TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
-			publishSolutionService.unpublishSolution(solutionId, catalogId, userId);
+			String unpublishStatus=publishSolutionService.unpublishSolution(solutionId, catalogId, userId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions unpublished Successfully");
+			MLPNotification notificationObj = new MLPNotification();
+            notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
+
+			notificationObj.setMessage(unpublishStatus);
+			notificationObj.setTitle(unpublishStatus);
+			notificationService.generateNotification(notificationObj, userId);
 		} catch (Exception e) {
 			 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
  			 data.setResponseDetail("Exception Occurred while unpublishSolution()");
