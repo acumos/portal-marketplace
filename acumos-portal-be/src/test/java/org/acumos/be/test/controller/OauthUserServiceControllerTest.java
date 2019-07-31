@@ -192,6 +192,7 @@ public class OauthUserServiceControllerTest {
 		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 		mockRequest.addHeader("Authorization", authorization);
 		String username = "testUser";
+		String cookie =  "myCookie";
 		
 		Mockito.when(jwtTokenUtil.getUsernameFromToken(token)).thenReturn(username);
 		oauthServiceController.getUsernameFromAuth(mockRequest, mockResponse);

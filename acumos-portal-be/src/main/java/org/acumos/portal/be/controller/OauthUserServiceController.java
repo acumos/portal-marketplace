@@ -268,13 +268,24 @@ public class OauthUserServiceController extends AbstractController {
 	@ResponseBody
 	public void getUsernameFromAuth(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("getUsernameFromAuth");
+		String auth = request.getHeader("Authorization");
+		String cookie = request.getHeader("Cookie");
 		try {
-			String auth = request.getHeader("Authorization");
-			if (!PortalUtils.isEmptyOrNullString(auth)) {
-				String token = auth.replace("Bearer ", "");
-				String username = jwtTokenUtil.getUsernameFromToken(token);
-				response.addHeader("authuser", username);
-				response.setStatus(HttpServletResponse.SC_OK);
+
+			//
+			if (!PortalUtils.isEmptyOrNullString(cookie)) {
+				String userName = PortalUtils.authenticateFromCookie(cookie, jwtTokenUtil);
+				if (!PortalUtils.isEmptyOrNullString(userName)) {
+					response.addHeader("authuser", userName);
+					response.setStatus(HttpServletResponse.SC_OK);
+				} else {
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				}
+			} else if (!PortalUtils.isEmptyOrNullString(auth)) {
+					String token = auth.replace("Bearer ", "");
+					String username = jwtTokenUtil.getUsernameFromToken(token);
+					response.addHeader("authuser", username);
+					response.setStatus(HttpServletResponse.SC_OK);
 			} else {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			}

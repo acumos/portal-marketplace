@@ -51,6 +51,7 @@ import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLArtifact;
 import org.acumos.portal.be.transport.MLComment;
@@ -728,4 +729,19 @@ public class PortalUtils {
 
           return mlArtifact;
         }
+	
+	public static String authenticateFromCookie(String cookie, JwtTokenUtil jwtTokenUtil) {
+
+		Map<String, String> map = new HashMap<>();
+		String[] keyvalues = cookie.split(";");
+
+		for (String pair : keyvalues) {
+			String[] entry = pair.split("=");
+			map.put(entry[0].trim(), entry[1].trim());
+		}
+
+		String apiToken = map.get("authToken");
+		apiToken = apiToken.replace("Bearer ", "");
+		return jwtTokenUtil.getUsernameFromToken(apiToken);
+	}
 }
