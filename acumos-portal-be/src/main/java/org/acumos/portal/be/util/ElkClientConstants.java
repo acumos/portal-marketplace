@@ -41,4 +41,6 @@ public final class ElkClientConstants {
 	public static final String SUCCESS = "success";
 	public static final String FAIL = "fail";
 	
+	public static final String  NODE_TIMEOUT="1";
+	
 }

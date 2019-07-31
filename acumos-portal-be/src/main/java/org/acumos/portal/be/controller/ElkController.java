@@ -7,22 +7,36 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
+import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.ElkService;
+import org.acumos.portal.be.transport.ElasticStackIndiceResponse;
+import org.acumos.portal.be.transport.ElasticStackIndices;
+import org.acumos.portal.be.transport.ElkCreateSnapshotRequest;
+import org.acumos.portal.be.transport.ElkDeleteSnapshotRequest;
+import org.acumos.portal.be.transport.ElkGetRepositoriesResponse;
+import org.acumos.portal.be.transport.ElkGetSnapshotsResponse;
+import org.acumos.portal.be.transport.ElkRepositoriesRequest;
+import org.acumos.portal.be.transport.ElkRepositoriesResponse;
+import org.acumos.portal.be.transport.ElkRestoreSnapshotRequest;
 import org.acumos.portal.be.transport.ElkSnapshotsResponse;
+import org.acumos.portal.be.util.ElkClientConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import io.swagger.annotations.ApiOperation;
 
 //import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/elk")
-public class ElkController extends AbstractController  {
+public class ElkController/* extends AbstractController */ {
 	
 	@Autowired
 	ElkService elkService;
@@ -30,16 +44,18 @@ public class ElkController extends AbstractController  {
 	protected static final String APPLICATION_JSON = "application/json";
 	
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-/*
-	@ApiOperation(value = "Creates elk repository", response = String.class)
+
+	@ApiOperation(value = "Creates elk repository", response = ElkRepositoriesResponse.class)
 	@RequestMapping(value = { APINames.CREATE_REPOSITORY }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> createRepository(HttpServletRequest request,
+	public JsonResponse<ElkRepositoriesResponse> createRepository(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkRepositoriesRequest> requestJson, HttpServletResponse response) {
 		log.debug("createRepository");
-		JsonResponse<String> data = new JsonResponse<>();
+		JsonResponse<ElkRepositoriesResponse> data = new JsonResponse<>();
 		try {
-			String resp = elkService.createRepository(requestJson.getBody());
+			ElkRepositoriesRequest req=requestJson.getBody();
+			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT);
+			ElkRepositoriesResponse resp = elkService.createRepository(req);
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -59,14 +75,14 @@ public class ElkController extends AbstractController  {
 		return data;
 	}
 	
-//	@ApiOperation(value = "Fetches elk repositories", response = ElkGetRepositoriesResponse.class)
+	@ApiOperation(value = "Fetches elk repositories", response = ElkGetRepositoriesResponse.class)
 	@RequestMapping(value = { APINames.GET_REPOSITORY }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<ElkSnapshotsResponse> getAllRepositories(HttpServletRequest request, HttpServletResponse response) {
+	public JsonResponse<ElkGetRepositoriesResponse> getAllRepositories(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("getAllRepositories");
-		JsonResponse<ElkSnapshotsResponse> data = new JsonResponse<>();
+		JsonResponse<ElkGetRepositoriesResponse> data = new JsonResponse<>();
 		try {
-			ElkSnapshotsResponse resp = elkService.getAllRepositories();
+			ElkGetRepositoriesResponse resp = elkService.getAllRepositories();
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -87,15 +103,17 @@ public class ElkController extends AbstractController  {
 		return data;
 	}
 	
-	@ApiOperation(value = "Deletes elk repository", response = String.class)
+	@ApiOperation(value = "Deletes elk repository", response = ElkRepositoriesResponse.class)
 	@RequestMapping(value = { APINames.DELETE_REPOSITORY }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> deleteRepository(HttpServletRequest request,
+	public JsonResponse<ElkRepositoriesResponse> deleteRepository(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkRepositoriesRequest> requestJson, HttpServletResponse response) {
 		log.debug("deleteRepository");
-		JsonResponse<String> data = new JsonResponse<>();
+		JsonResponse<ElkRepositoriesResponse> data = new JsonResponse<>();
 		try {
-			String resp = elkService.deleteRepository(requestJson.getBody());
+			ElkRepositoriesRequest req = requestJson.getBody();
+			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT);
+			ElkRepositoriesResponse resp = elkService.deleteRepository(req);
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -115,15 +133,17 @@ public class ElkController extends AbstractController  {
 		return data;
 	}
 	
-	@ApiOperation(value = "Create snapshots", response = String.class)
+	@ApiOperation(value = "Create snapshots", response = ElkSnapshotsResponse.class)
 	@RequestMapping(value = { APINames.CREATE_SNAPSHOTS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> createSnapshots(HttpServletRequest request,
+	public JsonResponse<ElkSnapshotsResponse> createSnapshots(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkCreateSnapshotRequest> requestJson, HttpServletResponse response) {
-		log.debug("createRepository");
-		JsonResponse<String> data = new JsonResponse<>();
+		log.debug("createSnapshots");
+		JsonResponse<ElkSnapshotsResponse> data = new JsonResponse<>();
 		try {
-			String resp = elkService.createSnapshots(requestJson.getBody());
+			ElkCreateSnapshotRequest req=requestJson.getBody();
+			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT);
+			ElkSnapshotsResponse resp = elkService.createSnapshots(req);
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -142,15 +162,15 @@ public class ElkController extends AbstractController  {
 		}
 		return data;
 	}
-	*/
-//	@ApiOperation(value = "get all snapshots", response = ElkGetRepositoriesResponse.class)
+	
+	@ApiOperation(value = "get all snapshots", response = ElkGetRepositoriesResponse.class)
 	@RequestMapping(value = { APINames.GET_SNAPSHOTS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<ElkSnapshotsResponse> getAllSnapshots(HttpServletRequest request, HttpServletResponse response) {
+	public JsonResponse<ElkGetSnapshotsResponse> getAllSnapshots(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("getAllSnapshots");
-		JsonResponse<ElkSnapshotsResponse> data = new JsonResponse<>();
+		JsonResponse<ElkGetSnapshotsResponse> data = new JsonResponse<>();
 		try {
-			ElkSnapshotsResponse resp = elkService.getAllSnapshots();
+			ElkGetSnapshotsResponse resp = elkService.getAllSnapshots();
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -169,16 +189,18 @@ public class ElkController extends AbstractController  {
 		}
 		return data;
 	}
-	/*
-	@ApiOperation(value = "Deletes snapshots", response = String.class)
+	
+	@ApiOperation(value = "Deletes snapshots", response = ElkSnapshotsResponse.class)
 	@RequestMapping(value = { APINames.DELETE_SNAPSHOTS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> deleteSnapshots(HttpServletRequest request,
+	public JsonResponse<ElkSnapshotsResponse> deleteSnapshots(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkDeleteSnapshotRequest> requestJson, HttpServletResponse response) {
 		log.debug("deleteSnapshots");
-		JsonResponse<String> data = new JsonResponse<>();
+		JsonResponse<ElkSnapshotsResponse> data = new JsonResponse<>();
 		try {
-			String resp = elkService.deleteSnapshots(requestJson.getBody());
+			ElkDeleteSnapshotRequest req=requestJson.getBody();
+			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT);
+			ElkSnapshotsResponse resp = elkService.deleteSnapshots(req);
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -198,15 +220,17 @@ public class ElkController extends AbstractController  {
 		return data;
 	}
 	
-	@ApiOperation(value = "Restore snapshots", response = String.class)
+	@ApiOperation(value = "Restore snapshots", response = ElasticStackIndiceResponse.class)
 	@RequestMapping(value = { APINames.RESTORE_SNAPSHOTS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> restoreSnapshots(HttpServletRequest request,
+	public JsonResponse<ElasticStackIndiceResponse> restoreSnapshots(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkRestoreSnapshotRequest> requestJson, HttpServletResponse response) {
 		log.debug("deleteSnapshots");
-		JsonResponse<String> data = new JsonResponse<>();
+		JsonResponse<ElasticStackIndiceResponse> data = new JsonResponse<>();
 		try {
-			String resp = elkService.restoreSnapshots(requestJson.getBody());
+			ElkRestoreSnapshotRequest req=requestJson.getBody();
+			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT);
+			ElasticStackIndiceResponse resp = elkService.restoreSnapshots(req);
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -230,11 +254,11 @@ public class ElkController extends AbstractController  {
 	@ApiOperation(value = "Fetches indices", response = ElasticStackIndiceResponse.class)
 	@RequestMapping(value = { APINames.GET_INDICES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<ElasticStackIndiceResponse> getIndices(HttpServletRequest request, HttpServletResponse response) {
+	public JsonResponse<ElasticStackIndices> getIndices(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("getIndices");
-		JsonResponse<ElasticStackIndiceResponse> data = new JsonResponse<>();
+		JsonResponse<ElasticStackIndices> data = new JsonResponse<>();
 		try {
-			ElasticStackIndiceResponse resp = elkService.getAllIndices();
+			ElasticStackIndices resp = elkService.getAllIndices();
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -254,15 +278,15 @@ public class ElkController extends AbstractController  {
 		return data;
 	}
 	
-	@ApiOperation(value = "Deletes indices", response = String.class)
+	@ApiOperation(value = "Deletes indices", response = ElasticStackIndiceResponse.class)
 	@RequestMapping(value = { APINames.DELETE_INDICES }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> deleteIndices(HttpServletRequest request,
+	public JsonResponse<ElasticStackIndiceResponse> deleteIndices(HttpServletRequest request,
 			@RequestBody JsonRequest<ElasticStackIndices> requestJson, HttpServletResponse response) {
 		log.debug("deleteIndices");
-		JsonResponse<String> data = new JsonResponse<>();
+		JsonResponse<ElasticStackIndiceResponse> data = new JsonResponse<>();
 		try {
-			String resp = elkService.deleteIndices(requestJson.getBody());
+			ElasticStackIndiceResponse resp = elkService.deleteIndices(requestJson.getBody());
 			if (resp != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -281,5 +305,5 @@ public class ElkController extends AbstractController  {
 		}
 		return data;
 	}
-	*/
+	
 }
