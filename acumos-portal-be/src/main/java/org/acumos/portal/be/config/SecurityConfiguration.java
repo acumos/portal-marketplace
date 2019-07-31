@@ -138,6 +138,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/getLicenseFile").permitAll()
         .antMatchers(HttpMethod.GET, "/elk/all/snapshot").permitAll()
         
+        //ELK
+        .antMatchers("/elk/all/snapshot").permitAll()
+        .antMatchers("/elk/repository/create").permitAll() 
+        .antMatchers("/elk/repository/all").permitAll()
+        .antMatchers("/elk/indices/all").permitAll()
+        .antMatchers("/elk/repository/delete").permitAll()
+        .antMatchers("/elk/delete/snapshot").permitAll()
+        .antMatchers("/elk/snapshot/create").permitAll()
+        .antMatchers("/elk/restore/snapshot").permitAll()
+        .antMatchers("/elk/delete/indices").permitAll()
+        
+        
+        
         
         .anyRequest().authenticated();
     	
