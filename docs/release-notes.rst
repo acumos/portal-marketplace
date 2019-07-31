@@ -21,6 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.23  31st July 2019 
+=================================
+* ACUMOS-3294	<IST2> 403 Error displayed on clicking model on Home page without logging into application
+* ACUMOS-3296	Dynamic image for DS tiles
+
+
 Version 2.2.22  24th July 2019 
 =================================
 * ACUMOS-3264 IST: User is redirecting to 403 page when click on model name link for decline request
