@@ -53,6 +53,8 @@ import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.DesignStudioBlock;
+import org.acumos.portal.be.transport.DesignStudioMenu;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
@@ -846,12 +848,9 @@ public class AdminServiceController extends AbstractController {
           ObjectMapper mapper = new ObjectMapper();
           List<PortalMenu> menuList = null;
           try {
-                menuList = mapper.readValue(portalMenuJson, new TypeReference<List<PortalMenu>>() {
-                });
+                menuList = mapper.readValue(portalMenuJson, new TypeReference<List<PortalMenu>>(){});
                 for (PortalMenu m : menuList) {
-                      byte[] fileContent = FileUtils.readFileToByteArray(new File(m.getImagePath()));
-                      String encodedString = Base64.getEncoder().encodeToString(fileContent);
-                      m.setImagePath(encodedString);
+                	m.setImagePath(readImageBase64(m.getImagePath()));
                 }
                 responseVO.setStatus(true);
                 responseVO.setResponseDetail("Success");
@@ -877,16 +876,49 @@ public class AdminServiceController extends AbstractController {
 	@ApiOperation(value = "Get dynamic list for design studio menu", response = JsonResponse.class)
 	@RequestMapping(value = { APINames.GET_DESIGN_STUDIO_MENU }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<String> getDesignStudioMenu(HttpServletRequest request, HttpServletResponse response) {
+	public JsonResponse<DesignStudioMenu> getDesignStudioMenu(HttpServletRequest request, HttpServletResponse response) {
 
-		JsonResponse<String> responseVO = new JsonResponse<String>();
-		String menu = env.getProperty("portal.feature.ds.menu");
+		JsonResponse<DesignStudioMenu> responseVO = new JsonResponse<>();
+		String menuJson = env.getProperty("portal.feature.ds.menu");
+		ObjectMapper mapper = new ObjectMapper();
+		DesignStudioMenu menu = null;
 
-		responseVO.setResponseBody(menu);
-		responseVO.setStatus(true);
-		responseVO.setResponseDetail("Success");
-		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		try {
+			menu = mapper.readValue(menuJson, new TypeReference<DesignStudioMenu>(){});
+			if (menu != null && !PortalUtils.isEmptyList(menu.getBlocks())) {
+				for (DesignStudioBlock block : menu.getBlocks()) {
+					block.setImagePath(readImageBase64(block.getImagePath()));
+				}
+			}
+			responseVO.setResponseBody(menu);
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Success");
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setResponseDetail("Exception Occurred while parsing json or reading file");
+			log.error("Exception Occurred while parsing json or reading file", e);
+
+		} catch (Exception e) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setResponseDetail("Exception Occurred while parsing json or reading file");
+			log.error("Exception Occurred in getDesignStudioMenu()", e);
+		}
+
 		return responseVO;
 	}
 
+	private String readImageBase64(String imagePath) {
+		String out = null;
+		try {
+			byte[] fileContent = FileUtils.readFileToByteArray(new File(imagePath));
+			out = Base64.getEncoder().encodeToString(fileContent);
+		} catch (IOException e) {
+			log.error("Image not found : " + e.getMessage());
+		}
+		return out;
+	}
+	
 }

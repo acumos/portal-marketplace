@@ -28,12 +28,12 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +52,8 @@ import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
+import org.acumos.portal.be.transport.DesignStudioBlock;
+import org.acumos.portal.be.transport.DesignStudioMenu;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
@@ -800,10 +802,39 @@ public class AdminServiceControllerTest {
 	}
 	
 	@Test
-	public void getDesignStudioMenu() {
-		when(env.getProperty("portal.feature.ds.menu")).thenReturn("[]");
-		JsonResponse<String> responseVO = adminController.getDesignStudioMenu(request, response);
-		Assert.assertNotNull(responseVO);
+	public void getDesignStudioMenuTest() {
+		File file = new File("test.png");
+		try {
+			file.createNewFile();
+			String str = file.getAbsolutePath();
+			String path = str.replace("\\", "/");
+			when(env.getProperty("portal.feature.ds.menu")).thenReturn("{\"workbenchActive\":false,\"acucomposeActive\":true,\"blocks\":[{\"active\":true,\"title\":\"Extra Block\",\"description\":\"Description here\",\"url\":\"http://localhost:8085/index.html#/home\",\"imagePath\":\"" + path + "\"}]}");
+			JsonResponse<DesignStudioMenu> responseVO = adminController.getDesignStudioMenu(request, response);
+			Assert.assertNotNull(responseVO);
+
+			DesignStudioMenu menu = responseVO.getResponseBody();
+			Assert.assertEquals(false, menu.isWorkbenchActive());
+			Assert.assertEquals(true, menu.isAcucomposeActive());
+			
+			List<DesignStudioBlock> blocks = menu.getBlocks();
+			Assert.assertNotNull(menu.getBlocks());
+			Assert.assertEquals(1, menu.getBlocks().size());
+			
+			DesignStudioBlock block = blocks.get(0);
+			Assert.assertNotNull(block);
+			Assert.assertEquals(true, block.isActive());
+			Assert.assertEquals("Extra Block", block.getTitle());
+			Assert.assertEquals("Description here", block.getDescription());
+			Assert.assertEquals("http://localhost:8085/index.html#/home", block.getUrl());
+			
+			byte[] fileContent = FileUtils.readFileToByteArray(new File(path));
+			String encodedString = Base64.getEncoder().encodeToString(fileContent);
+			Assert.assertEquals(encodedString, block.getImagePath());
+		} catch (IOException e) {
+			logger.info("Exception during getDesignStudioMenuTest: ", e);
+		} finally {
+			file.deleteOnExit();
+		}
 	}
 		
 }
