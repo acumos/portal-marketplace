@@ -25,6 +25,7 @@ public class CommonConstants {
 	public static final String PUBLIC = "PB";
 	public static final String ORGANIZATION = "OR";
 	public static final String PRIVATE = "PR";
+	public static final String RESTRICTED = "RS";
 
 	public static final String PUBLISH_REQUEST_PENDING = "PE";
 	public static final String PUBLISH_REQUEST_APPROVED = "AP";
