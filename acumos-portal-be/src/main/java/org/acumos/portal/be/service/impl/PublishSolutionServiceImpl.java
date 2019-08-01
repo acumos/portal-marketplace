@@ -88,6 +88,23 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							log.info("publish request has been created for solution {} with request Id as {}  ", solutionId, publishRequest.getRequestId());
 							// Change the return type to send the message that request has been created 
 							publishStatus = "Solution "+mlpSolution2.getName()+" Pending for Publisher Approval";
+						
+						}else if(!PortalUtils.isEmptyOrNullString(visibility) && visibility.equalsIgnoreCase(CommonConstants.RESTRICTED) && (!catalog.isSelfPublish())) {
+							MLPPublishRequest publishRequest = new MLPPublishRequest();
+							publishRequest.setSolutionId(solutionId);
+							publishRequest.setRevisionId(revisionId);
+							publishRequest.setCatalogId(catalogId);
+							publishRequest.setRequestUserId(userId);
+							//Get Status Code from CDS and then populate 
+							publishRequest.setStatusCode(CommonConstants.PUBLISH_REQUEST_PENDING);
+							
+							//Create separate service for creating request and use single service all over the code
+							publishRequest = dataServiceRestClient.createPublishRequest(publishRequest);
+							
+							log.info("publish request has been created for solution {} with request Id as {}  ", solutionId, publishRequest.getRequestId());
+							// Change the return type to send the message that request has been created 
+							publishStatus = "Solution "+mlpSolution2.getName()+" Pending for Publisher Approval";
+							
 						} else {
 							dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
 							publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
