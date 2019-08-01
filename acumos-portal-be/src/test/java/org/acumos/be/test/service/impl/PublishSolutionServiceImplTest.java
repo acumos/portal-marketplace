@@ -67,7 +67,7 @@ public class PublishSolutionServiceImplTest {
 			String accessType = "PR";
 			String userId = "1810f833-8698-4233-add4-091e34b8703c";
 			boolean flag = true;
-			Mockito.when(impl.unpublishSolution(solutionId, accessType, userId)).thenReturn(flag);
+			Mockito.when(impl.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublishSolution");
 			Assert.assertTrue(flag);
 			logger.info("Successfully unpublishSolution");
 		} catch (Exception e) {

@@ -132,22 +132,22 @@ public class PublishSolutionServiceControllerTest {
 			String accessType = "PB";
 			
 			
-			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn(true);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublisheded the solutions");
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "OR";
-			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn(true);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublisheded the solutions");
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "PR";
-			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn(true);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublisheded the solutions");
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			
-			boolean unpublished = publishSolutionService.unpublishSolution(solutionId, accessType, userId);
+			String unpublished = publishSolutionService.unpublishSolution(solutionId, accessType, userId);
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {

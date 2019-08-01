@@ -109,7 +109,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	
 	@Override
-	public boolean unpublishSolution(String solutionId, String catalogId, String userId) {
+	public String unpublishSolution(String solutionId, String catalogId, String userId) {
 		//TODO: Need to revisit the un-publish the solution revision. Currently this service is not being used in portal.
 		log.debug("unpublishModelBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -121,21 +121,21 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		MLPSolution mlpSolution2 = null;
 		
 		//TODO version needs to be noted as we need to only publish specific version		
-		boolean unpublished = false; 
+		String unpublishedStatus = ""; 
 		try{
 			//Unpublish the Solution
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalogId);
-				unpublished = true;
+				unpublishedStatus = "Solution "+mlpSolution2.getName()+" Unpublished Successfully";
 			}
 			
 		} catch (Exception e) {
-			unpublished = false;
+			unpublishedStatus = "Failed to Unpublish the solution";
 			log.error("Exception Occurred while UnPublishing Solution ={}", e);
 		}
 		
-		return unpublished;
+		return unpublishedStatus;
 	}
 
 	@Override
