@@ -3332,7 +3332,6 @@ angular.module('admin').filter('abs', function () {
                 $scope.isRtuUpdate = false;
                 $scope.showAssociatedModels = false;
                 $scope.siteWideRtu = false;
-                $scope.siteWideUpdated = false;
                 $scope.isRtuLoading = true;
 
                 // TODO handle initial case -- do not show error when it is a new rtu
@@ -3398,13 +3397,11 @@ angular.module('admin').filter('abs', function () {
             	$scope.fetchedSolutionName = undefined;
 				$scope.updateUploadRtuSolId = false;
             	$scope.uploadRtuSolId = false;
-            	$scope.isUserChanged = false;
             	$scope.selectAll = false;
             }
 			
 			$scope.setSelectAll = function(selected){
             	$scope.selectAll = selected;
-            	$scope.isUserChanged = true;
             	for (var i = 0; i < $scope.rtuUsers.length; i++) {
             		$scope.rtuUsers[i].associatedWithRtuFlag = $scope.selectAll;
             		if($scope.selectAll){
@@ -3436,12 +3433,11 @@ angular.module('admin').filter('abs', function () {
                 $scope.uploadRtuSolId = $scope.rtuSolId;
             }
 
-            $scope.isRtuChecked = false;
-			$scope.isUserChanged = false;
+           
             $scope.rtuUsersSelected = [];
 			$scope.selectAll = false;
             $scope.rtuCheckbox = function(obj){
-                $scope.isRtuChecked = true;
+            	$scope.selectAll = false;
                 if (obj.associatedWithRtuFlag) {
                     $scope.rtuUsersSelected.push(obj.userId);
                 } else {
@@ -3451,12 +3447,10 @@ angular.module('admin').filter('abs', function () {
                 }
             }
 
-            $scope.changeSiteWideRtu = function(){
-                $scope.siteWideUpdated = true;
-            }
+            
 
             $scope.isSaveDisabled  = function(){
-                var isSaveDisabled = !($scope.updateUploadRtuSolId || $scope.uploadRtuSolId) || ($scope.isSiteWide == false && (!$scope.rtuUsersSelected || $scope.rtuUsersSelected.length == 0 || !$scope.isRtuChecked)) || ($scope.isSiteWide == true && $scope.siteWideUpdated) || (!($scope.updateUploadRtuSolId || $scope.uploadRtuSolId) && $scope.isUserChanged==false);
+            	var isSaveDisabled = !(($scope.rtuUsersSelected.length && ($scope.updateUploadRtuSolId || $scope.uploadRtuSolId)) || $scope.siteWideRtu)
                 return isSaveDisabled;
             }
 

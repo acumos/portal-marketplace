@@ -860,12 +860,13 @@ limitations under the License.
 								<form name="RTUForm">
 									<label>RTU Reference ID</label> <input type="text" ng-model='RTUId'
 										required ng-blur="RTUIdVisited=true" ng-disabled="editAssociatedModels"
-										ng-focus="RTUIdVisited=false" name='RTUId' />
+										ng-focus="RTUIdVisited=false" name='RTUId' ng-pattern="/^[a-zA-Z0-9_-]+$/" ng-trim="false"/>
 									<div class="help-inline validation-msgs"
 										ng-class="{validationmsg:RTUForm.RTUId.$valid}">
 										<span
 											ng-show="( !!RTUForm.RTUId.$error.required && RTUForm.RTUId.$touched && RTUIdVisited)">RTU
 											Id is Required.</span>
+											<span ng-show="RTUForm.RTUId.$error.pattern;">RTU Id should not contain any special characters.</span>
 
 									</div>
 								</form>
@@ -913,7 +914,7 @@ limitations under the License.
 						<div>
 							<div class="fed-row1">
 								<div class="fedrow-cell1">
-										<md-checkbox ng-change="changeSiteWideRtu()" ng-model="siteWideRtu" aria-label="Checkbox 1">
+										<md-checkbox ng-model="siteWideRtu" aria-label="Checkbox 1">
 												Sitewide RTU
 											</md-checkbox>
 										<div ng-if="rtu.created"> | Created: {{rtu.created | date:"MM/dd/yyyy"}} | </div>
@@ -961,10 +962,10 @@ limitations under the License.
 													</label>
 												</th>
 												<th
-													ng-click="orderByField='username'; reverseSort = !reverseSort">User
-													Name<span ng-if='orderByField!="username"'
+													ng-click="orderByField='firstName'; reverseSort = !reverseSort">User
+													Name<span ng-if='orderByField!="firstName"'
 													class="gridcell-sort deactivate"></span><span
-													ng-if='orderByField=="username"'
+													ng-if='orderByField=="firstName"'
 													ng-class="reverseSort?'ascending':'descending'"
 													class="gridcell-sort"></span>
 												</th>
