@@ -21,6 +21,19 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.4  1st August 2019 
+=================================
+* ACUMOS-3245	Portal Auth API develop (cookie)
+* ACUMOS-3260	IST: Licences is displaying in place of license
+* ACUMOS-3272	Onboarding is completing through 'ON-BOARDING DOCKERIZED MODEL URI' but getting error in bell notification
+* ACUMOS-3294 	<IST2> 403 Error displayed on clicking model on Home page without logging into application
+* ACUMOS-3273	IST: Preview Model: Model Image is displaying wrong before the model name
+* ACUMOS-3261	Publish Request: Hand Symbol is not displaying on model name hyperlink
+* ACUMOS-3164	User should get the notification when model is unpublished successfully
+* ACUMOS-3296	Dynamic image for DS tiles
+* ACUMOS-3180	From Portal deploy to cloud button should not be enable for non-valid composite solution
+* ACUMOS-3153	New wireframe for RTU
+
 Version 3.0.2  29th July 2019 
 =================================
 
