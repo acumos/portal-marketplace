@@ -33,6 +33,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.securityverification.exception.AcumosServiceException;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
@@ -42,22 +43,25 @@ import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
-import org.acumos.portal.be.Application;
+import org.acumos.portal.be.common.Clients;
 import org.acumos.portal.be.common.ConfigConstants;
+import org.acumos.portal.be.common.GatewayClient;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.DesignStudioBlock;
 import org.acumos.portal.be.transport.DesignStudioMenu;
+import org.acumos.portal.be.transport.MLCatalog;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
@@ -82,7 +86,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiOperation;
@@ -93,6 +96,9 @@ public class AdminServiceController extends AbstractController {
 
     @Autowired
     AdminService adminService;
+    
+    @Autowired
+    CatalogService catalogService;
 
     @Autowired
     UserService userService;
@@ -102,6 +108,9 @@ public class AdminServiceController extends AbstractController {
 
     @Autowired
     MailService mailservice;
+    
+    @Autowired
+	Clients clients;
 
     @Autowired
     MailJet mailJet;
@@ -705,28 +714,71 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.CREATE_SUBSCREPTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
-       public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId) {
-           log.debug( "createSubscription={}");
-           JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
-           try {
-               if (!solList.getBody().isEmpty() && peerId != null) {              
-                   adminService.createSubscription(solList.getBody(),peerId);
-                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                   data.setResponseDetail("Success");
-               } else {
-                   log.debug( "createPeerSubscription: Invalid Parameters");
-                   data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-                   data.setResponseDetail("Create PeerSubscription Failed");
-               }
+	public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<MLPeerSubscription> newSubJson, @PathVariable("peerId") String peerId) {
+		log.debug("createSubscription={}");
+		JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
+		try {
+			if (newSubJson.getBody() != null && peerId != null) {
 
-           } catch (Exception e) {
-               e.printStackTrace();
-               data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-               data.setResponseDetail("Failed");
-               log.error( "Exception Occurred while createPeerSubscription()", e);
-           }
-           return data;
-       }
+				MLPeerSubscription newSub = newSubJson.getBody();
+				
+				// Fetch remote catalog
+				GatewayClient gateway = clients.getGatewayClient();
+				List<MLPCatalog> catalogs = gateway.getCatalogs(peerId).getResponseBody();
+				log.debug("createSubscription remote catalogs size={}", catalogs.size());
+				MLPCatalog remoteCatalog = null;
+				for (MLPCatalog cat : catalogs) {
+					if (cat.getName().equals(newSub.getCatalogName())) {
+						remoteCatalog = cat;
+						break;
+					}
+				}
+				
+				if (remoteCatalog != null) {
+					// Fetch local catalogs
+					CatalogSearchRequest catalogRequest = new CatalogSearchRequest();
+					catalogRequest.setName(newSub.getCatalogName());
+					catalogRequest.setPageRequest(new RestPageRequest(0, 10));
+					RestPageResponse<MLCatalog> results = catalogService.searchCatalogs(catalogRequest);
+					log.debug("createSubscription local catalogs size={}", results.getNumberOfElements());
+					
+					boolean isCatalogValid = true;
+					if (results == null || results.getNumberOfElements() == 0) {
+						catalogService.createCatalog(remoteCatalog);
+					} else {
+						MLPCatalog existing = results.getContent().get(0);
+						if (!existing.getCatalogId().equals(remoteCatalog.getCatalogId())) {
+							log.debug("createPeerSubscription failure: Catalog name conflict");
+							data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+							data.setResponseDetail("Create PeerSubscription Failed: Catalog name conflict");
+							isCatalogValid = false;
+						}
+					}
+					
+					log.debug("createSubscription isCatalogValid={}", isCatalogValid);
+					if (isCatalogValid) {
+						adminService.createSubscription(newSub, peerId);
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+						data.setResponseDetail("Success");
+					}
+				} else {
+					log.debug("createPeerSubscription failure: remote catalog is null");
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+					data.setResponseDetail("Create PeerSubscription Failed: remote catalog is null");
+				}
+			} else {
+				log.debug("createPeerSubscription: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Create PeerSubscription Failed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error("Exception Occurred while createPeerSubscription()", e);
+		}
+		return data;
+	}
 
     @ApiOperation(value = "Get SignUp Enabled", response = JsonResponse.class)
     @RequestMapping(value = {"/signup/enabled"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
