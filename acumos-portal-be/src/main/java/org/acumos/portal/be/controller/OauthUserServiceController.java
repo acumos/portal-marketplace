@@ -270,6 +270,11 @@ public class OauthUserServiceController extends AbstractController {
 		log.debug("getUsernameFromAuth");
 		String auth = request.getHeader("Authorization");
 		String cookie = request.getHeader("Cookie");
+		if(PortalUtils.isEmptyOrNullString(cookie) ){
+			log.debug("Cookie was null trying with cookie");
+			cookie = request.getHeader("cookie");
+			log.debug("cookie with c is "+cookie);
+		}
 		try {
 
 			//

@@ -741,6 +741,7 @@ public class PortalUtils {
 		}
 
 		String apiToken = map.get("authToken");
+		log.debug("Cookie map : "+map);
 		apiToken = apiToken.replace("Bearer ", "");
 		return jwtTokenUtil.getUsernameFromToken(apiToken);
 	}
