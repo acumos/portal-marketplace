@@ -27,20 +27,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.acumos.securityverification.exception.AcumosServiceException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -334,20 +330,17 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	}
 	
 	@Override
-    public void createSubscription(List<MLSolution> solList, String peerId) {
-        ICommonDataServiceRestClient dataServiceRestClient = getClient();
-        
-        for (MLSolution sol : solList) {
-            MLPPeerSubscription sub = new MLPPeerSubscription();
-            sub.setSelector(sol.getSelector());
-            
-            sub.setPeerId(peerId);
-            
-            sub.setUserId(sol.getOwnerId());
-            if (sol.getRefreshInterval() != null){
-                sub.setRefreshInterval(sol.getRefreshInterval());
-            }
-            dataServiceRestClient.createPeerSubscription(sub);
-        }
-    }
+	public void createSubscription(MLPeerSubscription newSub, String peerId) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		MLPPeerSubscription sub = new MLPPeerSubscription();
+		sub.setPeerId(peerId);
+		sub.setUserId(newSub.getUserId());
+		if (newSub.getRefreshInterval() != null) {
+			sub.setRefreshInterval(newSub.getRefreshInterval());
+		}
+		sub.setSelector(newSub.getSelector());
+
+		dataServiceRestClient.createPeerSubscription(sub);
+	}
 }
