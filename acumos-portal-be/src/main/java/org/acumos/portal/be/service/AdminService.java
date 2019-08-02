@@ -31,7 +31,6 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
-import org.acumos.portal.be.transport.MLSolution;
 
 public interface AdminService {
 
@@ -71,5 +70,5 @@ public interface AdminService {
 	
 	void updateMLRequest(MLRequest mlRequest);
 	
-	void createSubscription(List<MLSolution> body, String peerId);
+	void createSubscription(MLPeerSubscription body, String peerId);
 }
