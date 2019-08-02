@@ -54,9 +54,9 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
 import org.acumos.portal.be.transport.DesignStudioBlock;
 import org.acumos.portal.be.transport.DesignStudioMenu;
+import org.acumos.portal.be.transport.MLNewPeerSub;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
@@ -288,36 +288,33 @@ public class AdminServiceControllerTest {
 
 	@Test
 	public void updatePeerSubscriptionTest() {
-
-		
-			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setApiUrl("http://peer-api");
-			mlpPeer.setContact1("Contact1");
-			Instant created = Instant.now();
-			mlpPeer.setCreated(created);
-			mlpPeer.setDescription("Peer description");
-			mlpPeer.setName("Peer-1509357629935");
-			mlpPeer.setPeerId(String.valueOf(Math.incrementExact(0)));
-			mlpPeer.setSelf(false);
-			mlpPeer.setSubjectName("peer Subject name");
-			mlpPeer.setWebUrl("https://web-url");
-			Assert.assertNotNull(mlpPeer);
-			MLPPeerSubscription mlpPeerSubcription = new MLPPeerSubscription();
-			mlpPeerSubcription.setPeerId(mlpPeer.getPeerId());
-			mlpPeerSubcription.setSubId((long) Math.incrementExact(0));
-			mlpPeerSubcription.setCreated(created);
-			Assert.assertNotNull(mlpPeerSubcription);
-			JsonRequest<MLPPeerSubscription> subscriptionReq = new JsonRequest<>();
-			subscriptionReq.setBody(mlpPeerSubcription);
-			JsonResponse<Object> subscriptionRes = new JsonResponse<>();
-			subscriptionRes.setResponseBody(mlpPeerSubcription);
-			AdminService myList = mock(AdminService.class);
-		    doNothing().when(myList).updatePeerSubscription(isA(MLPPeerSubscription.class));
-		    myList.updatePeerSubscription(subscriptionReq.getBody());
-			subscriptionRes = adminController.updatePeerSubscription(subscriptionReq);
-			logger.info("Successfully updated peer subscription  : " + subscriptionRes.getResponseBody());
-			Assert.assertNotNull(subscriptionRes);
-		
+		MLPPeer mlpPeer = new MLPPeer();
+		mlpPeer.setApiUrl("http://peer-api");
+		mlpPeer.setContact1("Contact1");
+		Instant created = Instant.now();
+		mlpPeer.setCreated(created);
+		mlpPeer.setDescription("Peer description");
+		mlpPeer.setName("Peer-1509357629935");
+		mlpPeer.setPeerId(String.valueOf(Math.incrementExact(0)));
+		mlpPeer.setSelf(false);
+		mlpPeer.setSubjectName("peer Subject name");
+		mlpPeer.setWebUrl("https://web-url");
+		Assert.assertNotNull(mlpPeer);
+		MLPPeerSubscription mlpPeerSubcription = new MLPPeerSubscription();
+		mlpPeerSubcription.setPeerId(mlpPeer.getPeerId());
+		mlpPeerSubcription.setSubId((long) Math.incrementExact(0));
+		mlpPeerSubcription.setCreated(created);
+		Assert.assertNotNull(mlpPeerSubcription);
+		JsonRequest<MLPPeerSubscription> subscriptionReq = new JsonRequest<>();
+		subscriptionReq.setBody(mlpPeerSubcription);
+		JsonResponse<Object> subscriptionRes = new JsonResponse<>();
+		subscriptionRes.setResponseBody(mlpPeerSubcription);
+		AdminService myList = mock(AdminService.class);
+		doNothing().when(myList).updatePeerSubscription(isA(MLPPeerSubscription.class));
+		myList.updatePeerSubscription(subscriptionReq.getBody());
+		subscriptionRes = adminController.updatePeerSubscription(subscriptionReq);
+		logger.info("Successfully updated peer subscription  : " + subscriptionRes.getResponseBody());
+		Assert.assertNotNull(subscriptionRes);
 	}
 
 	@Test
@@ -684,15 +681,13 @@ public class AdminServiceControllerTest {
 	@Test
 	public void createSubscriptionTest() {
 		String peerId = "agf145";
-		JsonRequest<List<MLSolution>> solList = new JsonRequest<>();
-		List<MLSolution> list = new ArrayList<>();
-		MLSolution sol = new MLSolution();
-		sol.setSolutionId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
-		sol.setName("Robot");
-		list.add(sol);
-		solList.setBody(list);
+		JsonRequest<MLNewPeerSub> solList = new JsonRequest<>();
+		MLNewPeerSub newSub = new MLNewPeerSub();
+		newSub.setOwnerId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
+		newSub.setRefreshInterval(3600L);
+		solList.setBody(newSub);
 		AdminService service = mock(AdminService.class);
-		doNothing().when(service).createSubscription(list, peerId);
+		doNothing().when(service).createSubscription(newSub, peerId);
 		JsonResponse<MLPPeerSubscription> response = adminController.createSubscription(solList, peerId);
 		Assert.assertNotNull(response);
 	}

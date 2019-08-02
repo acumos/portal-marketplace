@@ -1756,8 +1756,7 @@ angular.module('admin').filter('abs', function () {
 
             /*Add all models start*/
             $scope.addAllSolutions = function () {
-            	 if($scope.selectedCatalogId === ''){
-                	 
+            	 if($scope.allCatalogList == []){
                 	  $location.hash('subscontainer');  // id of a container on the top of the page - where to scroll (top)
                       $anchorScroll();
                       $scope.msg = "Please select any catalog";
@@ -1766,70 +1765,46 @@ angular.module('admin').filter('abs', function () {
                       $scope.showSuccessMessage = true;                           
                       $timeout(function () {
                           $scope.showSuccessMessage = false;
-                      }, 5000);         
-                	                 	 
-                 }  
-            	 else
-            	 {
-            		
-                var addAllSolObj = [];
-                var cat, toolKit, catToolkit;
-                //angular.forEach($scope.publicSolList,function(value, key) {  //mlsolutionCatTool
-                //angular.forEach($scope.mlsolutionCatTool,function(value, key) {
-                var value = $scope.mlsolutionCatTool[0];
-                cat = ""; toolKit = ""; catToolkit = "";
-                /* if(value.modelTypeCode){
-                    cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
-                }
-                if(value.toolkitTypeCode){
-                    toolKit = '"toolkitTypeCode":"' +value.toolkitTypeCode 
-                } 
-                if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}'; */
-                if ($scope.selectedCatalogId !== "undefined" || $scope.selectedCatalogId !== null) {
-                    cat = '"catalogId":"' + $scope.selectedCatalogId + '"'
-                    catToolkit = '{' + cat + '}';
-                }
-
-                $scope.accessTypeCode;
-                addAllSolObj.push(
-                    {
-                        "accessType": $scope.accessTypeCode,
-                        "ownerId": userId,
-                        /*"peerId" : $scope.peerIdForSubsList,*/
-                        "scopeType": $scope.AccessValue || "FL",
-                        //"tookitType" :value.tookitType,
-                        //"modelType": value.modelType,
-                        "refreshInterval": freqChangeValue,
-                        "selector": catToolkit
-                    }
-                )
-                //});
-                var reqAddObj = {
-                    "request_body":
-                        addAllSolObj
-                }
-                console.clear(); console.log(reqAddObj);
-                angular.element(document.body).css('cursor', 'progress');
-                angular.element('#addSubscriptionBtn').css('cursor', 'progress');
-                apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
-                    function (response) {
-                        console.log(response);
-                        fetchToolKitType();
-                        angular.element(document.body).css('cursor', 'default');
-                        angular.element('#addSubscriptionBtn').css('cursor', 'default');
-                        if (response.data.response_detail == "Success") {
-                            $scope.addedAllToSubs = true;
-                        }
-
-                    },
-                    function (error) {
-                        angular.element(document.body).css('cursor', 'default');
-                        angular.element('#addSubscriptionBtn').css('cursor', 'default');
-                        $scope.status = 'Unable to load data: '
-                            + error.data.error;
-                        console.log($scope.status);
-                    });
-            }
+                      }, 5000);      	 
+                 } else {
+	                var reqAddObj = {
+	                    "request_body": {
+	                        "ownerId": userId,
+	                        "refreshInterval": freqChangeValue,
+	                        "catalog": $scope.allCatalogList
+	                    }
+	                };
+	                
+	                angular.element(document.body).css('cursor', 'progress');
+	                angular.element('#addSubscriptionBtn').css('cursor', 'progress');
+	                apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
+	                    function (response) {
+	                        fetchToolKitType();
+	                        angular.element(document.body).css('cursor', 'default');
+	                        angular.element('#addSubscriptionBtn').css('cursor', 'default');
+	                        if (response.data.response_detail == "Success") {
+	                            $scope.addedAllToSubs = true;
+	                        } else if (response.data.response_detail == "Create PeerSubscription Failed: Catalog name conflict") {
+	                        	$location.hash('subscontainer');  // id of a container on the top of the page - where to scroll (top)
+	                            $anchorScroll();
+	                            $scope.msg = "Local catalog shares name with remote catalog, resolve conflict and try again";
+	                            $scope.icon = 'info_outline';
+	                            $scope.styleclass = 'c-error';
+	                            $scope.showSuccessMessage = true;                           
+	                            $timeout(function () {
+	                                $scope.showSuccessMessage = false;
+	                            }, 5000); 
+	                        }
+	
+	                    },
+	                    function (error) {
+	                        angular.element(document.body).css('cursor', 'default');
+	                        angular.element('#addSubscriptionBtn').css('cursor', 'default');
+	                        $scope.status = 'Unable to load data: '
+	                            + error.data.error;
+	                        console.log($scope.status);
+	                    });
+	            }
             }
             
             /*End add all models*/

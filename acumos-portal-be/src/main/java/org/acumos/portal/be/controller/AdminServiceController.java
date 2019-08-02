@@ -33,6 +33,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.securityverification.exception.AcumosServiceException;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
@@ -42,22 +43,24 @@ import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
-import org.acumos.portal.be.Application;
 import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.DesignStudioBlock;
 import org.acumos.portal.be.transport.DesignStudioMenu;
+import org.acumos.portal.be.transport.MLCatalog;
+import org.acumos.portal.be.transport.MLNewPeerSub;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.PortalMenu;
 import org.acumos.portal.be.transport.TransportData;
@@ -71,6 +74,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -82,7 +86,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiOperation;
@@ -93,6 +96,9 @@ public class AdminServiceController extends AbstractController {
 
     @Autowired
     AdminService adminService;
+    
+    @Autowired
+    CatalogService catalogService;
 
     @Autowired
     UserService userService;
@@ -705,28 +711,49 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.CREATE_SUBSCREPTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
-       public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId) {
-           log.debug( "createSubscription={}");
-           JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
-           try {
-               if (!solList.getBody().isEmpty() && peerId != null) {              
-                   adminService.createSubscription(solList.getBody(),peerId);
-                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                   data.setResponseDetail("Success");
-               } else {
-                   log.debug( "createPeerSubscription: Invalid Parameters");
-                   data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-                   data.setResponseDetail("Create PeerSubscription Failed");
-               }
+	public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<MLNewPeerSub> newSub, @PathVariable("peerId") String peerId) {
+		log.debug("createSubscription={}");
+		JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
+		try {
+			if (newSub.getBody() != null && peerId != null) {
 
-           } catch (Exception e) {
-               e.printStackTrace();
-               data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-               data.setResponseDetail("Failed");
-               log.error( "Exception Occurred while createPeerSubscription()", e);
-           }
-           return data;
-       }
+				MLPCatalog catalog = newSub.getBody().getCatalog();
+				CatalogSearchRequest catalogRequest = new CatalogSearchRequest();
+				catalogRequest.setName(catalog.getName());
+				catalogRequest.setPageRequest(new RestPageRequest(0, 10));
+				RestPageResponse<MLCatalog> results = catalogService.searchCatalogs(catalogRequest);
+				boolean isCatalogValid = true;
+
+				if (results == null || results.getNumberOfElements() == 0) {
+					catalogService.createCatalog(catalog);
+				} else {
+					MLPCatalog existing = results.getContent().get(0);
+					if (!existing.getCatalogId().equals(catalog.getCatalogId())) {
+						log.debug("createPeerSubscription failure: Catalog name conflict");
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+						data.setResponseDetail("Create PeerSubscription Failed: Catalog name conflict");
+						isCatalogValid = false;
+					}
+				}
+
+				if (isCatalogValid) {
+					adminService.createSubscription(newSub.getBody(), peerId);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Success");
+				}
+			} else {
+				log.debug("createPeerSubscription: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Create PeerSubscription Failed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error("Exception Occurred while createPeerSubscription()", e);
+		}
+		return data;
+	}
 
     @ApiOperation(value = "Get SignUp Enabled", response = JsonResponse.class)
     @RequestMapping(value = {"/signup/enabled"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
