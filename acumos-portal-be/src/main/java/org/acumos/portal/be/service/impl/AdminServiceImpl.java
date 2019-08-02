@@ -31,6 +31,7 @@ import java.util.UUID;
 
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.transport.MLNewPeerSub;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
@@ -334,20 +335,17 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	}
 	
 	@Override
-    public void createSubscription(List<MLSolution> solList, String peerId) {
-        ICommonDataServiceRestClient dataServiceRestClient = getClient();
-        
-        for (MLSolution sol : solList) {
-            MLPPeerSubscription sub = new MLPPeerSubscription();
-            sub.setSelector(sol.getSelector());
-            
-            sub.setPeerId(peerId);
-            
-            sub.setUserId(sol.getOwnerId());
-            if (sol.getRefreshInterval() != null){
-                sub.setRefreshInterval(sol.getRefreshInterval());
-            }
-            dataServiceRestClient.createPeerSubscription(sub);
-        }
-    }
+	public void createSubscription(MLNewPeerSub newSub, String peerId) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		MLPPeerSubscription sub = new MLPPeerSubscription();
+		sub.setPeerId(peerId);
+		sub.setUserId(newSub.getOwnerId());
+		if (newSub.getRefreshInterval() != null) {
+			sub.setRefreshInterval(newSub.getRefreshInterval());
+		}
+		sub.setSelector("{\"catalogId\":\"" + newSub.getCatalog().getCatalogId() + "\"}");
+
+		dataServiceRestClient.createPeerSubscription(sub);
+	}
 }

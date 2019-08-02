@@ -2269,30 +2269,10 @@ limitations under the License.
 								</thead>
 								<tbody
 									ng-repeat="val in arrDetails | unique:'subId' | orderBy :'subId' |filter: arrDetails.subId as filte ">
-									<!-- | filter: arrDetails.subId as filte -->
 									<tr>
-										<!-- <td><span aria-label="More" style="cursor: pointer"
-											ng-click="accordionToggle = !accordionToggle"> <md-icon>
-												<i class="material-icons" style="margin: 0"
-													ng-show="!accordionToggle">add</i> <i
-													class="material-icons" style="margin: 0"
-													ng-show="accordionToggle">indeterminate_check_box</i> </md-icon>
-										</span> <md-button class="md-icon-button" aria-label="More">
-															        <md-icon>
-															        	<i class="material-icons">add</i>
-															        	<i class="material-icons">indeterminate_check_box</i>
-															        </md-icon>
-															      </md-button> text</td> -->
-										<!-- <td>
-																	Description Text:
-																</td> -->
 										<td><label>ID {{val.subId}}</label></td>
 										<td><label>{{val.catalogName}}</label></td>
 										<td><label>{{val.createdOn | date:"MM/dd/yyyy"}}</label></td>
-										<!-- <td><label>{{val.updatedOn | date:"MM/dd/yyyy"}}</label></td> -->
-										<!-- <td><label>Name of Solution</label></td>
-																<td><label>{{val.modelType}}</label></td>
-																<td><label>{{val.toolKitType}}</label></td> -->
 										<td>
 											<div class="select-control">
 												<md-select ng-model="freqOfUpdate"
@@ -2303,61 +2283,6 @@ limitations under the License.
 												</md-select>
 											</div>
 										</td>
-									<!-- 	<td class="">
-											<div class="posstatic">
-												<button
-													class="mdl-button mdl-js-button btn-secondary btn-fed2"
-													disabled ng-click="trigger[$index] = !trigger[$index]">Preview</button>
-												<button class="mdl-button mdl-js-button btn-primary"
-													disabled>Trigger</button>
-												Fed Preview box Start
-												<div class="preview-box" ng-show="trigger[$index]">
-													<div class="preview-box-header">
-														<label class="preview-title">Preview Next Transfer</label>
-														<md-button class="md-icon-button btn-up2"
-															ng-click="trigger[$index] = false"> <i
-															class="material-icons">close</i> </md-button>
-													</div>
-													<div class="preview-box-content">
-														<p>
-															10 New models found for next transfer to federate
-															<button
-																class="mdl-button mdl-js-button btn-primary btn-preview-box">Trigger</button>
-														</p>
-														<p>Note:Other models may be added on 13/10/2018</p>
-														<br> <label class="font600">Current federated
-															models (21)</label>
-														<div>
-															<table
-																class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
-																<colgroup>
-																	<col>
-																	<col>
-																	<col>
-																	<col>
-																</colgroup>
-																<thead>
-																	<tr>
-																		<th>SUBSCRIPTIONS ID</th>
-																		<th>SUBSCRIPTIONS NAME</th>
-																		<th>CATEGORY</th>
-																		<th>TOOLKIT</th>
-																	</tr>
-																</thead>
-																<tbody>
-																	<tr>
-																		<td>ID 1234</td>
-																		<td>Subscription 01</td>
-																		<td>Classification</td>
-																		<td>Tensorflow</td>
-																</tbody>
-															</table>
-														</div>
-													</div>
-												</div>
-												Fed Preview box end
-											</div>
-										</td> -->
 										<td class="text-center">
 											<button ng-click="deleteSub(val.subId,$index)"
 												class="mdl-button mdl-js-button mdl-button--icon">
@@ -2394,63 +2319,6 @@ limitations under the License.
 						</div> -->
 
 						<div class="filter-container view-add-sub-popup">
-							<!-- <div class="fed-search-container">
-								<label class="fedlbl1 fedlbl4">Model ID</label>
-								<div
-									class="mdl-textfield mdl-js-textfield admin-search-container">
-									<input class="mdl-textfield__input admin-search-control"
-										ng-change="modelEdit()"
-										ng-disabled="toolKitTypeValue||categoryValue|| allSubs=='true'"
-										type="text" placeholder="Filter" ng-model="modelIDValue">
-									<input class="mdl-textfield__input admin-search-control" ng-change="solutionDetail=false;browseSolution=false;noData=false" ng-disabled="toolKitTypeValue||categoryValue|| allSubs=='true'" type="text" placeholder="Filter" ng-model = "modelIDValue">
-									<span ng-click="modelEdit();browseSolution=true"
-										class="admin-btn-search"><i
-										class="material-icons search-icon" alt="Search" title="Search">search</i></span>
-								</div>
-							</div>
-							<div>
-								<span class="fedlbl5">OR</span>
-							</div> -->
-							<div ng-if=false>
-								<div class="select-control admin-select">
-									<label class="fedlbl4">Category</label>
-									<md-select ng-model="categoryValue"
-										ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
-										ng-disabled="modelIDValue || allSubs=='true'"
-										placeholder="Select Category"> <md-option
-										ng-selected="true" value="">Select Category</md-option> <md-option
-										ng-repeat="cat in category" ng-value="cat.code">{{cat.name}}</md-option>
-									</md-select>
-								</div>
-
-							</div>
-							<div ng-if=false>
-								<div class="select-control admin-select">
-									<label class="fedlbl4">Toolkit type</label>
-									<md-select ng-model="toolKitTypeValue"
-										ng-change="addedToSubs = false;solutionDetail=false;
-										catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
-										ng-disabled="modelIDValue || allSubs=='true'"
-										placeholder="Select toolkit"> <md-option
-										ng-selected="true" value="">Select toolkit</md-option> <md-option
-										ng-repeat="tool in toolKitType" ng-value="tool.code">
-									{{tool.name}}</md-option> </md-select>
-								</div>
-							</div>
-							<div ng-if=false>
-								<div class="select-control admin-select">
-									<label class="fedlbl4">Federate to</label>
-									<md-select ng-model="accessTypeCode"
-										ng-change="addedToSubs = false;solutionDetail=false;
-										catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
-										ng-disabled="modelIDValue || allSubs=='true'"
-										placeholder="Select"> <md-option
-										ng-repeat="accessType in accessTypeJson"
-										ng-value="accessType.access_type_cd">
-									{{accessType.access_type_name}}
-									('{{accessType.access_type_cd}}')</md-option> </md-select>
-								</div>
-							</div>
 							<div>
 								<div class="select-control admin-select">
 									<label ng-show="catalogError" class="fedlbl4 text-xsmall text-red">Cannot fetch catalogs.</label>
@@ -2477,6 +2345,7 @@ limitations under the License.
 									<button ng-click="addAllSolutions()"
 										id="addSubscriptionBtn"
 										ng-hide='addedAllToSubs'
+										ng-disabled='!CatalogValue || !freqOfUpdatePass'
 										class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
 										Add to Subscription List
 									</button>
@@ -2593,64 +2462,6 @@ limitations under the License.
 									<span ng-show="showAllModelsTable"
 										ng-click="browseClear('clear')">Clear Catalog</span>
 								</button>
-							</div>
-						</div>
-
-						<div class="fedgridcontainer" ng-show="showSolutionTable"
-							ng-if=false>
-							<div>
-								<div class="fed-container1">
-									<div>
-										<div class="select-control">
-											<md-select ng-model="freqOfUpdatePass"
-												placeholder="Select Frequency of update"
-												ng-change="freqChange(freqOfUpdatePass)"> <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
-											<md-option ng-repeat="freq in frequency"
-												ng-value="freq.value">{{freq.name}}</md-option> </md-select>
-										</div>
-									</div>
-									<div>
-										<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()"
-											class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
-											Add to Subscription List</button>
-										<div ng-show='addedAllToSubs'>
-											<div class="subs-message1">
-												<span class="subs-added"></span> <span>Added</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="fedgridcontainer">
-									<table
-										class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
-										<colgroup>
-											<col>
-											<col>
-											<col>
-											<col>
-										</colgroup>
-										<thead>
-											<tr>
-												<th><label>solution ID</label></th>
-												<th><label>solution name</label></th>
-												<th><label>category</label></th>
-												<th><label>toolkit</label></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="mlSolution in mlsolutionCatTool">
-												<td>{{mlSolution.solutionId}}</td>
-												<td>{{mlSolution.name}}</td>
-												<td>{{mlSolution.modelTypeName}}</td>
-												<td>{{mlSolution.tookitTypeName}}</td>
-											</tr>
-										</tbody>
-									</table>
-									<div class="alert c-info text-center"
-										ng-if="mlsolutionCatTool.length<1 || noSolution">
-										<strong>No Result Found</strong>
-									</div>
-								</div>
 							</div>
 						</div>
 
