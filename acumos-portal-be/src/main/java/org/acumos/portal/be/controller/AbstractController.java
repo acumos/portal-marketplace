@@ -74,7 +74,7 @@ public abstract class AbstractController {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
 
 				String loggedInUserId = getLoggedInUserId();
-				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId, loggedInUserId);
+				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId);
 				if (!workflow.isWorkflowAllowed()) {
 					String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
 							? workflow.getSvException()
@@ -110,7 +110,7 @@ public abstract class AbstractController {
 				List<MLPSolutionRevision> revs = catalogService.getSolutionRevision(solutionId);
 				for (MLPSolutionRevision rev : revs) {
 					String loggedInUser = getLoggedInUserId();
-					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId, loggedInUser);
+					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId);
 					if (!workflow.isWorkflowAllowed()) {
 						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
 							? workflow.getSvException()
