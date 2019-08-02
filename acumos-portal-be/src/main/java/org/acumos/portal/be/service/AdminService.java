@@ -24,14 +24,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.acumos.securityverification.exception.AcumosServiceException;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.transport.MLNewPeerSub;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
-import org.acumos.portal.be.transport.MLSolution;
 
 public interface AdminService {
 
@@ -71,5 +72,5 @@ public interface AdminService {
 	
 	void updateMLRequest(MLRequest mlRequest);
 	
-	void createSubscription(List<MLSolution> body, String peerId);
+	void createSubscription(MLNewPeerSub body, String peerId);
 }
