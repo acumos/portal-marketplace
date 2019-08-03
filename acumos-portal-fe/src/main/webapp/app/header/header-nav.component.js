@@ -298,6 +298,13 @@ angular.module('headerNav')
 				$scope.successfulLoginMsg = false;
 				$rootScope.sidebarHeader = true;
 				$scope.toggleHeaderClass();
+				if($rootScope.enableOnBoarding
+				    && (browserStorageService.isAdmin() === 'true' 
+					    || browserStorageService.isPublisher() === 'true')){
+	                $rootScope.enableOnBoarding = true;
+	            } else {
+	                $rootScope.enableOnBoarding = false;
+	            }
                 //TODO Need to change
 				apiService.getUserRole($scope.userDetails.userId)
 				.then( function(response){
