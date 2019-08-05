@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05bf2a7f_d13ecd17",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-08-05T16:25:44Z",
+      "side": 1,
+      "message": "you should avoid doing multiple querySelectors for the same value. Also it is better to use the parent element to query against to limit the scope vs document which will require a full dom search.",
+      "revId": "80e58e0579721ced53a43803bc37a308a6ca1110",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
