@@ -1362,7 +1362,7 @@ limitations under the License.
 														<md-autocomplete md-input-name="tagsAutocomplete"	
 														 md-items="item in chipSearch(searchText)" md-search-text="searchText" placeholder="Enter a tag" name="pubtag"
 														 md-selected-item="selectedItem" md-item-text="item" md-input-maxlength="32" 
-														 md-no-cache="true" ng-required="true" md-autoselect="true" ng-pattern="/^[A-Za-z0-9 ]+$/"
+														 md-no-cache="true" ng-required="true" md-autoselect="true" ng-pattern="/^[A-Za-z0-9 ()]+$/"
 														 md-require-match="true"> 
 														  <span md-highlight-text="searchText" > {{item}}</span>
 														  </md-autocomplete>
