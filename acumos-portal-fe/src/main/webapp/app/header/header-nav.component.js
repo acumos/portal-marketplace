@@ -307,8 +307,21 @@ angular.module('headerNav')
 							var userRole = response.data.response_body[i]
 							if(userRole.name == "Admin"){
 								$rootScope.successfulAdmin = true;
-								
 							}
+						}
+						if(!$rootScope.successfulAdmin) {
+						    var onBoarding = false
+						    for(var i=0;i<response.data.response_body.length;i++){
+							    var userRole = response.data.response_body[i]
+							    var permissionArray = userRole.permissionList
+							    if(permissionArray.includes("OB")) {
+							      onBoarding = true;
+							    }
+						    }	
+						
+						    if($rootScope.enableOnBoarding) {
+							    $rootScope.enableOnBoarding = onBoarding;
+						    }
 						}
 					}
 				},function(error){
