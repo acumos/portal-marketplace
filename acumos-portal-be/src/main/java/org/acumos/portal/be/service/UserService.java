@@ -77,6 +77,8 @@ public interface UserService {
 	
 	List<MLPRole> getUserRole(String userId);
 	
+	List<MLRole> getRolesForUser(String userId);
+	
 	void updateUserImage(MLPUser user);
 
 	void updateBulkUsers(MLPUser mlpUser);

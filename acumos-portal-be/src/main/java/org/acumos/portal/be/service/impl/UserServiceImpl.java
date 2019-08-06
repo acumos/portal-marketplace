@@ -27,9 +27,12 @@ import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.acumos.portal.be.common.ConfigConstants;
@@ -39,6 +42,7 @@ import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
+import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
@@ -54,6 +58,7 @@ import org.springframework.stereotype.Service;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPPasswordChangeRequest;
 import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPRoleFunction;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -516,6 +521,52 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
         return mlpRoles;
     }
+    
+    @Override
+    public List<MLRole> getRolesForUser(String userId) {
+        log.debug("getAllRoles");
+        List<MLRole> mlRoles = null;
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
+        if (!PortalUtils.isEmptyList(mlpRoles)) {
+            mlRoles = new ArrayList<>();
+            for (MLPRole mlpRole : mlpRoles) {
+                MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
+                List<MLRoleFunction> mlRoleFunctions = getRoleFunctions(mlRole.getRoleId());
+                mlRole.setPermissionList(getRolePermissions(mlRoleFunctions));
+                mlRoles.add(mlRole);
+                break;
+            }
+        }
+        return mlRoles; 
+    }
+    
+
+	private List<MLRoleFunction> getRoleFunctions(String roleId) {
+		log.debug("getRoleFunctions");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLRoleFunction> mlRoleFunctions = new ArrayList<MLRoleFunction>();
+		List<MLPRoleFunction> mlpRoleFunctions = dataServiceRestClient.getRoleFunctions(roleId);	
+		for(MLPRoleFunction mlpRoleFunction: mlpRoleFunctions) {
+		  if (mlpRoleFunction != null) {
+			  mlRoleFunctions.add(PortalUtils.convertToMLRoleFunction(mlpRoleFunction));
+		  }
+		}
+		return mlRoleFunctions;
+	}
+    
+    private List<String> getRolePermissions(List<MLRoleFunction> mlRoleFunctions) {
+		String name = null;
+		Set<String> permissions = new HashSet<>();
+		for(MLRoleFunction mlRoleFunction:mlRoleFunctions) {
+			name = mlRoleFunction.getName();
+			if(name != null) {
+			  name = name.replace("\"", "");
+			  permissions.addAll(Arrays.asList(name.split(",")));
+			}  
+		}
+		return new ArrayList<String>(permissions);
+	}
 
     @Override
     public boolean isPublisherRole(String userId) {

@@ -513,16 +513,16 @@ public class UserServiceController extends AbstractController {
     @ApiOperation(value = "Get user Role Details.", response = JsonResponse.class)
     @RequestMapping(value = {APINames.USER_ROLE_DETAILS}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
-	public JsonResponse<List<MLPRole>> getUserRole(@PathVariable("userId") String userId, HttpServletRequest request, HttpServletResponse response) {
+	public JsonResponse<List<MLRole>> getUserRole(@PathVariable("userId") String userId, HttpServletRequest request, HttpServletResponse response) {
 		// public JsonResponse getUserAccountDetails() {
 		
     	userId = SanitizeUtils.sanitize(userId);
     	
     	log.debug("changeUserPassword={}");
 		// Object responseVO = null;
-		JsonResponse<List<MLPRole>> responseVO = new JsonResponse<>();
+		JsonResponse<List<MLRole>> responseVO = new JsonResponse<>();
 		try {
-			List<MLPRole> roles = userService.getUserRole(userId);
+			List<MLRole> roles = userService.getRolesForUser(userId);
 			responseVO.setResponseBody(roles);
 			responseVO.setStatus(true);
 			responseVO.setResponseDetail("Success");

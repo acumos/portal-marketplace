@@ -20,6 +20,7 @@
 package org.acumos.be.test.controller;
 
 import org.acumos.cds.domain.MLPRole;
+import org.acumos.portal.be.transport.MLRole;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
@@ -238,10 +239,13 @@ public class UserServiceControllerTest {
 	@Test
 	public void getUserRoleTest() {
 		try {
-			MLPRole mlRole = new MLPRole();
+			MLRole mlRole = new MLRole();
 			mlRole.setName("Admin");
 			Instant created = Instant.now();
 			mlRole.setCreated(created);
+			List<String> permissionList = new ArrayList<>();
+			permissionList.add("OB");
+			mlRole.setPermissionList(permissionList);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
 
@@ -251,12 +255,12 @@ public class UserServiceControllerTest {
 
 			Assert.assertEquals(userId, user.getUserId());
 
-			List<MLPRole> mlprolelist = new ArrayList<MLPRole>();
-			mlprolelist.add(mlRole);
-			Assert.assertNotNull(mlprolelist);
-			JsonResponse<List<MLPRole>> responseBody = new JsonResponse<>();
-			responseBody.setResponseBody(mlprolelist);
-			Mockito.when( userService.getUserRole(userId)).thenReturn(mlprolelist);
+			List<MLRole> mlrolelist = new ArrayList<MLRole>();
+			mlrolelist.add(mlRole);
+			Assert.assertNotNull(mlrolelist);
+			JsonResponse<List<MLRole>> responseBody = new JsonResponse<>();
+			responseBody.setResponseBody(mlrolelist);
+			Mockito.when( userService.getRolesForUser(userId)).thenReturn(mlrolelist);
 			responseBody = userServiceController.getUserRole(userId, request, response);
 			logger.info("Successfully fectched list of user details according user roles : ",
 					responseBody.getResponseBody().toString());
