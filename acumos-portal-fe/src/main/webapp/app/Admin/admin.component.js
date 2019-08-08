@@ -258,7 +258,9 @@ angular.module('admin').filter('abs', function () {
                 $scope.storyCarousel = {}
                 $scope.carouselForm.$setPristine();
                 $scope.carouselForm.$setUntouched();
-
+                
+                $scope.getPeerSubscriptionCounts();
+                
                 $scope.eventForm.$setPristine();
                 $scope.eventForm.$setUntouched();
 
