@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad5adca3_60a579ac",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-08-08T15:20:26Z",
+      "side": 1,
+      "message": "can we name this to MLPeer or MLPeerSub? MLNewPeerSub seems to be confusing as a class",
+      "range": {
+        "startLine": 684,
+        "startChar": 14,
+        "endLine": 684,
+        "endChar": 26
+      },
+      "revId": "c58cc2aadafa1998349506f0d1656ea5b51682d1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
