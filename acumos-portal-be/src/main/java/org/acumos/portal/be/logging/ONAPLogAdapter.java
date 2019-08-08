@@ -37,7 +37,7 @@ import org.slf4j.event.Level;
 */
 public class ONAPLogAdapter {
 
-	/** String constant for messages <tt>ENTERING</tt>, <tt>EXITING</tt>, etc. */
+	/** String constant for messages <code>ENTERING</code>, <code>EXITING</code>, etc. */
 	private static final String EMPTY_MESSAGE = "";
 
 	/** Logger delegate. */
@@ -69,7 +69,7 @@ public class ONAPLogAdapter {
 	}
 
 	/**
-	 * Report <tt>ENTERING</tt> marker.
+	 * Report <code>ENTERING</code> marker.
 	 *
 	 * @param request
 	 *            non-null incoming request (wrapper).
@@ -89,7 +89,7 @@ public class ONAPLogAdapter {
 	}
 
 	/**
-	 * Report <tt>ENTERING</tt> marker.
+	 * Report <code>ENTERING</code> marker.
 	 *
 	 * @param request
 	 *            non-null incoming request.
@@ -104,7 +104,7 @@ public class ONAPLogAdapter {
 	}
 
 	/**
-	 * Report <tt>EXITING</tt> marker.
+	 * Report <code>EXITING</code> marker.
 	 *
 	 * @return this.
 	 */
@@ -206,7 +206,7 @@ public class ONAPLogAdapter {
 	/**
 	 * Response is different in that response MDCs are normally only reported once,
 	 * for a single log message. (But there's no method for clearing them, because
-	 * this is only expected to be called during <tt>#exiting</tt>.)
+	 * this is only expected to be called during <code>#exiting</code>.)
 	 */
 	public static class ResponseDescriptor {
 
@@ -219,7 +219,7 @@ public class ONAPLogAdapter {
 		/** Response severity. */
 		protected Level mSeverity;
 
-		/** Response status, of {<tt>COMPLETED</tt>, <tt>ERROR</tt>}. */
+		/** Response status, of {<code>COMPLETED</code>, <code>ERROR</code>}. */
 		protected ONAPLogConstants.ResponseStatus mStatus;
 
 		/**
@@ -293,7 +293,7 @@ public class ONAPLogAdapter {
 	 * Adapter for reading information from an incoming HTTP request.
 	 *
 	 * Incoming is generally easy, because in most cases you'll be able to get your
-	 * hands on the <tt>HttpServletRequest</tt>.
+	 * hands on the <code>HttpServletRequest</code>.
 	 *
 	 * Perhaps should be generalized to refer to constants instead of requiring the
 	 * implementation of specific methods.

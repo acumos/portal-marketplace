@@ -30,10 +30,7 @@ public class Author {
 	 */
 	public Author() {
 	}
-	/**
-	 * @param name
-	 * @param contact
-	 */
+
 	public Author(String name, String contact) {
 		this.name = name;
 		this.contact = contact;

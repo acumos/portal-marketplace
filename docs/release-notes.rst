@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.5  9th August 2019 
+=================================
+* ACUMOS-3324	Upgrade to OpenJ9 JRE 11 on Alpine based image
+
 Version 3.0.4  1st August 2019 
 =================================
 * ACUMOS-3245	Portal Auth API develop (cookie)
