@@ -75,7 +75,7 @@ limitations under the License.
 								class="tab-icons tab-rtu_configuration"></span> <span>RTU
 									Configuration</span>
 						</span>
-						</a> <a href="#tab9-panel" ng-click='menuName = "Maintained Backup Logs"'
+						</a> <a href="#tab9-panel" ng-click='menuName = "Maintained Backup Logs"; getMaintainedBackupLogs();'
 							class="mdl-tabs__tab"> <span class="tab-box"> <span
 								class="tab-icons "></span> <span>Maintained 
 								Backup Logs</span>
@@ -1021,8 +1021,8 @@ limitations under the License.
 									<md-content class="md-padding">
 										<div class="fed-row1">
 											<div class="fedrow-cell1">
-													<button class="mdl-button mdl-js-button btn-primary">Create Backup</button>
-													<button class="mdl-button mdl-js-button btn-secondary btn-gap">Archive</button>												
+												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
+												<button class="mdl-button mdl-js-button btn-secondary btn-gap">Archive</button>												
 											</div>
 											<div class="fed-row2">
 												<div class="fed-srch-container">
