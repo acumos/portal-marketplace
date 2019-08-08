@@ -3491,21 +3491,192 @@ angular.module('admin').filter('abs', function () {
             /* RTU changes end*/
             
             /************Maintained Backup Logs Methods***********/
+            //call all get methods when the left hand side tab is clicked and not on page load, to decrease the wait time of overall page load
+            //will call only when needed
+            $scope.getMaintainedBackupLogs = function(){
+            	$scope.getAllSnapshot();
+            }
             
             $scope.getAllSnapshot = function () {
-
+                $scope.allSnapshot = [];
                 apiService.getAllSnapshot()
                     .then(
                         function (response) {
-                        	$scope.allSnapshot =  response.data.elasticsearchSnapshots;
+                        	$scope.allSnapshot =  response.data.response_body.elasticsearchSnapshots;
                         },
                         function (error) {
                         	console.log(error);
                         });
             };
-            $scope.getAllSnapshot();
+
+            $scope.createFirstRepo = false;
             
+            $scope.createBackup = function(ev) {
+            	var _isRepoAvailable = $scope.isRepoAvailable;
+            	var _createFirstRepo = $scope.createFirstRepo; 
+                
+                $mdDialog.show({
+                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo}, 
+                 templateUrl: '../app/Admin/create-backup.template.html',
+                 parent: angular.element(document.body),
+                 targetEvent: ev,
+                 clickOutsideToClose:true,
+                 controller : function DialogController($scope, parent, isRepoAvailable, createFirstRepo) {
+                	 $scope.parent = parent;
+                	 $scope.isRepoAvailable = isRepoAvailable;
+                	 $scope.createFirstRepo = createFirstRepo;
+                	 
+						$scope.closePoup = function(){
+							$mdDialog.hide();
+	                    };
+                        
+						$scope.fetchAllRepositories = function () {
+			                $scope.allRepositories = [];
+			                $scope.showContentLoader = true;
+			                apiService.getAllRepositories()
+			                    .then(
+			                        function (response) {
+			                            if(response.data.response_body.repositories){
+			                                $scope.allRepositories =  response.data.response_body.repositories;
+			                                $scope.isRepoAvailable = true;
+			                            }else{
+			                                $scope.isRepoAvailable = false;
+			                            }
+			                            $scope.showContentLoader = false;
+			                        },
+			                        function (error) {
+			                        	console.log(error);
+			                        	$scope.showContentLoader = false;
+			                        });
+			            }; 
+			            $scope.fetchAllRepositories();
+			            
+			            $scope.fetchAllIndices = function () {
+			                $scope.allIndices = [];
+			                $scope.showContentLoader = true;
+			                apiService.getAllIndices()
+			                    .then(
+			                        function (response) {
+			                            if(response.data.response_body.indices){
+			                                angular.forEach(response.data.response_body.indices, function (value, key) {
+			                                	$scope.allIndices.push({ 
+			                                				"name": value, 
+			                                				"checked": false
+			                                				});
+			                                });
+			                                
+			                                $scope.isRepoAvailable = true;
+			                            }else{
+			                                $scope.isRepoAvailable = false;
+			                            }
+			                            $scope.showContentLoader = false;
+			                        },
+			                        function (error) {
+			                        	console.log(error);
+			                        	$scope.showContentLoader = false;
+			                        });
+			            }; 
+			            $scope.fetchAllIndices();
+			            
+			            $scope.selectAllIndices = function(selected){
+	                		for (var i = 0; i < $scope.allIndices.length; i++) {
+	                   	        $scope.allIndices[i].checked = $scope.selectAll;
+	                		}
+                        };
+                        
+                        $scope.removeSelectAll = function(){
+                     	   if($scope.selectAll == true){
+                     		   $scope.selectAll = false;
+                     		   $scope.selectAllStatus = false;
+                     	   }
+                        };
+			            
+                        $scope.createRepository = function(repositoryName){
+                            $scope.selectRepository = true;
+                            var reqBody = {
+                                "request_body": {
+                                    "repositoryName": repositoryName
+                                }
+                            }
+                            return apiService
+                                .createRepositories(reqBody)
+                                .then(
+                                    function (response) {
+                                        $scope.responseMessage = response;
+                                        $location.hash('backupLogs'); 
+                                        $anchorScroll();
+                                        $scope.msg = "Repository created successfully.";
+                                        $scope.icon = '';
+                                        $scope.styleclass = 'c-success';
+                                        $scope.showBackupLogsMessage = true;
+                                        $timeout(function () {
+                                            $scope.showBackupLogsMessage = false;
+                                        }, 3000);
+                                        $scope.fetchAllRepositories();
             
+                                    },
+                                    function (error) {
+                                        $scope.status = error.data.error;
+                                    });
+            
+                        };
+                        
+                        
+                        $scope.createBackup = function(){
+                        	$scope.selectedRepoName = $scope.selectRepo;
+                        	$scope.allIndices;
+                        	$scope.reqBodyIndice = [];
+                        	
+                        	//check which all indices are checked
+                        	angular.forEach($scope.allIndices, function (value, key) {
+                                if (value.checked == true) {
+                                	$scope.reqBodyIndice.push(value.name);
+                                }  
+                            });
+                        	
+                        	/*"indices": $scope.reqBodyIndice,
+                            "repositoryName": $scope.selectedRepoName*/
+                            
+                            var reqBody = {
+                            		  "request_body": {
+                            			    "createSnapshots": [
+                            			      {
+                            			        "indices": $scope.reqBodyIndice,
+                            			        "repositoryName": $scope.selectedRepoName
+                            			      }
+                            			    ]
+                            			  }
+                            			};
+                            return apiService
+                                .createSnapshot(reqBody)
+                                .then(
+                                    function (response) {
+                                        $scope.responseMessage = response;
+                                        $location.hash('backupLogs'); 
+                                        $anchorScroll();
+                                        $scope.msg = "Repository created successfully.";
+                                        $scope.icon = '';
+                                        $scope.styleclass = 'c-success';
+                                        $scope.showBackupLogsMessage = true;
+                                        $timeout(function () {
+                                            $scope.showBackupLogsMessage = false;
+                                        }, 3000);
+                                        $scope.fetchAllRepositories();
+            
+                                    },
+                                    function (error) {
+                                        $scope.status = error.data.error;
+                                    });
+                        };
+                        
+                        
+					}
+                })
+                
+            };
+
+            
+            /************Maintained Backup Logs Methods***********/
         }
     })
     .service('fileUploadService', function ($http, $q) {

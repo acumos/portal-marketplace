@@ -1,0 +1,176 @@
+<!--  
+===============LICENSE_START=======================================================
+Acumos Apache-2.0
+===================================================================================
+Copyright (C) 2019 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+===================================================================================
+This Acumos software file is distributed by AT&T and Tech Mahindra
+under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+This file is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+===============LICENSE_END=========================================================
+-->
+
+<div id="backupLogs" ng-cloak>
+	
+	<!-- Create Backup Modal box start -->
+	<div id="createBack">
+		<md-dialog aria-label="Create Back" style="max-width: 100%;">
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2>Create Backup</h2>
+					<span flex></span>
+					<md-button class="md-icon-button" ng-click="closePoup()">
+						<i class="material-icons">close</i>
+					</md-button>
+				</div>
+			</md-toolbar>
+			
+			<md-dialog-content style="height: 400px; max-height:400px;">
+				<alert-message msg="msg" icon="icon" styleclass="styleclass"
+				ng-show="showBackupLogsMessage"></alert-message>
+				
+				<!-- Content Loader directive -->
+				<div content-loader ng-show="showContentLoader"></div>
+				
+				<!-- Content Body ends -->
+				<div>
+				<!-- No Repo available -->
+				<div ng-show="!isRepoAvailable"> <!--  ng-hide="createFirstRepo" -->
+					<div class="md-dialog-content">
+						<p>There is no repository available in the elasticsearch, please create repository first.</p>
+					</div>
+				</div>
+
+				<!-- Create First Repo -->
+				<div ng-show="createFirstRepo"> <!-- createFirstRepo &&  -->
+					<div class="md-dialog-content">
+						<h6 class="sectiontitle">Create Repository</h6>
+						<div class="popup-input-container">
+						<div>
+							<md-input-container class="md-block">
+								<label>Repository Name</label>
+								<input type="text" class="medium-textbox" ng-model="repositoryName" />
+							</md-input-container>
+						</div>
+						<div>
+							<label class="disblock">&nbsp;</label>
+							<button class="mdl-button mdl-js-button btn-primary btn-valign-horizontal"
+								ng-click="createRepository(repositoryName); createFirstRepo = !createFirstRepo;">Create
+								Repository</button>
+						</div>
+						<div>
+							<label class="disblock">&nbsp;</label>
+							<button ng-click="createFirstRepo = !createFirstRepo; closePoup()" 
+								class="mdl-button mdl-js-button btn-secondary btn-valign-horizontal">Cancel</button>
+						</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Repo available -->
+				<div ng-show="isRepoAvailable">
+					<form ng-cloak novalidate>
+						<div class="md-dialog-content">
+							
+							<div class="popup-input-container">
+								<div class="">
+									<div class="select-control">
+										<label>Select Repository <sup class="reqfield">*</sup></label>
+										<md-select ng-model="selectRepo" placeholder="Select">
+											<md-option ng-repeat='repo in allRepositories' value="{{repo.name}}">{{repo.name}}</md-option>
+										</md-select>
+									</div>
+								</div>
+								<div class="vertical-bottom-alignment"><button ng-click="createFirstRepo = !createFirstRepo;"
+										class="mdl-button mdl-js-button btn-primary btn-icon-valign-horizontal"
+										ng-disabled="createFirstRepo"><i
+											class="material-icons">add</i></button></div>
+								<div class="margin-left-auto">
+									<md-input-container class="md-block">
+										<label>Backup Name</label>
+										<input ng-model = "backupName" type="text" class="medium-textbox" required/>
+									</md-input-container>
+								</div>
+							</div>
+							<label class="disblock reqfield">Note: If you delete any indices from this page it will be
+								deleted permanently from the elasticsearch</label>
+							<div>
+								<table class="mdl-data-table mdl-js-data-table fullwidth">
+									<colgroup>
+										<col style="width:5%;">
+										<col>
+										<col style="width:5%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+													for="checkbox-1" id="checkbox-label">
+													<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input"
+														ng-model="selectAll" ng-click="selectAllIndices(selectAll)"
+														ng-checked="selectAllStatus" />
+													<span class="mdl-checkbox__label"></span>
+												</label></th>
+											<th>Indices</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="indices in allIndices">
+											<td>
+												<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+													for="indices_{{$index}}" id="indices_{{$index}}">
+													<input type="checkbox" class="mdl-checkbox__input"
+														value="{{indices}}"
+														ng-model="indices.checked" ng-checked="indices.checked"
+														ng-click="removeSelectAll()">
+													<span class="mdl-checkbox__label"></span>
+												</label>
+											</td>
+											<td><span>{{indices.name}}</span><span
+													class="grid-small-text">(Backup taken)</span></td>
+											<td class="text-center">
+												<button ng-click="confirmDelete(val)"
+													class="mdl-button mdl-js-button mdl-button--icon">
+													<span class="gridicon-delete"></span>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				</div>
+				<!-- Content Body ends -->
+				
+			</md-dialog-content>
+			
+			
+			<md-dialog-actions>
+				<div class="dialog-footer-container1" ng-show="!isRepoAvailable">
+					<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">Cancel</md-button>
+					<md-button ng-click="createFirstRepo = true;" class="mdl-button mdl-js-button btn-primary">Create Repository</md-button>
+				</div>
+
+				<div class="dialog-footer-container1" ng-show="createFirstRepo || isRepoAvailable">
+					<md-button class="mdl-button mdl-js-button btn-secondary" ng-click="closePoup()">Cancel</md-button>
+					<md-button class="mdl-button mdl-js-button btn-primary" ng-disabled="!(selectRepo && backupName)"
+					ng-click="createBackup();">Create Backup</md-button>
+				</div>
+			</md-dialog-actions>
+			
+		</md-dialog>
+	</div>
+	<!-- Create Backup Modal box end -->
+
+</div>

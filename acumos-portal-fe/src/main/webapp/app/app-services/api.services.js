@@ -137,20 +137,17 @@ angular.module('AcumosApp')
 												Users of the local Acumos Instance*/ 
         var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update';
         	
-        //Acumos ELk Client REST APIs : Elastic Search Service Controller (all Methods at end)
-        var elkapi = "http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:9600/elkclient";
+        //Acumos ELk Client REST APIs : Elk Controller (all Methods at end)
         	
-        //var urlGetAllSnapshot = elkapi + "/all/snapshot";				//Get all the elasticsearch snapshot.
-        var urlGetAllSnapshot =  "/app/jsons/snapshot.json"				// Added hardcoded JSON file for now in the json folder. Need to replace with above line
-        	
-        var urlGetAllRepositories = elkapi + "/all/repositories";		//Get all the elasticsearch repositories details of Elasticstack.
-        var urlCreateSnapshot = elkapi + "/create/snapshot";				//Create elasticstack snapshot.
-        var urlGetAllIndices = elkapi + "/all/indices";					//Get all the indices of Elasticstack.
-        var urlDeleteSnapshot = elkapi + "/delete/snapshot";				//Delete elasticstack snapshot.
-        var urlDeleteRepositories = elkapi + "/delete/repositories";		//Delete Elasticstack repository.
-        var urlRestoreSnapshot = elkapi + "/restore/snapshot";			//Restore elasticstack snapshot.
-        var urlCreateRepositories = elkapi + "/create/repositories";		//Create Elasticstack repository.
-        var urlDeleteIndices = elkapi + "/delete/indices";				//Delete elasticstack Indices.
+        var urlGetAllSnapshot = "api/elk/all/snapshot";				        //Get all the elasticsearch snapshot.
+        var urlGetAllRepositories = "api/elk/repository/all";		        //Get all the elasticsearch repositories details of Elasticstack.
+        var urlCreateSnapshot = "api/elk/snapshot/create";			        //Create elasticstack snapshot.
+        var urlGetAllIndices = "api/elk/indices/all";					    //Get all the indices of Elasticstack.
+        var urlDeleteSnapshot = "api/elk/delete/snapshot";			        //Delete elasticstack snapshot.
+        var urlDeleteRepositories = "api/elk/repository/delete";	        //Delete Elasticstack repository.
+        var urlRestoreSnapshot = "api/elk/restore/snapshot";			    //Restore elasticstack snapshot.
+        var urlCreateRepositories = "api/elk/repository/create";	        //Create elk repository.
+        var urlDeleteIndices = "api/elk/delete/indices";				    //Delete elasticstack Indices.
         
 	
         /**************** ALL GET ******************/
