@@ -1,4 +1,4 @@
-<!--  
+<!--
 ===============LICENSE_START=======================================================
 Acumos  Apache-2.0
 ===================================================================================
@@ -63,15 +63,15 @@ limitations under the License.
 			<version>2.2.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.acumos.security-verification.license-manager</groupId>
-		    <artifactId>license-manager-client-library</artifactId>
-		    <version>0.0.11</version>
-		    <exclusions>
-              <exclusion>
-                <groupId>com.google.collections</groupId>
-                <artifactId>google-collections</artifactId>
-               </exclusion>
-           </exclusions> 
+			<groupId>org.acumos.security-verification.license-manager</groupId>
+			<artifactId>license-manager-client-library</artifactId>
+			<version>0.0.11</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.collections</groupId>
+					<artifactId>google-collections</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -204,35 +204,94 @@ limitations under the License.
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
 		<dependency>
-		    <groupId>joda-time</groupId>
-		    <artifactId>joda-time</artifactId>
-		    <version>2.10</version> 
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10</version>
 		</dependency>
 		<dependency>
-		   <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
-		   <artifactId>owasp-java-html-sanitizer</artifactId>
-		   <version>20180219.1</version>
+			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+			<artifactId>owasp-java-html-sanitizer</artifactId>
+			<version>20180219.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-mock</artifactId>
-		    <version>2.0.8</version>
-		</dependency>		
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-mock</artifactId>
+			<version>2.0.8</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedPlugins>
+									<!-- will only display a warning but does not fail the build. -->
+									<level>WARN</level>
+									<excludes>
+										<exclude>org.apache.maven.plugins:maven-verifier-plugin</exclude>
+									</excludes>
+									<message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
+								</bannedPlugins>
+								<requireMavenVersion>
+									<version>3.0.3</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>11</version>
+								</requireJavaVersion>
+								<!-- <requireOS>
+                  <family>unix</family>
+                </requireOS> -->
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>11</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<argLine> --illegal-access=permit
+					</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<argLine> --illegal-access=permit
+					</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>1.14</version>
+				<version>1.17</version>
 				<configuration>
 					<licenseName>acumos</licenseName>
 					<licenseResolver>${project.baseUri}/src/license</licenseResolver>
@@ -351,7 +410,7 @@ limitations under the License.
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
+				<version>0.8.1</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -371,7 +430,7 @@ limitations under the License.
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.21.0</version>
+				<version>0.30.0</version>
 				<configuration>
 					<verbose>true</verbose>
 					<pullRegistry>${docker.pull.registry}</pullRegistry>
@@ -380,7 +439,7 @@ limitations under the License.
 						<image>
 							<name>acumos-portal-be:${project.version}</name>
 							<build>
-								<from>openjdk:8-jre-slim</from>
+								<from>adoptopenjdk/openjdk11-openj9:alpine-jre</from>
 								<tags>
 									<tag>${project.version}-b${build.number}</tag>
 								</tags>
