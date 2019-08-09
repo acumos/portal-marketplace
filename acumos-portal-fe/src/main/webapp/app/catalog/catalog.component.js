@@ -73,43 +73,41 @@ angular.module('catalog')
 				
 				
 				
-				$scope.loadCatalog = function(pageNumber, filterValue) {							
-					$scope.allCatalogList = [];													
-					$scope.SetDataLoaded = true;
-					$rootScope.setLoader = true;
-					$scope.pageNumber = pageNumber;
-					$scope.selectedPage = pageNumber;							
-					var reqObject = {											  							
-						"request_body": {
-							"fieldToDirectionMap": {"created":"ASC"},
-					        "page": pageNumber,
-					        "size": $scope.requestResultSize
-						  }
-					};
-					apiService.getCatalogs(reqObject)
-						.then(
-							function successCallback(response) {
-								var resp = response.data.response_body;
-								$scope.allCatalogList = resp.content;											
-								$scope.totalPages = resp.totalPages;
-								$scope.totalElements = resp.totalElements;
-								$scope.allCatalogListLength = resp.totalElements;
-								$scope.SetDataLoaded = false;
-								$rootScope.setLoader = false;
-							}, function errorCallback(response) {
-								$scope.SetDataLoaded = false;
-								$rootScope.setLoader = false;
-							});
+				$scope.loadCatalog = function(pageNumber) {
+					if ($scope.searchtxt != null && $scope.searchtxt != undefined && $scope.searchtxt != "") {
+						$scope.searchCatalogs(pageNumber, $scope.searchtxt);
+					} else {
+						$scope.allCatalogList = [];													
+						$scope.SetDataLoaded = true;
+						$rootScope.setLoader = true;
+						$scope.pageNumber = pageNumber;
+						$scope.selectedPage = pageNumber;							
+						var reqObject = {											  							
+							"request_body": {
+								"fieldToDirectionMap": {"created":"ASC"},
+						        "page": pageNumber,
+						        "size": $scope.requestResultSize
+							  }
+						};
+						apiService.getCatalogs(reqObject)
+							.then(
+								function successCallback(response) {
+									var resp = response.data.response_body;
+									$scope.allCatalogList = resp.content;											
+									$scope.totalPages = resp.totalPages;
+									$scope.totalElements = resp.totalElements;
+									$scope.allCatalogListLength = resp.totalElements;
+									$scope.SetDataLoaded = false;
+									$rootScope.setLoader = false;
+								}, function errorCallback(response) {
+									$scope.SetDataLoaded = false;
+									$rootScope.setLoader = false;
+								});
+					}
 				};
 				
 				if($scope.loginUserID)
-					$scope.loadCatalog(0);	
-				
-				// styleclass ------ icons
-				// c-success ------- 
-				// c-warning ------- report_problem
-				// c-error --------- report_problem
-				// c-info ---------- info_outline
+					$scope.loadCatalog(0);
 
 				$scope.setAlertMessage = function(msg, styleclass, icon) {
 					$scope.msg = msg;
@@ -263,94 +261,46 @@ angular.module('catalog')
 					$mdDialog.hide();
 				}
 				
-				/*$scope.search = function(pageNumber, filterValue)
-				{
-					$scope.allCatalogList = [];													
+
+				$scope.searchCatalogs = function(pageNumber, filterValue) {
+					$scope.allCatalogList = [];
 					$scope.SetDataLoaded = true;
 					$rootScope.setLoader = true;
 					$scope.pageNumber = pageNumber;
-					$scope.selectedPage = pageNumber;							
-					var reqObject = {											  							
-										"request_body": {
-										"accessTypeCode": $scope.catalogLevel,
-									    "pageRequest": {
-										  "fieldToDirectionMap": {},
-										  "page": pageNumber,
-										  "size": $scope.requestResultSize
-										 },													
-										  "request_from": "string",
-										  "request_id": "string"
-										}
-									};
-					
-					
-					$scope.response_body =	{
-						  "status": null,
-						  "status_code": 0,
-						  "response_detail": "Catalog list fetched successfully",
-						  "response_code": null,
-						  "response_body": {
-							"content": [
-							  {
-								"created": "2019-04-05T20:47:03Z",
-								"modified": "2019-04-05T20:47:03Z",
-								"catalogId": "12345678-abcd-90ab-cdef-1234567890ab",
-								"accessTypeCode": "PB",
-								"selfPublish": false,
-								"name": "Upgrade default catalog",
-								"publisher": "publisher",
-								"description": null,
-								"origin": null,
-								"url": "http://localhost"
-							  }
-							],
-							"number": 0,
-							"size": 20,
-							"totalElements": 1,
-							"pageable": {
-							  "sort": {
-								"sorted": false,
-								"unsorted": true,
-								"empty": true
-							  },
-							  "offset": 0,
-							  "pageNumber": 0,
-							  "pageSize": 20,
-							  "paged": true,
-							  "unpaged": false
-							},
-							"sort": null,
-							"totalPages": 1,
-							"first": true,
-							"last": true,
-							"empty": false,
-							"numberOfElements": 1
-						  },
-						  "content": null,
-						  "error_code": "100"
+					$scope.selectedPage = pageNumber;
+		
+					var reqObject = {
+						"request_body" : {
+							"accessTypeCode" : filterValue,
+							"description" : filterValue,
+							"name" : filterValue,
+							"origin" : filterValue,
+							"publisher" : filterValue,
+							"url" : filterValue,
+							"or" : true,
+							"pageRequest" : {
+								"fieldToDirectionMap" : {},
+								"page" : pageNumber,
+								"size" : $scope.requestResultSize
+							}
 						}
-					
-					$scope.allCatalogList = $scope.response_body.response_body.content;											
-					$scope.totalPages = $scope.response_body.response_body.totalPages;
-					$scope.totalElements = $scope.response_body.response_body.totalElements;
-					$scope.allCatalogListLength = $scope.response_body.response_body.totalElements;
-					$scope.SetDataLoaded = false;
-					$rootScope.setLoader = false;
-					
-					apiService
-				    .searchCatalog(Catalog.catalogId)
+					};
+		
+					apiService.searchCatalogs(reqObject)
 						.then(
-								function successCallback(response) {
-									$scope.allCatalogList = response.data.response_body;											
-									$scope.totalPages = response.data.totalPages;
-									$scope.totalElements = response.data.totalElements;
-									$scope.allCatalogListLength = response.data.totalElements;
-									$scope.SetDataLoaded = false;
-									$rootScope.setLoader = false;
-								},function errorCallback(response) {
-									$scope.SetDataLoaded = false;
-									$rootScope.setLoader = false;
-								});							
-				};		*/			
+							function successCallback(response) {
+								var resp = response.data.response_body;
+								$scope.allCatalogList = resp.content;											
+								$scope.totalPages = resp.totalPages;
+								$scope.totalElements = resp.totalElements;
+								$scope.allCatalogListLength = resp.totalElements;
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							},
+							function errorCallback(response) {
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							});
+				};
 			}
 		});
