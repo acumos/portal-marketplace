@@ -3498,19 +3498,71 @@ angular.module('admin').filter('abs', function () {
             }
             
             $scope.getAllSnapshot = function () {
-                $scope.allSnapshot = [];
+                $scope.snapshots = [];
+                $scope.showContentLoader = true;
                 apiService.getAllSnapshot()
                     .then(
                         function (response) {
-                        	$scope.allSnapshot =  response.data.response_body.elasticsearchSnapshots;
+                        	$scope.showContentLoader = false;
+                        	var allSnapshots =  response.data.response_body.elasticsearchSnapshots;
+                         	for(var i=0; i<allSnapshots.length;i++){
+                        		$scope.snapshots[i] = [];
+                        		$scope.snapshots[i]['repositoryName'] = allSnapshots[i].repositoryName;
+                        		angular.forEach(allSnapshots[i].snapshots, function (value, key) { 
+                        			$scope.snapshots[i]['backupName'] = value.snapShotId;
+                        			$scope.snapshots[i]['createdDate'] = value.startTime;
+                                }); 
+                        	} 
+                         	$scope.loadBackups(0);
                         },
                         function (error) {
+                        	$scope.showContentLoader = false;
                         	console.log(error);
                         });
             };
-
-            $scope.createFirstRepo = false;
             
+            $scope.loadBackups = function (pageNumber) {
+            	$scope.selectedPage = pageNumber;
+            	$scope.totalPages = Math.ceil($scope.snapshots.length / $scope.requestResultSize);
+            	$scope.allSnapshots = ($scope.snapshots).slice($scope.requestResultSize*pageNumber, 
+            			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
+            }
+
+            
+            //pagination
+            $scope.pageNumber = 0;
+			$scope.totalPages = 0;
+			$scope.requestResultSize = 10;
+			$scope.setPageStart = 0;
+            $scope.selectedPage = 0;
+            $scope.setStartCount = function(val){
+                  if(val == "preBunch"){$scope.setPageStart = $scope.setPageStart-5}
+                  if(val == "nextBunch"){$scope.setPageStart = $scope.setPageStart+5}
+                  if(val == "pre"){ 
+                        if($scope.selectedPage == $scope.setPageStart)
+                        {
+                        	$scope.setPageStart = $scope.setPageStart - 1;
+                        	$scope.selectedPage = $scope.selectedPage - 1;
+                        }
+                        else
+                        	$scope.selectedPage = $scope.selectedPage - 1;
+                        }
+                  if(val == "next"){
+                        if($scope.selectedPage == $scope.setPageStart + 4)
+                              {
+                              	$scope.setPageStart = $scope.setPageStart + 1;
+                              	$scope.selectedPage = $scope.selectedPage + 1;
+                              }
+                        else
+                        	$scope.selectedPage = $scope.selectedPage + 1;
+                        }
+            }
+            $scope.filterChange = function(pagination, size) {
+            	$scope.requestResultSize = size;
+            	$scope.loadBackups(0);
+            }
+            
+            $scope.createFirstRepo = false;
             $scope.createBackup = function(ev) {
             	var _isRepoAvailable = $scope.isRepoAvailable;
             	var _createFirstRepo = $scope.createFirstRepo; 
@@ -3580,7 +3632,7 @@ angular.module('admin').filter('abs', function () {
 			            
 			            $scope.selectAllIndices = function(selected){
 	                		for (var i = 0; i < $scope.allIndices.length; i++) {
-	                   	        $scope.allIndices[i].checked = $scope.selectAll;
+	                   	        $scope.allIndices[i].checked = $scope.selectAllIndice;
 	                		}
                         };
                         
@@ -3621,7 +3673,6 @@ angular.module('admin').filter('abs', function () {
             
                         };
                         
-                        
                         $scope.createBackup = function(){
                         	$scope.selectedRepoName = $scope.selectRepo;
                         	$scope.allIndices;
@@ -3634,9 +3685,6 @@ angular.module('admin').filter('abs', function () {
                                 }  
                             });
                         	
-                        	/*"indices": $scope.reqBodyIndice,
-                            "repositoryName": $scope.selectedRepoName*/
-                            
                             var reqBody = {
                             		  "request_body": {
                             			    "createSnapshots": [
@@ -3668,6 +3716,46 @@ angular.module('admin').filter('abs', function () {
                                         $scope.status = error.data.error;
                                     });
                         };
+                        
+                        //Delete Indices
+                        $scope.deleteIndices = function(indiceName){
+                        	var deleteIndiceName = indiceName;
+                        	var reqBody = {
+                          		  "request_body": {
+                          			        "indices": [deleteIndiceName]
+                          			  }
+                          			};
+                          return apiService
+                              .deleteIndices(reqBody)
+                              .then(
+                                  function (response) {
+                                      $location.hash('backupLogs'); 
+                                      $anchorScroll();
+                                      $scope.msg = response.data.response_body.message;
+                                      $scope.icon = '';
+                                      $scope.styleclass = 'c-success';
+                                      $scope.showBackupLogsMessage = true;
+                                      $timeout(function () {
+                                          $scope.showBackupLogsMessage = false;
+                                      }, 3000);
+                                      $scope.fetchAllIndices();
+                                  },
+                                  function (error) {
+                                      $scope.status = error.data;
+                                      console.log($scope.status);
+                                      $location.hash('backupLogs'); 
+                                      $anchorScroll();
+                                      $scope.msg = 'Error Occurred while deleting.';
+                                      $scope.icon = 'report_problem';
+                                      $scope.styleclass = 'c-error';
+                                      $scope.showBackupLogsMessage = true;
+                                      $timeout(function () {
+                                          $scope.showBackupLogsMessage = false;
+                                      }, 3000);
+                                      $scope.fetchAllIndices();
+                                      
+                                  });
+                        }
                         
                         
 					}
