@@ -114,7 +114,7 @@ limitations under the License.
 											<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
 													for="checkbox-1" id="checkbox-label">
 													<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input"
-														ng-model="selectAll" ng-click="selectAllIndices(selectAll)"
+														ng-model="selectAllIndice" ng-click="selectAllIndices(selectAllIndice)"
 														ng-checked="selectAllStatus" />
 													<span class="mdl-checkbox__label"></span>
 												</label></th>
@@ -137,10 +137,9 @@ limitations under the License.
 											<td><span>{{indices.name}}</span><span
 													class="grid-small-text">(Backup taken)</span></td>
 											<td class="text-center">
-												<button ng-click="confirmDelete(val)"
-													class="mdl-button mdl-js-button mdl-button--icon">
+												<a ng-click="deleteIndices(indices.name)">
 													<span class="gridicon-delete"></span>
-												</button>
+												</a>
 											</td>
 										</tr>
 									</tbody>
