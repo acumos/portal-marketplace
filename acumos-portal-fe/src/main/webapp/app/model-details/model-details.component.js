@@ -1624,7 +1624,7 @@ angular
 								 
 									$mdDialog.hide().then(function(){
 										$scope.msg = "Micro service creation has been launched, you will see the micro service in the Model Artifacts once it will be created.";
-										$scope.icon = '';
+										$scope.icon = 'info_outline';
 										$scope.styleclass = 'c-info';
 										$scope.showAlertMessage = true;
 										$timeout(function() {$scope.showAlertMessage = false;}, 5000);
