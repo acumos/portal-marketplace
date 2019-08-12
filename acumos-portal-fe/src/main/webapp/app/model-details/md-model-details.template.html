@@ -33,10 +33,10 @@ limitations under the License.
 						onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name}}	</span>				
 				<div class="md-head-container3">
 					<div class="md-head-containerinner-seperator"></div>
-					<div class="version-container" ng-show="solutionCatalogsList && solutionCatalogsList.length > 0">
+					<div class="version-container cataloglist-container" ng-show="solutionCatalogsList && solutionCatalogsList.length > 0">
 						<button id="demo-menu-lower-right" class="mdl-button mdl-js-button"
 								ng-click="showCatalog();$event.stopPropagation();">
-								<span>Catalog - {{catalogName}} <i class="material-icons">keyboard_arrow_down</i></span>
+								<span class="text-ellipsis">Catalog - {{catalogName}}</span> <i class="material-icons">keyboard_arrow_down</i>
 						</button>
 						<ul class="md-version-ddl1 catalog-list">
 							<li ng-repeat="catalog in solutionCatalogsList"

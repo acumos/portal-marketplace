@@ -693,6 +693,8 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);clip: auto !important;	}
 .tilecontainer1 {display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center;}
 
 .model-details-tabwrapper h2 {font-size: 14px;  font-weight: bold;  line-height: 1.428571429;  margin: 0 0 10px;}
+.cataloglist-container .mdl-button {max-width: 175px;text-align:left;display: flex; align-items: center;}
+.text-ellipsis {white-space:nowrap; text-overflow:ellipsis; max-width:98%; overflow:hidden; display:inline-block; position:relative; top: -2px;}
 
 /************MODEL DETAILS PAGE STYLE END**************/
 
@@ -1515,7 +1517,7 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 /**** Preview box style ends ******/
 /************** GRID STYLE STARTS************/
 .mdl-data-table {box-shadow: none; border: none;}
-.mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background: #E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;}
+.mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background: #E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;cursor: pointer;}
 .mdl-data-table tbody tr td {font-weight:600;text-align:left;}
 .mdl-data-table tbody tr:first-child td {border-top: none;}
 .admin-action-container button:hover {background: none;}

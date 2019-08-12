@@ -999,8 +999,10 @@ angular
 							$scope.revisionId = $scope.version.revisionId;
 							$stateParams.revisionId = $scope.version.revisionId;
 							$scope.versionId = versionId;
+							$scope.solutionDescription = "";
 							angular.element('.version-list').hide();
 							$scope.getArtifacts();
+							$scope.getSolutionDescription();
 							$scope.checkOnapCompatibility();
 							$scope.getLicenseFile();
 						}

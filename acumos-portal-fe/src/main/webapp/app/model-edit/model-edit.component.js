@@ -349,6 +349,10 @@ angular
 							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == revisionId;})[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
+							$scope.solutionCompanyDesc1 = '';
+							$scope.supportingDocs = [];
+							$scope.getCompanySolutionDocuments();
+							$scope.getSolCompanyDesc();
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							$scope.completedOnDate = modifiedDate;
