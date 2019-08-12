@@ -21,7 +21,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.6  12th August 2019 
+Version 3.0.7  12th August 2019 
 =================================
 * ACUMOS-3263    IST: Catalog name going out of the box if name length exceeded to certain limit
 * ACUMOS-3317    IST: Licenses need to replace with License in preview model
