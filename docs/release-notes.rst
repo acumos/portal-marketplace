@@ -21,6 +21,18 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.6  12th August 2019 
+=================================
+* ACUMOS-3263    IST: Catalog name going out of the box if name length exceeded to certain limit
+* ACUMOS-3317    IST: Licenses need to replace with License in preview model
+* ACUMOS-3314    IST - Subscription count is not updated
+* ACUMOS-3318    <IST>Tab contents not visible for management options section in Manage My Model page
+* ACUMOS-3156    Federated subscriptions silently fail to be updated if local and remote catalogs have same name
+* ACUMOS-3316    IST: Not able to add tag during publishing of model
+* ACUMOS-3259    Published On Date is displaying for the unpublished model
+* ACUMOS-3243    IST: Anchor Message Issue
+* ACUMOS-3300    IST2 - Changing versions does not show difference
+
 Version 3.0.4  1st August 2019 
 =================================
 * ACUMOS-3245	Portal Auth API develop (cookie)
