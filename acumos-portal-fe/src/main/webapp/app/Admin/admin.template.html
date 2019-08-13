@@ -75,6 +75,11 @@ limitations under the License.
 								class="tab-icons tab-rtu_configuration"></span> <span>RTU
 									Configuration</span>
 						</span>
+						</a> <a href="#tab9-panel" ng-click='menuName = "Maintained Backup Logs"; getMaintainedBackupLogs();'
+							class="mdl-tabs__tab"> <span class="tab-box"> <span
+								class="tab-icons tab-maintained_logs"></span> <span>Maintained 
+								Backup Logs</span>
+						</span>
 						</a> <a href="#tab5-panel" ng-click='menuName = "Federation"'
 							class="mdl-tabs__tab "> <span class="tab-box"> <span
 								class="tab-icons tab-federation"></span> <span>Federation</span>
@@ -1021,6 +1026,229 @@ limitations under the License.
 						</div>
 						</div>
 					</div>
+					<!-- HTML code for Maintained Backup Logs page -->
+					<div class="mdl-tabs__panel" id="tab9-panel">
+						<div class="admin-tab-heading">
+							<span class="admin-title2">Maintained Backup Logs</span>
+						</div>
+						<div class="site-content-wrapper">
+							<md-tabs md-dynamic-height md-border-bottom>
+								<md-tab label="Backup Logs">
+									<md-content class="md-padding">
+										<div class="fed-row1">
+											<div class="fedrow-cell1">
+												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
+												<button class="mdl-button mdl-js-button btn-secondary btn-gap">Archive</button>												
+											</div>
+											<div class="fed-row2">
+												<div class="fed-srch-container">
+													<label class="fed-lbl1">Filter</label>
+													<div class="mdl-textfield mdl-js-textfield admin-search-container">
+														<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
+															ng-model="searchSnapshot">
+													</div>
+												</div>												
+											</div>
+										</div>
+										<hr />
+										<div>
+											<table class="mdl-data-table mdl-js-data-table fullwidth">
+												<colgroup>
+													<col style="width:5%;">
+													<col>
+													<col>
+													<col>
+													<col style="width:7%;">
+												</colgroup>
+												<thead>
+													<tr>
+														<th><label class="mdl-checkbox__input" 
+																for="checkbox-selectBackup" id="checkbox-label">
+																<input type="checkbox" id="checkbox-selectBackup" class="mdl-checkbox__input" 
+																	ng-model="selectAll" ng-click="setSelectAll(selectAll)"  />
+																<span class="mdl-checkbox__label"></span>
+															</label></th>
+														<th>Backup Name</th>
+														<th>Repository</th>
+														<th>Created Date</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<!-- Content Loader directive -->
+													<div content-loader ng-show="showContentLoader"></div>
+													<tr ng-repeat="snapshot in allSnapshots | filter:searchSnapshot">
+														<td>
+															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
+																id="checkBox_{{$index}}">
+																<input type="checkbox" class="mdl-checkbox__input" 
+																	ng-model="allSnapshots.backupName" ng-click="removeSelectAll()">
+																<span class="mdl-checkbox__label"></span>
+															</label>
+														</td>
+														<td><span>{{snapshot.backupName}}</span></td>
+														<td><span>{{snapshot.repositoryName}}</span></td>
+														<td><span>{{snapshot.createdDate}}</span></td>
+														<td class="text-center">
+															<md-button class="md-icon-button md-primary" aria-label="Settings">
+																<i class="material-icons">
+																	close
+																</i>
+															</md-button>
+														</td>
+													</tr>
+													<div class="alert c-info text-center" ng-if="allSnapshots.length == 0">
+			                                       		<strong>No Result Found</strong>
+				                                    </div>
+												</tbody>
+											</table>
+										</div>
+										
+										<div class="pagination-wrapper" ng-if="allSnapshots.length > 0">
+			                              <div class="pagination-left-section">
+			                                 <span>Showing </span>
+			                                 <div class="select-control">
+			                                    <md-select ng-model="requestResultSize" name="requestResultSize"
+			                                       ng-change="filterChange('paginationSize',requestResultSize)">
+			                                       <md-option ng-value="10" class="pagination-list-item">10</md-option>
+			                                       <md-option ng-value="20" class="pagination-list-item">20</md-option>
+			                                       <md-option ng-value="30" class="pagination-list-item">30</md-option>
+			                                       <md-option ng-value="40" class="pagination-list-item">40</md-option>
+			                                       <md-option ng-value="50" class="pagination-list-item">50</md-option>
+			                                       <md-option ng-value="100" class="pagination-list-item">100</md-option>
+			                                    </md-select>
+			                                 </div>
+			                              </div>
+			                              <div class="pagination-right-section">
+			                                 <div class="count-btn-container">
+			                                    <button class="mdl-button mdl-js-button btn-secondary"
+			                                       ng-disabled="selectedPage==0"
+			                                       ng-click="setStartCount('pre');loadBackups(selectedPage)">Previous</button>
+			                                 </div>
+			                                 <div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-click="setStartCount('preBunch');loadBackups(setPageStart)"
+			                                       ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+			                                 </div>
+			                                 <div class="count-btn-container">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart);">{{setPageStart+1}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="totalPages<=(setPageStart+1)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+1);">{{setPageStart+2}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="totalPages<=(setPageStart+2)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+2);">{{setPageStart+3}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="totalPages<=(setPageStart+3)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+3);">{{setPageStart+4}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="(totalPages)<=(setPageStart+4)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+4);">{{setPageStart+5}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="(totalPages)<=(setPageStart + 5)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-click="setStartCount('nextBunch');loadBackups(setPageStart);"
+			                                       ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+			                                 </div>
+			                                 <div class="count-btn-container">
+			                                    <button class="mdl-button mdl-js-button btn-secondary"
+			                                       ng-click="setStartCount('next');loadBackups(selectedPage);"
+			                                       ng-disabled="totalPages == (selectedPage + 1)">Next</button>
+			                                 </div>
+			                              </div>
+			                           </div>
+			                           
+									</md-content>
+								</md-tab>
+								<md-tab label="Archived Logs">
+									<md-content class="md-padding">
+											<div class="fed-row1">
+													<div class="fedrow-cell1">
+															<button class="mdl-button mdl-js-button btn-primary">Restore</button>
+															<button class="mdl-button mdl-js-button btn-secondary btn-gap">Delete</button>											
+													</div>
+													<div class="fed-row2">
+														<div class="fed-srch-container">
+															<label class="fed-lbl1">Filter</label>
+															<div class="mdl-textfield mdl-js-textfield admin-search-container">
+																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
+																	ng-model="searchPeerDetails">
+															</div>
+														</div>												
+													</div>
+												</div>
+										<hr />
+										<p class="reqfield">Note: If you delete any backup from this page it will be deleted permanently from here</p>
+					
+										<div>
+											<table class="mdl-data-table mdl-js-data-table fullwidth">
+												<colgroup>
+													<col style="width:5%;">
+													<col>
+													<col>
+													<col>
+													<col style="width:7%;">
+												</colgroup>
+												<thead>
+													<tr>
+														<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1"
+																id="checkbox-label">
+																<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model="selectAll"
+																	ng-click="setSelectAll(selectAll)" ng-checked="selectAllStatus" />
+																<span class="mdl-checkbox__label"></span>
+															</label></th>
+														<th>Backup Name</th>
+														<th>Repository</th>
+														<th>Created Date</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
+																id="checkBox_{{$index}}">
+																<input type="checkbox" class="mdl-checkbox__input" ng-model="notification.Selected"
+																	ng-checked="notification.Selected" ng-click="removeSelectAll()">
+																<span class="mdl-checkbox__label"></span>
+															</label>
+														</td>
+														<td><span>ABC DEV</span></td>
+														<td><span>Logstash</span></td>
+														<td><span>7/4/2019</span></td>
+														<td class="text-center">
+															<md-button class="md-icon-button md-primary" aria-label="Settings">
+																<i class="material-icons">
+																	close
+																</i>
+															</md-button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</md-content>
+								</md-tab>
+							</md-tabs>
+						</div>
+					</div>
+					<!-- HTML code for Maintained Backup Logs page Ends -->
+					
 					<div class="mdl-tabs__panel" id="tab5-panel">
 						<div class="admin-tab-heading admin-box2">
 							<div>

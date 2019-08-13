@@ -36,11 +36,11 @@ public class APINames {
 	public static final String LOGOUT = "/logout";
 	public static final String USERNAME = "/username";
 
-	//Pre-Dockerized model
+	// Pre-Dockerized model
 	public static final String DOCKER_SEARCH_SOLUTION = "/dockerSearchSolutions";
 	public static final String CREATE_DOCKER_SOLUTION = "/createDockerSolution";
-	public static final String ARTIFACTS_URL ="/artifactsUrl";
-	 
+	public static final String ARTIFACTS_URL = "/artifactsUrl";
+
 	// User Service APIs
 	public static final String USERS = "/users";
 	public static final String ACCOUNT_SIGNUP = "/register";
@@ -70,7 +70,7 @@ public class APINames {
 	public static final String CREATE_SOLUTION = "/createSolution";
 	public static final String SOLUTIONS = "/solutions";
 	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}/{revisionId}";
-	public static final String SOLUTIONS_DETAILS_WITHOUT_LOGIN= "/solutions/{solutionId}";
+	public static final String SOLUTIONS_DETAILS_WITHOUT_LOGIN = "/solutions/{solutionId}";
 	public static final String PAGINATED_SOLUTIONS = "/paginatedSolutions";
 	public static final String SOLUTIONS_UPDATE = "/solutions/{solutionId}";
 	public static final String SOLUTIONS_PICTURE = "/solutions/{solutionId}/picture";
@@ -131,7 +131,7 @@ public class APINames {
 	public static final String GET_USER_FAVORITE_CATALOGS = CREATE_CATALOG + USER_FAVORITE_CATALOG_PATH;
 	public static final String ADD_USER_FAVORITE_CATALOG = GET_CATALOG + USER_FAVORITE_CATALOG_PATH;
 	public static final String DROP_USER_FAVORITE_CATALOG = ADD_USER_FAVORITE_CATALOG;
-	
+
 	// Tags APIs for MarketPlace Catalog
 	public static final String TAGS = "/tags";
 	public static final String ADD_TAG = "/addTag/{solutionId}/tag/{tag}";
@@ -190,7 +190,7 @@ public class APINames {
 	public static final String PEER_DETAILS = "/peers/{peerId}";
 	public static final String GET_DYNAMIC_MENU = "/getMenu";
 	public static final String GET_DESIGN_STUDIO_MENU = "/getDSMenu";
-	
+
 	// Peer subscription API for Admin
 	public static final String PEERSUBSCRIPTION_PAGINATED = "/peer/subcriptions/{peerId}";
 	public static final String PEERSUBSCRIPTION_COUNTS = "/peer/subcriptions/counts";
@@ -229,9 +229,9 @@ public class APINames {
 	public static final String UPDATE_CAROUSEL_PICTURE = "/content/carouselImages";
 	public static final String DELETE_CAROUSEL_PICTURE = GET_CAROUSEL_PICTURE;
 	public static final String UNREAD_NOTIFICATIONS_COUNT = "/unreadnotifications/count/{userId}";
-	
+
 	public static final String GET_DISCOVERACUMOS_INFO = "/content/global/discoverAcumos";
-	
+
 	// Notifications
 	public static final String CREATE_NOTIFICATION = "/notifications/createNotification";
 	public static final String ADD_USER_NOTIFICATIONS = "/notifications/create/{notificationId}/user/{userId}";
@@ -282,7 +282,7 @@ public class APINames {
 
 	public static final String CONVERT_TO_ONAP = "/convertToOnap/{solutionId}/{revisionId}/{userId}/{modName}";
 	public static final String CHECK_ONAP_COMPATIBLE = "/checkOnapCompatible/{solutionId}/{revisionId}";
-	public static final String CREATE_MICROSERVICE="/createmicroservice";
+	public static final String CREATE_MICROSERVICE = "/createmicroservice";
 
 	public static final String BROKER = "/broker";
 
@@ -293,19 +293,33 @@ public class APINames {
 
 	public static final String PROPERTIES = "/properties";
 	public static final String CLI_PUSH_URL = "/cliPushUrl";
-	
+
 	public static final String CLI_AUTH_URL = "/cliAuthUrl";
-	
+
 	public static final String GET_TASKS = "/getTasks/{userId}";
 	public static final String GET_STEP_RESULTS = "/getStepResult/{taskId}";
-	
+
 	public static final String APITOKEN_COOKIE_VALIDATION = "/validateCookieToken";
-  
+
 	public static final String RTU_SOLUTION_USER_DETAILS = "/rightToUse";
 	public static final String CREATE_RTU_USER = "/createRtuUser/{rtuRefId}/{solutionId}/{siteWideRtu}";
 
 	public static final String GET_MS_STATUS = "/getMSStatus/{solutionId}/{revisionId}/{userId}";
 	public static final String UPLOAD_LICENSE_MODEL = "/license/upload/{userId}/{solutionId}/{revisionId}/{versionId}";
-	
+
 	public static final String USER_NOTIFICATIONS_PAGINATION = "/notifications/pagination/{userId}";
+	
+	// ELK
+	public static final String CREATE_REPOSITORY = "/repository/create";
+	public static final String GET_REPOSITORY = "/repository/all";
+	public static final String DELETE_REPOSITORY = "/repository/delete";
+
+	public static final String GET_SNAPSHOTS = "/all/snapshot";
+	public static final String CREATE_SNAPSHOTS = "/snapshot/create";
+	public static final String DELETE_SNAPSHOTS = "/delete/snapshot";
+	public static final String RESTORE_SNAPSHOTS = "/restore/snapshot";
+
+	public static final String GET_INDICES = "/indices/all";
+	public static final String DELETE_INDICES = "/delete/indices";
+
 }
