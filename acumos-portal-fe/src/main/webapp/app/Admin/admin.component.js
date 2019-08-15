@@ -3496,23 +3496,28 @@ angular.module('admin').filter('abs', function () {
                 apiService.getAllSnapshot()
                     .then(
                         function (response) {
-                        	$scope.showContentLoader = false;
-                        	var allSnapshots =  response.data.response_body.elasticsearchSnapshots;
-                         	for(var i=0; i<allSnapshots.length;i++){
-                        		$scope.snapshots[i] = [];
-                        		$scope.snapshots[i]['repositoryName'] = allSnapshots[i].repositoryName;
-                        		angular.forEach(allSnapshots[i].snapshots, function (value, key) { 
-                        			$scope.snapshots[i]['backupName'] = value.snapShotId;
-                        			$scope.snapshots[i]['createdDate'] = value.startTime;
-                                }); 
-                        	} 
-                         	$scope.loadBackups(0);
+                              $scope.showContentLoader = false;
+                              var allSnapshots =  response.data.response_body.elasticsearchSnapshots;
+                              for(var i=0; i<allSnapshots.length;i++){
+                                    if(allSnapshots[i].snapshots.length > 0){
+                                          var snapshot = {};
+                                          snapshot['repositoryName'] = allSnapshots[i].repositoryName;
+                                          angular.forEach(allSnapshots[i].snapshots, function (value, key) { 
+                                                snapshot['backupName'] = value.snapShotId;
+                                                snapshot['createdDate'] = value.startTime;
+                                      });
+                                          $scope.snapshots.push(snapshot);
+                                          
+                                    }
+                              }
+                              $scope.loadBackups(0);
                         },
                         function (error) {
-                        	$scope.showContentLoader = false;
-                        	console.log(error);
+                              $scope.showContentLoader = false;
+                              console.log(error);
                         });
             };
+
             
             $scope.loadBackups = function (pageNumber) {
             	$scope.selectedPage = pageNumber;
