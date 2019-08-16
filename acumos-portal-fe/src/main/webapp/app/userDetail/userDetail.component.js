@@ -132,6 +132,35 @@ angular
 							$scope.isLfUser = false;
 						}
 
+						$scope.pageNumber = 0;
+						$scope.totalPages = 0;
+						$scope.allCatalogListLength = 0;
+						$scope.requestResultSize = 10;
+
+						$scope.setPageStart = 0;
+		                $scope.selectedPage = 0;
+		                
+		                $scope.setStartCount = function(val) {
+							if (val == "preBunch") {
+								$scope.setPageStart = $scope.setPageStart - 5
+							} else if (val == "nextBunch") {
+								$scope.setPageStart = $scope.setPageStart + 5
+							} else if (val == "pre") {
+								if ($scope.selectedPage == $scope.setPageStart) {
+									$scope.setPageStart = $scope.setPageStart - 1;
+									$scope.selectedPage = $scope.selectedPage - 1;
+								} else {
+									$scope.selectedPage = $scope.selectedPage - 1;
+								}
+							} else if (val == "next")
+								if ($scope.selectedPage == $scope.setPageStart + 4) {
+									$scope.setPageStart = $scope.setPageStart + 1;
+									$scope.selectedPage = $scope.selectedPage + 1;
+								} else {
+									$scope.selectedPage = $scope.selectedPage + 1;
+								}
+						};
+
 						// Get User data
 						
 						$scope.moveTo = function(id)
@@ -908,17 +937,20 @@ angular
                           /*** catalog Management start**/
                       	var user= JSON.parse(browserStorageService.getUserDetail());
                       	if(user) $scope.loginUserID = user[1];
-                      	
-                          $scope.loadCatalog = function() {
-  							$scope.allCatalogList = [];  							
-  							$scope.pageNumber = 0;
-  							$scope.requestResultSize =1000;
+
+                      	$scope.loadCatalog = function(pageNumber) {
+  							$scope.allCatalogList = [];
+  							$scope.SetDataLoaded = true;
+  							$rootScope.setLoader = true;
+  							$scope.pageNumber = pageNumber;
+  							$scope.selectedPage = pageNumber;
+  							
   							var reqObject = {
   								"request_body" : {
   									"fieldToDirectionMap" : {
   										"created" : "DESC"
   									},
-  									"page" : $scope.pageNumber,
+  									"page" : pageNumber,
   									"size" : $scope.requestResultSize
   								},
   								"request_from" : "string",
@@ -929,13 +961,28 @@ angular
   									.getCatalogsbyUser(reqObject, $scope.loginUserID)
   									.then(
   											function successCallback(response) {
-  												$scope.allCatalogList = response.data.response_body.content;  												
+  												var resp = response.data.response_body;
+  												$scope.allCatalogList = resp.content;											
+  												$scope.totalPages = resp.totalPages;
+  												$scope.totalElements = resp.totalElements;
+  												$scope.allCatalogListLength = resp.totalElements;
+  												$scope.SetDataLoaded = false;
+  												$rootScope.setLoader = false;
   											},
-  											function errorCallback(response) {  												
+  											function errorCallback(response) {
+  												$scope.SetDataLoaded = false;
+  												$rootScope.setLoader = false;												
   											});
   						}
 						if($scope.loginUserID)
-							$scope.loadCatalog(0); 
+							$scope.loadCatalog(0);
+						
+                      	$scope.filterChange = function(size) {
+        	            	$scope.allCatalogList = [];
+        	            	$scope.allCatalogListLength = 0;
+        	            	$scope.requestResultSize = size;
+        	            	$scope.loadCatalog(0);
+        	            }	
 						
 						$scope.favList = [];
 						
