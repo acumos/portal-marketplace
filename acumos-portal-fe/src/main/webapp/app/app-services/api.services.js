@@ -153,7 +153,6 @@ angular.module('AcumosApp')
         var urlDeleteIndices = "api/elk/delete/indices";				    //Delete elasticstack Indices.
         
 	
->>>>>>> clio_cleanup_acumos2345
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
