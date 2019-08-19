@@ -1509,7 +1509,6 @@ input[type="text"].medium-textbox {width: 300px;}
 .btn-valign-horizontal2 {position: relative; top:1px;}
 .popup-input-container md-select {height:31px;}
 
-.flex {display:flex;}
 .items-align-horizontal {flex-direction: row; flex-wrap: nowrap; justify-content: flex-start;}
 .items-align-horizontal *:not(:last-child) {margin-right: 10px;}
 .vertical-bottom-alignment {align-self: flex-end;}
