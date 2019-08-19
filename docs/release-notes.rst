@@ -21,6 +21,19 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.8  19th August 2019 
+=================================
+* ACUMOS-2995	<IST> <Portal Marketplace > Microservice start message is displayed in "Green" and Microservice successful message displayed immediately
+* ACUMOS-3268	Create Backup - BE
+* ACUMOS-3269	Create Repository - BE
+* ACUMOS-3266	Create Repository - UI
+* ACUMOS-3267	Create Backup - UI
+* ACUMOS-3276	IST: AcuCompose Name is not consistent in the application
+* ACUMOS-1189	DS horizontal and vertical bars show drag handles but cannot be moved
+* ACUMOS-3341	Admin: Carousel: Select Color functionality is not working
+
+
+
 Version 3.0.7  12th August 2019 
 =================================
 * ACUMOS-3263    IST: Catalog name going out of the box if name length exceeded to certain limit
