@@ -3,6 +3,7 @@
 Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Modifications Copyright (C) 2019 Nordix Foundation.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -151,6 +152,98 @@ angular.module('modelResource')
 				$scope.modelUploadError = false;				
 			}
 			
+			// TODO license-profile-editor this is tmp code - for local dev/testing
+			// until license profile templates are available from CDS
+			$scope.licProfileTplMap = {
+				licA: '{ "keyword": "Apache-2.0", "licenseName": "Apache 2.0", '
+					+ '"intro": "This Acumos software file is distributed by Nordix Foundation '
+					+ 'under the Apache License, Version 2.0; you may not use '
+					+ 'this file except in compliance with the License. You may obtain a copy of '
+					+ 'the License at", "copyright": { "year": 2019, "company": "Company A", '
+					+ '"suffix": "A Intellectual Property. All rights reserved." }, '
+					+ '"softwareType": "Acumos Ai/ML Model", "companyName": "Acumos", '
+					+ '"contact": { "name": "Acumos HelpDesk", "URL": "https://marketplace.acumos.org", '
+					+ '"email": "contact@.acumos.org" }, "additionalInfo": "This Acumos software file '
+					+ 'is distributed by Nordix Foundation under the Apache License, Version 2.0 '
+					+ 'you may not use this file except in compliance with the License.'
+					+ 'You may obtain a copy of the License at" }',
+				licB: '{ "keyword": "Apache-2.0", "licenseName": "Apache 2.0", "copyright": '
+					+ '{ "year": 2017, "company": "Company B", "suffix": "A Intellectual Property. '
+					+ 'All rights reserved." } }'
+			};
+			// TODO license-profile-editor handlers
+			$scope.createNewLicenseProfileTemplate = function(eve) {
+				$scope.modifyLicenseProfileTemplate(eve, true);
+			};
+			$scope.modifyLicenseProfileTemplate = function(eve, createNew) {
+
+				var selectedLic = $scope.licProfileTplMap[$scope.licenseOpt];
+				var selLicProfileTpl;
+
+				if (!createNew && selectedLic) {
+					try {
+						var val = JSON.parse(selectedLic);
+						var msgObj = {
+							"key": "input",
+							"value": val
+						};
+						selLicProfileTpl = msgObj;
+					} catch (e) {
+						console.error("failed parsing license profile template input", e);
+					}
+				}
+
+				var onCompleteLicProfileTplDialog = function(scope, element, options) {
+
+					function bindEvent(element, eventName, eventHandler) {
+						if (element.addEventListener) {
+								element.addEventListener(eventName, eventHandler, false);
+						} else if (element.attachEvent) {
+								element.attachEvent('on' + eventName, eventHandler);
+						}
+					}
+					var iframe = document.getElementById('iframe-license-profile-editor');
+					if (!window.isMsgListenerRegistered) {
+						bindEvent(window, 'message', function(event) {
+							// message listener
+							if (event.data.key === 'output') {
+									console.log(JSON.stringify(event.data.value));
+									// close License Editor dialog
+									$mdDialog.hide();
+							} else if (event.data.key === 'action') {
+									if (event.data.value === 'cancel') {
+											console.log('Cancel clicked');
+											$mdDialog.hide();
+									}
+							}
+						});
+						window.isMsgListenerRegistered = true;
+					}
+
+					// if licenseProfileEditorInitMsg then send me
+					if (selLicProfileTpl && iframe) {
+						// send message to License Profile Editor iframe
+						iframe.contentWindow.postMessage(selLicProfileTpl, '*');
+					}
+
+			 	};
+
+				// open the license profile modal
+				$mdDialog.show({
+					controller: function DialogController($scope, $mdDialog) {
+						$scope.closeDialog = function() {
+							$mdDialog.hide();
+						};
+					},
+					templateUrl:'./app/modular-resource/license-profile-editor-dialog.template.html',
+					parent: angular.element(document.body),
+					targetEvent: eve,
+					clickOutsideToClose:true,
+          onComplete: onCompleteLicProfileTplDialog
+				});
+
+			};
+
 			$scope.resetLicenseUpload = function(dockerURL){
 				$rootScope.progressBar = 0;
 				if(dockerURL){
