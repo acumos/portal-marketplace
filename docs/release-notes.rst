@@ -28,6 +28,7 @@ Version 3.0.8  19th August 2019
 * ACUMOS-1189	DS horizontal and vertical bars show drag handles but cannot be moved
 * ACUMOS-3341	Admin: Carousel: Select Color functionality is not working
 * ACUMOS-2945	Pagination is required in the SELECT FAVORITE CATALOGS screen
+* ACUMOS-3222	As a platform admin, I need the ability to associate company information with the RTU
 
 
 Version 3.0.7  12th August 2019 
