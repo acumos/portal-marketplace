@@ -3597,6 +3597,7 @@ angular.module('admin').filter('abs', function () {
 			                        function (error) {
 			                        	console.log(error);
 			                        	$scope.showContentLoader = false;
+			                        	$scope.isRepoAvailable = false;
 			                        });
 			            }; 
 			            $scope.fetchAllRepositories();

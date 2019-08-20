@@ -43,14 +43,14 @@ limitations under the License.
 				<!-- Content Body ends -->
 				<div>
 				<!-- No Repo available -->
-				<div ng-show="!isRepoAvailable"> <!--  ng-hide="createFirstRepo" -->
+				<div ng-show="!isRepoAvailable && !createFirstRepo">
 					<div class="md-dialog-content">
 						<p>There is no repository available in the elasticsearch, please create repository first.</p>
 					</div>
 				</div>
 
 				<!-- Create First Repo -->
-				<div ng-show="createFirstRepo"> <!-- createFirstRepo &&  -->
+				<div ng-show="createFirstRepo">
 					<div class="md-dialog-content">
 						<h6 class="sectiontitle">Create Repository</h6>
 						<div class="popup-input-container">
@@ -156,7 +156,7 @@ limitations under the License.
 			
 			
 			<md-dialog-actions>
-				<div class="dialog-footer-container1" ng-show="!isRepoAvailable">
+				<div class="dialog-footer-container1" ng-show="!isRepoAvailable && !createFirstRepo">
 					<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">Cancel</md-button>
 					<md-button ng-click="createFirstRepo = true;" class="mdl-button mdl-js-button btn-primary">Create Repository</md-button>
 				</div>
