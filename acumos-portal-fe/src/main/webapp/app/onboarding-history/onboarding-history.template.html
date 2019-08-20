@@ -121,7 +121,7 @@ limitations under the License.
 
 				</div>
 
-				<span class="page-stats"> Model's</span>
+				<span class="page-stats"> Models</span>
 
 			</div>
 			<div class="pagination-right-section">
@@ -204,10 +204,10 @@ limitations under the License.
 			<label>Solution Id: </label>{{solId}}
 		</div>
 		<div>
-			<label>Status: </label><span class="red"
-					ng-class="{'history-error': Task.statusCode == 'FA', 
-						'history-progress': Task.statusCode == 'ST', 
-						'history-success': Task.statusCode == 'SU' }" >{{statusCd == "ST" ? "InProgress" :statusCd == "SU" ? "Success" : "Fail"}}</span>
+			<label>Status: </label><span 
+					ng-class="{'history-error': Task.statusCd == 'FA', 
+						'history-progress': Task.statusCd == 'ST', 
+						'history-success': Task.statusCd == 'SU' }" >{{statusCd == "ST" ? "InProgress" :statusCd == "SU" ? "Success" : "Fail"}}</span>
 		</div>
 	</div>
 	<div class="md-dialog-content" ng-if="stepResults">

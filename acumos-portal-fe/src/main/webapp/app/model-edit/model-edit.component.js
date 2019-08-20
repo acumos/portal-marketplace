@@ -1125,10 +1125,12 @@ angular
 															$scope.modelDocumentation = true;
 															$scope.activePublishBtn = false;
 															if($scope.selectedCatalogObj.selfPublish){
+																$scope.msg = "Solution Published Successfully";
 																$scope.getCatalogs();
 																$scope.loadData();
 																
 															} else {
+																$scope.msg ="Solution publish request sent for approval";
 																$scope.getPublishRequestDetail();
 															}	
 														}else{
