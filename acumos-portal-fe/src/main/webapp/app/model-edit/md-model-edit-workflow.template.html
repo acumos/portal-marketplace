@@ -32,7 +32,9 @@ limitations under the License.
 			<div
 				class="mdl-cell mdl-cell--9-col mdl-cell--4-col-phone mdl-cell--8-col-tablet">
 				<div class="md-container1 block-container">
+					<span class="custom-tooltip disblock">
 					<span class="md-headline5 mob-disblock">Manage {{solution.name}}</span>
+					<span class="custom-tooltip-text">{{solution.name}}</span></span>
 					<span class="hide-xs hide-sm md-vertical-seperator"> | </span>
 					<div class="version-container">
 						<button id="demo-menu-lower-right"
@@ -103,7 +105,7 @@ limitations under the License.
 					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
 					<li><a ui-sref="manageModule"
 						ng-click="$root.parentActive = ''">Manage My Model</a></li>
-					<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
+					<li class="custom-tooltip"><span class="md-breadcrumb-item">{{solution.name}}</span><span class="custom-tooltip-text">{{solution.name}}</span> </li>
 					<li><span class="solution_id_bg">Solution ID:{{solution.solutionId}}</span></li>
 				</ul>
 			</div>

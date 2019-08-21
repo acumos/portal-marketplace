@@ -358,7 +358,7 @@ md-input-container.md-default-theme:not(.md-input-focused):not(.md-input-invalid
 .md-headline {max-width: 730px;}
 .md-headline2 {max-width: 280px;}
 .md-headline3 {text-overflow: initial; overflow: initial; max-width: 730px !important;}
-.md-headline4 {font-size: 20px;height:30px; max-width: 470px; font-weight: 600;line-height: 24px;letter-spacing: .02em;margin: 3px 0;padding: 0; color: #671C9D; text-overflow: ellipsis;  float: left; overflow: hidden;white-space: nowrap;}
+.md-headline4 {font-size: 20px;height:30px; max-width: 380px; font-weight: 600;line-height: 24px;letter-spacing: .02em;margin: 3px 0;padding: 0; color: #671C9D; text-overflow: ellipsis;  float: left; overflow: hidden;white-space: nowrap;}
 .md-headline5 {font-size: 20px;height:30px; max-width: 410px; font-weight: 600;line-height: 24px;letter-spacing: .02em;margin: 3px 0;padding: 0; color: #671C9D; text-overflow: ellipsis;  float: left; overflow: hidden;white-space: nowrap;}
 
 .txt-orange {color: #ff630a;}
@@ -674,7 +674,7 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);clip: auto !important;	}
 .md-version-ddl1 li:hover {background: rgb(238,238,238);cursor:pointer;}
 .md-version-ddl1 li.selected:hover {background-color: rgb(238,238,238);cursor:pointer;}
 .md-version-ddl1 li.selected {background: url("../images/ds-icons/validate_icon.png") no-repeat 95% center; background-color: #fff;}
-
+.md-head-container2 > button.max-100 {max-width: 100px;}
 
 .md-head-container1 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap; }
 .md-head-container2 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap; }
@@ -2027,6 +2027,11 @@ padding: 20px;background:#e5e5e5;}
 .sc-cell-childbottom {background: #f7f7f7;padding: 10px;}
 .sc-cell-childbottom > div > span {margin-right: 35px;font-weight: 600;font-size: 12px;}
 .sc-cell-childbottom > div > span:last-child {margin-right: 0;}
+
+.custom-tooltip {position:relative;}
+.custom-tooltip .custom-tooltip-text {display: none; position:absolute;z-index:555; top: 30px; min-width: 50px;max-width: 500px; white-space:normal; word-break: break-all; line-height: 14px; font-size: 11px;left:20px;color: #2e2e2e;font-weight:400; background:#fff;padding: 3px 5px; border: 1px solid #767676;}
+.custom-tooltip:hover .custom-tooltip-text {display: inline-block;background:#fff;}
+
 
 .sc-counter-container {display: flex; width: 35px; margin-left: 5px; height: 35px;margin-bottom: 0; background: #F2F2F2;align-items: center; justify-content:center;}
 .sc-slide-counter {display: inline-block; width: 18px; height: 18px; line-height:14px; background: #fff; border-radius: 50%; border: 2px solid #671C9D;text-align:center;color: #671C9D;font-weight:600; font-size: 13px;}
