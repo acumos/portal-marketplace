@@ -3500,6 +3500,7 @@ angular.module('admin').filter('abs', function () {
                               var allSnapshots =  response.data.response_body.elasticsearchSnapshots;
                               for(var i=0; i<allSnapshots.length;i++){
                                     if(allSnapshots[i].snapshots.length > 0){
+                                    	 for(var j=0; j<allSnapshots[i].snapshots.length; j++){
                                           var snapshot = {};
                                           snapshot['repositoryName'] = allSnapshots[i].repositoryName;
                                           angular.forEach(allSnapshots[i].snapshots, function (value, key) { 
@@ -3507,6 +3508,8 @@ angular.module('admin').filter('abs', function () {
                                                 snapshot['createdDate'] = value.startTime;
                                       });
                                           $scope.snapshots.push(snapshot);
+                                    }
+                                        
                                           
                                     }
                               }
@@ -3646,6 +3649,7 @@ angular.module('admin').filter('abs', function () {
                             $scope.selectRepository = true;
                             var reqBody = {
                                 "request_body": {
+                                	"nodeTimeout": 1,
                                     "repositoryName": repositoryName
                                 }
                             }
@@ -3664,6 +3668,7 @@ angular.module('admin').filter('abs', function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
                                         $scope.fetchAllRepositories();
+                                        $scope.closePoup();
             
                                     },
                                     function (error) {
@@ -3691,7 +3696,8 @@ angular.module('admin').filter('abs', function () {
                             			        "indices": $scope.reqBodyIndice,
                             			        "repositoryName": $scope.selectedRepoName
                             			      }
-                            			    ]
+                            			    ],
+                            			    "nodeTimeout": 1
                             			  }
                             			};
                             return apiService
@@ -3701,7 +3707,7 @@ angular.module('admin').filter('abs', function () {
                                         $scope.responseMessage = response;
                                         $location.hash('backupLogs'); 
                                         $anchorScroll();
-                                        $scope.msg = "Repository created successfully.";
+                                        $scope.msg = "Backup created successfully.";
                                         $scope.icon = '';
                                         $scope.styleclass = 'c-success';
                                         $scope.showBackupLogsMessage = true;
@@ -3709,6 +3715,8 @@ angular.module('admin').filter('abs', function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
                                         $scope.fetchAllRepositories();
+                                        $scope.getAllSnapshot();
+                                        
             
                                     },
                                     function (error) {
