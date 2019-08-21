@@ -1065,8 +1065,8 @@ limitations under the License.
 														<th><label class="mdl-checkbox__input" 
 																for="checkbox-selectBackup" id="checkbox-label">
 																<input type="checkbox" id="checkbox-selectBackup" class="mdl-checkbox__input" 
-																	ng-model="selectAll" ng-click="setSelectAll(selectAll)"  />
-																<span class="mdl-checkbox__label"></span>
+																	ng-model="checkedSnapshot" ng-click="checkAllSnapshot(checkedSnapshot)"  
+																	ng-checked="selectAllSnapshotStatus"/>
 															</label></th>
 														<th>Backup Name</th>
 														<th>Repository</th>
@@ -1082,7 +1082,8 @@ limitations under the License.
 															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
 																id="checkBox_{{$index}}">
 																<input type="checkbox" class="mdl-checkbox__input" 
-																	ng-model="allSnapshots.backupName" ng-click="removeSelectAll()">
+																	ng-model="snapshot.checked" ng-checked="snapshot.checked"
+																	ng-click="removeSelectAllSnapshot()">
 																<span class="mdl-checkbox__label"></span>
 															</label>
 														</td>

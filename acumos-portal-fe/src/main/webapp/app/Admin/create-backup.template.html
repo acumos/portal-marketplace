@@ -57,19 +57,20 @@ limitations under the License.
 						<div>
 							<md-input-container class="md-block">
 								<label>Repository Name</label>
-								<input type="text" class="medium-textbox" ng-model="repositoryName" />
+								<input type="text" class="medium-textbox" ng-model="repositoryName" required/>
 							</md-input-container>
 						</div>
 						<div>
 							<label class="disblock">&nbsp;</label>
 							<button class="mdl-button mdl-js-button btn-primary btn-valign-horizontal"
+								ng-disabled="!repositoryName"
 								ng-click="createRepository(repositoryName); createFirstRepo = !createFirstRepo;">Create
 								Repository</button>
 						</div>
 						<div>
 							<label class="disblock">&nbsp;</label>
-							<button ng-click="createFirstRepo = !createFirstRepo; closePoup()" 
-								class="mdl-button mdl-js-button btn-secondary btn-valign-horizontal">Cancel</button>
+							<button ng-click="createFirstRepo = !createFirstRepo;" 
+								class="mdl-button mdl-js-button btn-secondary btn-valign-horizontal">Back</button>
 						</div>
 						</div>
 					</div>
@@ -163,7 +164,7 @@ limitations under the License.
 
 				<div class="dialog-footer-container1" ng-show="createFirstRepo || isRepoAvailable">
 					<md-button class="mdl-button mdl-js-button btn-secondary" ng-click="closePoup()">Cancel</md-button>
-					<md-button class="mdl-button mdl-js-button btn-primary" ng-disabled="!(selectRepo && backupName)"
+					<md-button class="mdl-button mdl-js-button btn-primary" ng-disabled="!(selectRepo && backupName && removeSelectAll() > 0)"
 					ng-click="createBackup();">Create Backup</md-button>
 				</div>
 			</md-dialog-actions>

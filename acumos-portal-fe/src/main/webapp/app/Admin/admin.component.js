@@ -3497,17 +3497,18 @@ angular.module('admin').filter('abs', function () {
                     .then(
                         function (response) {
                               $scope.showContentLoader = false;
-                              var allSnapshots =  response.data.response_body.elasticsearchSnapshots;
-                              for(var i=0; i<allSnapshots.length;i++){
-                                    if(allSnapshots[i].snapshots.length > 0){
-                                          var snapshot = {};
-                                          snapshot['repositoryName'] = allSnapshots[i].repositoryName;
-                                          angular.forEach(allSnapshots[i].snapshots, function (value, key) { 
-                                                snapshot['backupName'] = value.snapShotId;
-                                                snapshot['createdDate'] = value.startTime;
-                                      });
-                                          $scope.snapshots.push(snapshot);
-                                          
+                              var allRepo =  response.data.response_body.elasticsearchSnapshots;
+                              for(var i=0; i<allRepo.length;i++){
+                                    if(allRepo[i].snapshots.length > 0){
+                                    	for(var j=0; j<allRepo[i].snapshots.length; j++){
+                                    		var snapshot = {};
+                                            snapshot['repositoryName'] = allRepo[i].repositoryName;
+                                            angular.forEach(allRepo[i].snapshots, function (value, key) { 
+                                                  snapshot['backupName'] = value.snapShotId;
+                                                  snapshot['createdDate'] = value.startTime;
+                                            });
+                                            $scope.snapshots.push(snapshot);
+                                    	}
                                     }
                               }
                               $scope.loadBackups(0);
@@ -3517,7 +3518,6 @@ angular.module('admin').filter('abs', function () {
                               console.log(error);
                         });
             };
-
             
             $scope.loadBackups = function (pageNumber) {
             	$scope.selectedPage = pageNumber;
@@ -3525,7 +3525,17 @@ angular.module('admin').filter('abs', function () {
             	$scope.allSnapshots = ($scope.snapshots).slice($scope.requestResultSize*pageNumber, 
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
             }
-
+            
+            $scope.checkAllSnapshot = function(selected){
+            	$scope.selectAllSnapshotStatus = true;
+        		for (var i = 0; i < $scope.allSnapshots.length; i++) {
+           	        $scope.allSnapshots[i].checked = selected;
+        		}
+            };
+            
+            $scope.removeSelectAllSnapshot = function(){
+      		   $scope.selectAllSnapshotStatus = false;
+            };
             
             //pagination
             $scope.pageNumber = 0;
@@ -3636,16 +3646,21 @@ angular.module('admin').filter('abs', function () {
                         };
                         
                         $scope.removeSelectAll = function(){
-                     	   if($scope.selectAll == true){
-                     		   $scope.selectAll = false;
-                     		   $scope.selectAllStatus = false;
-                     	   }
+                 		   $scope.selectAllStatus = false;
+                 		   var selectedCount = 0;
+                 		   angular.forEach($scope.allIndices, function (value, key) {
+                 			   if (value.checked == true) {
+                 				  selectedCount++
+                 			   } 
+                 		   });
+                 		   return selectedCount;
                         };
 			            
                         $scope.createRepository = function(repositoryName){
                             $scope.selectRepository = true;
                             var reqBody = {
                                 "request_body": {
+                                	"nodeTimeout": 1,
                                     "repositoryName": repositoryName
                                 }
                             }
@@ -3664,10 +3679,21 @@ angular.module('admin').filter('abs', function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
                                         $scope.fetchAllRepositories();
+                                        $scope.closePoup();
             
                                     },
                                     function (error) {
-                                        $scope.status = error.data.error;
+                                        var error = error.data;
+                                        $location.hash('backupLogs'); 
+                                        $anchorScroll();
+                                        $scope.msg = "Error creating repository.";
+                                        $scope.icon = 'report_problem';
+                                        $scope.styleclass = 'c-error';
+                                        $scope.showBackupLogsMessage = true;
+                                        $timeout(function () {
+                                            $scope.showBackupLogsMessage = false;
+                                        }, 3000);
+                                        $scope.fetchAllRepositories();
                                     });
             
                         };
@@ -3691,7 +3717,8 @@ angular.module('admin').filter('abs', function () {
                             			        "indices": $scope.reqBodyIndice,
                             			        "repositoryName": $scope.selectedRepoName
                             			      }
-                            			    ]
+                            			    ],
+                            			    "nodeTimeout": 1
                             			  }
                             			};
                             return apiService
@@ -3701,7 +3728,7 @@ angular.module('admin').filter('abs', function () {
                                         $scope.responseMessage = response;
                                         $location.hash('backupLogs'); 
                                         $anchorScroll();
-                                        $scope.msg = "Repository created successfully.";
+                                        $scope.msg = "Backup created successfully.";
                                         $scope.icon = '';
                                         $scope.styleclass = 'c-success';
                                         $scope.showBackupLogsMessage = true;
@@ -3709,10 +3736,21 @@ angular.module('admin').filter('abs', function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
                                         $scope.fetchAllRepositories();
-            
+                                        $scope.getAllSnapshot();
                                     },
                                     function (error) {
-                                        $scope.status = error.data.error;
+                                        var error = error.data;
+                                        $location.hash('backupLogs'); 
+                                        $anchorScroll();
+                                        $scope.msg = "Error creating backup.";
+                                        $scope.icon = 'report_problem';
+                                        $scope.styleclass = 'c-error';
+                                        $scope.showBackupLogsMessage = true;
+                                        $timeout(function () {
+                                            $scope.showBackupLogsMessage = false;
+                                        }, 3000);
+                                        $scope.fetchAllRepositories();
+                                        $scope.getAllSnapshot();
                                     });
                         };
                         
