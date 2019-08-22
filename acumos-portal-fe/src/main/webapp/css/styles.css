@@ -1006,7 +1006,7 @@ md-tabs md-ink-bar {background: #671C9D;}
 .product-image {position:relative;}
 .product-image figure {position:relative; padding:0; margin:0;text-align:center; height: 150px;display: flex;align-items:center; }
 .product-image img {max-height: 100%; height:auto;max-width: 100%;margin:auto;}
-.product-image img:hover {cursor: pointer;}
+/*.product-image img:hover {cursor: pointer;}*/
 .img-ctag {position: absolute; top: 15px; left: 15px;}
 
 .launcher {display:inline-block;width:20px;height:41px; background: url('../images/launcher.png') no-repeat center center;}
