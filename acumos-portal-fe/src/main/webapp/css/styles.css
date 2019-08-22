@@ -54,7 +54,9 @@ b{font-family: 'Open Sans', sans-serif !important;}
 
 .full-grid {width: 100%;}
 .margin-b2 {margin-bottom: 25px; clear:both; display:block; width:100%;}
-
+.margin-backlog {margin: 0 0 25px 0 !important; width:100% !important;}
+.margin-backlog .c-alert-inner{padding-left: 15px;}
+.static-position {position:static !important;}
 .gray-bg {background: rgb(242,242,242)}
 .pageheadsection {padding: 15px 15px;}
 .reqfield {color: #ff0000;}
