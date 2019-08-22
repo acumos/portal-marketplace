@@ -749,8 +749,8 @@ limitations under the License.
 											<md-tooltip ng-if="errorLC">{{errorLC}}</md-tooltip>
 											<div class="text">License Check</div>
 										</li>
-										<li class="progress-status" ng-show = "lcShow"></li>
-										<li ng-show = "tcShow">
+										<!--<li class="progress-status" ng-show = "lcShow"></li> -->
+										<li ng-if = "tcShow">
 											<div class="imageplace">
 												<span class="imagecontent text-check" alt="Text Check" title="Text Check">
 												</span>
@@ -758,7 +758,7 @@ limitations under the License.
 											<md-tooltip ng-if="errorTC">{{errorTC}}</md-tooltip>
 											<div class="text">Text Check</div>
 										</li >
-										<li  ng-hide = "tcShow"></li>	
+										<li  ng-if = "tcShow"></li>	
 										
 									</ul>
 									</div>
