@@ -1,8 +1,9 @@
-<!--  
+<!--
 ===============LICENSE_START=======================================================
 Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Modifications Copyright (C) 2019 Nordix Foundation.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -396,6 +397,30 @@ limitations under the License.
 																			<md-checkbox aria-label="Upload License" ng-disabled="disableUploadCheckbox == true || fileSubmit == false" ng-model="isLicenseUploaded" ></md-checkbox>					
 																			<span>Upload License</span>
 																		</div>
+
+																		<!-- TODO license-profile-editor - This shall be organized as per the wireframe -->
+																		
+																		<div class="license_option">
+																				<label class="disblock">License Profile</label>
+																				<md-radio-group ng-model="licenseOption">
+																					<md-radio-button class="md-primary" value="upload">Upload</md-radio-button>
+																					<md-radio-button value="select_license">Select License Profile</md-radio-button> 
+																				</md-radio-group>
+																				OR
+																				<md-button class="md-raised"
+																					ng-click="modifyLicenseProfileTemplate($event)">Modify</md-button>
+																				<md-button class="md-raised"
+																					ng-click="createNewLicenseProfileTemplate($event)">Create New</md-button>
+																		</div>
+																		
+																		<!-- <div ng-show="isLicenseUploaded">
+																				<md-select ng-model="licenseOpt">
+																						<md-option value="licA">License A</md-option>
+																						<md-option value="licB">License B</md-option>
+																					</md-select>
+																				
+																				
+																		</div> -->
 
 																		<div ng-show="isLicenseUploaded">
 																			<div

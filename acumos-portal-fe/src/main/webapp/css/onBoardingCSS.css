@@ -221,7 +221,10 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 .initialVal.hasClass .company-market ul li.progress-status {text-align:center; /*width:6.5%;*/width:3.5%;}
 .hasClass .company-market ul li.progress-status{text-align:center; width: 4.3%;  line-height: 80px;}
 .hasClass .company-market ul li{/*width:80px;*/width:12%;} 
-
+.license_option md-radio-button {
+    display: inline;
+    padding-right: 15px;
+}
 a:focus, a:hover {text-decoration: none;}
 
 .company-market ul li.text{padding-top:20px;}

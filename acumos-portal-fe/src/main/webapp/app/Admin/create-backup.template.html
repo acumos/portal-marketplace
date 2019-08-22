@@ -101,8 +101,14 @@ limitations under the License.
 									</md-input-container>
 								</div>
 							</div>
-							<label class="disblock reqfield">Note: If you delete any indices from this page it will be
-								deleted permanently from the elasticsearch</label>
+							
+							<div class="c-alert c-warning static-position margin-backlog">
+								<div class="c-alert-inner"><span class="material-icons">report_problem</span>
+								<span class="alert-text">If you delete any indices from this page it will be
+								deleted permanently from the database.</span></div>
+							</div>
+							
+							
 							<div>
 								<table class="mdl-data-table mdl-js-data-table fullwidth">
 									<colgroup>
@@ -112,7 +118,7 @@ limitations under the License.
 									</colgroup>
 									<thead>
 										<tr>
-											<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+											<th><label class="mdl-checkbox"
 													for="checkbox-1" id="checkbox-label">
 													<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input"
 														ng-model="selectAllIndice" ng-click="selectAllIndices(selectAllIndice)"
@@ -126,7 +132,7 @@ limitations under the License.
 									<tbody>
 										<tr ng-repeat="indices in allIndices">
 											<td>
-												<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+												<label class="mdl-checkbox"
 													for="indices_{{$index}}" id="indices_{{$index}}">
 													<input type="checkbox" class="mdl-checkbox__input"
 														value="{{indices}}"
@@ -135,8 +141,10 @@ limitations under the License.
 													<span class="mdl-checkbox__label"></span>
 												</label>
 											</td>
-											<td><span>{{indices.name}}</span><span
-													class="grid-small-text">(Backup taken)</span></td>
+											<td><span>{{indices.name}}</span>
+											<!-- <span
+													class="grid-small-text">(Backup taken)</span> -->
+											</td>
 											<td class="text-center">
 												<a ng-click="deleteIndices(indices.name)">
 													<span class="gridicon-delete"></span>

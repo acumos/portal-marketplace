@@ -1068,16 +1068,28 @@ limitations under the License.
 																	ng-model="checkedSnapshot" ng-click="checkAllSnapshot(checkedSnapshot)"  
 																	ng-checked="selectAllSnapshotStatus"/>
 															</label></th>
-														<th>Backup Name</th>
+														<th ng-click="orderSnapshots='backupName';reverseSortbackup = !reverseSortbackup">
+															Backup Name
+															<span ng-if='orderSnapshots!="backupName"'
+																class="gridcell-sort deactivate"></span><span
+																ng-if='orderSnapshots=="backupName"'
+																ng-class="reverseSortbackup?'ascending':'descending'"
+																class="gridcell-sort"></span></th>
 														<th>Repository</th>
-														<th>Created Date</th>
+														<th ng-click="orderSnapshots='createdDate';reverseSortbackup = !reverseSortbackup">Created Date
+															<span ng-if='orderSnapshots!="createdDate"'
+																class="gridcell-sort deactivate"></span><span
+																ng-if='orderSnapshots=="createdDate"'
+																ng-class="reverseSortbackup?'ascending':'descending'"
+																class="gridcell-sort"></span>
+														</th>
 														<th>Actions</th>
 													</tr>
 												</thead>
 												<tbody>
 													<!-- Content Loader directive -->
 													<div content-loader ng-show="showContentLoader"></div>
-													<tr ng-repeat="snapshot in allSnapshots | filter:searchSnapshot">
+													<tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup |filter:searchSnapshot">
 														<td>
 															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
 																id="checkBox_{{$index}}">
@@ -1098,9 +1110,9 @@ limitations under the License.
 															</md-button>
 														</td>
 													</tr>
-													<div class="alert c-info text-center" ng-if="allSnapshots.length == 0">
-			                                       		<strong>No Result Found</strong>
-				                                    </div>
+													<tr ng-if="allSnapshots.length == 0">
+			                                       		<td class='text-center' colspan="5">No data available</td>
+				                                    </tr>
 												</tbody>
 											</table>
 										</div>
