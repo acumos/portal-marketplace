@@ -986,7 +986,7 @@ limitations under the License.
 															<label> Use the Description you have in Other Revisions.</label>
 															<!--  <a>View more</a> -->
 															<select ng-disabled="selectedCatalogId==undefined" ng-model="fromRevisionId"
-																ng-options="v.version for v in versionList">
+																ng-options="v.version for v in versionList" ng-change="changedDescVersion('OR')">
 																<option value="">-- Version --</option>
 															</select>
 															<md-button ng-click="copyFromOtherRevision(); "

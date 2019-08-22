@@ -899,7 +899,7 @@ angular
 							
 							$scope.mybody.addClass('waiting'); 
 							return apiService
-							.getSolutionDescription($scope.publicOrOrg, $scope.solutionId, $scope.fromRevisionId.revisionId)
+							.getSolutionDescription($scope.selectedCatalogId, $scope.solutionId, $scope.fromRevisionId.revisionId)
 									.then(
 											function(response) {
 												$scope.mybody.removeClass('waiting');
@@ -940,6 +940,37 @@ angular
 													function(data) {
 														$scope.solutionCompanyDesc = data.response_body.description;
 														$scope.solutionCompanyDesc1 = data.response_body.description;
+														$scope.solutionCompanyDescStatus = true;
+														$location.hash('manage-models');
+														$anchorScroll();
+														$scope.getSolCompanyDesc();
+														$scope.msg = "Solution description copied successfully.";
+														$scope.icon = '';
+														$scope.styleclass = 'c-success';
+														$scope.showAlertMessage = true;
+														$timeout(function() {
+															$scope.showAlertMessage = false;
+															if($scope.solution.active == false){
+																$state.go('manageModule');
+															}}, 3500);
+														
+													}).error(function (error){
+														$scope.solutionCompanyDesc = '';
+														$scope.solutionCompanyDescStatus = false;
+														$scope.solutionCompanyDescLength = false;
+														
+														$location.hash('manage-models');
+														$anchorScroll();
+														$scope.getSolCompanyDesc();
+														$scope.msg = "Error occurred while copying descrtiption from other revision.";
+														$scope.icon = 'report_problem';
+														$scope.styleclass = 'c-error';
+														$scope.showAlertMessage = true;
+														$timeout(function() {
+															$scope.showAlertMessage = false;
+															if($scope.solution.active == false){
+																$state.go('manageModule');
+															}}, 3500);
 													});
 										} 
 									});
