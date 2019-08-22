@@ -25,7 +25,7 @@ import java.util.List;
 public class CreateSnapshot {
 
 	private String repositoryName;
-
+	private String snapshotName;
 	private List<String> indices;
 
 	public String getRepositoryName() {
@@ -42,6 +42,14 @@ public class CreateSnapshot {
 
 	public void setIndices(List<String> indices) {
 		this.indices = indices;
+	}
+
+	public String getSnapshotName() {
+		return snapshotName;
+	}
+
+	public void setSnapshotName(String snapshotName) {
+		this.snapshotName = snapshotName;
 	}
 
 }
