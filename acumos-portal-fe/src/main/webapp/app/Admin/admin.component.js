@@ -3526,6 +3526,7 @@ angular.module('admin').filter('abs', function () {
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
             }
             
+            $scope.checkedSnapshot = false;
             $scope.checkAllSnapshot = function(selected){
             	$scope.selectAllSnapshotStatus = true;
         		for (var i = 0; i < $scope.allSnapshots.length; i++) {
@@ -3585,7 +3586,7 @@ angular.module('admin').filter('abs', function () {
                 	 $scope.parent = parent;
                 	 $scope.isRepoAvailable = isRepoAvailable;
                 	 $scope.createFirstRepo = createFirstRepo;
-                	 
+                	 $scope.selectAllIndice = false;
 						$scope.closePoup = function(){
 							$mdDialog.hide();
 	                    };
@@ -3641,7 +3642,7 @@ angular.module('admin').filter('abs', function () {
 			            
 			            $scope.selectAllIndices = function(selected){
 	                		for (var i = 0; i < $scope.allIndices.length; i++) {
-	                   	        $scope.allIndices[i].checked = $scope.selectAllIndice;
+	                   	        $scope.allIndices[i].checked = !$scope.selectAllIndice;
 	                		}
                         };
                         

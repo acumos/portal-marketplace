@@ -1052,7 +1052,7 @@ limitations under the License.
 										</div>
 										<hr />
 										<div>
-											<table class="mdl-data-table mdl-js-data-table fullwidth">
+											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 												<colgroup>
 													<col style="width:5%;">
 													<col>
@@ -1062,12 +1062,8 @@ limitations under the License.
 												</colgroup>
 												<thead>
 													<tr>
-														<th><label class="mdl-checkbox__input" 
-																for="checkbox-selectBackup" id="checkbox-label">
-																<input type="checkbox" id="checkbox-selectBackup" class="mdl-checkbox__input" 
-																	ng-model="checkedSnapshot" ng-click="checkAllSnapshot(checkedSnapshot)"  
-																	ng-checked="selectAllSnapshotStatus"/>
-															</label></th>
+														<th><md-checkbox ng-model="checkedSnapshot" ng-click="checkAllSnapshot(!checkedSnapshot)"></md-checkbox>
+															</th>
 														<th ng-click="orderSnapshots='backupName';reverseSortbackup = !reverseSortbackup">
 															Backup Name
 															<span ng-if='orderSnapshots!="backupName"'
@@ -1091,22 +1087,17 @@ limitations under the License.
 													<div content-loader ng-show="showContentLoader"></div>
 													<tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup |filter:searchSnapshot">
 														<td>
-															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
-																id="checkBox_{{$index}}">
-																<input type="checkbox" class="mdl-checkbox__input" 
-																	ng-model="snapshot.checked" ng-checked="snapshot.checked"
-																	ng-click="removeSelectAllSnapshot()">
-																<span class="mdl-checkbox__label"></span>
-															</label>
+															<md-checkbox
+																ng-model="snapshot.checked" ng-checked="snapshot.checked"
+																ng-click="removeSelectAllSnapshot()">
+															</md-checkbox>
 														</td>
 														<td><span>{{snapshot.backupName}}</span></td>
 														<td><span>{{snapshot.repositoryName}}</span></td>
 														<td><span>{{snapshot.createdDate}}</span></td>
 														<td class="text-center">
-															<md-button class="md-icon-button md-primary" aria-label="Settings">
-																<i class="material-icons">
-																	close
-																</i>
+															<md-button class="md-icon-button md-primary" aria-label="archive">
+																<i class="gridicon-archive"></i>
 															</md-button>
 														</td>
 													</tr>
@@ -3875,7 +3866,8 @@ limitations under the License.
 				</div>
 				</md-dialog-actions>
 			</form>
-			</md-dialog>
-		</div>
-	</div>
-	<!-- Modal box end -->
+			 </md-dialog>
+               </div>
+       </div>
+       <!-- Modal box end -->
+			

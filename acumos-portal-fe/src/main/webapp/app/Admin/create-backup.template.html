@@ -118,13 +118,7 @@ limitations under the License.
 									</colgroup>
 									<thead>
 										<tr>
-											<th><label class="mdl-checkbox"
-													for="checkbox-1" id="checkbox-label">
-													<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input"
-														ng-model="selectAllIndice" ng-click="selectAllIndices(selectAllIndice)"
-														ng-checked="selectAllStatus" />
-													<span class="mdl-checkbox__label"></span>
-												</label></th>
+											<th><md-checkbox ng-model="selectAllIndice" ng-click="selectAllIndices(selectAllIndice)"></md-checkbox></th>
 											<th>Indices</th>
 											<th>Action</th>
 										</tr>
@@ -132,14 +126,10 @@ limitations under the License.
 									<tbody>
 										<tr ng-repeat="indices in allIndices">
 											<td>
-												<label class="mdl-checkbox"
-													for="indices_{{$index}}" id="indices_{{$index}}">
-													<input type="checkbox" class="mdl-checkbox__input"
+												<md-checkbox 
 														value="{{indices}}"
-														ng-model="indices.checked" ng-checked="indices.checked"
-														ng-click="removeSelectAll()">
-													<span class="mdl-checkbox__label"></span>
-												</label>
+														ng-model="indices.checked" 
+														ng-click="removeSelectAll()"></md-checkbox>
 											</td>
 											<td><span>{{indices.name}}</span>
 											<!-- <span

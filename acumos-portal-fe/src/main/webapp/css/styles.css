@@ -53,6 +53,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .bdr-left {border-left: 1px solid #b1b1b1;}
 
 .full-grid {width: 100%;}
+.backlog-list md-checkbox{margin-top: 10px;}
 .margin-b2 {margin-bottom: 25px; clear:both; display:block; width:100%;}
 .margin-backlog {margin: 0 0 25px 0 !important; width:100% !important;}
 .margin-backlog .c-alert-inner{padding-left: 15px;}
@@ -1555,6 +1556,7 @@ input[type="text"].medium-textbox {width: 300px;}
 .gridicon-delete.disabled{opacity:0.3;}
 .gridicon-approve {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_approveX.png") no-repeat center center;}
 .gridicon-deny {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_denyX.png") no-repeat center center;}
+.gridicon-archive {display:inline-block; width: 22px; height: 16px; background: url("../images/general-icons/archive.png") no-repeat center center;}
 
 .gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 8px;cursor:pointer; }
 .gridcell-sort.deactivate {background: url("../images/general-icons/sortby_deactivate.png") no-repeat center center; }
