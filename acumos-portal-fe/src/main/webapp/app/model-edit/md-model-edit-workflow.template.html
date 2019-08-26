@@ -602,8 +602,11 @@ limitations under the License.
 							<!--  Manage Authors end -->								
 							<!-- company start -->
 							<div class="mdl-tabs__panel company-market" id="company-market"
-								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">
-								<div>
+								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">								
+								<alert-message msg="msg" ng-if="checkPublish"  icon="icon" styleclass="styleclass"
+	ng-show=" msg!= PublishErrMesg ? (showAlertMessage) : (showErrorMessage)"></alert-message>
+	
+		 						<div>
 								<div class="mdl-grid mdl-grid--no-spacing catalogList admin-row3">
 									<div ng-show="catalogsAvailable.length > 0" class="select-control">
 										 <label class="fedlbl4">Select Catalog</label>
