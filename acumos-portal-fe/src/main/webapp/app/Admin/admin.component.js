@@ -3571,19 +3571,20 @@ angular.module('admin').filter('abs', function () {
             	$scope.loadBackups(0);
             }
             
+           
             $scope.createFirstRepo = false;
             $scope.createBackup = function(ev) {
             	var _isRepoAvailable = $scope.isRepoAvailable;
             	var _createFirstRepo = $scope.createFirstRepo; 
-                
-                $mdDialog.show({
-                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo}, 
+            	var parentScope = $scope;
+                $scope.parentDialog = $mdDialog.show({
+                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo, parentScope:parentScope}, 
                  templateUrl: '../app/Admin/create-backup.template.html',
                  parent: angular.element(document.body),
                  targetEvent: ev,
                  clickOutsideToClose:true,
-                 controller : function DialogController( $scope, parent, isRepoAvailable, createFirstRepo) {
-                	 $scope.parent = parent;
+                 controller : function DialogController( $scope, parentScope, isRepoAvailable, createFirstRepo) {
+                	 $scope.parent = parentScope;
                 	 $scope.isRepoAvailable = isRepoAvailable;
                 	 $scope.createFirstRepo = createFirstRepo;
                 	 $scope.selectAllIndice = false;
@@ -3661,7 +3662,7 @@ angular.module('admin').filter('abs', function () {
                             $scope.selectRepository = true;
                             var reqBody = {
                                 "request_body": {
-                                	"nodeTimeout": 1,
+                                	"nodeTimeout": '1m',
                                     "repositoryName": repositoryName
                                 }
                             }
@@ -3751,43 +3752,62 @@ angular.module('admin').filter('abs', function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
                                         $scope.fetchAllRepositories();
+                                        $scope.parent.getAllSnapshot();
                                     });
                         };
                         
                         //Delete Indices
-                        $scope.deleteIndices = function(indiceName){
-                        	var deleteIndiceName = indiceName;
+                        $scope.confirmDeleteIndice = function(indiceName){
+
+                            $scope.indiceName = indiceName;
+                            $mdDialog.show({
+                                contentElement: '#deleteIndex',
+                                parent:  angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true
+                            }).then(function(flag){
+                            	if(flag){
+                            		$scope.deleteIndices();                      		
+                            	} else {
+                            		$scope.parent.createBackup();
+                            	}                            	
+                            });
+                        }
+
+                        //Delete Indices
+                        $scope.deleteIndices = function(){
+
                         	var reqBody = {
                           		  "request_body": {
-                          			        "indices": [deleteIndiceName]
+                          			        "indices": [$scope.indiceName]
                           			  }
                           			};
+                        	
                           return apiService
                               .deleteIndices(reqBody)
                               .then(
                                   function (response) {
                                       $location.hash('backupLogs'); 
                                       $anchorScroll();
-                                      $scope.msg = response.data.response_body.message;
-                                      $scope.icon = '';
-                                      $scope.styleclass = 'c-success';
-                                      $scope.showBackupLogsMessage = true;
+                                      $scope.parent.msg = response.data.response_body.message;
+                                      $scope.parent.icon = '';
+                                      $scope.parent.styleclass = 'c-success';
+                                      $scope.parent.showAlertMessage = true;
                                       $timeout(function () {
-                                          $scope.showBackupLogsMessage = false;
-                                      }, 3000);
-                                      $scope.fetchAllIndices();
+                                          $scope.parent.showAlertMessage = false;
+                                      }, 3000);                              		     
                                   },
                                   function (error) {
                                       $scope.status = error.data;
                                       console.log($scope.status);
                                       $location.hash('backupLogs'); 
                                       $anchorScroll();
-                                      $scope.msg = 'Error Occurred while deleting.';
-                                      $scope.icon = 'report_problem';
-                                      $scope.styleclass = 'c-error';
-                                      $scope.showBackupLogsMessage = true;
+                                      $scope.parent.msg = 'Error Occurred while deleting.';
+                                      $scope.parent.icon = 'report_problem';
+                                      $scope.parent.styleclass = 'c-error';
+                                      $scope.parent.showAlertMessage = true;
                                       $timeout(function () {
-                                          $scope.showBackupLogsMessage = false;
+                                          $scope.parent.showAlertMessage = false;
                                       }, 3000);
                                       $scope.fetchAllIndices();
                                       
@@ -3796,12 +3816,12 @@ angular.module('admin').filter('abs', function () {
                         
                         
 					}
-                }).then(function(){
-                	$scope.getAllSnapshot();
                 })
                 
             };
-
+			$scope.closeIndice = function(flag){
+				$mdDialog.hide(flag);
+			}
             
             /************Maintained Backup Logs Methods***********/
         }
