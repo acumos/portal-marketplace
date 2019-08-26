@@ -1544,7 +1544,7 @@ input[type="text"].medium-textbox {width: 300px;}
 /**** Preview box style ends ******/
 /************** GRID STYLE STARTS************/
 .mdl-data-table {box-shadow: none; border: none;}
-.mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background: #E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;cursor: pointer;}
+.mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background: #E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;}
 .mdl-data-table tbody tr td {font-weight:600;text-align:left;}
 .mdl-data-table tbody tr:first-child td {border-top: none;}
 .admin-action-container button:hover {background: none;}
