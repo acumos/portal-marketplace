@@ -527,7 +527,24 @@ angular
 									if($scope.AuthorsTag){
 										$scope.checkPublish = false;
 									}
-									
+								else{
+                                                            $scope.checkPublish = true;
+                                                            
+                                                      }
+                                                      if($scope.checkPublish ){
+                                                                $scope.status = 'Please add author'
+                                                                  $location.hash('company-market');
+                                                                  $anchorScroll();
+                                                                  $scope.msg = "You can not publish the catalog without an author name. Please add author name in Manage Publisher/Author page.";
+                                                                  $scope.showAlertMessage = false;
+                                                                  $scope.icon = 'info_outline';
+                                                                  $scope.styleclass = 'c-error';
+                                                                  
+                                                            $scope.showErrorMessage = true;                                                             
+                                                      }
+                                                      else{
+                                                            $scope.showErrorMessage = false;
+                                                      }	
 							});
 						}
 							
@@ -570,6 +587,24 @@ angular
 							    		$scope.cancelAuthor();
 							    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
 					    			}
+                                          if($scope.AuthorsTag.length == 0 ){
+                                                            $scope.status = 'Please add author'
+                                                                        $location.hash('company-market');
+                                                                        $anchorScroll();
+                                                                        $scope.msg = "You can not publish the catalog without an author name. Please add author name in Manage Publisher/Author page.";
+                                                                        $scope.showAlertMessage = true;
+                                                                        $scope.icon = 'info_outline';
+                                                                        $scope.styleclass = 'c-error';
+                                                                        $scope.checkPublish = true;
+                                                                        
+                                                                  
+                                                                        $scope.showErrorMessage = true;
+                                                                  
+                                                                  
+                                                      }
+                                                      else{
+                                                            $scope.showErrorMessage  = false; 
+                                                      }
 					    	},
 					    	function errorCallback(response) {
 					    		$scope.msg = "Error while removing Author";
@@ -1093,7 +1128,7 @@ angular
 
 						$scope.publishtoMarket = function(selectedCatalogId) {
 							$scope.closeDialog();
-							if($scope.AuthorsTag.length > 0){
+						
 							if ($scope.solution.ownerId) {
 									var data = $.param({
 										visibility : $scope.selectedCatalogObj.accessTypeCode,
@@ -1103,7 +1138,7 @@ angular
 									});																														
 									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
-														$scope.checkPublish = false;																									
+																																							
 														$scope.handleSuccess = true;
 														$timeout(function() {$scope.handleSuccess = false;}, 4500);
 
@@ -1188,21 +1223,7 @@ angular
 							}
 							
 							}
-							else{
-								$scope.status = 'Please add author'
-								$location.hash('manage-models');
-								$anchorScroll();
-								$scope.msg = "You can't publish the catalog without an author name. Please add author name in Manage Publisher/Author page.";
-								$scope.icon = 'info_outline';
-								$scope.styleclass = 'c-error';
-							
-								$scope.checkPublish = true;
-															
-								$scope.showAlertMessage = true;
-								$timeout(function() {								
-									$scope.showAlertMessage = true;}, 3500);
-							}
-							}
+						
 						
 
 						/** * shared with team members functionalities START* */
