@@ -144,7 +144,7 @@ angular.module('catalog')
 							$mdDialog.hide();
 							$scope.loadCatalog(0);
 						}, function errorCallback(response) {
-							$scope.setAlertMessage("Error occurred while creating catalog \"" + reqObject.request_body.name + "\".", 'c-error', 'info_outline');
+							$scope.setAlertMessage("Error occurred while creating catalog \"" + reqObject.request_body.name + "\": " + response.data.response_detail, 'c-error', 'info_outline');
 							console.error(response);
 							$mdDialog.hide();
 							$scope.SetDataLoaded = false;

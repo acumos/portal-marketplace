@@ -67,6 +67,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -92,6 +93,7 @@ public class CatalogServiceControllerTest {
 	private static final String CCDS_CATALOG_PATH = CCDS_PATH + CATALOG_PATH;
 	private static final String PAGE_REQUEST_PARAMS = "page=0&size=9&sort=modified,DESC";
 	private static final String SEARCH_PATH = CCDS_CATALOG_PATH + "/search?selfPublish=false&_j=a&" + PAGE_REQUEST_PARAMS;
+	private static final String CREATE_SEARCH_PATH = CCDS_CATALOG_PATH + "/search?name=Test%20Catalog&_j=a&page=0&size=1";
 	private static final String PUBLIC_SEARCH_PATH = CCDS_CATALOG_PATH + "/search?accessTypeCode=PB&_j=a&" + PAGE_REQUEST_PARAMS;
 	private static final String CATALOG_ID_PATH = CCDS_CATALOG_PATH + VARIABLE;
 	private static final String PEER_ACCESS_PATH = CCDS_PATH + "/access/peer" + VARIABLE + CATALOG_PATH;
@@ -320,6 +322,14 @@ public class CatalogServiceControllerTest {
 						+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
 						+ "\"url\": \"http://test.company.com/api\"}")));
 
+		stubFor(get(urlEqualTo(CREATE_SEARCH_PATH)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"content\":[]," + "\"last\":true," + "\"totalPages\":1,"
+								+ "\"totalElements\":0," + "\"size\":1," + "\"number\":0,"
+								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+								+ "\"descending\":true}]," + "\"numberOfElements\":0," + "\"first\":true}")));
+		
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPCatalog>> requestEntity = new HttpEntity<>(requestJson, headers);
 
@@ -340,6 +350,43 @@ public class CatalogServiceControllerTest {
 		assertEquals(catalog.getOrigin(), out.getOrigin());
 		assertEquals(catalog.getCreated(), out.getCreated());
 		assertEquals(catalog.getModified(), out.getModified());
+	}
+	
+	@Test(expected = HttpServerErrorException.class)
+	public void createCatalogAlreadyExistsTest() {
+		MLPCatalog catalog = getTestCatalog(false);
+		JsonRequest<MLPCatalog> requestJson = new JsonRequest<>();
+		requestJson.setBody(catalog);
+
+		stubFor(get(urlEqualTo(CREATE_SEARCH_PATH)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
+						+ "\"created\": \"2018-12-16T12:34:56.789Z\","
+						+ "\"description\": \"A catalog of test models\","
+						+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
+						+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
+						+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
+						+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
+						+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+						+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+						+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+		
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPCatalog>> requestEntity = new HttpEntity<>(requestJson, headers);
+
+		ResponseEntity<JsonResponse<MLPCatalog>> respEntity = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + APINames.CREATE_CATALOG, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<MLPCatalog>>() {
+				});
+
+		assertNotNull(respEntity);
+		assertEquals(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, respEntity.getStatusCode().value());
+		assertEquals("Catalog already exists", respEntity.getBody().getResponseDetail());
 	}
 
 	@Test

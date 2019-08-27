@@ -42,6 +42,7 @@ import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -190,18 +191,32 @@ public class CatalogServiceController extends AbstractController {
 			@RequestBody JsonRequest<MLPCatalog> catalogJson, HttpServletResponse response) {
 		log.debug("createCatalog");
 		MLPCatalog catalog = null;
+		CatalogSearchRequest searchReq = null;
+		RestPageResponse<MLCatalog> catalogs = null;
 		JsonResponse<MLPCatalog> data = new JsonResponse<>();
 		try {
-			catalog = catalogService.createCatalog(catalogJson.getBody());
-			if (catalog != null) {
-				data.setResponseBody(catalog);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Catalog created successfully");
+			searchReq = new CatalogSearchRequest();
+			searchReq.setName(catalogJson.getBody().getName());
+			searchReq.setPageRequest(new RestPageRequest(0, 1));
+			catalogs = catalogService.searchCatalogs(searchReq);
+			
+			if (catalogs.isEmpty()) {
+				catalog = catalogService.createCatalog(catalogJson.getBody());
+				if (catalog != null) {
+					data.setResponseBody(catalog);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Catalog created successfully");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					data.setResponseDetail("Error occured while creating catalog");
+					log.error("Error Occurred in Creating Catalog");
+				}
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				data.setResponseDetail("Error occured while creating catalog");
-				log.error("Error Occurred in Creating Catalog");
+				data.setResponseDetail("Catalog already exists");
+				log.error("Error Occurred in Creating Catalog: catalog already exists");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
