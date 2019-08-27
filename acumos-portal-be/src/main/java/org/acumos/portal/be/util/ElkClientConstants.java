@@ -34,6 +34,9 @@ public final class ElkClientConstants {
 	public static final String CREATE_SNAPSHOT_REQUEST = "/create/snapshot";
 	public static final String DELETE_SNAPSHOT_REQUEST = "/delete/snapshot";
 	public static final String RESTORE_SNAPSHOT_REQUEST = "/restore/snapshot";
+	
+	public static final String GET_ARCHIVE = "/all/archive";
+	public static final String ARCHIVE_ACTION = "/archive/action";
 
 	public static final String TRUE = "true";
 	public static final String TIME_ONE_MINT_OUT = "1m";

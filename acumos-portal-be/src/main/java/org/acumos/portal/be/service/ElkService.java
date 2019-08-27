@@ -1,7 +1,10 @@
 package org.acumos.portal.be.service;
 
+import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.transport.ElasticStackIndiceResponse;
 import org.acumos.portal.be.transport.ElasticStackIndices;
+import org.acumos.portal.be.transport.ElkArchiveResponse;
+import org.acumos.portal.be.transport.ElkArchive;
 import org.acumos.portal.be.transport.ElkCreateSnapshotRequest;
 import org.acumos.portal.be.transport.ElkDeleteSnapshotRequest;
 import org.acumos.portal.be.transport.ElkGetRepositoriesResponse;
@@ -31,6 +34,12 @@ public interface ElkService {
 
 	ElasticStackIndices getAllIndices();
 
-	ElasticStackIndiceResponse deleteIndices(ElasticStackIndices body);	
+	ElasticStackIndiceResponse deleteIndices(ElasticStackIndices body);
+
+	ElkArchiveResponse getAllArchive();
+
+	ElkArchiveResponse createRestoreArchive(ElkArchive elkArchive);	
+	
+	
    
 }

@@ -12,6 +12,8 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.ElkService;
 import org.acumos.portal.be.transport.ElasticStackIndiceResponse;
 import org.acumos.portal.be.transport.ElasticStackIndices;
+import org.acumos.portal.be.transport.ElkArchiveResponse;
+import org.acumos.portal.be.transport.ElkArchive;
 import org.acumos.portal.be.transport.ElkCreateSnapshotRequest;
 import org.acumos.portal.be.transport.ElkDeleteSnapshotRequest;
 import org.acumos.portal.be.transport.ElkGetRepositoriesResponse;
@@ -225,7 +227,7 @@ public class ElkController/* extends AbstractController */ {
 	@ResponseBody
 	public JsonResponse<ElasticStackIndiceResponse> restoreSnapshots(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkRestoreSnapshotRequest> requestJson, HttpServletResponse response) {
-		log.debug("deleteSnapshots");
+		log.debug("restoreSnapshots");
 		JsonResponse<ElasticStackIndiceResponse> data = new JsonResponse<>();
 		try {
 			ElkRestoreSnapshotRequest req=requestJson.getBody();
@@ -306,4 +308,59 @@ public class ElkController/* extends AbstractController */ {
 		return data;
 	}
 	
+	@ApiOperation(value = "Fetches archive info", response = ElkArchiveResponse.class)
+	@RequestMapping(value = { APINames.GET_ARCHIVE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<ElkArchiveResponse> getArchive(HttpServletRequest request, HttpServletResponse response) {
+		log.debug("getArchive");
+		JsonResponse<ElkArchiveResponse> data = new JsonResponse<>();
+		try {
+			ElkArchiveResponse resp = elkService.getAllArchive();
+			if (resp != null) {
+				data.setResponseBody(resp);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Archive fetched successfully");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				data.setResponseDetail("Error occured while fetching archive");
+				log.error("Error Occurred in Fetching archive");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setResponseDetail("Exception Occurred Fetching Archive");
+			log.error("Exception Occurred Fetching Archive", e);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Create Restore Archive", response = ElkArchiveResponse.class)
+	@RequestMapping(value = { APINames.ARCHIVE_ACTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<ElkArchiveResponse> createRestoreArchive(HttpServletRequest request,
+			@RequestBody JsonRequest<ElkArchive> requestJson, HttpServletResponse response) {
+		log.debug("createRestoreArchive");
+		JsonResponse<ElkArchiveResponse> data = new JsonResponse<>();
+		try {
+			ElkArchiveResponse resp = elkService.createRestoreArchive(requestJson.getBody());
+			if (resp.getArchiveInfo() != null) {
+				data.setResponseBody(resp);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail(" Archive created/restored successfully");
+			} else {
+				data.setResponseBody(resp);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				data.setResponseDetail("Error occured while creating/restoring Archive");
+				log.error("Error Occurred in Creating Archive");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setResponseDetail("Exception Occurred Creating/restoring Archive");
+			log.error("Exception Occurred Creating/restoring Archive", e);
+		}
+		return data;
+	}
 }

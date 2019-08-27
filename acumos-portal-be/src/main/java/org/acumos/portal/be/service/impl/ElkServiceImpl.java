@@ -4,13 +4,13 @@ import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.time.Instant;
-import java.util.Map;
 
 import org.acumos.cds.client.HttpComponentsClientHttpRequestFactoryBasicAuth;
 import org.acumos.portal.be.service.ElkService;
 import org.acumos.portal.be.transport.ElasticStackIndiceResponse;
 import org.acumos.portal.be.transport.ElasticStackIndices;
+import org.acumos.portal.be.transport.ElkArchiveResponse;
+import org.acumos.portal.be.transport.ElkArchive;
 import org.acumos.portal.be.transport.ElkCreateSnapshotRequest;
 import org.acumos.portal.be.transport.ElkDeleteSnapshotRequest;
 import org.acumos.portal.be.transport.ElkGetRepositoriesResponse;
@@ -30,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class ElkServiceImpl implements ElkService {
@@ -134,6 +133,27 @@ public class ElkServiceImpl implements ElkService {
 		ElasticStackIndiceResponse response = restTemplate.postForObject(uri, request, ElasticStackIndiceResponse.class);
 		return response;
 	}
+	
+	@Override
+	public ElkArchiveResponse getAllArchive() {
+		uriUtil.setEnvironment(env);
+		URI uri =uriUtil.buildUri(new String[] { ElkClientConstants.GET_ARCHIVE }, null);
+		logger.debug("getAllIndices: uri {}", uri);
+		restTemplate = getRestTemplate(uri.toString());
+		ElkArchiveResponse response = restTemplate.getForObject(uri,ElkArchiveResponse.class);
+		return response;
+	}
+	
+	@Override
+	public ElkArchiveResponse createRestoreArchive(ElkArchive elkArchive) {
+		uriUtil.setEnvironment(env);
+		URI uri =uriUtil.buildUri(new String[] { ElkClientConstants.ARCHIVE_ACTION }, null);
+		logger.debug("deleteIndices: uri {}", uri);
+		restTemplate = getRestTemplate(uri.toString());
+		ElkArchiveResponse response = restTemplate.postForObject(uri, elkArchive, ElkArchiveResponse.class);
+		return response;
+	}
+
 
 	public RestTemplate getRestTemplate(String webapiUrl) {
 
@@ -157,5 +177,7 @@ public class ElkServiceImpl implements ElkService {
 		restTemplate.setRequestFactory(requestFactory);
 		return restTemplate;
 	}
+
+
 
 }

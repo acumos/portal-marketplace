@@ -321,5 +321,9 @@ public class APINames {
 
 	public static final String GET_INDICES = "/indices/all";
 	public static final String DELETE_INDICES = "/delete/indices";
+	
+	public static final String GET_ARCHIVE = "/all/archive";
+	public static final String ARCHIVE_ACTION = "/archive/action";
+	
 
 }
