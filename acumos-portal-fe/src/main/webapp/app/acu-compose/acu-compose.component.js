@@ -1132,6 +1132,7 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.saveState.noSaves = true;
                     _dirty = false;
                     _solutionId = result.solutionId;
+                    $scope.revisionId = result.revisionId;
                 }
             });
     }
