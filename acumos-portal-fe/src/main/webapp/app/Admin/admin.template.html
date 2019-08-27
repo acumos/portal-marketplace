@@ -3870,4 +3870,36 @@ limitations under the License.
                </div>
        </div>
        <!-- Modal box end -->
-			
+       	<!-- Create Backup Modal box end -->
+        <div class="page-wrapper2">
+		<div class="md-dialog-container" id="deleteIndex"
+			style="height: 0;">
+			<md-dialog aria-label="Delete Index" class="ds-data-broker-dialog">
+			<form ng-cloak>
+				<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2>Delete Confirmation</h2>
+					<span flex></span>
+					<md-button class="md-icon-button" ng-click="closePoup()">
+					<i class="material-icons">close</i> </md-button>
+				</div>
+				</md-toolbar>
+				<md-dialog-content>
+				<div class="md-dialog-content">
+					<div class="ds-db-row1">Do you want to delete this indices?</div>
+				</div>
+				</md-dialog-content>
+				<md-dialog-actions>
+				<div class="dialog-footer-container1">
+					<md-button ng-click="closeIndice(false);"
+						class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+					Cancel </md-button>
+					<md-button type="submit" ng-click="closeIndice(true);"
+						class="mdl-button mdl-js-button btn-primary" title="Confirm">
+					Confirm </md-button>
+				</div>
+				</md-dialog-actions>
+			</form>
+			</md-dialog>
+		</div>
+	</div>
