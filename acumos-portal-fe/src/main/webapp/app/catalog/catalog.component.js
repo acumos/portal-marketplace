@@ -220,7 +220,10 @@ angular.module('catalog')
 								$mdDialog.hide();
 								$scope.loadCatalog(0);
 							}, function errorCallback(response) {
-								$scope.setAlertMessage("Error occurred while deleting catalog \"" + catalog.name + "\".", 'c-error', 'report_problem');
+								$mdDialog.show({
+									  contentElement: '#errorDialog',
+									  parent: angular.element(document.body)
+								});
 								console.error(response);
 								$mdDialog.hide();
 								$scope.SetDataLoaded = false;
