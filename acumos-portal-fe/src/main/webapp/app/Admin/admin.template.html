@@ -1038,7 +1038,8 @@ limitations under the License.
 										<div class="fed-row1">
 											<div class="fedrow-cell1">
 												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
-												<button class="mdl-button mdl-js-button btn-secondary btn-gap">Archive</button>												
+												<button class="mdl-button mdl-js-button btn-secondary btn-gap" 
+												ng-click="confirmCreateRestoreArchive('archive', allSnapshots, true)">Archive</button>												
 											</div>
 											<div class="fed-row2">
 												<div class="fed-srch-container">
@@ -1085,7 +1086,8 @@ limitations under the License.
 												<tbody>
 													<!-- Content Loader directive -->
 													<div content-loader ng-show="showContentLoader"></div>
-													<tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup |filter:searchSnapshot">
+													<tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup 
+													| filter:searchSnapshot">
 														<td>
 															<md-checkbox
 																ng-model="snapshot.checked" ng-checked="snapshot.checked"
@@ -1096,7 +1098,8 @@ limitations under the License.
 														<td><span>{{snapshot.repositoryName}}</span></td>
 														<td><span>{{snapshot.createdDate}}</span></td>
 														<td class="text-center">
-															<md-button class="md-icon-button md-primary" aria-label="archive">
+															<md-button class="md-icon-button md-primary" aria-label="archive" 
+																ng-click="confirmCreateRestoreArchive('archive', snapshot.repositoryName)">
 																<i class="gridicon-archive"></i>
 															</md-button>
 														</td>
@@ -1179,26 +1182,37 @@ limitations under the License.
 			                           
 									</md-content>
 								</md-tab>
+								
 								<md-tab label="Archived Logs">
 									<md-content class="md-padding">
-											<div class="fed-row1">
-													<div class="fedrow-cell1">
-															<button class="mdl-button mdl-js-button btn-primary">Restore</button>
-															<button class="mdl-button mdl-js-button btn-secondary btn-gap">Delete</button>											
-													</div>
-													<div class="fed-row2">
-														<div class="fed-srch-container">
-															<label class="fed-lbl1">Filter</label>
-															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
-																	ng-model="searchPeerDetails">
-															</div>
-														</div>												
-													</div>
+										<div class="c-alert c-warning static-position margin-backlog">
+											<div class="c-alert-inner"><span class="material-icons">report_problem</span>
+											<span class="alert-text">If you delete any backup from this page it will be
+											deleted permanently from the here.</span></div>
+										</div>
+										<div class="fed-row1">
+												<div class="fedrow-cell1">
+														<button class="mdl-button mdl-js-button btn-primary">Restore</button>
+														<button class="mdl-button mdl-js-button btn-secondary btn-gap">Delete</button>											
+																																			
+																									   
+																									   
+																		
+				   
 												</div>
+												<div class="fed-row2">
+													<div class="fed-srch-container">
+														<label class="fed-lbl1">Filter</label>
+														<div class="mdl-textfield mdl-js-textfield admin-search-container">
+															<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
+																ng-model="searchArchives">
+														</div>
+													</div>												
+												</div>
+											</div>
 										<hr />
-										<p class="reqfield">Note: If you delete any backup from this page it will be deleted permanently from here</p>
-					
+										
+	 
 										<div>
 											<table class="mdl-data-table mdl-js-data-table fullwidth">
 												<colgroup>
@@ -1210,42 +1224,119 @@ limitations under the License.
 												</colgroup>
 												<thead>
 													<tr>
-														<th><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1"
-																id="checkbox-label">
-																<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model="selectAll"
-																	ng-click="setSelectAll(selectAll)" ng-checked="selectAllStatus" />
-																<span class="mdl-checkbox__label"></span>
-															</label></th>
+														<th>
+														<label class="mdl-checkbox__input" for="checkbox-archive">
+																				 
+															<input type="checkbox" id="checkbox-archive" class="mdl-checkbox__input" 
+															ng-model="checkedArchive"
+															ng-click="checkAllArchives(checkedArchive)" ng-checked="selectAllArchiveStatus"/>
+															<span class="mdl-checkbox__label"></span>
+														</label>
+														</th>
 														<th>Backup Name</th>
-														<th>Repository</th>
+														<!-- <th>Repository</th> -->
 														<th>Created Date</th>
 														<th>Actions</th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
+													<tr ng-repeat="archive in allArchives | filter:searchArchives"> 
 														<td>
-															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}"
+															<label class="mdl-checkbox" for="checkBox_{{$index}}"
 																id="checkBox_{{$index}}">
-																<input type="checkbox" class="mdl-checkbox__input" ng-model="notification.Selected"
-																	ng-checked="notification.Selected" ng-click="removeSelectAll()">
+																<input type="checkbox" class="mdl-checkbox__input" 
+																	ng-model="archive.checked" ng-checked="archive.checked"
+																	ng-click="removeSelectAllArchives()">
 																<span class="mdl-checkbox__label"></span>
 															</label>
 														</td>
-														<td><span>ABC DEV</span></td>
-														<td><span>Logstash</span></td>
-														<td><span>7/4/2019</span></td>
-														<td class="text-center">
-															<md-button class="md-icon-button md-primary" aria-label="Settings">
-																<i class="material-icons">
-																	close
-																</i>
+														<td><span>{{archive.backUpName}}</span></td>
+														<!-- <td><span>Logstash</span></td> -->
+														<td><span>{{archive.date}}</span></td>
+														<td> <!--  class="text-center" -->
+															<md-button class="md-icon-button md-primary" aria-label="Restore"
+															 ng-click="confirmCreateRestoreArchive('restore', archive.backUpName)">
+																<span class="gridicon-restore"></span>
+																				  
 															</md-button>
+															<a ng-click="deleteIndices(indices.name)">
+																<span class="gridicon-delete"></span>
+															</a>
 														</td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
+										
+										<div class="pagination-wrapper" ng-if="allArchives.length > 0">
+			                              <div class="pagination-left-section">
+			                                 <span>Showing </span>
+			                                 <div class="select-control">
+			                                    <md-select ng-model="requestResultSize" name="requestResultSize"
+			                                       ng-change="filterChange('paginationSize',requestResultSize)">
+			                                       <md-option ng-value="10" class="pagination-list-item">10</md-option>
+			                                       <md-option ng-value="20" class="pagination-list-item">20</md-option>
+			                                       <md-option ng-value="30" class="pagination-list-item">30</md-option>
+			                                       <md-option ng-value="40" class="pagination-list-item">40</md-option>
+			                                       <md-option ng-value="50" class="pagination-list-item">50</md-option>
+			                                       <md-option ng-value="100" class="pagination-list-item">100</md-option>
+			                                    </md-select>
+			                                 </div>
+			                              </div>
+			                              <div class="pagination-right-section">
+			                                 <div class="count-btn-container">
+			                                    <button class="mdl-button mdl-js-button btn-secondary"
+			                                       ng-disabled="selectedPage==0"
+			                                       ng-click="setStartCount('pre');loadBackups(selectedPage)">Previous</button>
+			                                 </div>
+			                                 <div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-click="setStartCount('preBunch');loadBackups(setPageStart)"
+			                                       ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+			                                 </div>
+			                                 <div class="count-btn-container">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart);">{{setPageStart+1}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="totalPages<=(setPageStart+1)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+1);">{{setPageStart+2}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="totalPages<=(setPageStart+2)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+2);">{{setPageStart+3}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="totalPages<=(setPageStart+3)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+3);">{{setPageStart+4}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="(totalPages)<=(setPageStart+4)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
+			                                       ng-click="loadBackups(setPageStart+4);">{{setPageStart+5}}</button>
+			                                 </div>
+			                                 <div class="count-btn-container"
+			                                    ng-hide="(totalPages)<=(setPageStart + 5)">
+			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
+			                                       ng-click="setStartCount('nextBunch');loadBackups(setPageStart);"
+			                                       ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+			                                 </div>
+			                                 <div class="count-btn-container">
+			                                    <button class="mdl-button mdl-js-button btn-secondary"
+			                                       ng-click="setStartCount('next');loadBackups(selectedPage);"
+			                                       ng-disabled="totalPages == (selectedPage + 1)">Next</button>
+			                                 </div>
+			                              </div>
+			                           </div>
+			                           
 									</md-content>
 								</md-tab>
 							</md-tabs>
@@ -3870,4 +3961,74 @@ limitations under the License.
                </div>
        </div>
        <!-- Modal box end -->
+	   
+		<!-- Create Backup Modal box end -->
+	<div class="page-wrapper2">
+		<div class="md-dialog-container" id="deleteIndex"
+			style="height: 0;">
+			<md-dialog aria-label="Delete Index" class="ds-data-broker-dialog">
+			<form ng-cloak>
+				<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2>Delete Confirmation</h2>
+					<span flex></span>
+					<md-button class="md-icon-button" ng-click="closePoup()">
+					<i class="material-icons">close</i> </md-button>
+				</div>
+				</md-toolbar>
+				<md-dialog-content>
+				<div class="md-dialog-content">
+					<div class="ds-db-row1">Do you want to delete this indices?</div>
+				</div>
+				</md-dialog-content>
+				<md-dialog-actions>
+				<div class="dialog-footer-container1">
+					<md-button ng-click="closeIndice(false);"
+						class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+					Cancel </md-button>
+					<md-button type="submit" ng-click="closeIndice(true);"
+						class="mdl-button mdl-js-button btn-primary" title="Confirm">
+					Confirm </md-button>
+				</div>
+				</md-dialog-actions>
+			</form>
+			</md-dialog>
+		</div>
+	</div>
 			
+			
+		<!-- Archive/Restore backup confirmation dialog -->
+		<div class="page-wrapper2">
+		<div class="md-dialog-container" id="archiveRestoreModal"
+			style="height: 0;">
+			<md-dialog aria-label="Archive Backups" class="ds-data-broker-dialog">
+			<form ng-cloak>
+				<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2 ng-show="archiveAction == 'archive'">Archive Confirmation</h2>
+					<h2 ng-show="archiveAction == 'restore'">Restore Confirmation</h2>
+					<span flex></span>
+					<md-button class="md-icon-button" ng-click="closePoup()">
+					<i class="material-icons">close</i> </md-button>
+				</div>
+				</md-toolbar>
+				<md-dialog-content>
+				<div class="md-dialog-content">
+					<div class="ds-db-row1">Do you want to this {{archiveAction}} backup?</div>
+				</div>
+				</md-dialog-content>
+				<md-dialog-actions>
+				<div class="dialog-footer-container1">
+					<md-button ng-click="closePoup()"
+						class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+					Cancel </md-button>
+					<md-button type="submit" ng-click="createRestoreArchive(archiveAction, archiveRepoName)"
+						class="mdl-button mdl-js-button btn-primary" title="Confirm">
+					Confirm </md-button>
+				</div>
+				</md-dialog-actions>
+			</form>
+			 </md-dialog>
+               </div>
+       </div>
+       <!-- Modal box end -->	

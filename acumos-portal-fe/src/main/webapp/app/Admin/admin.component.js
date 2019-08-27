@@ -3488,6 +3488,7 @@ angular.module('admin').filter('abs', function () {
             //will call only when needed
             $scope.getMaintainedBackupLogs = function(){
             	$scope.getAllSnapshot();
+				$scope.getAllArchives();				 
             }
             
             $scope.orderSnapshots='backupName';
@@ -3569,21 +3570,173 @@ angular.module('admin').filter('abs', function () {
             $scope.filterChange = function(pagination, size) {
             	$scope.requestResultSize = size;
             	$scope.loadBackups(0);
+				$scope.loadArchives(0);				
             }
             
+			/********************Archive methods*************/ 
+            //$scope.orderArchives='backupName';
+            $scope.reverseSortarchive = true;
+            
+            $scope.getAllArchives = function () {
+            	$scope.allArchives = [];
+                $scope.showContentLoader = true;
+                apiService.getAllArchives()
+                    .then(
+                        function (response) {
+                        	$scope.showContentLoader = false;
+                        	$scope.archives =  response.data.response_body.archiveInfo;
+                        	$scope.loadArchives(0);
+                        },
+                        function (error) {
+                             console.log(error);
+                             $scope.showContentLoader = false;
+                        });
+            };
+            
+            $scope.loadArchives = function (pageNumber) {
+            	$scope.selectedPage = pageNumber;
+            	$scope.totalPages = Math.ceil($scope.archives.length / $scope.requestResultSize);
+            	$scope.allArchives = ($scope.archives).slice($scope.requestResultSize*pageNumber, 
+            			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
+            }
+            
+            $scope.checkAllArchives = function(selected){
+            	$scope.selectAllArchiveStatus = true;
+        		for (var i = 0; i < $scope.allArchives.length; i++) {
+           	        $scope.allArchives[i].checked = selected;
+        		}
+            };
+            
+            $scope.removeSelectAllArchives = function(){
+      		   $scope.selectAllArchiveStatus = false;
+            };
+            
+			$scope.confirmCreateRestoreArchive = function (action, repositoryName, selectAll) {
+            	$scope.archiveRepoName = [];
+                $scope.archiveAction = action;
+                if(selectAll == true){
+                	for(var i = 0; i < repositoryName.length; i++){
+                		if (repositoryName[i].checked){
+                			if(repositoryName[i].repositoryName){
+                				$scope.archiveRepoName.push(repositoryName[i].repositoryName);
+                			}else{
+                				$scope.archiveRepoName.push(repositoryName[i].backUpName);
+                			}
+                		}
+                		repositoryName[i].checked = false;
+                	}
+                	$scope.removeSelectAllArchives();
+                
+                }else{
+                	$scope.archiveRepoName.push(repositoryName);
+                }
+                
+                
+                $mdDialog.show({
+                    contentElement: '#archiveRestoreModal',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true
+                });
+            }																				   
+            $scope.createRestoreArchive = function(action, repositoryName){
+				$scope.closePoup();				
+                var reqBody = {
+                    "request_body": {
+                    	"action": action,
+                        "repositoryName": repositoryName
+                    }
+                }
+                return apiService
+                    .createRestoreArchive(reqBody)
+                    .then(
+                        function (response) {
+                            $scope.responseMessage = response;
+                            $location.hash('myDialog'); 
+                            $anchorScroll();
+                            $scope.msg = response.data.response_body.msg;
+                            $scope.icon = '';
+                            $scope.styleclass = 'c-success';
+                            $scope.showAlertMessage = true;
+                            $timeout(function () {
+                            	$scope.showAlertMessage = false;
+                            }, 3000);
+                            $scope.getMaintainedBackupLogs();
+											   
+
+
+                        },
+                        function (error) {
+                            var error = error.data;
+                            $location.hash('myDialog'); 
+                            $anchorScroll();
+                            $scope.msg = response.data.response_body.msg;
+                            $scope.icon = 'report_problem';
+                            $scope.styleclass = 'c-error';
+                            $scope.showAlertMessage = true;
+                            $timeout(function () {
+                            	$scope.showAlertMessage = false;
+                            }, 3000);
+                            $scope.getMaintainedBackupLogs();
+                        });
+            };
+            
+            $scope.deleteSnapshot = function(){
+                var reqBody = {
+                    "request_body": {
+                    	"action": action,
+                        "repositoryName": repositoryName
+                    }
+                }
+                return apiService
+                    .deleteSnapshot(reqBody)
+                    .then(
+                        function (response) {
+                        	$scope.responseMessage = response;
+                            $location.hash('myDialog'); 
+                            $anchorScroll();
+                            $scope.msg = "Repository deleted successfully.";
+                            $scope.icon = '';
+                            $scope.styleclass = 'c-success';
+                            $scope.showAlertMessage = true;
+                            $timeout(function () {
+                            	$scope.showAlertMessage = true;
+                            }, 3000);
+                            $scope.getMaintainedBackupLogs();
+								
+
+                        },
+                        function (error) {
+                            var error = error.data;
+                            $location.hash('myDialog'); 
+                            $anchorScroll();
+                            $scope.msg = "Error deleting repository.";
+                            $scope.icon = 'report_problem';
+                            $scope.styleclass = 'c-error';
+                            $scope.showAlertMessage = true;
+                            $timeout(function () {
+                                $scope.showAlertMessage = false;
+                            }, 3000);
+                            $scope.fetchAllRepositories();
+                        });
+            
+            }
+            
+            
+            
+            /******** Repository Methods **************/
             $scope.createFirstRepo = false;
             $scope.createBackup = function(ev) {
             	var _isRepoAvailable = $scope.isRepoAvailable;
             	var _createFirstRepo = $scope.createFirstRepo; 
-                
-                $mdDialog.show({
-                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo}, 
+                var parentScope = $scope;
+                $scope.parentDialog = $mdDialog.show({
+                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo, parentScope:parentScope}, 
                  templateUrl: '../app/Admin/create-backup.template.html',
                  parent: angular.element(document.body),
                  targetEvent: ev,
                  clickOutsideToClose:true,
-                 controller : function DialogController( $scope, parent, isRepoAvailable, createFirstRepo) {
-                	 $scope.parent = parent;
+                 controller : function DialogController( $scope, parentScope, isRepoAvailable, createFirstRepo) {
+                	 $scope.parent = parentScope;
                 	 $scope.isRepoAvailable = isRepoAvailable;
                 	 $scope.createFirstRepo = createFirstRepo;
                 	 $scope.selectAllIndice = false;
@@ -3661,7 +3814,7 @@ angular.module('admin').filter('abs', function () {
                             $scope.selectRepository = true;
                             var reqBody = {
                                 "request_body": {
-                                	"nodeTimeout": 1,
+                                	"nodeTimeout": '1m',
                                     "repositoryName": repositoryName
                                 }
                             }
@@ -3751,43 +3904,60 @@ angular.module('admin').filter('abs', function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
                                         $scope.fetchAllRepositories();
+										$scope.parent.getAllSnapshot();
                                     });
                         };
                         
                         //Delete Indices
-                        $scope.deleteIndices = function(indiceName){
+						$scope.confirmDeleteIndice = function(indiceName){
+
+                            $scope.indiceName = indiceName;
+                            $mdDialog.show({
+                                contentElement: '#deleteIndex',
+                                parent:  angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true
+                            }).then(function(flag){
+                            	if(flag){
+                            		$scope.deleteIndices();                      		
+                            	} else {
+                            		$scope.parent.createBackup();
+                            	}                            	
+                            });
+                        }
+						
+                        $scope.deleteIndices = function(){
                         	var deleteIndiceName = indiceName;
                         	var reqBody = {
                           		  "request_body": {
-                          			        "indices": [deleteIndiceName]
+                          			        "indices": [$scope.indiceName]
                           			  }
                           			};
                           return apiService
                               .deleteIndices(reqBody)
                               .then(
                                   function (response) {
-                                      $location.hash('backupLogs'); 
+                                     $location.hash('backupLogs'); 
                                       $anchorScroll();
-                                      $scope.msg = response.data.response_body.message;
-                                      $scope.icon = '';
-                                      $scope.styleclass = 'c-success';
-                                      $scope.showBackupLogsMessage = true;
+                                      $scope.parent.msg = response.data.response_body.message;
+                                      $scope.parent.icon = '';
+                                      $scope.parent.styleclass = 'c-success';
+                                      $scope.parent.showAlertMessage = true;
                                       $timeout(function () {
-                                          $scope.showBackupLogsMessage = false;
+                                          $scope.parent.showAlertMessage = false;
                                       }, 3000);
-                                      $scope.fetchAllIndices();
                                   },
                                   function (error) {
                                       $scope.status = error.data;
                                       console.log($scope.status);
                                       $location.hash('backupLogs'); 
                                       $anchorScroll();
-                                      $scope.msg = 'Error Occurred while deleting.';
-                                      $scope.icon = 'report_problem';
-                                      $scope.styleclass = 'c-error';
-                                      $scope.showBackupLogsMessage = true;
+                                      $scope.parent.msg = 'Error Occurred while deleting.';
+                                      $scope.parent.icon = 'report_problem';
+                                      $scope.parent.styleclass = 'c-error';
+                                      $scope.parent.showAlertMessage = true;
                                       $timeout(function () {
-                                          $scope.showBackupLogsMessage = false;
+                                          $scope.parent.showAlertMessage = false;
                                       }, 3000);
                                       $scope.fetchAllIndices();
                                       
@@ -3801,6 +3971,10 @@ angular.module('admin').filter('abs', function () {
                 })
                 
             };
+			
+			$scope.closeIndice = function(flag){
+				$mdDialog.hide(flag);
+			}
 
             
             /************Maintained Backup Logs Methods***********/
