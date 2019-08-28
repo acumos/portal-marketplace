@@ -96,7 +96,14 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 				  location.href = "/#/acuCompose";
 			  } else if(event.data === "navigateToHome"){
 				  location.href = "/#/home";
-			  } 
+			  } else {
+				  let childMessage = event.data.split("?");
+				  if(childMessage[0] === "navigateToMyModelDetails"){
+					  let solutionId = childMessage[1];
+					  let revisionId = childMessage[2];
+					  location.href = "/#/marketSolutions?solutionId="+solutionId+"&revisionId="+revisionId+"&parentUrl=mymodel";
+				  }
+			  }
 			  
 			};
 	}
