@@ -2546,19 +2546,21 @@ angular
 							$scope.company.step4 = false;
 							$scope.activePublishBtn = false;
 							$scope.company.skipStep = false;
+							$scope.getPublishRequestDetail();
 							$scope.getSolCompanyDesc();
 							$scope.getCompanySolutionDocuments();
-							$scope.getPublishRequestDetail();
+							
 						}
 					}
 
 					$scope.changeExistingCatalog = function(){
 						if($scope.existingCatalogId){
 							$scope.selectedCatalogId = $scope.existingCatalogId; 
+							$scope.getPublishRequestDetail();
 							$scope.getSolCompanyDesc();
 							$scope.showSolutionDocs = false;
 							$scope.getCompanySolutionDocuments();
-							$scope.getPublishRequestDetail();
+							
 						}
 					}
 					
@@ -2624,38 +2626,46 @@ angular
 				    $scope.unpublish = function(){
 				    	$scope.disableSelectedCatalogIds = true;
 				    	$scope.closeDialog();
-				    	var data = $.param({
-							userId : $scope.solution.ownerId,
-							ctlg : $scope.existingCatalogId
-						});
-				    	apiService.unpublishSolution($scope.solutionId, data)
-					        .then(function(response) {
-					        	$scope.disableSelectedCatalogIds = false;
-					        	if(response.data.error_code == 100){
-					        		$scope.msg = "Solution unpublished successfully";
-						    		$scope.icon = '';
-						    		$scope.styleclass = 'c-success';									
-						    		$scope.showAlertMessage = true;
-						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
-						    		$scope.existingCatalogId = '';
-						    		$scope.selectedCatalogId = '';
-									$scope.getCatalogs();
-					        	} else {
-					        		$scope.msg = "Error occurred while unpublishing solution";
-					        		console.log("Error unpublishing solution,",response);
-						    		$scope.icon = '';
-						    		$scope.styleclass = 'c-error';									
-						    		$scope.showAlertMessage = true;
-						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
-					        	}
-					         }, function(error) {
-					        		$scope.msg = "Error occurred while unpublishing solution";
-					        		console.log("Error unpublishing solution,",error);
-						    		$scope.icon = '';
-						    		$scope.styleclass = 'c-error';									
-						    		$scope.showAlertMessage = true;
-						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
-					         });
+				    				    	
+				    	apiService.searchPublishRequestWithCatalogIds($scope.revisionId, $scope.selectedCatalogId)
+						.then(function successCallback(response) {
+							var data = {
+								userId : $scope.solution.ownerId,
+								ctlg : $scope.existingCatalogId									
+							};
+							if(response.data.response_body){
+								data.publishRequestId = response.data.response_body.publishRequestId;
+							}
+							
+						    	apiService.unpublishSolution($scope.solutionId, $.param(data))
+							        .then(function(response) {
+							        	$scope.disableSelectedCatalogIds = false;
+							        	if(response.data.error_code == 100){
+							        		$scope.msg = "Solution unpublished successfully";
+								    		$scope.icon = '';
+								    		$scope.styleclass = 'c-success';									
+								    		$scope.showAlertMessage = true;
+								    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+								    		$scope.existingCatalogId = '';
+								    		$scope.selectedCatalogId = '';
+											$scope.getCatalogs();
+							        	} else {
+							        		$scope.msg = "Error occurred while unpublishing solution";
+							        		console.log("Error unpublishing solution,",response);
+								    		$scope.icon = '';
+								    		$scope.styleclass = 'c-error';									
+								    		$scope.showAlertMessage = true;
+								    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+							        	}
+							         }, function(error) {
+							        		$scope.msg = "Error occurred while unpublishing solution";
+							        		console.log("Error unpublishing solution,",error);
+								    		$scope.icon = '';
+								    		$scope.styleclass = 'c-error';									
+								    		$scope.showAlertMessage = true;
+								    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+							         });
+							});
 					}
 				    
 				    $scope.getLicenseFile = function() {

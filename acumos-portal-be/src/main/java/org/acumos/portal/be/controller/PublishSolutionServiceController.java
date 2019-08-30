@@ -124,7 +124,7 @@ public class PublishSolutionServiceController extends AbstractController {
     @RequestMapping(value = {APINames.UNPUBLISH},method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<Object> unpublishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("ctlg") String catalogId,
-    		@RequestParam("userId") String userId, HttpServletResponse response) {
+    		@RequestParam("userId") String userId,@RequestParam( value = "publishRequestId", required = false, defaultValue = "0" ) long publishRequestId, HttpServletResponse response) {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		
@@ -132,7 +132,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		 JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			//TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
-			String unpublishStatus=publishSolutionService.unpublishSolution(solutionId, catalogId, userId);
+			String unpublishStatus=publishSolutionService.unpublishSolution(solutionId, catalogId, userId,publishRequestId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions unpublished Successfully");
 			MLPNotification notificationObj = new MLPNotification();

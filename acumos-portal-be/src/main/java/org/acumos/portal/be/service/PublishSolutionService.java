@@ -26,7 +26,7 @@ public interface PublishSolutionService {
 	
 	public String publishSolution(String solutionId, String visibility, String userId, String revisionId, String catalogId, UUID trackingId);
 	
-	String unpublishSolution(String solutionId, String catalogId, String userId);
+	String unpublishSolution(String solutionId, String catalogId, String userId,long publishRequestId);
 
 	boolean checkUniqueSolName(String solutionId);
 	

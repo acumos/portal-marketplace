@@ -122,6 +122,7 @@ public class PublishSolutionServiceControllerTest {
 			mlsolution.setTookitType("DS");
 			Assert.assertNotNull(mlsolution);
 			String userId = "12121";
+			long publishRequestId=123;
 			String solutionId = mlsolution.getSolutionId();
 			String visibility = "2";
 			Assert.assertNotNull(userId);
@@ -132,24 +133,21 @@ public class PublishSolutionServiceControllerTest {
 			String accessType = "PB";
 			
 			
-			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublisheded the solutions");
-			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId,publishRequestId)).thenReturn("Successfully unpublisheded the solutions");
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId,publishRequestId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "OR";
-			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublisheded the solutions");
-			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId,publishRequestId)).thenReturn("Successfully unpublisheded the solutions");
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId,publishRequestId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "PR";
-			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn("Successfully unpublisheded the solutions");
-			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId,publishRequestId)).thenReturn("Successfully unpublisheded the solutions");
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId,publishRequestId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
-			
-			String unpublished = publishSolutionService.unpublishSolution(solutionId, accessType, userId);
-			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
-			Assert.assertNotNull(value);
+
 		} catch (Exception e) {
 			logger.error("Error while unpublishSolutionTest", e);
 		}

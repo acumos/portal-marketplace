@@ -27,6 +27,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPPublishRequest;
+import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.util.PortalUtils;
@@ -35,14 +42,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
-import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPCatalog;
-import org.acumos.cds.domain.MLPPublishRequest;
-import org.acumos.cds.domain.MLPSolution;
-import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
 
 @Service
 public class PublishSolutionServiceImpl extends AbstractServiceImpl implements PublishSolutionService {
@@ -122,7 +121,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	
 	@Override
-	public String unpublishSolution(String solutionId, String catalogId, String userId) {
+	public String unpublishSolution(String solutionId, String catalogId, String userId,long publishRequestId) {
 		//TODO: Need to revisit the un-publish the solution revision. Currently this service is not being used in portal.
 		log.debug("unpublishModelBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -130,7 +129,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		/*mlpSolution.setAccessTypeCode(accessType);*/
 		mlpSolution.setSolutionId(solutionId);
 		mlpSolution.setUserId(userId);
-		
 		MLPSolution mlpSolution2 = null;
 		
 		//TODO version needs to be noted as we need to only publish specific version		
@@ -140,6 +138,9 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalogId);
+				if(publishRequestId != 0 ){
+					dataServiceRestClient.deletePublishRequest(publishRequestId);
+				}
 				unpublishedStatus = "Solution "+mlpSolution2.getName()+" Unpublished Successfully";
 			}
 			
