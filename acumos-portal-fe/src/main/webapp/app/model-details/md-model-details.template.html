@@ -45,7 +45,7 @@ limitations under the License.
 						<ul class="md-version-ddl1 catalog-list">
 							<li ng-repeat="catalog in solutionCatalogsList"
 									ng-click="changeSelectedCatalogId(catalog.catalogId, catalog.name)"
-									ng-class="{selected: v.revisionId == revisionId}">{{catalog.name}}</li>
+									ng-class="{selected: catalog.catalogId == selectedCatalogId}">{{catalog.name}}</li>
 						</ul>
 					</div>
 					<div class="version-container">
