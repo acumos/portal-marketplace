@@ -1111,7 +1111,7 @@ limitations under the License.
 											</table>
 										</div>
 										
-										<div class="pagination-wrapper" ng-if="allSnapshots.length > 0">
+										<div class="pagination-wrapper" ng-if="snapshots.length > 10">
 			                              <div class="pagination-left-section">
 			                                 <span>Showing </span>
 			                                 <div class="select-control">
@@ -1264,11 +1264,14 @@ limitations under the License.
 															</a>
 														</td>
 													</tr>
+													<tr ng-if="allArchives.length == 0">
+			                                       		<td class='text-center' colspan="4">No data available</td>
+				                                    </tr>
 												</tbody>
 											</table>
 										</div>
 										
-										<div class="pagination-wrapper" ng-if="allArchives.length > 0">
+										<div class="pagination-wrapper" ng-if="archives.length > 10">
 			                              <div class="pagination-left-section">
 			                                 <span>Showing </span>
 			                                 <div class="select-control">
@@ -1287,51 +1290,51 @@ limitations under the License.
 			                                 <div class="count-btn-container">
 			                                    <button class="mdl-button mdl-js-button btn-secondary"
 			                                       ng-disabled="selectedPage==0"
-			                                       ng-click="setStartCount('pre');loadBackups(selectedPage)">Previous</button>
+			                                       ng-click="setStartCount('pre');loadArchives(selectedPage)">Previous</button>
 			                                 </div>
 			                                 <div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
-			                                       ng-click="setStartCount('preBunch');loadBackups(setPageStart)"
+			                                       ng-click="setStartCount('preBunch');loadArchives(setPageStart)"
 			                                       ng-class="{disabledClick:SetDataLoaded==true}">...</button>
 			                                 </div>
 			                                 <div class="count-btn-container">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
 			                                       ng-class="{'selected-btn': setPageStart == selectedPage}"
-			                                       ng-click="loadBackups(setPageStart);">{{setPageStart+1}}</button>
+			                                       ng-click="loadArchives(setPageStart);">{{setPageStart+1}}</button>
 			                                 </div>
 			                                 <div class="count-btn-container"
 			                                    ng-hide="totalPages<=(setPageStart+1)">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
 			                                       ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
-			                                       ng-click="loadBackups(setPageStart+1);">{{setPageStart+2}}</button>
+			                                       ng-click="loadArchives(setPageStart+1);">{{setPageStart+2}}</button>
 			                                 </div>
 			                                 <div class="count-btn-container"
 			                                    ng-hide="totalPages<=(setPageStart+2)">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
 			                                       ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
-			                                       ng-click="loadBackups(setPageStart+2);">{{setPageStart+3}}</button>
+			                                       ng-click="loadArchives(setPageStart+2);">{{setPageStart+3}}</button>
 			                                 </div>
 			                                 <div class="count-btn-container"
 			                                    ng-hide="totalPages<=(setPageStart+3)">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
 			                                       ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
-			                                       ng-click="loadBackups(setPageStart+3);">{{setPageStart+4}}</button>
+			                                       ng-click="loadArchives(setPageStart+3);">{{setPageStart+4}}</button>
 			                                 </div>
 			                                 <div class="count-btn-container"
 			                                    ng-hide="(totalPages)<=(setPageStart+4)">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
 			                                       ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
-			                                       ng-click="loadBackups(setPageStart+4);">{{setPageStart+5}}</button>
+			                                       ng-click="loadArchives(setPageStart+4);">{{setPageStart+5}}</button>
 			                                 </div>
 			                                 <div class="count-btn-container"
 			                                    ng-hide="(totalPages)<=(setPageStart + 5)">
 			                                    <button class="mdl-button mdl-js-button btn-secondary count-btn"
-			                                       ng-click="setStartCount('nextBunch');loadBackups(setPageStart);"
+			                                       ng-click="setStartCount('nextBunch');loadArchives(setPageStart);"
 			                                       ng-class="{disabledClick:SetDataLoaded==true}">...</button>
 			                                 </div>
 			                                 <div class="count-btn-container">
 			                                    <button class="mdl-button mdl-js-button btn-secondary"
-			                                       ng-click="setStartCount('next');loadBackups(selectedPage);"
+			                                       ng-click="setStartCount('next');loadArchives(selectedPage);"
 			                                       ng-disabled="totalPages == (selectedPage + 1)">Next</button>
 			                                 </div>
 			                              </div>

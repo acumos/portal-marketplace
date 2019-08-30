@@ -1558,6 +1558,7 @@ input[type="text"].medium-textbox {width: 300px;}
 .gridicon-approve {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_approveX.png") no-repeat center center;}
 .gridicon-deny {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_denyX.png") no-repeat center center;}
 .gridicon-archive {display:inline-block; width: 22px; height: 16px; background: url("../images/general-icons/archive.png") no-repeat center center;}
+.gridicon-restore {display:inline-block; width: 19px; height: 15px; background: url("../images/general-icons/restore.png") no-repeat center center;}
 
 .gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 3px;cursor:pointer; }
 .gridcell-sort.deactivate {background: url("../images/general-icons/sortby_deactivate.png") no-repeat center center; }
