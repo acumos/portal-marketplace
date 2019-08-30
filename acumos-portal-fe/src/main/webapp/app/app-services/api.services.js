@@ -151,7 +151,7 @@ angular.module('AcumosApp')
         var urlRestoreSnapshot = "api/elk/restore/snapshot";			    //Restore elasticstack snapshot.
         var urlCreateRepositories = "api/elk/repository/create";	        //Create elk repository.
         var urlDeleteIndices = "api/elk/delete/indices";				    //Delete elasticstack Indices.
-		var urlAllArchives = "api/elk/all/archives";				        //get all archives.
+		var urlAllArchives = "api/elk/all/archive";				        //get all archives.
         var urlRestoreArchive = "api/elk/restore/snapshot";				    //restore archives.
 	
         /**************** ALL GET ******************/
