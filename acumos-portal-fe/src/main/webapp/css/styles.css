@@ -105,6 +105,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .mdl-tabs__tab.is-active .tab-documents {background: url("../images/model_details/documents_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-versionhistory {background: url("../images/model_details/version_history_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-author_details {background: url("../images/model_details/icon_author_publisher_details_selected.png") no-repeat center center; }
+.mdl-tabs__tab.is-active .tab-box.author-details{width:200px;}
 
 .md-icons1 {margin-right: 5px;}
 /*********** Icons section end **************/
@@ -1558,7 +1559,7 @@ input[type="text"].medium-textbox {width: 300px;}
 .gridicon-deny {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_denyX.png") no-repeat center center;}
 .gridicon-archive {display:inline-block; width: 22px; height: 16px; background: url("../images/general-icons/archive.png") no-repeat center center;}
 
-.gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 8px;cursor:pointer; }
+.gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 3px;cursor:pointer; }
 .gridcell-sort.deactivate {background: url("../images/general-icons/sortby_deactivate.png") no-repeat center center; }
 .gridcell-sort.ascending {background: url("../images/general-icons/sortby_active_up.png") no-repeat center center; }
 .gridcell-sort.descending {background: url("../images/general-icons/sortby_active_down.png") no-repeat center center; }
