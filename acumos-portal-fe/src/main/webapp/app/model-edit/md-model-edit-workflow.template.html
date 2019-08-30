@@ -620,7 +620,7 @@ limitations under the License.
                                  	</div>
                                 </div>
                                  <!-- Public Workflow -->
-									<div ng-if="selectedCatalogObj.accessTypeCode == 'PB'">
+									<div ng-if="selectedCatalogObj.accessTypeCode == 'PB' || (selectedCatalogObj.accessTypeCode == 'RS' && selectedCatalogObj.selfPublish==false) ">
 										<ul>
 											<li> 
 												<div class="imageplace"
@@ -718,7 +718,7 @@ limitations under the License.
 									</div>
 									<!-- End Public Workflow -->
                                  <!-- Restricted Workflow -->
-                                 <div ng-if="selectedCatalogObj.accessTypeCode == 'RS'">
+                                 <div ng-if="selectedCatalogObj.accessTypeCode == 'RS' && selectedCatalogObj.selfPublish ">
 									<ul>
 										<li> 
 											<div class="imageplace">												
