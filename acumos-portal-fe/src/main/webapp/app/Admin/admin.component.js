@@ -3522,9 +3522,11 @@ angular.module('admin').filter('abs', function () {
             
             $scope.loadBackups = function (pageNumber) {
             	$scope.selectedPage = pageNumber;
-            	$scope.totalPages = Math.ceil($scope.snapshots.length / $scope.requestResultSize);
-            	$scope.allSnapshots = ($scope.snapshots).slice($scope.requestResultSize*pageNumber, 
+				if($scope.snapshots){
+					$scope.totalPages = Math.ceil($scope.snapshots.length / $scope.requestResultSize);
+					$scope.allSnapshots = ($scope.snapshots).slice($scope.requestResultSize*pageNumber, 
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
+				}
             }
             
             $scope.checkedSnapshot = false;
@@ -3595,9 +3597,11 @@ angular.module('admin').filter('abs', function () {
             
             $scope.loadArchives = function (pageNumber) {
             	$scope.selectedPage = pageNumber;
-            	$scope.totalPages = Math.ceil($scope.archives.length / $scope.requestResultSize);
-            	$scope.allArchives = ($scope.archives).slice($scope.requestResultSize*pageNumber, 
+				if($scope.archives){
+					$scope.totalPages = Math.ceil($scope.archives.length / $scope.requestResultSize);
+					$scope.allArchives = ($scope.archives).slice($scope.requestResultSize*pageNumber, 
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
+				}
             }
             
             $scope.checkAllArchives = function(selected){
