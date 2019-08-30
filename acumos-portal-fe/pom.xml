@@ -23,7 +23,7 @@ limitations under the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-fe</artifactId>
-	<version>3.0.8-SNAPSHOT</version>
+	<version>3.0.9-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Acumos Portal frontend server</name>
 	<description>Acumos Portal AngularJS Front End</description>
@@ -103,13 +103,96 @@ limitations under the License.
 	</dependencies>
 	<build>
 		<plugins>
-			<!-- Require Java 1.8 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-versions</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedPlugins>
+									<!-- will only display a warning but does not fail the build. -->
+									<level>WARN</level>
+									<excludes>
+										<exclude>org.apache.maven.plugins:maven-verifier-plugin</exclude>
+									</excludes>
+									<message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
+								</bannedPlugins>
+								<requireMavenVersion>
+									<version>3.0.3</version>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>11</version>
+								</requireJavaVersion>
+								<!-- <requireOS>
+                  <family>unix</family>
+                </requireOS> -->
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+				<!-- Generate javadoc jar; see profile for Java 11 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.1</version>
+
+				<!-- spring chooses the <version>x</version> -->
+				<configuration>
+					<!-- during upgrade to jdk 11 
+					found that portal-fe javadoc build fails due to 
+					issues with different spring versions and only one is being used
+					by the javadoc:aggregate job-->	
+					<skip>true</skip>
+					<aggregate>false</aggregate>	<!-- this enables aggretation -->
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<argLine> --illegal-access=permit
+					</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<argLine> --illegal-access=permit
+					</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			<!-- Require Java 11 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>11</release>
 				</configuration>
 			</plugin>
 			<!-- Skip the deployment step, this makes jenkins config easy -->
@@ -157,7 +240,7 @@ limitations under the License.
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>1.14</version>
+				<version>1.17</version>
 				<configuration>
 					<licenseName>acumos</licenseName>
 					<licenseResolver>${project.baseUri}/src/license</licenseResolver>
@@ -182,7 +265,7 @@ limitations under the License.
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
+				<version>0.8.1</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -202,7 +285,7 @@ limitations under the License.
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.21.0</version>
+				<version>0.30.0</version>
 				<configuration>
 					<verbose>true</verbose>
 					<!-- docker runs on the LF build minion so the default value is ok -->
@@ -216,7 +299,7 @@ limitations under the License.
 							<name>acumos-portal-fe:${project.version}</name>
 							<build>
 								<!-- This is the same FROM used in a Dockerfile -->
-								<from>openjdk:8-jre-slim</from>
+								<from>adoptopenjdk/openjdk11-openj9:alpine-jre</from>
 								<tags>
 									<!-- Add tag with build number -->
 									<tag>${project.version}-b${build.number}</tag>

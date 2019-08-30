@@ -28,6 +28,32 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+							<!-- Generate javadoc jar; see profile for Java 11 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<!-- spring chooses the <version>x</version> -->
+				<configuration>
+								<!-- during upgrade to jdk 11 
+					found that portal-fe javadoc build fails due to 
+					issues with different spring versions and only one is being used
+					by the javadoc:aggregate job 
+					skipping didn't work only setting the source path to just portal
+					back end resolved the issue. This can be removed once 
+					spring upgrade is done for portal fe.-->	
+					<sourcepath>${basedir}/acumos-portal-be/src/main/java/</sourcepath>
+					<!-- <excludePackageNames>org.acumos.portal.fe.*</excludePackageNames> -->
+					<!-- <dependencySourceExcludes>org.springframework.boot.context.embedded.*:org.springframework.boot.web.support</dependencySourceExcludes> -->
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>

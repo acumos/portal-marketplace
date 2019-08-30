@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.9  26th August 2019 
+=================================
+* ACUMOS-3324	Upgrade to OpenJ9 JRE 11 on Alpine based image
+
 Version 3.0.8  19th August 2019 
 =================================
 * ACUMOS-2995	<IST> <Portal Marketplace > Microservice start message is displayed in "Green" and Microservice successful message displayed immediately
@@ -42,6 +46,7 @@ Version 3.0.7  12th August 2019
 * ACUMOS-3259    Published On Date is displaying for the unpublished model
 * ACUMOS-3243    IST: Anchor Message Issue
 * ACUMOS-3300    IST2 - Changing versions does not show difference
+
 
 Version 3.0.4  1st August 2019 
 =================================
