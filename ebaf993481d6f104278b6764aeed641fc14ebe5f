@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ba69f48_e58cc272",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/md-model-edit-workflow.template.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-08-30T09:57:01Z",
+      "side": 1,
+      "message": "please create a flag rather checkin on entire message... if we will change the message, this condition has to be change again.. this will lead into defects in future",
+      "range": {
+        "startLine": 607,
+        "startChar": 11,
+        "endLine": 607,
+        "endChar": 128
+      },
+      "revId": "ebaf993481d6f104278b6764aeed641fc14ebe5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
