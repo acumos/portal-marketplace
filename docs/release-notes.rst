@@ -24,6 +24,28 @@ Portal Marketplace Release Notes
 Version 3.0.9  26th August 2019 
 =================================
 * ACUMOS-3324	Upgrade to OpenJ9 JRE 11 on Alpine based image
+* ACUMOS-2806	IST:  Adding documents and images during publishing does not allow "_" or spaces
+* ACUMOS-3363	IST: New is displaying on the first catalog displaying in next pages
+* ACUMOS-3348	IST: Model is pending for approval but 'withdrawal request' is not displaying.
+* ACUMOS-3374	On model details page 'Author/Publisher details' icon is getting trimmed, specific for fire-fox browser.
+* ACUMOS-3242	Publisher unable to delete a catalog
+* ACUMOS-3373	IST: Green Tick is not displaying when user select one catalog from multiple catalog
+* ACUMOS-3375	Hand Symbol is displaying on overall application where tabulation is present.
+* ACUMOS-3368	<IST> <Marketplace/My Models> Tag functionality is not consistent across the application
+* ACUMOS-3364	<IST>For specific unpublished models, the model is visible as successfully published in publish to marketplace tab.
+* ACUMOS-3356	All the error messages for catalog screen should be error specific
+* ACUMOS-3361	Deploy to Azure | Composite solution details are not displaying on model edit screen for first instance on click deploy to Azure if user navigate from design studio screen
+* ACUMOS-3285	IST2 - Copy description for publishing not working
+* ACUMOS-3263	IST: Catalog name going out of the box if name length exceeded to certain limit
+* ACUMOS-3355	<IST> Gramatical mistake in showing page numbers and model numbers in some screens on the bottom left corner
+* ACUMOS-3319	<IST>Names of modules are not visible in discover acumos section.
+* ACUMOS-3121	IST: Unpublished Model of other user is displaying on model description screen
+* ACUMOS-3365	<IST>For restricted catalogs, there is spacing issue in the model publication status boxes in publish to marketplace page
+* ACUMOS-3370	<IST> Wrong sentence in Sign In pop-up
+* ACUMOS-3352	Hand Symbol is displaying on Dynamic image in the design studio tab
+* ACUMOS-3350	IST: Success Status is displaying in red color View Result for successful on-boarding
+* ACUMOS-3353	IST: After publishing the model with self publish no, the success message is displayed as solution  published
+
 
 Version 3.0.8  19th August 2019 
 =================================
