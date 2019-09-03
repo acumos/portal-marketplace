@@ -479,20 +479,49 @@ angular
                     scope.file = scope.fileinput;
                     scope.fileType = scope.file.name.split('.').pop();
                     scope.validFormats = ['jpg','jpeg','png','gif'];
+                    scope.textValidFormats = ['txt'];
                     
                     var reader = new FileReader();
 					var imgpath = new Image();
                 	var size = scope.fileinput.size;
-                	var regEx = /[^0-9A-Za-z]/;
+                	var regEx = /[^0-9A-Za-z-_]/;
                 	var fileInputName = scope.file.name.substr(0, scope.file.name.indexOf('.'));
                 	scope.filename = scope.fileinput.name;
-                	if( regEx.test(fileInputName) && !scope.validFormats.includes(scope.fileType) ) 
+                	
+                	//existing code
+                	/*if( regEx.test(fileInputName) && !scope.validFormats.includes(scope.fileType) ) 
             		{
 	            		if( scope.validfilename != null ){
 	            			scope.validfilename = true;
 	            		}
 	            		return;
-            		}
+            		}*/
+                	
+                	//check for extension
+                	if(scope.file.type.includes(scope.accept)){
+                		scope.imagetypeerror = false;
+                		//scope.validfilename = true;
+                		console.log("matches extension");
+                		
+					} else if(!scope.file.type.includes(scope.accept)){
+						scope.imagetypeerror = true;
+						//scope.validfilename = true;
+						console.log("Does NOT matches extension");
+						return;
+					}
+                	
+                	if(regEx.test(fileInputName) && scope.textValidFormats.includes(scope.fileType)) {
+                		if(scope.validfilename != null) {
+	            			scope.validfilename = true;
+	            			//scope.imagetypeerror = false;
+	            		}                		
+                	}               	
+                	if(regEx.test(fileInputName) && scope.validFormats.includes(scope.fileType)) {
+                		if(scope.validfilename != null) {
+	            			scope.validfilename = true;
+	            		}                		               				
+                	}
+                	
                 	if( scope.docerror != null ){
                 		if(size >= scope.size){
                 			scope.docerror = true;
@@ -571,7 +600,7 @@ angular
                         var size = scope.file.size;
                         
                         scope.validfilename = false;
-                        var regEx = /[^0-9A-Za-z]/;
+                        var regEx = /[^0-9A-Za-z_-]/;
                         var fileInputName = scope.filename.substr(0, scope.filename.indexOf('.'));
                     	if(regEx.test(fileInputName)) //scope.fileinput.name.split(" ").length-1 > 0
                 		{
