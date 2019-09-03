@@ -21,7 +21,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.9  26th August 2019 
+Version 3.0.10  3rd September 2019 
 =================================
 * ACUMOS-3324	Upgrade to OpenJ9 JRE 11 on Alpine based image
 * ACUMOS-2806	IST:  Adding documents and images during publishing does not allow "_" or spaces
@@ -54,7 +54,7 @@ Version 3.0.8  19th August 2019
 * ACUMOS-1189	DS horizontal and vertical bars show drag handles but cannot be moved
 * ACUMOS-3341	Admin: Carousel: Select Color functionality is not working
 * ACUMOS-2945	Pagination is required in the SELECT FAVORITE CATALOGS screen
-* ACUMOS-3222	As a platform admin, I need the ability to associate company information with the RTU
+* ACUMOS-3322	IST : ML Learning Path showing image path not valid and icon is also not displaying
 
 
 Version 3.0.7  12th August 2019 
