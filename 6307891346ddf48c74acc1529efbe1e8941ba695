@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4545fcd5_47034ab8",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 2321,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2019-09-03T15:12:20Z",
+      "side": 1,
+      "message": "avoiding \"!important\" and finding an alternate way to define css at global might be better choice.",
+      "range": {
+        "startLine": 2321,
+        "startChar": 46,
+        "endLine": 2321,
+        "endChar": 57
+      },
+      "revId": "6307891346ddf48c74acc1529efbe1e8941ba695",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
