@@ -515,6 +515,24 @@ angular
 											});
 						}
 									
+						  // utility function for publish button check
+                                    
+                                    var checkAuthorlength=[];
+                                    $scope.PublishConditionCheck = function(checkAuthorlength){
+                                          
+                                          if(checkAuthorlength.length>0){
+                                          $scope.checkPublish = false;
+                                          
+                                    }
+                                    else{                                                                         
+                                                $scope.checkPublish = true;
+
+                                         }                                                                                   
+                                    }			
+									
+									
+									
+									
 						$scope.getAuthorList = function(tag,ev){
 							apiService.getAuthors($scope.solutionId, $scope.revisionId).then(function(response) {																						
 								for(var i = 0 ;i<response.data.response_body.length; i++)
@@ -523,10 +541,8 @@ angular
 									var keyVal= response.data.response_body[i].name + response.data.response_body[i].contact;									 
 										response.data.response_body[i][keyName] = keyVal;
 									}
-									$scope.AuthorsTag = response.data.response_body;
-									if($scope.AuthorsTag){
-										$scope.checkPublish = false;
-									}
+		                                    $scope.AuthorsTag = response.data.response_body;
+                                            $scope.PublishConditionCheck($scope.AuthorsTag);
 									
 							});
 						}
@@ -568,7 +584,14 @@ angular
 							    		$scope.styleclass = 'c-success';									
 							    		$scope.showAlertMessage = true;
 							    		$scope.cancelAuthor();
-							    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+							    		$timeout(function() {$scope.showAlertMessage = false;
+                                                      if($scope.AuthorsTag.length>0){
+                                                           $scope.checkPublish = false;
+                                                      }
+                                                      else{                                                       
+                                                            $scope.PublishConditionCheck($scope.AuthorsTag);
+                                                      }}
+                                                      , 3000);
 					    			}
 					    	},
 					    	function errorCallback(response) {
@@ -1123,8 +1146,7 @@ angular
 
 
 						$scope.publishtoMarket = function(selectedCatalogId) {
-							$scope.closeDialog();
-							if($scope.AuthorsTag.length > 0){
+							$scope.closeDialog();							
 							if ($scope.solution.ownerId) {
 									var data = $.param({
 										visibility : $scope.selectedCatalogObj.accessTypeCode,
@@ -1134,7 +1156,7 @@ angular
 									});																														
 									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
-														$scope.checkPublish = false;																									
+																																							
 														$scope.handleSuccess = true;
 														$timeout(function() {$scope.handleSuccess = false;}, 4500);
 
@@ -1194,46 +1216,35 @@ angular
 																	}
 																}
 															});
-														} else {
-															$location.hash('manage-models');
-															$scope.msg = error.data.response_detail;
-															$scope.icon = 'info_outline';
-															$scope.styleclass = 'c-error';
-															$anchorScroll();
-															$scope.showAlertMessage = true;
-															$timeout(function() {$scope.showAlertMessage = false;}, 5000);
-														}
-														$scope.selectedCatalogId = selectedCatalogId;
-													});				
+							                                                             } else {
+                                                                                          $location.hash('manage-models');
+                                                                                           $scope.msg = error.data.response_detail;
+                                                                                          $scope.icon = 'info_outline';
+                                                                                          $scope.styleclass = 'c-error';
+                                                                                          $anchorScroll();
+                                                                                          $scope.showAlertMessage = true;
+                                                                                          $timeout(function() {$scope.showAlertMessage = false;}, 5000);
+                                                                                    }
+                                                                                    $scope.selectedCatalogId = selectedCatalogId;
+                                                                              });                     
 
-								} 							
-							 else {
-								$scope.status = 'Please sign in as owner  to publish solution';
-								$location.hash('manage-models');
-								$anchorScroll();
-								$scope.msg = "Please sign in as owner to publish solution";
-								$scope.icon = 'info_outline';
-								$scope.styleclass = 'c-info';
-								$scope.showAlertMessage = true;
-								$timeout(function() {$scope.showAlertMessage = false;}, 3500);
-							}
+                                                }                                         
+                                           else {
+                                                $scope.status = 'Please sign in as owner  to publish solution';
+                                                $location.hash('manage-models');
+                                                $anchorScroll();
+                                                $scope.msg = "Please sign in as owner to publish solution";
+                                                $scope.icon = 'info_outline';
+                                                
+                                                $scope.styleclass = 'c-info';
+                                                $scope.showAlertMessage = true;
+                                                $timeout(function() {$scope.showAlertMessage = false;}, 3500);
+                                          }
+                                          
+                                          }
 							
-							}
-							else{
-								$scope.status = 'Please add author'
-								$location.hash('manage-models');
-								$anchorScroll();
-								$scope.msg = "You can't publish the catalog without an author name. Please add author name in Manage Publisher/Author page.";
-								$scope.icon = 'info_outline';
-								$scope.styleclass = 'c-error';
 							
-								$scope.checkPublish = true;
-															
-								$scope.showAlertMessage = true;
-								$timeout(function() {								
-									$scope.showAlertMessage = true;}, 3500);
-							}
-							}
+							
 						
 
 						/** * shared with team members functionalities START* */

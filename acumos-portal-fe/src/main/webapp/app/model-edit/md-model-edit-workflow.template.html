@@ -603,6 +603,14 @@ limitations under the License.
 							<!-- company start -->
 							<div class="mdl-tabs__panel company-market" id="company-market"
 								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">
+								
+								 <div class="c-alert c-error static-position margin-backlog" ng-if="checkPublish && !showAlertMessage" >
+	
+                                               <div class="c-alert-inner"><span class="material-icons">info_outline</span>
+	
+                                               <span class="alert-text">You cannot publish the catalog without entering the author name. Please add author name in the  "Manage Publisher/Authors" page to publish it.</span></div>
+
+                                         </div>
 								<div>
 								<div class="mdl-grid mdl-grid--no-spacing catalogList admin-row3">
 									<div ng-show="catalogsAvailable.length > 0" class="select-control">
