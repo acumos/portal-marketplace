@@ -48,6 +48,7 @@ import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -60,6 +61,7 @@ import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLArtifact;
@@ -76,6 +78,7 @@ import org.acumos.portal.be.util.SanitizeUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.utils.SVConstants;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +97,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -120,6 +126,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	MarketPlaceCatalogServiceImpl impl;
+	
 
 	private static final String MSG_SEVERITY_ME = "ME";
 
@@ -376,16 +386,33 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
             peerSolutionArtifacts = marketPlaceService.getSolutionArtifacts(solutionId, revisionId);
             if (peerSolutionArtifacts != null) {
                 peerSolutionArtifacts.forEach((MLPArtifact mlpArtifact) -> {
+                	String str = mlpArtifact.getArtifactTypeCode();
+                	String content = null;
+                	try {
+                		String nexusUrl = env.getProperty("nexus.url");
+                		String nexusUserName = env.getProperty("nexus.username");
+    					String nexusPd = env.getProperty("nexus.password");
+    					//String str1 = "{\"probeIndicator\":\"false\",\"validSolution\":true}";
+						NexusArtifactClient client = impl.nexusArtifactClient(nexusUrl, nexusUserName, nexusPd);
+						ByteArrayOutputStream stream = client.getArtifact(str);
+						String str3 = stream.toString();
+						ObjectMapper mapper = new ObjectMapper();						
+						JsonNode node = mapper.readTree(str3);
+						content = node.get("validSolution").asText();
+    				} catch (Exception e) {
+    					e.printStackTrace();
+    				}
+                	
                     if ("DI".equals(mlpArtifact.getArtifactTypeCode())) {
                         String[] st = mlpArtifact.getUri().split("/");
                         String imagetag_prefix= st[0];
                         if(env.getProperty("docker.registry.url") !=null && imagetag_prefix.equalsIgnoreCase(env.getProperty("docker.registry.url").replaceAll("http://", "").replaceAll("https://", "").replaceAll("/", ""))) {
-                            filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false));                            
+                            filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false,content));                            
                         } else {
-                            filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,true));
+                            filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,true,content));
                         }
                     } else {
-                        filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false));
+                        filteredPeerSolutionArtifacts.add(PortalUtils.convertToMLArtifact(mlpArtifact,false,content));
                     }
                 });                
                 data.setResponseBody(filteredPeerSolutionArtifacts);
