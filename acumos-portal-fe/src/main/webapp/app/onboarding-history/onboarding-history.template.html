@@ -204,7 +204,7 @@ limitations under the License.
 			<label>Solution Id: </label>{{solId}}
 		</div>
 		<div>
-			<label>Status: </label><span 
+			<label>Status: </label><span class="status-color"
 					ng-class="{'history-error': Task.statusCd == 'FA', 
 						'history-progress': Task.statusCd == 'ST', 
 						'history-success': Task.statusCd == 'SU' }" >{{statusCd == "ST" ? "InProgress" :statusCd == "SU" ? "Success" : "Fail"}}</span>
