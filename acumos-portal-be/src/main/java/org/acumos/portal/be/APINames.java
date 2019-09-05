@@ -119,8 +119,8 @@ public class APINames {
 	public static final String DELETE_CATALOG = GET_CATALOG;
 	private static final String CATALOG_PEER_PATH = "/peer/{peerId}";
 	public static final String GET_PEER_CATALOG_ACCESS = CREATE_CATALOG + CATALOG_PEER_PATH + "/access";
-	public static final String ADD_PEER_CATALOG_ACCESS = GET_CATALOG + CATALOG_PEER_PATH;
-	public static final String DROP_PEER_CATALOG_ACCESS = ADD_PEER_CATALOG_ACCESS;
+	public static final String ADD_PEER_CATALOG_ACCESS = GET_CATALOG + "/addPeers";
+	public static final String DROP_PEER_CATALOG_ACCESS = GET_CATALOG + "/peers";
 	public static final String CATALOG_SOLUTION_COUNT = GET_CATALOG + "/solution/count";
 	public static final String SOLUTIONS_IN_CATALOGS = GET_CATALOGS + "/solutions";
 	private static final String CATALOG_SOLUTION_PATH = "/solution/{solutionId}";
@@ -131,6 +131,9 @@ public class APINames {
 	public static final String GET_USER_FAVORITE_CATALOGS = CREATE_CATALOG + USER_FAVORITE_CATALOG_PATH;
 	public static final String ADD_USER_FAVORITE_CATALOG = GET_CATALOG + USER_FAVORITE_CATALOG_PATH;
 	public static final String DROP_USER_FAVORITE_CATALOG = ADD_USER_FAVORITE_CATALOG;
+	public static final String CREATE_PEER = "/peer";
+	private static final String PEER_CATALOG_PATH = "/catalog/{catalogId}";
+	public static final String GET_CATALOG_PEER_ACCESS = CREATE_PEER + PEER_CATALOG_PATH + "/access";
 
 	// Tags APIs for MarketPlace Catalog
 	public static final String TAGS = "/tags";
