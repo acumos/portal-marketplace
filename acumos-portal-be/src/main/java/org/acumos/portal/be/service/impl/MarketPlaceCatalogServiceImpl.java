@@ -854,6 +854,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				String userFirstName = "";
 				String userLastName = "";
 				String userName = "";
+				MLPSolutionRevision revisionId = null;
 				Set<String> filteredTagSet = new HashSet<>();
 
 				if (!PortalUtils.isEmptyList(filteredMLPSolutions)) {
@@ -861,6 +862,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					for (MLPSolution mlpSol : filteredMLPSolutions) {
 
 						MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
+
+						revisionId = getLatestSolRevision(mlpSol.getSolutionId());
 						// Identify the OwnerName for each solution
 						MLPUser user = dataServiceRestClient.getUser(mlpSol.getUserId());
 						if (user != null) {
@@ -875,6 +878,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 								}
 							}
 							mlSolution.setOwnerName(userName);
+							mlSolution.setLatestRevisionId(revisionId.getRevisionId());
 						}
 
 						List<MLPTag> tagList = dataServiceRestClient

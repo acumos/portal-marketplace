@@ -284,7 +284,7 @@ limitations under the License.
 							<div class="list-item list-container"
 								ng-repeat="val in relatedSolutions | limitTo: 5">
 								<ul class="model-list"
-									ng-click='goToRelatedSolutions(val.solutionId)'>
+									ng-click='goToRelatedSolutions(val.solutionId, val.latestRevisionId)'>
 									<li><img src="images/solution2.jpg" alt=""
 										ng-click="onClickModel(val.solutionId, val.ownerId)"
 										title="solution"></li>
