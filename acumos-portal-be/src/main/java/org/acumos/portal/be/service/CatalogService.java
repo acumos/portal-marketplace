@@ -23,6 +23,7 @@ package org.acumos.portal.be.service;
 import java.util.List;
 
 import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -44,9 +45,9 @@ public interface CatalogService {
 	
 	List<String> getPeerAccessCatalogIds(String peerId);
 	
-	void addPeerAccessCatalog(String peerId, String catalogId);
+	void addPeerAccessCatalog(List<String> peerIdList, String catalogId);
 	
-	void dropPeerAccessCatalog(String peerId, String catalogId);
+	void dropPeerAccessCatalog(List<String> peerIdList, String catalogId);
 	
 	long getCatalogSolutionCount(String catalogId);
 	
@@ -63,4 +64,5 @@ public interface CatalogService {
 	void addUserFavoriteCatalog(String userId, String catalogId);
 	
 	void dropUserFavoriteCatalog(String userId, String catalogId);
+	List<MLPPeer> getCatalogIdsAccessPeer(String catalogId);
 }

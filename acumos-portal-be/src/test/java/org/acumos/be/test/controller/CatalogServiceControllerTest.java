@@ -37,11 +37,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -107,6 +111,8 @@ public class CatalogServiceControllerTest {
 	private static final String USER_FAVORITE_PATH = "/user" + VARIABLE + "/favorite";
 	private static final String GET_USER_FAVORITES_PATH = CCDS_CATALOG_PATH + USER_FAVORITE_PATH;
 	private static final String ADD_DROP_FAVORITES_PATH = CATALOG_ID_PATH + USER_FAVORITE_PATH;
+	private static final String PEER_PATH = "/peer";
+	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
 	
 	@Test
 	public void getCatalogsTest() {
@@ -452,13 +458,20 @@ public class CatalogServiceControllerTest {
 	public void addPeerCatalogAccessTest() {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		String peerId = "1234-1234-1234-1234-1234";
+		List<String> peerIdList=new ArrayList<>();
+		peerIdList.add(peerId);
+		JsonRequest<List<String>> reqObj = new JsonRequest<>();
+		reqObj.setBody(peerIdList);
 
 		stubFor(post(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, peerId, catalogId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+				
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<List<String>>> requestEntity = new HttpEntity<>(reqObj, headers);
 
 		ResponseEntity<JsonResponse<Object>> respEntity = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + format(APINames.ADD_PEER_CATALOG_ACCESS, catalogId, peerId),
-				HttpMethod.POST, null, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + format(APINames.ADD_PEER_CATALOG_ACCESS, catalogId),
+				HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(respEntity);
@@ -469,13 +482,20 @@ public class CatalogServiceControllerTest {
 	public void dropPeerCatalogAccessTest() {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		String peerId = "1234-1234-1234-1234-1234";
+		List<String> peerIdList=new ArrayList<>();
+		peerIdList.add(peerId);
+		JsonRequest<List<String>> reqObj = new JsonRequest<>();
+		reqObj.setBody(peerIdList);
 
 		stubFor(delete(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, peerId, catalogId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+				
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<List<String>>> requestEntity = new HttpEntity<>(reqObj, headers);
 
 		ResponseEntity<JsonResponse<Object>> respEntity = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + format(APINames.DROP_PEER_CATALOG_ACCESS, catalogId, peerId),
-				HttpMethod.DELETE, null, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + format(APINames.DROP_PEER_CATALOG_ACCESS, catalogId),
+				HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(respEntity);
@@ -692,5 +712,27 @@ public class CatalogServiceControllerTest {
 
 	private String format(String path, Object... args) {
 		return String.format(path.replaceAll("\\{\\w*\\}", "%s"), args);
+	}
+	
+	@Test
+	public void getCatalogAccessPeerIds() {
+		String catalogId = "168a994d-975c-11e9-a66f-7446a0c0ded8";
+		stubFor(get(urlEqualTo(String.format(CATALOG_ACCESS_PATH, catalogId))).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+								+ "\"peerId\": \"12345678\"," + "\"name\": \"test\"," + "\"webUrl\": \"url\","
+								+ "\"statusCode\": \"RS\"}]")));
+
+		ResponseEntity<JsonResponse<List<MLPPeer>>> respEntity = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + format(APINames.GET_CATALOG_PEER_ACCESS, catalogId),
+				HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<List<MLPPeer>>>() {
+				});
+
+		assertNotNull(respEntity);
+		assertEquals(HttpServletResponse.SC_OK, respEntity.getStatusCode().value());
+		List<MLPPeer> peers = respEntity.getBody().getResponseBody();
+		assertEquals(peers.size(), 1);
+		MLPPeer mlpeer = peers.get(0);
+		assertNotNull(mlpeer);
 	}
 }
