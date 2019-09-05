@@ -294,18 +294,18 @@ limitations under the License.
 		<md-dialog aria-label="Sign In"  class="sign-in-promt-modal-box"  style="width:800px" >
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Error Description</h2>
+				<h2>Error</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="mdClosePoup()">
 				<i class="material-icons">close</i> </md-button>
 			</div>
 		</md-toolbar>
 		<md-dialog-content>
-			<div class="md-dialog-content">
-			<span style="font-size: 15px; font-weight:550;color:red;">The selected catalog cannot be deleted if it falls on any one or more conditions listed below :</span>
-				<ul style="color:red;"><li>If it is added as Favourite Catalog</li>
-				<li>If it is pending for publish request </li>
-				<li>If Peer has granted access to that catalog</li></ul>
+		<div class="md-dialog-content">
+			<span style="font-size: 15px; font-weight:550;color:red;">The selected catalog cannot be deleted if it falls under any one or more conditions listed below :</span>
+				<ul style="color:red;"><li>If Catalog is added as favorite catalog</li>
+				<li>If Catalog has any model is pending for publish request </li>
+				<li>If user granted access to peer for the catalog being deleted</li></ul>
 			</div>
 		</md-dialog-content>
 		
