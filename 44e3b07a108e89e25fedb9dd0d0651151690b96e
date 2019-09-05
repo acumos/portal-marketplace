@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15ea5758_e89c572f",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLArtifact.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-05T15:32:10Z",
+      "side": 1,
+      "message": "should be lower case",
+      "range": {
+        "startLine": 40,
+        "startChar": 16,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "44e3b07a108e89e25fedb9dd0d0651151690b96e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
