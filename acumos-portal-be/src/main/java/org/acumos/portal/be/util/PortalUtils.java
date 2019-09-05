@@ -713,7 +713,7 @@ public class PortalUtils {
 		return new RestPageResponse<>(content, first.getPageable(), first.getTotalElements());
 	}
 	
-	public static MLArtifact convertToMLArtifact(MLPArtifact mlpArtifact,boolean masked) {
+	public static MLArtifact convertToMLArtifact(MLPArtifact mlpArtifact,boolean masked,String validSolution) {
 
           MLArtifact mlArtifact = new MLArtifact();
           mlArtifact.setName(mlpArtifact.getName());
@@ -726,6 +726,7 @@ public class PortalUtils {
           mlArtifact.setArtifactType(mlpArtifact.getArtifactTypeCode());
           mlArtifact.setArtifactUri(mlpArtifact.getUri());
           mlArtifact.setMask(masked);
+          mlArtifact.setValidSolution(validSolution);
 
           return mlArtifact;
         }

@@ -37,6 +37,17 @@ public class MLArtifact {
 	private Date modified;
 	private boolean mask = false;
 	private int size;
+	private String ValidSolution;
+	
+	
+	
+	public String getValidSolution() {
+		return ValidSolution;
+	}
+
+	public void setValidSolution(String validSolution) {
+		ValidSolution = validSolution;
+	}
 
 	public MLArtifact() {
 		// TODO Auto-generated constructor stub
