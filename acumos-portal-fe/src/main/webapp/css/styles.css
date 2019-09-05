@@ -1500,6 +1500,10 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .row-cell-left md-checkbox {margin-bottom:0;}
 .row-cell-left .md-label > span {line-height:30px;}
 .row-cell-left > div {line-height:30px;padding-left:5px;}
+.xlarge-size-dialog {width: 850px;}
+.modal-search-container {margin-bottom: 20px;}
+.model-search-control  {border: 1px solid #d5d5d5;padding:0 5px;height:30px;width: 300px;padding-right: 40px;border-radius: 2px;background: url('../images/sidebar-icons/search_icon.png') no-repeat 98% center !important;}
+.fa-times {color: #4f147a; font-size: 1.5em; cursor: pointer;}
 
 /******** Maintained Backup Logs CSS start *****/
 .large-size-dialog {width: 680px;}
@@ -1558,6 +1562,7 @@ input[type="text"].medium-textbox {width: 300px;}
 .gridicon-deny {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_denyX.png") no-repeat center center;}
 .gridicon-archive {display:inline-block; width: 22px; height: 16px; background: url("../images/general-icons/archive.png") no-repeat center center;}
 .gridicon-restore {display:inline-block; width: 19px; height: 15px; background: url("../images/general-icons/restore.png") no-repeat center center;}
+.gridicon-access {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/User_access.png") no-repeat center center;}
 
 .gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 3px;cursor:pointer; }
 .gridcell-sort.deactivate {background: url("../images/general-icons/sortby_deactivate.png") no-repeat center center; }

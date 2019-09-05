@@ -325,6 +325,11 @@ angular.module('AcumosApp')
             return $http.get(urlUnreadNotification + '/' + userID);
         }
         
+        this.getAccessedPeers = function(catalogId){
+            return $http.get("api/peer/catalog/" + catalogId + "/access");
+            
+        }
+        
         this.getNotificationPagination = function(userId, reqObj){
         	return $http.post(urlNotificationPagination + '/' + userId, reqObj);
         };
@@ -537,6 +542,15 @@ angular.module('AcumosApp')
         this.createRTU = function(rtuRefId, solutionId, siteWideRtu, reqBody){
             return $http.post(urlCreateRTU + '/' + rtuRefId + '/' + solutionId + '/' + siteWideRtu, reqBody);
         }
+        
+        this.addGrantAccess = function (catalogId , reqBody) {
+            return $http.post("/api/catalog/" + catalogId + "/addPeers" , reqBody);
+        }
+        
+        this.removeAccess = function (catalogId , reqBody) {
+            return $http.post("/api/catalog/" + catalogId + "/peers" , reqBody);
+        }
+
         
                 
         /**************** ALL DELETE ******************/
