@@ -139,6 +139,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
          .state('acuCompose', {
 			url: '/acuCompose',
 			component: 'acuCompose'
+		})
+		.state('managePeer', {
+		url: '/managePeer?catalogName&catalogId',
+		component: 'managePeer',
+			params: {
+				catalogName : null,
+				catalogId : null
+			}
 		});
 	
 		$authProvider.facebook({
