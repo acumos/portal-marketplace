@@ -320,8 +320,8 @@ angular
 							}
 						}
 					
-						$scope.goToRelatedSolutions = function(solutionId){
-							$state.go('marketSolutions', {solutionId : solutionId, revisionId : $scope.revisionId, parentUrl: 'marketSolutions'});
+						$scope.goToRelatedSolutions = function(solutionId, revisionId){
+							$state.go('marketSolutions', {solutionId : solutionId, revisionId : revisionId, parentUrl: 'marketSolutions'});
 						}
 						
 						if($stateParams.parentUrl){
