@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -122,17 +123,21 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	}
 	
 	@Override
-	public void addPeerAccessCatalog(String peerId, String catalogId) {
-		log.debug("addPeerAccessCatalog : peerId=" + peerId + ", catalogId="+ catalogId);
+	public void addPeerAccessCatalog(List<String> peerIdList, String catalogId) {
+		log.debug("addPeerAccessCatalog : peerIdList=" + peerIdList + ", catalogId=" + catalogId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		dataServiceRestClient.addPeerAccessCatalog(peerId, catalogId);
+		for (String peerId : peerIdList) {
+			dataServiceRestClient.addPeerAccessCatalog(peerId, catalogId);
+		}
 	}
 	
 	@Override
-	public void dropPeerAccessCatalog(String peerId, String catalogId) {
-		log.debug("removePeerAccessCatalog : peerId=" + peerId + ", catalogId="+ catalogId);
+	public void dropPeerAccessCatalog(List<String> peerIdList, String catalogId) {
+		log.debug("removePeerAccessCatalog : peerIdList=" + peerIdList + ", catalogId=" + catalogId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		dataServiceRestClient.dropPeerAccessCatalog(peerId, catalogId);
+		for (String peerId : peerIdList) {
+			dataServiceRestClient.dropPeerAccessCatalog(peerId, catalogId);
+		}
 	}
 
 	@Override
@@ -189,5 +194,12 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 		log.debug("addUserFavoriteCatalog : user=" + userId + ", catalog=" + catalogId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.dropUserFavoriteCatalog(userId, catalogId);
+	}
+	
+	@Override
+	public List<MLPPeer> getCatalogIdsAccessPeer(String catalogId) {
+		log.debug("getCatalogIdsAccessPeer ={}", catalogId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		return dataServiceRestClient.getCatalogAccessPeers(catalogId);
 	}
 }
