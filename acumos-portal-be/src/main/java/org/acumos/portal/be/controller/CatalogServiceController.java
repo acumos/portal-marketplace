@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -302,11 +303,12 @@ public class CatalogServiceController extends AbstractController {
 			APINames.ADD_PEER_CATALOG_ACCESS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> addPeerCatalogAccess(HttpServletRequest request, @PathVariable String catalogId,
-			@PathVariable String peerId, HttpServletResponse response) {
+			@RequestBody JsonRequest<List<String>> peerId, HttpServletResponse response) {
 		log.debug("addPeerCatalogAccess");
 		JsonResponse<Object> data = new JsonResponse<>();
+		List<String> PeerIdList = peerId.getBody();
 		try {
-			catalogService.addPeerAccessCatalog(peerId, catalogId);
+			catalogService.addPeerAccessCatalog(PeerIdList, catalogId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Catalog access added for peer successfully");
 		} catch (Exception e) {
@@ -320,14 +322,15 @@ public class CatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Drops catalog access for given peer")
 	@RequestMapping(value = {
-			APINames.DROP_PEER_CATALOG_ACCESS }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+			APINames.DROP_PEER_CATALOG_ACCESS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> dropPeerCatalogAccess(HttpServletRequest request, @PathVariable String catalogId,
-			@PathVariable String peerId, HttpServletResponse response) {
+			@RequestBody JsonRequest<List<String>> peerId, HttpServletResponse response) {
 		log.debug("dropPeerCatalogAccess");
 		JsonResponse<Object> data = new JsonResponse<>();
+		List<String> PeerIdList = peerId.getBody();
 		try {
-			catalogService.dropPeerAccessCatalog(peerId, catalogId);
+			catalogService.dropPeerAccessCatalog(PeerIdList, catalogId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Catalog access dropped for peer successfully");
 		} catch (Exception e) {
@@ -531,6 +534,35 @@ public class CatalogServiceController extends AbstractController {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setResponseDetail("Exception Occurred Dropping Catalog from User Favorites");
 			log.error("Exception Occurred Dropping Catalog from User Favorites", e);
+		}
+		return data;
+	}
+	@ApiOperation(value = "Fetches list of peers accessible by catalogId", response = String.class, responseContainer = "List")
+	@RequestMapping(value = {
+			APINames.GET_CATALOG_PEER_ACCESS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPPeer>> getCatalogAccessPeers(HttpServletRequest request, @PathVariable String catalogId,
+			HttpServletResponse response) {
+		log.debug("getcatalogAccessPeers ={}", catalogId);
+		List<MLPPeer> peers = null;
+		JsonResponse<List<MLPPeer>> data = new JsonResponse<>();
+		try {
+			peers = catalogService.getCatalogIdsAccessPeer(catalogId);
+			if (peers != null) {
+				data.setResponseBody(peers);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("catalog Peer access fetched successfully");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				data.setResponseDetail("Error occured while fetching catalog peer access");
+				log.error("Error Occurred Fetching Catalog Peer Access");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setResponseDetail("Exception Occurred Fetching Catalog Peer Access");
+			log.error("Exception Occurred Fetching Catalog Peer Access", e);
 		}
 		return data;
 	}
