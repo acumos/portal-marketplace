@@ -35,11 +35,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -93,6 +95,8 @@ public class CatalogServiceImplTest {
 	private static final String USER_FAVORITE_PATH = "/user" + VARIABLE + "/favorite";
 	private static final String GET_USER_FAVORITES_PATH = CCDS_CATALOG_PATH + USER_FAVORITE_PATH;
 	private static final String ADD_DROP_FAVORITES_PATH = CATALOG_ID_PATH + USER_FAVORITE_PATH;
+	private static final String PEER_PATH = "/peer";
+	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
 
 	@Test
 	public void getCatalogsTest() {
@@ -263,22 +267,26 @@ public class CatalogServiceImplTest {
 	public void addPeerAccessCatalogTest() {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		String peerId = "1234-1234-1234-1234-1234";
+		List<String> peerIdList=new ArrayList<>();
+		peerIdList.add(peerId);
 
 		stubFor(post(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, peerId, catalogId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		catalogService.addPeerAccessCatalog(peerId, catalogId);
+		catalogService.addPeerAccessCatalog(peerIdList, catalogId);
 	}
 
 	@Test
 	public void dropPeerAccessCatalogTest() {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		String peerId = "1234-1234-1234-1234-1234";
+		List<String> peerIdList=new ArrayList<>();
+		peerIdList.add(peerId);
 
 		stubFor(delete(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, peerId, catalogId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		catalogService.dropPeerAccessCatalog(peerId, catalogId);
+		catalogService.dropPeerAccessCatalog(peerIdList, catalogId);
 	}
 
 	@Test
@@ -428,5 +436,22 @@ public class CatalogServiceImplTest {
 		assertEquals(response.getNumber(), 0);
 		assertEquals(response.getSize(), 9);
 		assertNotNull(response.getContent());
+	}
+	
+	@Test
+	public void getCatalogIdsAccessPeerTest() {
+
+		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
+
+		stubFor(get(urlEqualTo(String.format(CATALOG_ACCESS_PATH, catalogId))).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+								+ "\"peerId\": \"12345678\"," + "\"name\": \"test\"," + "\"webUrl\": \"url\","
+								+ "\"statusCode\": \"RS\"}]")));
+
+		List<MLPPeer> peers = catalogService.getCatalogIdsAccessPeer(catalogId);
+		assertEquals(peers.size(), 1);
+		MLPPeer mlpeer = peers.get(0);
+		assertNotNull(mlpeer);
 	}
 }
