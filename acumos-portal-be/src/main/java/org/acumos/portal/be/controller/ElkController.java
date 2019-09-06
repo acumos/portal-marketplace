@@ -335,15 +335,15 @@ public class ElkController/* extends AbstractController */ {
 		return data;
 	}
 	
-	@ApiOperation(value = "Create Restore Archive", response = ElkArchiveResponse.class)
+	@ApiOperation(value = "Create/Restore/Delete Archive", response = ElkArchiveResponse.class)
 	@RequestMapping(value = { APINames.ARCHIVE_ACTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<ElkArchiveResponse> createRestoreArchive(HttpServletRequest request,
+	public JsonResponse<ElkArchiveResponse> archiveAction(HttpServletRequest request,
 			@RequestBody JsonRequest<ElkArchive> requestJson, HttpServletResponse response) {
 		log.debug("createRestoreArchive");
 		JsonResponse<ElkArchiveResponse> data = new JsonResponse<>();
 		try {
-			ElkArchiveResponse resp = elkService.createRestoreArchive(requestJson.getBody());
+			ElkArchiveResponse resp = elkService.archiveAction(requestJson.getBody());
 			if (resp.getArchiveInfo() != null) {
 				data.setResponseBody(resp);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

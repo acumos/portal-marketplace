@@ -60,9 +60,6 @@ public class ElkControllerTest {
 	ElkController elkController;
 	@Mock
 	ElkService elkService;
-	@Mock
-	ElkServiceImpl elkServiceImpl;
-	
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 	
@@ -339,8 +336,20 @@ public class ElkControllerTest {
 		ElkArchiveResponse elkArchiveResponse=new ElkArchiveResponse();
 		List<ElkArchiveInfo> elkArchiveInfoList=new ArrayList<>();
 		ElkArchiveInfo elkArchiveInfo=new ElkArchiveInfo();
-		elkArchiveInfo.setBackUpName("MyBackup");
+		elkArchiveInfo.setRepositoryName("MyBackup");
 		elkArchiveInfo.setDate("2019-08-20:14:24:28Z");
+		ElkGetSnapshotMetaData elkGetSnapshotMetaData=new ElkGetSnapshotMetaData();
+		elkGetSnapshotMetaData.setEndTime("2019-03-28 08-53-41");
+		elkGetSnapshotMetaData.setStartTime("2019-03-28 08-53-41");
+		elkGetSnapshotMetaData.setSnapShotId("123");
+		elkGetSnapshotMetaData.setState("testSate");
+		elkGetSnapshotMetaData.setStatus("SUCCESS");
+		List<String> list=new ArrayList<>();
+		list.add("test");
+		elkGetSnapshotMetaData.setIndices(list);
+		List<ElkGetSnapshotMetaData> snapshots= new ArrayList<>();
+		snapshots.add(elkGetSnapshotMetaData);
+		elkArchiveInfo.setSnapshots(snapshots);
 		Assert.assertNotNull(elkArchiveInfo);
 		elkArchiveInfoList.add(elkArchiveInfo);
 		Assert.assertNotNull(elkArchiveInfoList);
@@ -363,7 +372,7 @@ public class ElkControllerTest {
 	}
 	
 	@Test
-	public void createRestoreArchiveTest() {
+	public void archiveActionTest() {
 		ElkArchive elkArchive=new ElkArchive();
 		elkArchive.setAction("archive");
 		List<String> repositoryName=new ArrayList<>();
@@ -374,22 +383,35 @@ public class ElkControllerTest {
 		ElkArchiveResponse elkArchiveResponse=new ElkArchiveResponse();
 		List<ElkArchiveInfo> elkArchiveInfoList=new ArrayList<>();
 		ElkArchiveInfo elkArchiveInfo=new ElkArchiveInfo();
-		elkArchiveInfo.setBackUpName("MyBackup");
+		elkArchiveInfo.setRepositoryName("MyBackup");
 		elkArchiveInfo.setDate("2019-08-20:14:24:28Z");
+		ElkGetSnapshotMetaData elkGetSnapshotMetaData=new ElkGetSnapshotMetaData();
+		elkGetSnapshotMetaData.setEndTime("2019-03-28 08-53-41");
+		elkGetSnapshotMetaData.setStartTime("2019-03-28 08-53-41");
+		elkGetSnapshotMetaData.setSnapShotId("123");
+		elkGetSnapshotMetaData.setState("testSate");
+		elkGetSnapshotMetaData.setStatus("SUCCESS");
+		List<String> list=new ArrayList<>();
+		list.add("test");
+		elkGetSnapshotMetaData.setIndices(list);
+		List<ElkGetSnapshotMetaData> snapshots= new ArrayList<>();
+		snapshots.add(elkGetSnapshotMetaData);
+		elkArchiveInfo.setSnapshots(snapshots);
 		elkArchiveInfoList.add(elkArchiveInfo);
 		elkArchiveResponse.setArchiveInfo(elkArchiveInfoList);
 		elkArchiveResponse.setMsg("Action:INFO done");
 		elkArchiveResponse.setStatus("success");
+		
 		JsonResponse<ElkArchiveResponse> elkResponse = new JsonResponse<>();
 		elkResponse.setResponseBody(elkArchiveResponse);
 		
-		when(elkService.createRestoreArchive(elkArchive)).thenReturn(elkArchiveResponse);
-		JsonResponse<ElkArchiveResponse> elkResponseSuccess=elkController.createRestoreArchive(request, elkArchiveRequest, response);
+		when(elkService.archiveAction(elkArchive)).thenReturn(elkArchiveResponse);
+		JsonResponse<ElkArchiveResponse> elkResponseSuccess=elkController.archiveAction(request, elkArchiveRequest, response);
 		assertNotNull(elkResponseSuccess);
 		assertEquals(elkResponse.getResponseBody(), elkResponseSuccess.getResponseBody());
 		elkArchiveResponse.setArchiveInfo(null);
-		when(elkService.createRestoreArchive(elkArchive)).thenReturn(elkArchiveResponse);
-		JsonResponse<ElkArchiveResponse>  elkResponseFail=elkController.createRestoreArchive(request, elkArchiveRequest, response);
+		when(elkService.archiveAction(elkArchive)).thenReturn(elkArchiveResponse);
+		JsonResponse<ElkArchiveResponse>  elkResponseFail=elkController.archiveAction(request, elkArchiveRequest, response);
 		assertEquals(elkResponse.getResponseBody(), elkResponseFail.getResponseBody());
 		assertNull(elkResponseFail.getResponseBody().getArchiveInfo());
 		

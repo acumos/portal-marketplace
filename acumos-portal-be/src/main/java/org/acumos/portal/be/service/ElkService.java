@@ -38,7 +38,7 @@ public interface ElkService {
 
 	ElkArchiveResponse getAllArchive();
 
-	ElkArchiveResponse createRestoreArchive(ElkArchive elkArchive);	
+	ElkArchiveResponse archiveAction(ElkArchive elkArchive);	
 	
 	
    
