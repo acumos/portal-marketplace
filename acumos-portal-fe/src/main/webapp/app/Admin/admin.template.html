@@ -1063,30 +1063,95 @@ limitations under the License.
 												</colgroup>
 												<thead>
 													<tr>
-														<th><md-checkbox ng-model="checkedSnapshot" ng-click="checkAllSnapshot(!checkedSnapshot)"></md-checkbox>
+														<th><md-checkbox ng-model="checkedSnapshot" ng-click="checkAllSnapshot(!checkedSnapshot)">
+														</md-checkbox>
 															</th>
-														<th ng-click="orderSnapshots='backupName';reverseSortbackup = !reverseSortbackup">
+														
+														<!-- <th ng-click="orderSnapshots='backupName';reverseSortbackup = !reverseSortbackup">
 															Backup Name
 															<span ng-if='orderSnapshots!="backupName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderSnapshots=="backupName"'
 																ng-class="reverseSortbackup?'ascending':'descending'"
-																class="gridcell-sort"></span></th>
-														<th>Repository</th>
-														<th ng-click="orderSnapshots='createdDate';reverseSortbackup = !reverseSortbackup">Created Date
+																class="gridcell-sort"></span></th> -->
+																
+														<th ng-click="orderSnapshots='repositoryName';reverseSortbackup = !reverseSortbackup">
+														<span ng-if='orderSnapshots!="repositoryName"'
+																class="gridcell-sort deactivate"></span><span
+																ng-if='orderSnapshots=="repositoryName"'
+																ng-class="reverseSortbackup?'ascending':'descending'"
+																class="gridcell-sort"></span>
+																Repository</th>
+														<!-- <th ng-click="orderSnapshots='createdDate';reverseSortbackup = !reverseSortbackup">Created 
+														Date
 															<span ng-if='orderSnapshots!="createdDate"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderSnapshots=="createdDate"'
 																ng-class="reverseSortbackup?'ascending':'descending'"
 																class="gridcell-sort"></span>
-														</th>
+														</th> -->
 														<th>Actions</th>
 													</tr>
 												</thead>
-												<tbody>
+												<tbody ng-repeat="snapshot in allRepoSnapshots | orderBy:orderSnapshots:reverseSortbackup 
+													| filter:searchSnapshot">
+													<!-- Code based on Repository -->
+													<tr>
+														<td>
+															<md-checkbox
+																ng-model="snapshot.checked" ng-checked="snapshot.checked"
+																ng-click="removeSelectAllSnapshot()">
+															</md-checkbox>
+														</td>
+														<td>
+										                    <span aria-label="More" style="cursor: pointer"
+																ng-click="expanded = !expanded"> 
+															 	<md-icon>
+																		<i class="material-icons" style="margin: 0"
+																			ng-show="!expanded">add</i> <i
+																			class="material-icons" style="margin: 0"
+																			ng-show="expanded">indeterminate_check_box</i> 
+																</md-icon>
+															</span>
+															
+															<span>{{snapshot.repositoryName}}</span>
+														</td>
+														<td>
+															<md-button class="md-icon-button md-primary" aria-label="archive" 
+																ng-click="confirmCreateRestoreArchive('archive', snapshot.repositoryName)">
+																<i class="gridicon-archive"></i>
+															</md-button>
+														</td>
+													</tr>
+													<tr ng-show="expanded">
+														<td></td>
+														<td colspan="3">
+															<table>
+															<thead>
+																<tr>
+																	<th>Backup Name</th>
+																	<th>Created Date</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr ng-repeat="snapshotName in snapshot.snapshots">
+																	<td>{{snapshotName.snapShotId}}</td>
+																	<td>{{snapshotName.startTime}}</td>
+																</tr>
+															</tbody>
+															</table>
+														</td>
+														<td></td>
+													</tr> 
+													<tr ng-if="allSnapshots.length == 0">
+			                                       		<td class='text-center' colspan="5">No data available</td>
+				                                    </tr>
 													<!-- Content Loader directive -->
 													<div content-loader ng-show="showContentLoader"></div>
-													<tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup 
+													
+													
+													<!-- Code based on Snapshots -->
+													<!-- <tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup 
 													| filter:searchSnapshot">
 														<td>
 															<md-checkbox
@@ -1106,7 +1171,7 @@ limitations under the License.
 													</tr>
 													<tr ng-if="allSnapshots.length == 0">
 			                                       		<td class='text-center' colspan="5">No data available</td>
-				                                    </tr>
+				                                    </tr> -->
 												</tbody>
 											</table>
 										</div>
@@ -1194,11 +1259,6 @@ limitations under the License.
 												<div class="fedrow-cell1">
 														<button class="mdl-button mdl-js-button btn-primary">Restore</button>
 														<button class="mdl-button mdl-js-button btn-secondary btn-gap">Delete</button>											
-																																			
-																									   
-																									   
-																		
-				   
 												</div>
 												<div class="fed-row2">
 													<div class="fed-srch-container">
@@ -1211,7 +1271,6 @@ limitations under the License.
 												</div>
 											</div>
 										<hr />
-										
 	 
 										<div>
 											<table class="mdl-data-table mdl-js-data-table fullwidth">
@@ -1225,22 +1284,41 @@ limitations under the License.
 												<thead>
 													<tr>
 														<th>
-														<label class="mdl-checkbox__input" for="checkbox-archive">
-																				 
-															<input type="checkbox" id="checkbox-archive" class="mdl-checkbox__input" 
-															ng-model="checkedArchive"
-															ng-click="checkAllArchives(checkedArchive)" ng-checked="selectAllArchiveStatus"/>
-															<span class="mdl-checkbox__label"></span>
-														</label>
+															<label class="mdl-checkbox__input" for="checkbox-archive">
+																<input type="checkbox" id="checkbox-archive" class="mdl-checkbox__input" 
+																ng-model="checkedArchive"
+																ng-click="checkAllArchives(checkedArchive)" ng-checked="selectAllArchiveStatus"/>
+																<span class="mdl-checkbox__label"></span>
+															</label>
 														</th>
-														<th>Backup Name</th>
-														<!-- <th>Repository</th> -->
-														<th>Created Date</th>
+														<!-- <th ng-click="orderArchives='backupName';reverseSortArchives = !reverseSortArchives">
+															Backup Name
+															<span ng-if='orderArchives!="backupName"'
+																class="gridcell-sort deactivate"></span><span
+																ng-if='orderArchives=="backupName"'
+																ng-class="reverseSortArchives?'ascending':'descending'"
+																class="gridcell-sort"></span></th> -->
+														<th ng-click="orderArchives='repositoryName';reverseSortArchives = !reverseSortArchives">
+															<span ng-if='orderArchives!="repositoryName"'
+																class="gridcell-sort deactivate"></span><span
+																ng-if='orderArchives=="repositoryName"'
+																ng-class="reverseSortArchives?'ascending':'descending'"
+																class="gridcell-sort"></span>
+															Repository</th>
+														<!-- <th ng-click="orderArchives='createdDate';reverseSortArchives = !reverseSortArchives">Created
+														 Date
+															<span ng-if='orderArchives!="createdDate"'
+																class="gridcell-sort deactivate"></span><span
+																ng-if='orderArchives=="createdDate"'
+																ng-class="reverseSortArchives?'ascending':'descending'"
+																class="gridcell-sort"></span>
+														</th> -->
 														<th>Actions</th>
 													</tr>
 												</thead>
-												<tbody>
-													<tr ng-repeat="archive in allArchives | filter:searchArchives"> 
+												<tbody ng-repeat="archive in allRepoArchives | orderBy:orderArchives:reverseSortArchives 
+													 | filter:searchArchives">
+													<tr> 
 														<td>
 															<label class="mdl-checkbox" for="checkBox_{{$index}}"
 																id="checkBox_{{$index}}">
@@ -1250,20 +1328,53 @@ limitations under the License.
 																<span class="mdl-checkbox__label"></span>
 															</label>
 														</td>
-														<td><span>{{archive.backUpName}}</span></td>
-														<!-- <td><span>Logstash</span></td> -->
-														<td><span>{{archive.date}}</span></td>
+														<!-- <td><span>{{archive.backupName}}</span></td> -->
+														<td>
+															<span aria-label="More" style="cursor: pointer"
+																ng-click="expandedArchive = !expandedArchive"> 
+															 	<md-icon>
+																		<i class="material-icons" style="margin: 0"
+																			ng-show="!expandedArchive">add</i> <i
+																			class="material-icons" style="margin: 0"
+																			ng-show="expandedArchive">indeterminate_check_box</i> 
+																</md-icon>
+															</span>
+															<span>{{archive.repositoryName}}</span>
+														</td>
+														<!-- <td><span>{{archive.createdDate}}</span></td> -->
 														<td> <!--  class="text-center" -->
 															<md-button class="md-icon-button md-primary" aria-label="Restore"
-															 ng-click="confirmCreateRestoreArchive('restore', archive.backUpName)">
+															 ng-click="confirmCreateRestoreArchive('restore', archive.repositoryName)">
 																<span class="gridicon-restore"></span>
 																				  
 															</md-button>
-															<a ng-click="deleteIndices(indices.name)">
+															<a ng-click="confirmCreateRestoreArchive('delete', archive.repositoryName)">
 																<span class="gridicon-delete"></span>
 															</a>
 														</td>
 													</tr>
+													
+													<tr ng-show="expandedArchive">
+														<td></td>
+														<td colspan="3">
+															<table>
+															<thead>
+																<tr>
+																	<th>Backup Name</th>
+																	<th>Created Date</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr ng-repeat="archivedSnapshot in archive.snapshots">
+																	<td>{{archivedSnapshot.snapShotId}}</td>
+																	<td>{{archivedSnapshot.startTime}}</td>
+																</tr>
+															</tbody>
+															</table>
+														</td>
+														<td></td>
+													</tr>
+													
 													<tr ng-if="allArchives.length == 0">
 			                                       		<td class='text-center' colspan="4">No data available</td>
 				                                    </tr>

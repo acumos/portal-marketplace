@@ -3500,6 +3500,10 @@ angular.module('admin').filter('abs', function () {
                     .then(
                         function (response) {
                               $scope.showContentLoader = false;
+                              //snapshots with snapshots clubbed in same repo.
+                              $scope.allRepoSnapshots =  response.data.response_body.elasticsearchSnapshots;
+                              
+                            //snapshots with snapshots separate.
                               var allRepo =  response.data.response_body.elasticsearchSnapshots;
                               for(var i=0; i<allRepo.length;i++){
                                     if(allRepo[i].snapshots.length > 0){                                    	                                    		
@@ -3581,12 +3585,29 @@ angular.module('admin').filter('abs', function () {
             
             $scope.getAllArchives = function () {
             	$scope.allArchives = [];
+            	$scope.archives = [];
                 $scope.showContentLoader = true;
                 apiService.getAllArchives()
                     .then(
                         function (response) {
                         	$scope.showContentLoader = false;
-                        	$scope.archives =  response.data.response_body.archiveInfo;
+                        	//archives with snapshots clubbed in same repo.
+                        	$scope.allRepoArchives = response.data.response_body.archiveInfo;
+                        	
+                        	//archives with snapshot separate 
+                        	var allArchives = response.data.response_body.archiveInfo;
+                            for(var i = 0; i < allArchives.length; i++){
+                                  if(allArchives[i].snapshots.length > 0){                                    	                                    		
+                                      angular.forEach(allArchives[i].snapshots, function (value, key) {
+                                      	  var archives = {};
+                                      	  archives['repositoryName'] = allArchives[i].repositoryName;
+                                      	  archives['backupName'] = value.snapShotId;
+                                      	  archives['createdDate'] = value.startTime;
+                                          $scope.archives.push(archives);
+                                      });                                           
+                                  }
+                            }
+                            
                         	$scope.loadArchives(0);
                         },
                         function (error) {
@@ -3665,15 +3686,11 @@ angular.module('admin').filter('abs', function () {
                             	$scope.showAlertMessage = false;
                             }, 3000);
                             $scope.getMaintainedBackupLogs();
-											   
-
-
                         },
                         function (error) {
-                            var error = error.data;
                             $location.hash('myDialog'); 
                             $anchorScroll();
-                            $scope.msg = response.data.response_body.msg;
+                            $scope.msg = error.data.message;
                             $scope.icon = 'report_problem';
                             $scope.styleclass = 'c-error';
                             $scope.showAlertMessage = true;

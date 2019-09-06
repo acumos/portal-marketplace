@@ -68,6 +68,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").denyAll()
         .antMatchers("/auth/login").permitAll()
+        
+        .antMatchers("/elk/archive/action").permitAll()
+        .antMatchers("/elk/snapshot/create").permitAll()
+        
         .antMatchers("/cas/serviceValidate").permitAll()
         .antMatchers("/oauth/login/register").permitAll()
         .antMatchers("/oauth/login").permitAll()

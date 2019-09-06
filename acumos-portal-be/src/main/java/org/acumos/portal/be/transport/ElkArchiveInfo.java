@@ -20,21 +20,37 @@
 
 package org.acumos.portal.be.transport;
 
+import java.util.List;
+
 public class ElkArchiveInfo {
 
 	String date;
-	String backUpName;
+	String repositoryName;
+	private List<ElkGetSnapshotMetaData> snapshots;
+	public String getRepositoryName() {
+		return repositoryName;
+	}
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+	public List<ElkGetSnapshotMetaData> getSnapshots() {
+		return snapshots;
+	}
+	public void setSnapshots(List<ElkGetSnapshotMetaData> snapshots) {
+		this.snapshots = snapshots;
+	}
 	public String getDate() {
 		return date;
 	}
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getBackUpName() {
-		return backUpName;
-	}
-	public void setBackUpName(String backUpName) {
-		this.backUpName = backUpName;
-	}
+								
+					
+  
+											   
+							   
+  
+	
 	
 }
