@@ -78,7 +78,7 @@ limitations under the License.
 
 				<!-- Repo available -->
 				<div ng-show="isRepoAvailable">
-					<form ng-cloak novalidate>
+					<form  name="backupForm" ng-cloak novalidate>
 						<div class="md-dialog-content">
 							
 							<div class="popup-input-container">
@@ -94,12 +94,16 @@ limitations under the License.
 										class="mdl-button mdl-js-button btn-primary btn-icon-valign-horizontal"
 										ng-disabled="createFirstRepo"><i
 											class="material-icons">add</i></button></div>
-								<div class="margin-left-auto">
-									<md-input-container class="md-block">
-										<label>Backup Name</label>
-										<input ng-model = "backupName" type="text" class="medium-textbox" required/>
-									</md-input-container>
-								</div>
+									<div class="margin-left-auto">
+										<md-input-container class="md-block">
+											<label>Backup Name</label>
+											<input ng-model="backupName" type="text" class="medium-textbox"
+											name="backupName" required 
+											ng-pattern ="/^[0-9a-z-_\s]*$/" />
+										</md-input-container>
+										<small ng-show="backupForm.backupName.$error.pattern">Backup name in lower case and only 
+										hyphen and underscore is allowed.</small>
+									</div>
 							</div>
 							
 							<div class="c-alert c-warning static-position margin-backlog">

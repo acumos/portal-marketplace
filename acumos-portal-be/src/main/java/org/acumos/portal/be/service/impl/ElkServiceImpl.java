@@ -145,7 +145,7 @@ public class ElkServiceImpl implements ElkService {
 	}
 	
 	@Override
-	public ElkArchiveResponse createRestoreArchive(ElkArchive elkArchive) {
+	public ElkArchiveResponse archiveAction(ElkArchive elkArchive) {
 		uriUtil.setEnvironment(env);
 		URI uri =uriUtil.buildUri(new String[] { ElkClientConstants.ARCHIVE_ACTION }, null);
 		logger.debug("deleteIndices: uri {}", uri);

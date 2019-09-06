@@ -42,7 +42,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 
@@ -63,9 +62,7 @@ public class ElkServiceImplTest {
 	URIUtil uriUtil;
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));
-	@LocalServerPort
-	int randomServerPort;
-
+	public static final String LOCAL_HOST="http://localhost:8000/";
    	public static final String GET_ARCHIVE = "/all/archive";
    	public static final String ARCHIVE_ACTION=	"/archive/action";
    	public static final String SNAPSHOT_CREATE_REPOSITORY = ElkClientConstants.SNAPSHOT_CREATE_REPOSITORY;
@@ -86,7 +83,7 @@ public class ElkServiceImplTest {
            request.setRepositoryName("repotest");
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+SNAPSHOT_CREATE_REPOSITORY);
+                  uri=new URI(LOCAL_HOST+SNAPSHOT_CREATE_REPOSITORY);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -102,7 +99,7 @@ public class ElkServiceImplTest {
     public void getAllRepositoriestest() {
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+GET_ALL_REPOSITORIES);
+                  uri=new URI(LOCAL_HOST+GET_ALL_REPOSITORIES);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -123,7 +120,7 @@ public class ElkServiceImplTest {
            request.setRepositoryName("repotest");
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+SNAPSHOT_DELETE_REPOSITORY_REQUEST);
+                  uri=new URI(LOCAL_HOST+SNAPSHOT_DELETE_REPOSITORY_REQUEST);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -142,7 +139,7 @@ public class ElkServiceImplTest {
            request.setNodeTimeout("1");
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+CREATE_SNAPSHOT_REQUEST);
+                  uri=new URI(LOCAL_HOST+CREATE_SNAPSHOT_REQUEST);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -160,7 +157,7 @@ public class ElkServiceImplTest {
     public void getAllSnapshotstest() {
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+GET_ALL_SNAPSHOTS);
+                  uri=new URI(LOCAL_HOST+GET_ALL_SNAPSHOTS);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -180,7 +177,7 @@ public class ElkServiceImplTest {
            request.setNodeTimeout("1");
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+DELETE_SNAPSHOT_REQUEST);
+                  uri=new URI(LOCAL_HOST+DELETE_SNAPSHOT_REQUEST);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -201,7 +198,7 @@ public class ElkServiceImplTest {
            request.setRepositoryName("Testrepo");
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+RESTORE_SNAPSHOT_REQUEST);
+                  uri=new URI(LOCAL_HOST+RESTORE_SNAPSHOT_REQUEST);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -219,7 +216,7 @@ public class ElkServiceImplTest {
     public void getAllIndicestest() {
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+GET_ALL_INDICES);
+                  uri=new URI(LOCAL_HOST+GET_ALL_INDICES);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -241,7 +238,7 @@ public class ElkServiceImplTest {
            request.setIndices(indices);
            URI uri = null;
            try {
-                  uri=new URI("http://localhost:8000/"+DELETE_INDICES);
+                  uri=new URI(LOCAL_HOST+DELETE_INDICES);
            } catch (URISyntaxException e) {
                   logger.error("Error occured while creating URI: "+e.getMessage());
            }
@@ -260,7 +257,7 @@ public class ElkServiceImplTest {
 		
 		URI uri = null;
 		try {
-			uri=new URI("http://localhost:8000/"+GET_ARCHIVE);
+			uri=new URI(LOCAL_HOST+GET_ARCHIVE);
 		} catch (URISyntaxException e) {
 			logger.error("Error occured while creating URI: "+e.getMessage());
 		}
@@ -269,7 +266,7 @@ public class ElkServiceImplTest {
 		stubFor(get(urlEqualTo(GET_ARCHIVE)).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"archiveInfo\":[" + "{\"date\": \"2019-08-20:14:24:28Z\","
-				         	      + "\"backUpName\": \"my_backup\" }],"
+				         	      + "\"repositoryName\": \"my_backup\" }],"
 				          	      + "\"msg\": \"Action:INFO done\","
 				          	      +  "\"status\": \"success\"}")));
 		
@@ -280,7 +277,7 @@ public class ElkServiceImplTest {
 	}
 	
 	@Test
-	public void createRestoreArchiveTest() {
+	public void archiveActionTest() {
 		
 		ElkArchive elkArchive=new ElkArchive();
 		elkArchive.setAction("archive");
@@ -289,7 +286,7 @@ public class ElkServiceImplTest {
 		elkArchive.setRepositoryName(repositoryName);
 		URI uri = null;
 		try {
-			uri=new URI("http://localhost:8000/"+ARCHIVE_ACTION);
+			uri=new URI(LOCAL_HOST+ARCHIVE_ACTION);
 		} catch (URISyntaxException e) {
 			logger.error("Error occured while creating URI: "+e.getMessage());
 		}
@@ -298,33 +295,14 @@ public class ElkServiceImplTest {
 		stubFor(post(urlEqualTo(ARCHIVE_ACTION)).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"archiveInfo\":[" + "{\"date\": \"2019-08-20:14:24:28Z\","
-				         	      + "\"backUpName\": \"my_backup\" }],"
+				         	      + "\"repositoryName\": \"my_backup\" }],"
 				          	      + "\"msg\": \"Action:INFO done\","
 				          	      +  "\"status\": \"success\"}")));
 		
-		ElkArchiveResponse elkArchiveResponse=elkServiceImpl.createRestoreArchive(elkArchive);
+		ElkArchiveResponse elkArchiveResponse=elkServiceImpl.archiveAction(elkArchive);
 		assertNotNull(elkArchiveResponse);
 		assertEquals(elkArchiveResponse.getStatus(), "success");
 		assertEquals(elkArchiveResponse.getMsg(), "Action:INFO done");
 	}
 	
- /*   @Test
-    public void createRepositorytest() {
-          
-           ElkRepositoriesRequest request = new ElkRepositoriesRequest();
-           request.setRepositoryName("repotest");
-           URI uri = null;
-           try {
-                  uri=new URI("http://localhost:8000" +SNAPSHOT_CREATE_REPOSITORY);
-           } catch (URISyntaxException e) {
-                  logger.error("Error occured while creating URI: "+e.getMessage());
-           }
-           when(uriUtil.buildUri(Mockito.any(), Mockito.any())).thenReturn(uri);
-           stubFor(post(urlEqualTo(SNAPSHOT_CREATE_REPOSITORY)).willReturn(
-                        aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                                      .withBody("true")));
-           ElkRepositoriesResponse elkresponse1=elkServiceImpl.createRepository(request); 
-
-	
-}*/
 }
