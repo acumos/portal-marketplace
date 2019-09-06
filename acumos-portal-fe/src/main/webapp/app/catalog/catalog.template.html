@@ -147,6 +147,10 @@ limitations under the License.
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-edit"></span>
 								</button>
+								<button ui-sref="managePeer({catalogName:catalog.name,catalogId:catalog.catalogId})" alt="managePeer" title="managePeer"
+									class="mdl-button mdl-js-button mdl-button--icon" ng-style="catalog.accessTypeCode == 'PB' && {'cursor' : 'not-allowed', 'opacity' : 0.5}">
+									<span class="gridicon-access"></span>
+								</button>
 								<button ng-click="showDeleteDialog(catalog)" ng-disabled ="catalog.solutionCount > 0"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-delete" ng-class="catalog.solutionCount > 0 ? 'disabled' : '' "></span>
