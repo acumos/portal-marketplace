@@ -22,7 +22,7 @@ limitations under the License.
 angular
 		.module('modelEdit')
 		.service('modelUploadService', function($http, $q, $rootScope) {
-			
+			 
 			var self = this;
 			var cancelFunc = function(reason) {};
 			

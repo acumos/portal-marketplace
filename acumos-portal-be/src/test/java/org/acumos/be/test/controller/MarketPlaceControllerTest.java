@@ -373,7 +373,7 @@ public class MarketPlaceControllerTest {
 		HttpEntity<JsonRequest<RevisionDescription>> requestEntity = new HttpEntity<>(reqObj, headers);
 
 		ResponseEntity<JsonResponse<RevisionDescription>> descriptionResponse = restTemplate.exchange(
-				host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + catalogId + "/description",
+				host + ":" + randomServerPort + "/solution/revision/" + solutionId+"/"+revisionId + "/" + catalogId + "/description",
 				HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResponse<RevisionDescription>>() {
 				});
 

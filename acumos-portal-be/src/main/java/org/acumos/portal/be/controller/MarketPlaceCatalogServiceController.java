@@ -1690,7 +1690,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
     public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request,
                 @PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String catalogId,
                 @RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
-          
+           
           solutionId = SanitizeUtils.sanitize(solutionId);
           revisionId = SanitizeUtils.sanitize(revisionId);
           catalogId = SanitizeUtils.sanitize(catalogId);
