@@ -854,7 +854,7 @@ angular
 								};
 								var req = {
 									method : 'POST',
-									url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/description",
+                                    url : '/api/solution/revision/' + $scope.solutionId + '/' + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/description",
 									data : solution
 								};
 								$http(req)
@@ -954,7 +954,7 @@ angular
 												};
 											var req = {
 													method : 'POST',
-													url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId + '/description',
+													url : '/api/solution/revision/' + $scope.solutionId + '/' + $scope.revisionId + '/' + $scope.selectedCatalogId + '/description',
 													data : copySolutionDesc
 												};
 											

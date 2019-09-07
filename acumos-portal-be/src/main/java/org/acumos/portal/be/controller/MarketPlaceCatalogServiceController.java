@@ -1684,33 +1684,45 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Add/Update Solution Revision Description", response = RevisionDescription.class)
-	@RequestMapping(value = {
-			"/solution/revision/{revisionId}/{catalogId}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request,
-			@PathVariable String revisionId, @PathVariable String catalogId,
-			@RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
+    @RequestMapping(value = {
+                "/solution/revision/{solutionId}/{revisionId}/{catalogId}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request,
+                @PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String catalogId,
+                @RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
+          
+          solutionId = SanitizeUtils.sanitize(solutionId);
+          revisionId = SanitizeUtils.sanitize(revisionId);
+          catalogId = SanitizeUtils.sanitize(catalogId);
 
-		revisionId = SanitizeUtils.sanitize(revisionId);
-		catalogId = SanitizeUtils.sanitize(catalogId);
+          JsonResponse<RevisionDescription> data = new JsonResponse<>();
+          String userId = (String) request.getAttribute("loginUserId");
+          RevisionDescription description = revisionDescription.getBody();
+          try {
+                Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED);
 
-		JsonResponse<RevisionDescription> data = new JsonResponse<>();
-		String userId = (String) request.getAttribute("loginUserId");
-		RevisionDescription description = revisionDescription.getBody();
-		try {
-			description = marketPlaceService.addUpdateRevisionDescription(revisionId, catalogId, description);
-			data.setResponseBody(description);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Description Fetched Successfully");
-			log.debug("removeDocument: {} ");
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail(e.getMessage());
-			log.error("Exception Occurred while fetching Description", e);
-		}
-		return data;
-	}
+                if (workflow.isWorkflowAllowed()) {
+
+                      description = marketPlaceService.addUpdateRevisionDescription(revisionId, catalogId, description);
+                      data.setResponseBody(description);
+                      data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                      data.setResponseDetail("Description Fetched Successfully");
+                      log.debug("removeDocument: {} ");
+                } else {
+                      data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
+                      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                      data.setResponseDetail(workflow.getReason());
+                      log.error("SV failure while adding document : " + workflow.getReason());
+                }
+          } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                data.setResponseDetail(e.getMessage());
+                log.error("Exception Occurred while fetching Description", e);
+          }
+          return data;
+    }
+
 
 	@ApiOperation(value = "Fetches Solution Image. ")
 	@RequestMapping(value = {
