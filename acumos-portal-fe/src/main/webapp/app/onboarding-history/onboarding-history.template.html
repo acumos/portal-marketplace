@@ -80,7 +80,7 @@ limitations under the License.
 					<th>Action</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody> 
 				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList" >						
 					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
 					<td>{{Task.taskCode}}</td>			
@@ -205,9 +205,9 @@ limitations under the License.
 		</div>
 		<div>
 			<label>Status: </label><span class="status-color"
-					ng-class="{'history-error': Task.statusCd == 'FA', 
-						'history-progress': Task.statusCd == 'ST', 
-						'history-success': Task.statusCd == 'SU' }" >{{statusCd == "ST" ? "InProgress" :statusCd == "SU" ? "Success" : "Fail"}}</span>
+					ng-class="{'history-error': statusCd == 'FA', 
+						'history-progress': statusCd == 'ST', 
+						'history-success': statusCd == 'SU' }" >{{statusCd == "ST" ? "InProgress" :statusCd == "SU" ? "Success" : "Fail"}}</span>
 		</div>
 	</div>
 	<div class="md-dialog-content" ng-if="stepResults">

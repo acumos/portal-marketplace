@@ -3536,8 +3536,8 @@ angular.module('admin').filter('abs', function () {
             $scope.checkedSnapshot = false;
             $scope.checkAllSnapshot = function(selected){
             	$scope.selectAllSnapshotStatus = true;
-        		for (var i = 0; i < $scope.allSnapshots.length; i++) {
-           	        $scope.allSnapshots[i].checked = selected;
+        		for (var i = 0; i < $scope.allRepoSnapshots.length; i++) {
+           	        $scope.allRepoSnapshots[i].checked = selected;
         		}
             };
             
@@ -3627,8 +3627,8 @@ angular.module('admin').filter('abs', function () {
             
             $scope.checkAllArchives = function(selected){
             	$scope.selectAllArchiveStatus = true;
-        		for (var i = 0; i < $scope.allArchives.length; i++) {
-           	        $scope.allArchives[i].checked = selected;
+        		for (var i = 0; i < $scope.allRepoArchives.length; i++) {
+           	        $scope.allRepoArchives[i].checked = !selected;
         		}
             };
             
@@ -3911,6 +3911,7 @@ angular.module('admin').filter('abs', function () {
                                         $timeout(function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
+                                        $scope.parent.getAllSnapshot();
                                         $scope.fetchAllRepositories();
                                     },
                                     function (error) {
@@ -3924,8 +3925,9 @@ angular.module('admin').filter('abs', function () {
                                         $timeout(function () {
                                             $scope.showBackupLogsMessage = false;
                                         }, 3000);
+                                        $scope.parent.getAllSnapshot();
                                         $scope.fetchAllRepositories();
-										$scope.parent.getAllSnapshot();
+										
                                     });
                         };
                         
@@ -3987,8 +3989,6 @@ angular.module('admin').filter('abs', function () {
                         
                         
 					}
-                }).then(function(){
-                	$scope.getAllSnapshot();
                 })
                 
             };

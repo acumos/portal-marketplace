@@ -1039,7 +1039,7 @@ limitations under the License.
 											<div class="fedrow-cell1">
 												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
 												<button class="mdl-button mdl-js-button btn-secondary btn-gap" 
-												ng-click="confirmCreateRestoreArchive('archive', allSnapshots, true)">Archive</button>												
+												ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>												
 											</div>
 											<div class="fed-row2">
 												<div class="fed-srch-container">
@@ -1076,12 +1076,11 @@ limitations under the License.
 																class="gridcell-sort"></span></th> -->
 																
 														<th ng-click="orderSnapshots='repositoryName';reverseSortbackup = !reverseSortbackup">
-														<span ng-if='orderSnapshots!="repositoryName"'
+																Repository	<span ng-if='orderSnapshots!="repositoryName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderSnapshots=="repositoryName"'
 																ng-class="reverseSortbackup?'ascending':'descending'"
-																class="gridcell-sort"></span>
-																Repository</th>
+																class="gridcell-sort"></span></th>
 														<!-- <th ng-click="orderSnapshots='createdDate';reverseSortbackup = !reverseSortbackup">Created 
 														Date
 															<span ng-if='orderSnapshots!="createdDate"'
@@ -1099,8 +1098,7 @@ limitations under the License.
 													<tr>
 														<td>
 															<md-checkbox
-																ng-model="snapshot.checked" ng-checked="snapshot.checked"
-																ng-click="removeSelectAllSnapshot()">
+																ng-model="snapshot.checked" ng-click="removeSelectAllSnapshot()">
 															</md-checkbox>
 														</td>
 														<td>
@@ -1141,7 +1139,6 @@ limitations under the License.
 															</tbody>
 															</table>
 														</td>
-														<td></td>
 													</tr> 
 													<tr ng-if="allSnapshots.length == 0">
 			                                       		<td class='text-center' colspan="5">No data available</td>
@@ -1257,8 +1254,8 @@ limitations under the License.
 										</div>
 										<div class="fed-row1">
 												<div class="fedrow-cell1">
-														<button class="mdl-button mdl-js-button btn-primary">Restore</button>
-														<button class="mdl-button mdl-js-button btn-secondary btn-gap">Delete</button>											
+														<button class="mdl-button mdl-js-button btn-primary"  ng-click="confirmCreateRestoreArchive('restore', allRepoArchives, true)">Restore</button>
+														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)">Delete</button>											
 												</div>
 												<div class="fed-row2">
 													<div class="fed-srch-container">
@@ -1273,7 +1270,7 @@ limitations under the License.
 										<hr />
 	 
 										<div>
-											<table class="mdl-data-table mdl-js-data-table fullwidth">
+											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 												<colgroup>
 													<col style="width:5%;">
 													<col>
@@ -1284,12 +1281,7 @@ limitations under the License.
 												<thead>
 													<tr>
 														<th>
-															<label class="mdl-checkbox__input" for="checkbox-archive">
-																<input type="checkbox" id="checkbox-archive" class="mdl-checkbox__input" 
-																ng-model="checkedArchive"
-																ng-click="checkAllArchives(checkedArchive)" ng-checked="selectAllArchiveStatus"/>
-																<span class="mdl-checkbox__label"></span>
-															</label>
+														<md-checkbox ng-model="checkedArchive" ng-click="checkAllArchives(checkedArchive)"></md-checkbox>
 														</th>
 														<!-- <th ng-click="orderArchives='backupName';reverseSortArchives = !reverseSortArchives">
 															Backup Name
@@ -1298,13 +1290,12 @@ limitations under the License.
 																ng-if='orderArchives=="backupName"'
 																ng-class="reverseSortArchives?'ascending':'descending'"
 																class="gridcell-sort"></span></th> -->
-														<th ng-click="orderArchives='repositoryName';reverseSortArchives = !reverseSortArchives">
-															<span ng-if='orderArchives!="repositoryName"'
+														<th ng-click="orderArchives='repositoryName';reverseSortArchives = !reverseSortArchives">															
+															Repository <span ng-if='orderArchives!="repositoryName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderArchives=="repositoryName"'
 																ng-class="reverseSortArchives?'ascending':'descending'"
-																class="gridcell-sort"></span>
-															Repository</th>
+																class="gridcell-sort"></span></th>
 														<!-- <th ng-click="orderArchives='createdDate';reverseSortArchives = !reverseSortArchives">Created
 														 Date
 															<span ng-if='orderArchives!="createdDate"'
@@ -1316,16 +1307,12 @@ limitations under the License.
 														<th>Actions</th>
 													</tr>
 												</thead>
-												<tbody ng-repeat="archive in allRepoArchives | orderBy:orderArchives:reverseSortArchives 
-													 | filter:searchArchives">
+												<tbody ng-repeat="archive in allRepoArchives | orderBy:orderArchives:reverseSortArchives | filter:searchArchives">
 													<tr> 
-														<td>
-															<label class="mdl-checkbox" for="checkBox_{{$index}}"
-																id="checkBox_{{$index}}">
-																<input type="checkbox" class="mdl-checkbox__input" 
-																	ng-model="archive.checked" ng-checked="archive.checked"
-																	ng-click="removeSelectAllArchives()">
-																<span class="mdl-checkbox__label"></span>
+														<td>															
+															<md-checkbox
+																	ng-model="archive.checked" ng-click="removeSelectAllArchives()()">
+																</md-checkbox>
 															</label>
 														</td>
 														<!-- <td><span>{{archive.backupName}}</span></td> -->
@@ -1372,7 +1359,6 @@ limitations under the License.
 															</tbody>
 															</table>
 														</td>
-														<td></td>
 													</tr>
 													
 													<tr ng-if="allArchives.length == 0">

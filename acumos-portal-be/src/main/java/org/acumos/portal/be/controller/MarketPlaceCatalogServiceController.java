@@ -1344,7 +1344,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		String result = "";
 		try {
-			result = marketPlaceService.getLicenseUrl(solutionId, version, "LG", "license");
+			result = marketPlaceService.getLicenseUrl(solutionId, version, "LI", "license");
 
 		} catch (Exception e) {
 			log.error("Exception in fetchLicenseFile() ", e);

@@ -56,7 +56,7 @@ public class ElkController/* extends AbstractController */ {
 		JsonResponse<ElkRepositoriesResponse> data = new JsonResponse<>();
 		try {
 			ElkRepositoriesRequest req=requestJson.getBody();
-			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT);
+			req.setNodeTimeout(ElkClientConstants.NODE_TIMEOUT_WITH_UNIT);
 			ElkRepositoriesResponse resp = elkService.createRepository(req);
 			if (resp != null) {
 				data.setResponseBody(resp);
