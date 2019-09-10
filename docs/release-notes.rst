@@ -21,6 +21,20 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.11  10th September 2019
+====================================
+* ACUMOS-3395	Ability to run SV license scan when User updates model
+* ACUMOS-3143	Manage (view, add and remove) the peers that may access a restricted catalog
+* ACUMOS-3421	<IST> At the time of on-boarding, when we upload license the uploaded license is not displaying on model description page. 
+* ACUMOS-3404	IST:  Rewording  the content of error popup when user unable to delete the catalog
+* ACUMOS-3402	IST: Created By and Version is displaying wrong when user click from Other Category Model option on left hand side
+* ACUMOS-3362	Deploy to Azure | Fields for deploy to azure not there on model edit screen
+* ACUMOS-3361	Deploy to Azure | Composite solution details are not displaying on model edit screen for first instance on click deploy to Azure if user navigate from design studio screen
+* ACUMOS-3358	IST: ACUMOS-2119 implementation is not done according to VD
+* ACUMOS-3350	IST: Success Status is displaying in red color View Result for successful on-boarding
+
+
+
 Version 3.0.10  3rd September 2019 
 =================================
 * ACUMOS-3324	Upgrade to OpenJ9 JRE 11 on Alpine based image
