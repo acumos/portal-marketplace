@@ -43,9 +43,13 @@ limitations under the License.
 								<span class="text-ellipsis">Catalog - {{catalogName}}</span> <i class="material-icons">keyboard_arrow_down</i>
 						</button>
 						<ul class="md-version-ddl1 catalog-list">
-							<li ng-repeat="catalog in solutionCatalogsList"
+							<li class="custom-tooltip" ng-repeat="catalog in solutionCatalogsList"
 									ng-click="changeSelectedCatalogId(catalog.catalogId, catalog.name)"
-									ng-class="{selected: catalog.catalogId == selectedCatalogId}">{{catalog.name}}</li>
+									ng-class="{selected: catalog.catalogId == selectedCatalogId}">
+									<span ng-class="{'md-cat-txtellipsis': catalog.name.length>15}">{{catalog.name}}</span>
+            						<span class="custom-tooltip-text">{{catalog.name}}</span>	
+
+							</li>
 						</ul>
 					</div>
 					<div class="version-container">
