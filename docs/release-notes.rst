@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.12 11th September 2019
+==================================
+* ACUMOS-3420	The artifact name and description should not use original file name since that is the file name from user's system and it will not match with what SV is expecting of license.json in dump_model.sh.
+
 Version 3.0.11  10th September 2019
 ====================================
 * ACUMOS-3395	Ability to run SV license scan when User updates model

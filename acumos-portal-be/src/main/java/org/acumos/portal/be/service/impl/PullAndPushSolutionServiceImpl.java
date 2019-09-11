@@ -333,8 +333,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 				String uri = String.join("/",  Arrays.asList(env.getProperty("nexus.groupId").split("\\.")).stream().collect(Collectors.joining("/")), solutionId, PortalConstants.LICENSE_FILENAME_PREFIX, versionId, PortalConstants.LICENSE_FILENAME_PREFIX+"-"+ versionId+ PortalConstants.LICENSE_EXT);
 				
 				MLPArtifact modelArtifact = new MLPArtifact();
-				modelArtifact.setName(file.getOriginalFilename());
-				modelArtifact.setDescription(file.getOriginalFilename());
+				modelArtifact.setName(PortalConstants.LICENSE_FILENAME);
+				modelArtifact.setDescription(PortalConstants.LICENSE_FILENAME);
 				modelArtifact.setVersion(versionId);
 				modelArtifact.setArtifactTypeCode(PortalConstants.LICENSE_ARTIFACT_TYPE);			
 				modelArtifact.setUserId(userId);
