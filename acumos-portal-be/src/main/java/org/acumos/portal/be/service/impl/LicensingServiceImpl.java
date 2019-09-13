@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.sun.mail.imap.Rights.Right;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSolution;
@@ -36,10 +37,13 @@ import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.licensemanager.client.LicenseCreator;
+import org.acumos.licensemanager.client.LicenseProfile;
 import org.acumos.licensemanager.client.model.CreateRtuRequest;
 import org.acumos.licensemanager.client.model.ICreatedRtuResponse;
 import org.acumos.licensemanager.client.model.ILicenseCreator;
 import org.acumos.licensemanager.exceptions.RightToUseException;
+import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
+import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.transport.RtuUser;
@@ -208,4 +212,54 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 				}
 		
 				return createdRtus;	}
-}
+
+
+	public final List<MLPLicenseProfileTemplate> getTemplates() throws LicenseProfileException, AcumosServiceException {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		LicenseProfile LicenseProfile= new LicenseProfile(dataServiceRestClient);
+		List<MLPLicenseProfileTemplate> templateList=new ArrayList<>();
+		try {
+			templateList=LicenseProfile.getTemplates();
+		}catch (LicenseProfileException licExp){
+			throw licExp;
+		}
+		 catch (Exception e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+		}
+		return templateList;
+	}
+
+	@Override
+	public MLPLicenseProfileTemplate getTemplate(long templateId) throws LicenseProfileException, AcumosServiceException {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		LicenseProfile LicenseProfile= new LicenseProfile(dataServiceRestClient);
+		MLPLicenseProfileTemplate licenseProfileTemplate=null;
+		try {
+			licenseProfileTemplate=LicenseProfile.getTemplate(templateId);
+		}catch (LicenseProfileException licExp){
+			throw licExp;
+		}
+		 catch (Exception e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+		}
+		return licenseProfileTemplate;
+	}
+
+	@Override
+	public LicenseProfileValidationResults validate(String jsonString)
+			throws LicenseProfileException, AcumosServiceException {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		LicenseProfile LicenseProfile= new LicenseProfile(dataServiceRestClient);
+		LicenseProfileValidationResults licenseProfileValidationResults=null;
+		try {
+			licenseProfileValidationResults=LicenseProfile.validate(jsonString);
+		}catch (LicenseProfileException licExp){
+			throw licExp;
+		}
+		 catch (Exception e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+		}
+		return licenseProfileValidationResults;
+	}
+
+}	  
