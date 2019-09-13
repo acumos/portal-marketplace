@@ -1055,11 +1055,9 @@ limitations under the License.
 										<div>
 											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 												<colgroup>
-													<col style="width:5%;">
-													<col>
-													<col>
-													<col>
-													<col style="width:7%;">
+													<col style="width:10%;">
+													<col style="width:90%;">
+													<col style="width:10%;">
 												</colgroup>
 												<thead>
 													<tr>
@@ -1076,7 +1074,7 @@ limitations under the License.
 																class="gridcell-sort"></span></th> -->
 																
 														<th ng-click="orderSnapshots='repositoryName';reverseSortbackup = !reverseSortbackup">
-																Repository	<span ng-if='orderSnapshots!="repositoryName"'
+																REPOSITORY NAME	<span ng-if='orderSnapshots!="repositoryName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderSnapshots=="repositoryName"'
 																ng-class="reverseSortbackup?'ascending':'descending'"
@@ -1089,7 +1087,7 @@ limitations under the License.
 																ng-class="reverseSortbackup?'ascending':'descending'"
 																class="gridcell-sort"></span>
 														</th> -->
-														<th>Actions</th>
+														<th>ACTIONS</th>
 													</tr>
 												</thead>
 												<tbody ng-repeat="snapshot in allRepoSnapshots | orderBy:orderSnapshots:reverseSortbackup 
@@ -1140,9 +1138,9 @@ limitations under the License.
 															</table>
 														</td>
 													</tr> 
-													<tr ng-if="allSnapshots.length == 0">
+													<!-- <tr ng-if="allRepoSnapshots.length == 0">
 			                                       		<td class='text-center' colspan="5">No data available</td>
-				                                    </tr>
+				                                    </tr> -->
 													<!-- Content Loader directive -->
 													<div content-loader ng-show="showContentLoader"></div>
 													
@@ -1171,6 +1169,10 @@ limitations under the License.
 				                                    </tr> -->
 												</tbody>
 											</table>
+											<div class="alert text-center"
+												ng-if="allRepoSnapshots.length == 0">
+												<strong>No data available</strong>
+											</div> 
 										</div>
 										
 										<div class="pagination-wrapper" ng-if="snapshots.length > 10">
@@ -1249,7 +1251,7 @@ limitations under the License.
 									<md-content class="md-padding">
 										<div class="c-alert c-warning static-position margin-backlog">
 											<div class="c-alert-inner"><span class="material-icons">report_problem</span>
-											<span class="alert-text">If you delete any backup from this page it will be
+											<span class="alert-text">If you delete any repository from this page it will be
 											deleted permanently from the here.</span></div>
 										</div>
 										<div class="fed-row1">
@@ -1272,11 +1274,9 @@ limitations under the License.
 										<div>
 											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 												<colgroup>
-													<col style="width:5%;">
-													<col>
-													<col>
-													<col>
-													<col style="width:7%;">
+													<col style="width:10%;">
+													<col style="width:90%;">
+													<col style="width:10%;">
 												</colgroup>
 												<thead>
 													<tr>
@@ -1291,7 +1291,7 @@ limitations under the License.
 																ng-class="reverseSortArchives?'ascending':'descending'"
 																class="gridcell-sort"></span></th> -->
 														<th ng-click="orderArchives='repositoryName';reverseSortArchives = !reverseSortArchives">															
-															Repository <span ng-if='orderArchives!="repositoryName"'
+															Repository Name <span ng-if='orderArchives!="repositoryName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderArchives=="repositoryName"'
 																ng-class="reverseSortArchives?'ascending':'descending'"
@@ -1360,12 +1360,12 @@ limitations under the License.
 															</table>
 														</td>
 													</tr>
-													
-													<tr ng-if="allArchives.length == 0">
-			                                       		<td class='text-center' colspan="4">No data available</td>
-				                                    </tr>
-												</tbody>
+											</tbody>
 											</table>
+											<div class="alert text-center"
+												ng-if="allRepoArchives.length == 0">
+												<strong>No data available</strong>
+											</div> 
 										</div>
 										
 										<div class="pagination-wrapper" ng-if="archives.length > 10">
@@ -4107,6 +4107,7 @@ limitations under the License.
 				<div class="md-toolbar-tools">
 					<h2 ng-show="archiveAction == 'archive'">Archive Confirmation</h2>
 					<h2 ng-show="archiveAction == 'restore'">Restore Confirmation</h2>
+					<h2 ng-show="archiveAction == 'delete'">Delete Confirmation</h2>
 					<span flex></span>
 					<md-button class="md-icon-button" ng-click="closePoup()">
 					<i class="material-icons">close</i> </md-button>
@@ -4114,7 +4115,7 @@ limitations under the License.
 				</md-toolbar>
 				<md-dialog-content>
 				<div class="md-dialog-content">
-					<div class="ds-db-row1">Do you want to this {{archiveAction}} backup?</div>
+					<div class="ds-db-row1">Do you want to {{archiveAction}} this repository?</div>
 				</div>
 				</md-dialog-content>
 				<md-dialog-actions>

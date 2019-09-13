@@ -50,14 +50,16 @@ limitations under the License.
 				</div>
 
 				<!-- Create First Repo -->
+				<form name="createRepo">
 				<div ng-show="createFirstRepo">
+				
 					<div class="md-dialog-content">
-						<h6 class="sectiontitle">Create Repository</h6>
+						<h6 class="sectiontitle" style="color: #671c9d">CREATE REPOSITORY</h6>
 						<div class="popup-input-container">
 						<div>
 							<md-input-container class="md-block">
 								<label>Repository Name</label>
-								<input type="text" class="medium-textbox" ng-model="repositoryName" required/>
+								<input type="text" class="medium-textbox" ng-model="repositoryName" placeholder="Enter Name" required/>
 							</md-input-container>
 						</div>
 						<div>
@@ -65,7 +67,7 @@ limitations under the License.
 							<button class="mdl-button mdl-js-button btn-primary btn-valign-horizontal"
 								ng-disabled="!repositoryName"
 								ng-click="createRepository(repositoryName); createFirstRepo = !createFirstRepo;">Create
-								Repository</button>
+							</button>
 						</div>
 						<div>
 							<label class="disblock">&nbsp;</label>
@@ -75,6 +77,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+				</form>
 
 				<!-- Repo available -->
 				<div ng-show="isRepoAvailable">
@@ -97,7 +100,7 @@ limitations under the License.
 									<div class="margin-left-auto">
 										<md-input-container class="md-block">
 											<label>Backup Name</label>
-											<input ng-model="backupName" type="text" class="medium-textbox"
+											<input ng-model="backupName" type="text" class="medium-textbox" placeholder="Enter Backup Name"
 											name="backupName" required 
 											ng-pattern ="/^[0-9a-z-_\s]*$/" />
 										</md-input-container>
@@ -114,7 +117,7 @@ limitations under the License.
 							
 							
 							<div>
-								<table class="mdl-data-table mdl-js-data-table fullwidth">
+								<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 									<colgroup>
 										<col style="width:5%;">
 										<col>
