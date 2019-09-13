@@ -21,9 +21,22 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.12 11th September 2019
+Version 3.0.12 13th September 2019
 ==================================
-* ACUMOS-3420	The artifact name and description should not use original file name since that is the file name from user's system and it will not match with what SV is expecting of license.json in dump_model.sh.
+* ACUMOS-3441   Security-Verification failed and reported back to portal at first attempt
+* ACUMOS-3420   <IST> SV is on but unable to publish the model, while publishing its throwing an error message.
+* ACUMOS-2345	Platform maintenance support UI/System Clean Up
+* ACUMOS-3421	<IST> At the time of on-boarding, when we upload license the uploaded license is not displaying on model description page. 
+* ACUMOS-3373	IST: Green Tick is not displaying when user select one catalog from multiple catalog
+* ACUMOS-3425	IST: Site word is missing before  map  in 403 error page.
+* ACUMOS-3403	<IST> Gramatical mistake is showing on page numbers and model numbers in favorite catalog screen on the bottom left corner.
+* ACUMOS-3266	Create Repository - UI
+* ACUMOS-3270	Archive Logs - UI
+* ACUMOS-3271	Archive Logs - BE
+* ACUMOS-3267	Create Backup - UI
+* ACUMOS-3268	Create Backup - BE
+* ACUMOS-3269	Create Repository - BE
+* ACUMOS-3265	O&M System Clean Up Portal changes
 
 Version 3.0.11  10th September 2019
 ====================================
