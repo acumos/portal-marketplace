@@ -20,9 +20,8 @@
 
 package org.acumos.portal.be.service.impl;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Files;
@@ -227,4 +226,30 @@ public class FileSystemStorageService implements StorageService {
 	public void setEnvironment(Environment environment){
 		env = environment;
 	}
+	
+	public boolean createJsonFile(String jsonString, String userId) {
+		boolean responseFlag=false;
+		try{
+			deleteAll(userId);
+			log.debug("Remove Previously Uploaded files for User  " + userId );
+			
+			Path modelFolderLocation = Paths
+				.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
+
+			log.debug("Upload Location Path  " + modelFolderLocation);
+			Files.createDirectories(modelFolderLocation);
+			log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
+			try(FileWriter file = new FileWriter(env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + LICENSE_FILE)){
+				file.write(jsonString);
+				file.flush();
+				responseFlag=true;
+			} catch (IOException e) {
+				throw new StorageException("Failed to store file " + LICENSE_FILE, e);
+			}
+		} catch (Exception e) {
+			throw new StorageException("Failed to store file " + LICENSE_FILE, e);
+		}
+		return responseFlag;
+	}
+
 }

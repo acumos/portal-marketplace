@@ -328,5 +328,9 @@ public class APINames {
 	public static final String GET_ARCHIVE = "/all/archive";
 	public static final String ARCHIVE_ACTION = "/archive/action";
 	
+    public static final String GET_ALL_LICENSE_PROFILE = "getAllLicenseProfile";
+    public static final String GET_LICENSE_PROFILE = "templateId/{templateId}";
+    public static final String VALIDATE_LICENSE_PROFILE = "validateLicenseProfile";
+
 
 }

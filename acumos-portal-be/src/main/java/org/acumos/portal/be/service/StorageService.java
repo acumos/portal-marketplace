@@ -30,4 +30,6 @@ public interface StorageService {
 
 	void deleteAll(String userId);
 
+	boolean createJsonFile(String json, String userId);
+
 }

@@ -8,14 +8,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.licensemanager.exceptions.RightToUseException;
+import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
+import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -335,4 +341,103 @@ public class LicensingServiceController extends AbstractController{
 		}
 		return responseVO;
 	}
+	
+	@ApiOperation(value = "Fetches all License Profiles",  responseContainer = "List")
+	@RequestMapping(value = { APINames.GET_ALL_LICENSE_PROFILE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPLicenseProfileTemplate>> getTemplates(HttpServletRequest request,HttpServletResponse response) {
+		JsonResponse<List<MLPLicenseProfileTemplate>> responseVO=new JsonResponse<>();
+		List<MLPLicenseProfileTemplate> templateList=new ArrayList<>();
+		try {
+			templateList=licensingService.getTemplates();
+			if (templateList != null) {
+				responseVO.setResponseBody(templateList);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("License Profiles fetched successfully");
+			} else {
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				responseVO.setResponseDetail("Error occured while fetching License Profiles");
+				log.error("Error Occurred in Fetching License Profiles");
+			}
+		} catch (LicenseProfileException licExp){
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(licExp.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while fetching License Profiles", licExp);
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while fetching License Profiles", e);
+		}
+		return responseVO;
+	}
+	
+	@ApiOperation(value = "Fetches License Profile By License ID", response = MLPLicenseProfileTemplate.class)
+	@RequestMapping(value = { APINames.GET_LICENSE_PROFILE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPLicenseProfileTemplate> getTemplate(HttpServletRequest request,@PathVariable long templateId,
+			HttpServletResponse response) {
+		JsonResponse<MLPLicenseProfileTemplate> responseVO=new JsonResponse<>();
+		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		try {
+			licenseProfileTemplate=licensingService.getTemplate(templateId);
+			if (licenseProfileTemplate != null) {
+				responseVO.setResponseBody(licenseProfileTemplate);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("License Profile fetched successfully");
+			} else {
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				responseVO.setResponseDetail("Error occured while fetching License Profile");
+				log.error("Error Occurred in Fetching License Profile");
+			}
+		} catch (LicenseProfileException licExp){
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(licExp.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while fetching License Profile", licExp);
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while fetching License Profile", e);
+		}
+		return responseVO;
+	}
+
+	@ApiOperation(value = "Validate License Profile By json", response = LicenseProfileValidationResults.class)
+	@RequestMapping(value = { APINames.VALIDATE_LICENSE_PROFILE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<LicenseProfileValidationResults> validate(HttpServletRequest request,@RequestBody String jsonString,
+			HttpServletResponse response) {
+		JsonResponse<LicenseProfileValidationResults> responseVO=new JsonResponse<>();
+		LicenseProfileValidationResults licenseProfileValidationResults=new LicenseProfileValidationResults();
+		try {
+			licenseProfileValidationResults=licensingService.validate(jsonString);
+			if (licenseProfileValidationResults != null) {
+				responseVO.setResponseBody(licenseProfileValidationResults);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("License Profile validated successfully");
+			} else {
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				responseVO.setResponseDetail("Error occured while validating License Profile");
+				log.error("Error Occurred in validating License Profile");
+			}
+		} catch (LicenseProfileException licExp){
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(licExp.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while validating License Profile", licExp);
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while validating License Profile", e);
+		}
+		return responseVO;
+	}
+
 }
