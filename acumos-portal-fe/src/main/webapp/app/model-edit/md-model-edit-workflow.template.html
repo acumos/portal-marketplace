@@ -969,6 +969,7 @@ limitations under the License.
 																	<div
 																		class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
 																		<ng-quill-editor ng-model="solutionCompanyDesc" on-content-changed="checkCompDescrLength()"></ng-quill-editor>
+																	<div class="des-info-txt"><span>Total character count - : {{newDescriptionLength.length}}</span> <span> <i class="info-icon"></i>More than 500 character will give you five star rating</span> </div>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
@@ -989,7 +990,36 @@ limitations under the License.
 															<!-- update model name end -->
 														</div>
 														<p></p>
-
+														
+														<!-- star rating -->
+														<div class="rating clear_both" ng-if="rateDescriptionCheck.length>0">
+														Description Reating:
+                                                       <span><i class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>100) }"
+												           aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>200)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(rateDescriptionCheck.length>300)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(rateDescriptionCheck.length>400)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>500)}"
+														aria-hidden="true"></i></span>                             
+											            </div>
+											            <br></br>
+											           <div ng-if="rateDescriptionCheck.length<500 && checkFlag" >
+											           <span>The provided description less than 500 characters</span><br>
+											           <span>If you want to improve your model description rating then please add more details, else click on 'OK' button to go with the current rating </span>
+											           <br></br>
+											           <div>
+											           <span><mdl-button ng-click="checkMessageButton()" class="btn-primary mdl-button mdl-js-button">Ok</mdl-button></span></div>
+											           </div>
+											           
+											           <!-- star rating -->
 														<div class="timeline-version">
 															<label> Use the Description you have in Other Revisions.</label>
 															<!--  <a>View more</a> -->
