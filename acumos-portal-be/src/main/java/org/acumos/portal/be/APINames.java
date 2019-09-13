@@ -161,6 +161,7 @@ public class APINames {
 	public static final String DOWNLOADS = "/downloads";
 	public static final String DOWNLOADS_SOLUTIONS = "/downloads/{solutionId}";
 	public static final String UPLOAD_USER_MODEL = "/model/upload/{userId}";
+	public static final String CREATE_JSON_FILE = "/writeJsonToFile/userId/{userId}";
 
 	public static final String JWTTOKEN = "/jwtToken";
 	public static final String JWTTOKENVALIDATION = "/validateToken";
@@ -168,6 +169,9 @@ public class APINames {
 	public static final String GET_PROTO_FILE = "/getProtoFile";
 	public static final String GET_LICENSE_FILE = "/getLicenseFile";
 	public static final String APITOKENVALIDATION = "/validateApiToken";
+	public static final String GET_ALL_LICENSE_PROFILE="/getAllLicenseProfile";
+	public static final String GET_LICENSE_PROFILE="/templateId/{templateId}";
+	public static final String VALIDATE_LICENSE_PROFILE="/validateLicenseProfile";
 
 	// Role APIs for MarketPlace user
 	public static final String ROLES = "/roles";
@@ -328,5 +332,6 @@ public class APINames {
 	public static final String GET_ARCHIVE = "/all/archive";
 	public static final String ARCHIVE_ACTION = "/archive/action";
 	
+  
 
 }

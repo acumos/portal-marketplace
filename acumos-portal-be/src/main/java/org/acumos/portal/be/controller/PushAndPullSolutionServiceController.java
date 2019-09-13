@@ -47,6 +47,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -278,5 +279,35 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			log.error(
 					"Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
 		}
+	}
+	
+	@RequestMapping(value = { APINames.CREATE_JSON_FILE },method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Boolean> createJsonFile(HttpServletRequest request,@PathVariable("userId") String userId,@RequestBody String json, HttpServletResponse response)throws IOException {
+		JsonResponse<Boolean> responseVO = new JsonResponse<>();
+		boolean resultFlag=false;
+		try{
+			resultFlag=storageService.createJsonFile(json, userId);
+			responseVO.setStatus(resultFlag);
+			responseVO.setResponseDetail("Success");
+			responseVO.setResponseBody(resultFlag);
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		} catch (StorageException e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(e.getMessage());
+			response.flushBuffer();
+			
+			log.error(
+					"Exception Occurred while creating json file", e);
+		}
+		catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(
+					"Exception Occurred while creating json file", e);
+		}
+		return responseVO;
 	}
 }
