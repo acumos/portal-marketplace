@@ -26,12 +26,15 @@ package org.acumos.portal.be.service;
 import java.util.List;
 import java.util.Map;
 
+import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.licensemanager.exceptions.RightToUseException;
+import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
+import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.RtuUser;
@@ -52,5 +55,11 @@ public interface LicensingService {
 	List<MLPRightToUse> createRtuUser(String rtuId, String solutionId, List<String> userList) throws Exception;
 
 	List<MLPRightToUse> createRtuUser(String rtuId, String solutionId, boolean siteWide) throws Exception;
+
+	List<MLPLicenseProfileTemplate> getTemplates() throws LicenseProfileException, AcumosServiceException;
+
+	MLPLicenseProfileTemplate getTemplate(long templateId) throws LicenseProfileException, AcumosServiceException;
+
+	LicenseProfileValidationResults validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
 
 }
