@@ -363,6 +363,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// Check if Image is present in the object. if not then fetch the
 			// solution image and then populate it
 
+			/* commenting the tag section as discussed this is not of use
+			  keeping it as comment if we observe any defect regarding this
+			  
 			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
 			try {
 				List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
@@ -373,19 +376,24 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			} catch (HttpStatusCodeException e) {
 				log.error("Could not fetch tag list for delete solution artifacts: " + e.getMessage());
 			} finally {
+			
+			*/
 				// start
+			/* commenting this as catalog is not needed to update 
+			   for this section.
+			   
 				List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(solutionId);
 				if (catalogs != null) {
 					for (MLPCatalog catalog : catalogs) {
 						dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalog.getCatalogId());
 					}
 				}
-
+			*/
 				if (revisionId != null) {
 					List<MLPArtifact> mlpArtifactsList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId,
 							revisionId);
 
-					
+					DockerClient dockerClient = null;//outside
 					for (MLPArtifact mlp : mlpArtifactsList) {
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
@@ -393,12 +401,15 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						log.info("mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
 
 						if ("DI".equals(mlp.getArtifactTypeCode())) {
-							DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
+							if(dockerClient ==null ) {																		
+								dockerClient = 	DockerClientFactory.getDockerClient(dockerConfiguration);
+							}
+							
 							DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
 							deleteImg.setClient(dockerClient);
 							deleteImg.execute();
 							deleteNexus = true;
-						} else {
+						} //else {
 							// Delete the file from the Nexus
 							String nexusUrl = env.getProperty("nexus.url");
 							String nexusUserName = env.getProperty("nexus.username");
@@ -410,7 +421,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 									nexusPd);
 							nexusArtifactClient.deleteArtifact(mlp.getUri());
 							deleteNexus = true;
-						}
+						//}
 
 						if (deleteNexus) {
 							
@@ -431,13 +442,17 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 				// end
 
+			/* commenting this section to avoid update solution based on tags
+				  
 				dataServiceRestClient.updateSolution(solution);
 			}
+			*/
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
+		
 		return mlSolution;
 	}
 
