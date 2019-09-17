@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b8cc95c_962dfa80",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-17T09:03:21Z",
+      "side": 1,
+      "message": "please move this outof the for loop..",
+      "range": {
+        "startLine": 414,
+        "startChar": 7,
+        "endLine": 416,
+        "endChar": 58
+      },
+      "revId": "f968de8cf382971c8d297bcd96520f22396af95f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
