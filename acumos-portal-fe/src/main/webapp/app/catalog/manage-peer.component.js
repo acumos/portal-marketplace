@@ -90,7 +90,7 @@ angular
 						$scope.getAccessedPeers();
 						
 						$scope.removeSelected = function(selected){
-							if(selected.Selected == true)
+							if(selected.checked == false || selected.checked == undefined)
 	            			{
 								$scope.peersSelected.push(selected.peerId);
 	            			
@@ -100,21 +100,19 @@ angular
 	            			}
 							 if($scope.selectAllPeer == true){
 			            	   	   $scope.selectAllPeer = false;   
-	            	    		   $scope.selectAllPeerStatus = false;
+	            	    	  
 	            	    	 }
 				            }
 						
 						
 						$scope.removeAll = function(selected){
-							$scope.selectAllPeer = selected;
-			            	$scope.selectAllPeerStatus = true;
-			            	for (var i = 0; i < $scope.accessedPeers.length; i++) {
-			            		$scope.accessedPeers[i].Selected = $scope.selectAllPeer;
-			            		if($scope.selectAllPeer){
+							for (var i = 0; i < $scope.accessedPeers.length; i++) {
+			            		$scope.accessedPeers[i].checked = !selected;
+			            		if($scope.selectAllPeer == false){
 			            			$scope.peersSelected.push($scope.accessedPeers[i].peerId);
 			            		}
 			            	}
-			            	if($scope.selectAllPeer == false){
+			            	if($scope.selectAllPeer == true){
 			            		$scope.peersSelected=[];
 			            		}
 			            	};
@@ -161,7 +159,7 @@ angular
 			                        	}
 			                        	$scope.accessedPeers = $scope.peers1.filter(x =>$scope.accessedPeerIds.includes(x.peerId));
 			                        	for(var i=0;i<$scope.accessedPeers.length;i++){
-			                        		$scope.accessedPeers[i].Selected=false;
+			                        		$scope.accessedPeers[i].checked=false;
 			                        	}
 			                        	$scope.grantPeersSelected = [];
 			                        	$mdDialog.hide();
@@ -175,7 +173,7 @@ angular
 			                                 function () {
 			                                     $scope.showSuccessMessage = false;
 			                                 }, 3000);
-			                             $('input:checkbox').removeAttr('checked');
+			                             $scope.selectAll = false;
 			                        	 
 			                         },
 			                         function errorCallback(response) {
@@ -205,7 +203,7 @@ angular
 			                        	 	$scope.availablePeers = $scope.peers1.filter(x =>!$scope.accessedPeerIds.includes(x.peerId));
 				                        	$scope.accessedPeers = $scope.peers1.filter(x =>$scope.accessedPeerIds.includes(x.peerId));
 				                        	for(var i=0;i<$scope.availablePeers.length;i++){
-				                        		$scope.availablePeers[i].Selected=false;
+				                        		$scope.availablePeers[i].checked=false;
 				                        	}
 				                        	$scope.peersSelected = [];
 				                        	$mdDialog.hide();
@@ -219,7 +217,7 @@ angular
 				                                 function () {
 				                                     $scope.showSuccessMessage = false;
 				                                 }, 3000);
-				                            $('input:checkbox').removeAttr('checked');
+				                            $scope.selectAllPeer = false;
 				                        	 
 			                         },
 			                         function errorCallback(response) {
@@ -230,7 +228,7 @@ angular
 			            	}
 			            	
 			            	$scope.grantAccessToSelected = function(selected){
-			            		if(selected.Selected == true)
+			            		if(selected.checked == false || selected.checked == undefined)
 		            			{$scope.grantPeersSelected.push(selected.peerId);
 		            			
 		            			}else{
@@ -240,21 +238,19 @@ angular
 		            		
 				               if($scope.selectAll == true){
 				            	   	   $scope.selectAll = false;   
-		            	    		   $scope.selectAllStatus = false;
+		            	    		 
 		            	    	 }
 				            }
 			            	
 						
 						$scope.grantAccessToAll = function(selected){
-			            	$scope.selectAll = selected;
-			            	$scope.selectAllStatus = true;
 			            	for (var i = 0; i < $scope.availablePeers.length; i++) {
-			            		$scope.availablePeers[i].Selected = $scope.selectAll;
-			            		if($scope.selectAll){
+			            		$scope.availablePeers[i].checked = !selected;
+			            		if($scope.selectAll == false){
 			            			$scope.grantPeersSelected.push($scope.availablePeers[i].peerId);
 			            		}
 			            	}
-			            	if($scope.selectAll == false){
+			            	if($scope.selectAll == true){
 			            		$scope.grantPeersSelected=[];
 			            		}
 			            	};

@@ -310,7 +310,7 @@ public class CatalogServiceController extends AbstractController {
 		try {
 			catalogService.addPeerAccessCatalog(PeerIdList, catalogId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Catalog access added for peer successfully");
+			data.setResponseDetail("Peer access granted successfully");
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -332,7 +332,7 @@ public class CatalogServiceController extends AbstractController {
 		try {
 			catalogService.dropPeerAccessCatalog(PeerIdList, catalogId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Catalog access dropped for peer successfully");
+			data.setResponseDetail("Peer access removed successfully");
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
