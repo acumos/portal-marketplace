@@ -96,6 +96,7 @@ angular
 						$scope.showSolutionDocs = false;
 						$scope.supportingDocs = [];
 						$scope.tags1 = [];
+                   $scope.checkFlag = true;
 						componentHandler.upgradeAllRegistered();
 						$scope.solutionCompanyDescStatus = false;
 						$scope.icon = false;
@@ -502,6 +503,10 @@ angular
 									.success(
 											function(data) {
 												$scope.solutionCompanyDesc = data.response_body.description;
+												$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
+												
+												$scope.ratingCheck($scope.newDescriptionLength);
+												
 												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_body.description);
 												if($scope.solutionCompanyDesc){
 													$scope.solutionCompanyDescStatus = true;
@@ -511,6 +516,7 @@ angular
 											function(data) {
 												$scope.solutionCompanyDesc = "";
 												$scope.solutionCompanyDesc1 = "";
+												$scope.newDescriptionLength = $scope.solutionCompanyDesc;
 												$scope.solutionCompanyDescStatus = false;
 											});
 						}
@@ -789,6 +795,7 @@ angular
 												$location.hash('manage-models');
 												$anchorScroll();
 												$scope.loadData();
+												$scope.getSolCompanyDesc();
 												$scope.msg = $scope.detail;
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
@@ -820,7 +827,7 @@ angular
 							if($scope.solutionCompanyDesc){
 
 								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc ? String($scope.solutionCompanyDesc).replace(/<[^>]+>/gm, '') : '';
-								
+								$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
 								if($scope.solutionCompanyDesc.indexOf('src="') > -1){
 								    var newValue = $scope.solutionCompanyDesc.split('src="')[1].split('"')[0];
 								    $scope.solutionCompanyDescLength = true;
@@ -861,6 +868,11 @@ angular
 										.success(
 												function(data) {
 													$scope.solutionCompanyDesc = data.response_body.description;
+													$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
+													
+													$scope.ratingCheck($scope.newDescriptionLength);
+													
+													$scope.loadData();
 													$scope.solutionCompanyDescStatus = true;
 													$location.hash('manage-models');
 													$anchorScroll();
@@ -880,6 +892,8 @@ angular
 													$scope.solutionCompanyDesc = '';
 													$scope.solutionCompanyDescStatus = false;
 													$scope.solutionCompanyDescLength = false;
+													$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');;
+													
 												});
 							} else {
 								$location.hash('manage-models');
@@ -890,10 +904,51 @@ angular
 								$scope.showAlertMessage = true;
 								$timeout(function() {$scope.showAlertMessage = false;}, 3000);
 								$scope.solutionCompanyDesc = '';
+								
+								$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
 								$scope.showDCKEditor = !$scope.showDCKEditor;
 							}
 						}
 
+						
+						
+						
+						
+						
+						
+						// functionality for adding ratings begins
+			          			
+			          		
+			          var ratingDescription;
+						$scope.ratingCheck = function(ratingDescription){
+							
+							$scope.rateDescriptionCheck = ratingDescription;
+														
+							$scope.ratingReview = "";							
+							if($scope.rateDescriptionCheck.length<100){
+								
+								
+							}													
+							if($scope.rateDescriptionCheck.length>100 && $scope.rateDescriptionCheck.length<500){ 
+								$scope.checkFlag = true;
+								
+							}
+							
+							
+								if($scope.rateDescriptionCheck.length>500){
+												$scope.checkFlag = false;						
+								}
+												
+						}
+						
+						
+						$scope.checkMessageButton = function(){
+							$scope.checkFlag = false;
+						}
+						
+												
+						// functionality for adding ratings ends
+												
 						$scope.copiedCompanyDesc = false;
 						$scope.copyPublicToCompany = function() {
 							var solution = {
@@ -909,6 +964,9 @@ angular
 							$http(req).success(function(data) {
 								$scope.solutionCompanyDesc1 = data.response_body.description;
 								$scope.solutionCompanyDesc = data.response_body.description;
+								$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
+								$scope.ratingcheck($scope.newDescriptionLength);
+								//$scope.loadData();
 								$scope.copiedCompanyDesc = true;
 							});
 
@@ -962,6 +1020,10 @@ angular
 											.success(
 													function(data) {
 														$scope.solutionCompanyDesc = data.response_body.description;
+														$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
+														
+														$scope.ratingcheck($scope.newDescriptionLength);
+														//$scope.loadData();
 														$scope.solutionCompanyDesc1 = data.response_body.description;
 														$scope.solutionCompanyDescStatus = true;
 														$location.hash('manage-models');
@@ -981,7 +1043,7 @@ angular
 														$scope.solutionCompanyDesc = '';
 														$scope.solutionCompanyDescStatus = false;
 														$scope.solutionCompanyDescLength = false;
-														
+														$scope.newDescriptionLength = '';
 														$location.hash('manage-models');
 														$anchorScroll();
 														$scope.getSolCompanyDesc();

@@ -1019,7 +1019,10 @@ angular
 								$http(req)
 										.success(
 												function(data) {
-													$scope.solutionDescription = $sce.trustAsHtml(data.response_body.description);
+													$scope.solutionDescription = (data.response_body.description);
+													$scope.solutionDescriptionRating = $scope.solutionDescription.replace(/<[^>]+>/gm, '');
+													
+													
 												})
 										.error(
 												function(data) {

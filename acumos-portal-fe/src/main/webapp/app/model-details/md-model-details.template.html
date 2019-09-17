@@ -322,8 +322,29 @@ limitations under the License.
 				</div>
 				<div class="mdl-cell md-right-container model-details-tabwrapper">
 					<div class="mdl-tabs__panel is-active" id="tab1-panel">
-						<div class="md-intro-container">
+						<div class="md-intro-container spacebetween">
 							<div ng-if="solution.modelTypeName && version.accessTypeCode != 'PR'"><h6 class="sectiontitle9">INTRODUCTION | CATEGORY:{{solution.modelTypeName}}</h6></div>
+						
+							                      <div class="rating clear_both" ng-if="solutionDescriptionRating.length>0">
+														Description Rating:
+                                                       <span><i class="fa fa-star "
+														ng-class="{'fa-star1': !(solutionDescriptionRating.length>100) }"
+												           aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(solutionDescriptionRating.length>200)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(solutionDescriptionRating.length>300)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(solutionDescriptionRating.length>400)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(solutionDescriptionRating.length>500)}"
+														aria-hidden="true"></i></span>                             
+											            </div>
+							
+							
 							<div ng-if="!solution.modelTypeName || version.accessTypeCode =='PR'"><h6 class="sectiontitle9">INTRODUCTION</h6></div>
 						</div>
 

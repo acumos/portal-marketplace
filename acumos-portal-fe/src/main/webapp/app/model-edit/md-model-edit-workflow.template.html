@@ -989,7 +989,36 @@ limitations under the License.
 															<!-- update model name end -->
 														</div>
 														<p></p>
-
+														
+														<!-- star rating -->
+														<div class="rating clear_both" ng-if="rateDescriptionCheck.length>0">
+														Description Rating:
+                                                       <span><i class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>100) }"
+												           aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>200)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(rateDescriptionCheck.length>300)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(rateDescriptionCheck.length>400)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>500)}"
+														aria-hidden="true"></i></span>                             
+											            </div>
+											            <br></br>
+											           <div ng-if="rateDescriptionCheck.length<500 && checkFlag" >
+											           <span>The provided description less than 500 characters</span><br>
+											           <span>If you want to improve your model description rating then please add more details, else click on 'OK' button to go with the current rating </span>
+											           <br></br>
+											           <div>
+											           <mdl-button ng-click="checkMessageButton()" class="btn-primary mdl-button mdl-js-button">Ok</mdl-button></div><br>
+											           </div>
+											           
+											           <!-- star rating -->
 														<div class="timeline-version">
 															<label> Use the Description you have in Other Revisions.</label>
 															<!--  <a>View more</a> -->
@@ -1817,8 +1846,30 @@ limitations under the License.
 																			class="mdl-cell md-right-container model-details-tabwrapper">
 																			<div class="mdl-tabs__panel is-active"
 																				id="tab1-panel">
-																				<div class="md-intro-container">
-																					<h6 class="sectiontitle9">INTRODUCTION</h6>	
+																				<div class="md-intro-container spacebetween">
+																					<h6 class="sectiontitle9">INTRODUCTION</h6>
+																					 
+								                   <div class="rating clear_both" ng-if="rateDescriptionCheck.length>0">
+														Description Rating:
+                                                       <span><i class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>100) }"
+												           aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>200)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(rateDescriptionCheck.length>300)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1':  !(rateDescriptionCheck.length>400)}"
+														aria-hidden="true"></i></span> <span><i
+														class="fa fa-star "
+														ng-class="{'fa-star1': !(rateDescriptionCheck.length>500)}"
+														aria-hidden="true"></i></span>                             
+											            </div>
+																					 
+																					 
+																						
 																				</div>
 
 																				<div class="description-img-container">
