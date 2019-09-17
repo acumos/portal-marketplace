@@ -2265,15 +2265,18 @@ angular
 						if($scope.company){
 							if($scope.company.skipStep == true){
 								count++;
+							}else if($scope.company.skipStep == false && $scope.supportingDocs.length == 0){
+								count--;
 							}
 						}
 						
 						if($scope.solutionCompanyDesc) count++;
 						$scope.statusCount = count;
+						$scope.activePublishBtn = false;
 						if($scope.statusCount > 5){
 							$scope.activePublishBtn = true;
 							$scope.modelDocumentation = true;
-						}	
+						}
 
 					}
 					
