@@ -1434,6 +1434,10 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .fed-err-msg span {position:relative; margin-left: 2px; line-height: 15px !important;}
 table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark as Self "] {width: 100% !important;}
 
+/************** Grant Peer access table   *************************/
+.grant-peer-access .fed-srch-container{margin-left:5px;}
+
+
 /********** Admin page Federation modal box style **********/
 .fedration-subscription {max-height: 80%;width: 750px;}
 .fedration-subscription .md-dialog-content {min-height: 190px;}
@@ -2900,4 +2904,3 @@ label.model-name{color:#0366d6;}
     .mp-grid-list figure {display:flex;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
-

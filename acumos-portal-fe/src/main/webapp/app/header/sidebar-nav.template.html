@@ -37,7 +37,7 @@ limitations under the License.
 				<span class="headertxtspan">My Models</span>
 			</a>
 			
-			<a ng-if="$root.userRolePublisher" class="mdl-navigation__link" ng-class="{ active: isActive('/catalog') }" ui-sref="catalog" title="Catalogs"  ng-click="$root.parentActive = ''">
+			<a ng-if="$root.userRolePublisher" class="mdl-navigation__link" ng-class="{ active: (isActive('/catalog') ) || $root.parentActive == 'catalog' }" ng-click="$root.parentActive = 'catalog'" ui-sref="catalog" title="Catalogs"  ng-click="$root.parentActive = ''">
 		    	<span class="icon-header icon-catalogs"></span>
 		    	<span class="headertxtspan">Catalogs</span>
 		    </a>

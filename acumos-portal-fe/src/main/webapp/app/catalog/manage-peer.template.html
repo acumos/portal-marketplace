@@ -31,7 +31,7 @@ limitations under the License.
 			<ul class="c-breadcrumb">
 				<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
 				<li><a ui-sref="catalog">Catalogs</a></li>
-				<li><span>Manage Peer(s)Access</span></li>
+				<li><span>Manage Peer(s) Access</span></li>
 			</ul>
 		</div>
 	</div>
@@ -105,7 +105,7 @@ limitations under the License.
 							<th>Action</th>
 						</tr>
 					</thead>
-					<tbody ng-repeat="val in (accessedPeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeerDetails)">
+					<tbody ng-repeat="val in (searchData = (accessedPeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeerDetails))">
 						<tr>
 						
 							<td><label 
@@ -124,6 +124,12 @@ limitations under the License.
 							<span class="fas fa-times" ng-click="removeIndividualPeer(val)"}></span></td>
 						</tr>
 					</tbody>
+					<tbody ng-if="searchData.length == 0">
+								<tr class="alert c-info text-center">
+									<td class="text-center" colspan="7"><strong>No
+											Results Found</strong></td>
+								</tr>
+				   </tbody>
 				</table>
 			</div>
 			</div>
@@ -196,7 +202,7 @@ limitations under the License.
 						</tr>
 					</thead>
 					
-					<tbody ng-repeat="val in (availablePeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeer)">
+					<tbody ng-repeat="val in (searchData =(availablePeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeer))">
 					
 						<tr>
 						<td><label
@@ -217,6 +223,12 @@ limitations under the License.
 						
 						
 					</tbody>
+					<tbody ng-if="searchData.length == 0">
+								<tr class="alert c-info text-center">
+									<td class="text-center" colspan="7"><strong>No
+											Results Found</strong></td>
+								</tr>
+				   </tbody>
 				</table>
 			</div>
 		</div>
@@ -258,6 +270,5 @@ limitations under the License.
 	</md-dialog-actions> </md-dialog>
 </div>
 <!-- Modal box end -->
-
 
 
