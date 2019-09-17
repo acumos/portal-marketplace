@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "648e7304_7106c35b",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-17T15:37:04Z",
+      "side": 1,
+      "message": "this logic can be moved to JS and js should return the template based on the rule.. so that it can be one single place",
+      "range": {
+        "startLine": 328,
+        "startChar": 61,
+        "endLine": 341,
+        "endChar": 2
+      },
+      "revId": "0e95111291cb3686b745fed18f2f5f34a13adac4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c457058_6555142e",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-17T15:37:04Z",
+      "side": 1,
+      "message": "this should be revisited.. it will remove user\u0027s desciription used special chars",
+      "range": {
+        "startLine": 871,
+        "startChar": 78,
+        "endLine": 871,
+        "endChar": 89
+      },
+      "revId": "0e95111291cb3686b745fed18f2f5f34a13adac4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ced0ee3_ade87cf5",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-17T15:37:04Z",
+      "side": 1,
+      "message": "see if this also can be moved to one single place/method.. i see same logic twice",
+      "range": {
+        "startLine": 871,
+        "startChar": 43,
+        "endLine": 871,
+        "endChar": 95
+      },
+      "revId": "0e95111291cb3686b745fed18f2f5f34a13adac4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
