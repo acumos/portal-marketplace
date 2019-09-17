@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fafb3e0_de4c080d",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-17T15:26:01Z",
+      "side": 1,
+      "message": "I asked to move out of forloop, if you have created a method which is called in loop.. pass these 3 variables as an arguments whcih should be read from out of the for loop to avoid multiple calls",
+      "range": {
+        "startLine": 459,
+        "startChar": 2,
+        "endLine": 461,
+        "endChar": 53
+      },
+      "revId": "506007ddd07d960540a766ae929cbf2f87539827",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4be4d97_c202a46e",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-17T15:26:01Z",
+      "side": 1,
+      "message": "Cannot Print Password in logs",
+      "range": {
+        "startLine": 461,
+        "startChar": 2,
+        "endLine": 461,
+        "endChar": 53
+      },
+      "revId": "506007ddd07d960540a766ae929cbf2f87539827",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
