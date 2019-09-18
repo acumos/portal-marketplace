@@ -364,12 +364,26 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				String nexusUrl = env.getProperty("nexus.url");
 				String nexusUserName = env.getProperty("nexus.username");
 				String nexusPd = env.getProperty("nexus.password");
+				String dockerUrl = env.getProperty("nexus.docker");
+				String artifactReference = "";
 				for (MLPArtifact mlp : mlpArtifactsList) {
 					// Delete the file from the Nexus
+					if ("DI".equals(mlp.getArtifactTypeCode())) {
+						
+						String dockerUri =  mlp.getUri();
+						String[] result = dockerUri.split("/");					
+						String[] result2 = result[1].split(":");
+						String solutionName = result2[0];
+						String version = result2[1];
+						
+						log.info("solutionName-->>"+solutionName+"version---->>"+version);
+						artifactReference = dockerUrl+"/v2/"+solutionName+"/manifests/"+version;
+					}
 					log.info("mlp.getUri ----->>" + mlp.getUri());
 					log.info("mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
 					deleteArtifactsFromDockerRepo(dockerClient, mlp);
-					deleteArtifcatsFromNexusRepo(nexusUrl, nexusUserName, nexusPd, mlp);					
+					log.info(" artifactReference------->>>"+artifactReference);
+					deleteArtifcatsFromNexusRepo(nexusUrl, nexusUserName, nexusPd, mlp, artifactReference);					
 					 
 					deleteArtifactFromCds(solutionId, revisionId, dataServiceRestClient, mlp);
 				}
@@ -389,6 +403,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			if(dockerClient ==null ) {																		
 				dockerClient = 	DockerClientFactory.getDockerClient(dockerConfiguration);
 			}			
+			log.info("mlp.getUri()--docker-------->>>"+mlp.getUri());
 			DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
 			deleteImg.setClient(dockerClient);
 			deleteImg.execute();
@@ -396,13 +411,18 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 	}
 
-	private void deleteArtifcatsFromNexusRepo(String nexusUrl, String nexusUserName, String nexusPd, MLPArtifact mlp) throws URISyntaxException {
+	private void deleteArtifcatsFromNexusRepo(String nexusUrl, String nexusUserName, String nexusPd, MLPArtifact mlp, String artifactReference) throws URISyntaxException {
 		
 		log.info("nexusUrl ----->>" + nexusUrl);
 		log.info("nexusUserName ----->>" + nexusUserName);
+		log.info("mlp.getUri()----nexus---->>>"+mlp.getUri());
+		
 		NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName,
 				nexusPd);
-		nexusArtifactClient.deleteArtifact(mlp.getUri());
+		if("DI".equals(mlp.getArtifactTypeCode()))
+			nexusArtifactClient.deleteArtifact(artifactReference);
+		else
+			nexusArtifactClient.deleteArtifact(mlp.getUri());
 	}
 
 	private void deleteArtifactFromCds(String solutionId, String revisionId,

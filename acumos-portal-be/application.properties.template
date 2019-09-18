@@ -66,6 +66,7 @@ nexus.username=foo
 nexus.password=bar
 nexus.groupId=com.artifact
 #nexus.proxy=http://one.proxy.mycompany.com:8080
+nexus.docker=http://acumos-devuser:d3vu3er@acumos-nexus01.eastus.cloudapp.azure.com:8081/repository/acumos-dev-docker
 
 #Validation API Configuration
 portal.submitValidation.api=http://localhost:9602/status/v1.0/tasks
