@@ -306,12 +306,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("AcumosServiceException Occurred while updateSolutionDetails()", e);
+			log.error("AcumosServiceException Occurred while deleteSolutionArtifacts()", e);
 		} catch (URISyntaxException uriEx) {
 			data.setErrorCode("401");
 			data.setResponseDetail("Unable to delete  Artifact from Nexus");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("URISyntaxException Occurred while updateSolutionDetails()", uriEx);
+			log.error("URISyntaxException Occurred while deleteSolutionArtifacts()", uriEx);
 		}
 		return data;
 	}
@@ -457,7 +457,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("Exception Occurred while updateSolutionDetails()", e);
+			log.error("Exception Occurred while addSolutionTag()", e);
 		}
 		return data;
 	}
@@ -486,7 +486,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("Exception Occurred while updateSolutionDetails()", e);
+			log.error("Exception Occurred while dropSolutionTag()", e);
 		}
 		return data;
 	}

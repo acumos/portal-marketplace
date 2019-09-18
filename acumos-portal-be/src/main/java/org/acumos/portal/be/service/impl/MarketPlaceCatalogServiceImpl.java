@@ -368,8 +368,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					// Delete the file from the Nexus
 					log.info("mlp.getUri ----->>" + mlp.getUri());
 					log.info("mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
+					deleteArtifactsFromDockerRepo(dockerClient, mlp);
 					deleteArtifcatsFromNexusRepo(nexusUrl, nexusUserName, nexusPd, mlp);					
-					deleteArtifactsFromDockerRepo(dockerClient, mlp); 
+					 
 					deleteArtifactFromCds(solutionId, revisionId, dataServiceRestClient, mlp);
 				}
 			}
@@ -383,13 +384,15 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	private void deleteArtifactsFromDockerRepo(DockerClient dockerClient, MLPArtifact mlp)
 			throws AcumosServiceException {
-		if ("DI".equals(mlp.getArtifactTypeCode())) {
+		log.info("mlp.getArtifactTypeCode() ----->>" + mlp.getArtifactTypeCode());
+		if ("DI".equals(mlp.getArtifactTypeCode())) {			
 			if(dockerClient ==null ) {																		
 				dockerClient = 	DockerClientFactory.getDockerClient(dockerConfiguration);
 			}			
 			DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
 			deleteImg.setClient(dockerClient);
 			deleteImg.execute();
+			log.info("mlp.getArtifactTypeCode() inside----->>" + mlp.getArtifactTypeCode());
 		}
 	}
 
