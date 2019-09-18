@@ -3291,8 +3291,14 @@ angular.module('admin').filter('abs', function () {
             $scope.getCatalogDetails = function (CatalogId) {
                 $scope.allCatalogList = [];
                 $scope.selectedCatalogId = CatalogId;
+                
+                var reqObj = {
+                		"peerId": $scope.peerIdForSubsList,
+                		"selector": "{\"catalogId\":\"" + CatalogId + "\"}"
+                	};
+                
                 apiService
-                    .getCatalogDetails(CatalogId)
+                    .getPeerSolutionsByCatalog(reqObj)
                     .then(
                         function successCallback(response) {
                             $scope.allCatalogList = response.data.response_body;

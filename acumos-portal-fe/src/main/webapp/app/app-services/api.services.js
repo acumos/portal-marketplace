@@ -131,6 +131,7 @@ angular.module('AcumosApp')
         var urlCatalogPath = "/api/catalog";
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
+        var urlGatewaySolutions = "api/gateway/solutions";
 		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
         var urlRightToUse="/api/rightToUse";
 
@@ -731,8 +732,9 @@ angular.module('AcumosApp')
         this.unpublishSolution = function(solutionId, data){
         	return $http.put(urlUnpublishSolution + '/' + solutionId + '?' + data);
         };
-        this.getCatalogDetails = function(catalogId) {
-        	return $http.get(urlCatalogPath + "/" + catalogId);
+        
+        this.getPeerSolutionsByCatalog = function(reqObj) {
+        	return $http.post(urlGatewaySolutions, reqObj);
         };
         
         this.getCatalogsbyUser = function(request, loginID) {
