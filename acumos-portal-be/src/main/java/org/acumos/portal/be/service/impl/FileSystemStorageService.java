@@ -230,7 +230,6 @@ public class FileSystemStorageService implements StorageService {
 	public boolean createJsonFile(String jsonString, String userId) {
 		boolean responseFlag=false;
 		try{
-			deleteAll(userId);
 			log.debug("Remove Previously Uploaded files for User  " + userId );
 			
 			Path modelFolderLocation = Paths

@@ -154,6 +154,12 @@ angular.module('AcumosApp')
         var urlDeleteIndices = "api/elk/delete/indices";				    //Delete elasticstack Indices.
 		var urlAllArchives = "api/elk/all/archive";				        	//get all archives.
         var urlRestoreArchive = "api/elk/archive/action";				    //restore archives.
+		
+		var urlGetAllLicenseProfile = "api/getAllLicenseProfile";
+        var urlGetLicenseTemplate = "api/templateId";
+        var urlCreateLicenseFile = "api/writeJsonToFile";
+        var urlLicenseProfileUrl = "api/licenseProfileUrl";
+
 	
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -849,5 +855,22 @@ angular.module('AcumosApp')
 		this.createRestoreArchive = function (request) {
             return $http.post(urlRestoreArchive, request);
         };
+		
+		this.getAllLicenseProfile = function () {
+            return $http.get(urlGetAllLicenseProfile);
+        };
+
+        this.getLicenseTemplate = function (templateId) {
+            return $http.get(urlGetLicenseTemplate + '/'+ templateId);
+        };
+
+        this.createLicenseFile = function (userId, request) {
+            return $http.post(urlCreateLicenseFile + '/userId/'+ userId, request);
+        };
+
+        this.getLicenseProfileUrl = function () {
+            return $http.get(urlLicenseProfileUrl);
+        };
+
 		
     }]);

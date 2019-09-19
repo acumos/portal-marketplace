@@ -3,6 +3,7 @@
 Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Modifications Copyright (C) 2019 Nordix Foundation.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -97,13 +98,13 @@ angular.module('modelResource')
 			$scope.keepModelName = false;
 			$scope.model = {};
 			$scope.disableOnboardingButton = false;
+			$scope.licenseOption = 'Upload';
 			
 			$scope.dockerBackScreen = true;
 			$scope.disableRefreshButton = true;
 			$scope.disableDockerRefreshButton = true;
 			
 			$scope.disableUploadLicense = false;
-			$scope.disableUploadCheckbox = false;
 			$scope.disableUploadDLCheckbox = false;
 
 			if(angular.isDefined($rootScope.isMicroserviceEnabled) == false)
@@ -115,17 +116,6 @@ angular.module('modelResource')
 				$scope.userLoggedIn = true;
 			}else $scope.userLoggedIn = false;
 
-			$scope.expCont = function() {
-			    var x = document.getElementById("expContTxt");
-			    var y = document.getElementById("expCont");
-			    if (x.style.display === "none") {
-			        x.style.display = "block";
-			        y.style.display = "none";
-			    } else {
-			        x.style.display = "none";
-			        y.style.display = "block";
-			    }
-			  }
 			//added this code to adjust the height of popup
 			$scope.openDrop = function(close){
 				if($scope.onap == false) {
@@ -150,7 +140,100 @@ angular.module('modelResource')
 				$scope.modelUploadErrorMsg = undefined;
 				$scope.modelUploadError = false;				
 			}
-			
+			// TODO license-profile-editor handlers
+			var selLicProfileTplMsg;
+			var bindEvent = function(element, eventName, eventHandler) {
+					if (element.addEventListener) {
+						element.addEventListener(eventName, eventHandler, false);
+					} else if (element.attachEvent) {
+						element.attachEvent('on' + eventName, eventHandler);
+					}
+				},
+				unbindEvent = function(element, eventName, eventHandler) {
+					if (element.removeEventListener) {
+						element.removeEventListener(eventName, eventHandler, false);
+					} else if (element.detachEvent) {
+						element.detachEvent('on' + eventName, eventHandler);
+					}
+				},
+				winMsgHandler = function(event) {
+					// message listener
+					if (event.data.key === 'output') {
+						var licenseText = JSON.stringify(event.data.value);	
+						$scope.licenseOption = 'selectLicProfile';
+						$scope.createLicenseFile(licenseText);
+						$mdDialog.hide();
+					} else if (event.data.key === 'action') {
+						if (event.data.value === 'cancel') {
+							$mdDialog.hide();
+						}
+					} else if (event.data.key === 'init_iframe') {
+						// if licenseProfileEditorInitMsg then send me
+						var iframe = document.getElementById('iframe-license-profile-editor');
+
+						if (selLicProfileTplMsg && iframe) {
+							// send message to License Profile Editor iframe
+							iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+						}
+					}
+				},
+				showLicenseProfileEditorDialog = function(event) {
+
+					var onCompleteLicProfileTplDialog = function(scope, element, options) {
+						var iframe = document.getElementById('iframe-license-profile-editor');
+
+						if (selLicProfileTplMsg && iframe) {
+							// send message to License Profile Editor iframe
+							iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+						}
+					};
+
+					// open the license profile modal
+					$mdDialog.show({
+						controller: function DialogController($scope, $mdDialog) {
+							$scope.closeDialog = function() {
+								$mdDialog.hide();
+							};
+						},
+						templateUrl:'./app/modular-resource/license-profile-editor-dialog.template.html',
+						parent: angular.element(document.body),
+						targetEvent: event,
+						clickOutsideToClose:true,
+						onComplete: onCompleteLicProfileTplDialog
+					});
+				};
+
+			if (window.licProfEdMsgHandlerRef) {
+				unbindEvent(window, 'message', window.licProfEdMsgHandlerRef);
+			}
+			bindEvent(window, 'message', winMsgHandler);
+			window.licProfEdMsgHandlerRef = winMsgHandler;
+
+			$scope.createNewLicenseProfileTemplate = function(event, isDockerLicense) {
+				selLicProfileTplMsg = undefined;
+				$scope.isDockerLicense = isDockerLicense;
+				showLicenseProfileEditorDialog(event);
+			};
+			$scope.allTemplates = [];
+			$scope.modifyLicenseProfileTemplate = function(event, isDockerLicense) {
+				$scope.isDockerLicense = isDockerLicense;
+				var selectedLic = $scope.allTemplates[$scope.selectedLicense];
+				var template = JSON.parse(selectedLic.template);
+				$scope.createLicenseFile(selectedLic);
+				if (selectedLic) {
+					try {
+						var msgObj = {
+							"key": "input",
+							"value": template
+						};
+						selLicProfileTplMsg = msgObj;
+					} catch (e) {
+						console.error("failed parsing license profile template input", e);
+					}
+				}
+				showLicenseProfileEditorDialog(event);
+			};
+
 			$scope.resetLicenseUpload = function(dockerURL){
 				$rootScope.progressBar = 0;
 				if(dockerURL){
@@ -259,7 +342,6 @@ angular.module('modelResource')
 					$scope.file = "";
 					$scope.fileSubmit = false;
 					$scope.modelUploadError = false;
-					$scope.isLicenseUploaded = false;
 				}
 	           	angular.element('#file').val('');			
 	           	
@@ -307,112 +389,111 @@ angular.module('modelResource')
 							$scope.allSuccess = false;
 							var width = 0;
 							for(var i=0 ; i< data.length; i++){
-								var stepName = data[i].name;
-								var statusCode =  data[i].statusCode;
-								var stepCode = data[i].stepCode;
-
-								if($scope.onap == false){
-									switch(stepName){
-										case 'CreateSolution': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCS = data[i].result : $scope.errorCS = ''; break;
-										case 'AddArtifact' :
-											if(!((data[i].result).includes('OnboardingLog.txt'))) {
-												if(counter > 3){
-													$scope.clearNotificationInterval(); return;
-												}	
-												var counter = 2;
-											}
-											( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
-										case 'CreateTOSCA' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;	                        
-										case 'Dockerize' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'AddDockerImage' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
-									}
-									var onboardingComponent = '.onboarding-web';
-									if($rootScope.dockerURIonboarding){
-										var onboardingComponent = '.onboarding-docker';
-									}
-									
-									$rootScope.$broadcast('updateNotifications');
-								} else {
-									switch(stepName){
-										case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
-										/*case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;*/
-										case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'AddDockerImage' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;
-										case 'AddArtifact' :  
-											/*if(counter > 5){
-												$scope.clearNotificationInterval(); return;
-											}*/
-											var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
-										default : var counter = -1;
-									}
-
-									var onboardingComponent = '#onap-onboarding';
-									$rootScope.$broadcast('updateNotifications');
-								} 
-								
-								if (counter != -1) {
-									angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
-									if(statusCode == 'FA'){
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
-										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
-										$scope.stepfailed = true;
-									}else if(statusCode == 'ST'){
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
-										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
+								if(!((data[i].result).includes('OnboardingLog.txt')) || !((data[i].result).includes('MicroserviceGenerationLog.txt'))){} {
+									var stepName = data[i].name;
+									var statusCode =  data[i].statusCode;
+									var stepCode = data[i].stepCode;
+	
+									if($scope.onap == false){
+										switch(stepName){
+											case 'CreateSolution': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCS = data[i].result : $scope.errorCS = ''; break;
+											case 'AddArtifact' :
+													var counter = 2;
+												( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
+											case 'CreateTOSCA' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;	                        
+											case 'Dockerize' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+											case 'AddDockerImage' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
+										}
+										var onboardingComponent = '.onboarding-web';
+										if($rootScope.dockerURIonboarding){
+											var onboardingComponent = '.onboarding-docker';
+										}
 										
-									}else if(statusCode == 'SU'){
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
-										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
-										$scope.completedSteps[stepName] = stepName;
-
-										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.dockerURIonboarding && counter == 2) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) || ( counter == 4 && !$rootScope.isMicroserviceEnabled ) ) && $scope.stepfailed == false ) {
-											if($rootScope.isOnnxOrPFAModel){
-												counter = 10;
-												width = 85;
-											} else if($rootScope.dockerURIonboarding){
-												counter = 4;
-												width = 85;
-											} else if(!$rootScope.isMicroserviceEnabled){
-												counter = 10;
-												width = 85;
-											} else {											
-												counter = counter + 2;
-											}											
+										$rootScope.$broadcast('updateNotifications');
+									} else {
+										switch(stepName){
+											case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
+											/*case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;*/
+											case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+											case 'AddDockerImage' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;
+											case 'AddArtifact' :  
+												/*if(counter > 5){
+													$scope.clearNotificationInterval(); return;
+												}*/
+												var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
+											default : var counter = -1;
+										}
+	
+										var onboardingComponent = '#onap-onboarding';
+										$rootScope.$broadcast('updateNotifications');
+									} 
+									
+									if (counter != -1) {
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
+										if(statusCode == 'FA'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
+											$scope.stepfailed = true;
+										}else if(statusCode == 'ST'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
+											
+										}else if(statusCode == 'SU'){
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
-											$scope.errorVM = '';
-											$scope.completedSteps['ViewModel'] = 'ViewModel';
-											$scope.allSuccess = true;
+											$scope.completedSteps[stepName] = stepName;
+	
+											if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.dockerURIonboarding && counter == 2) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) || ( counter == 4 && !$rootScope.isMicroserviceEnabled ) ) && $scope.stepfailed == false ) {
+												if($rootScope.isOnnxOrPFAModel){
+													counter = 10;
+													width = 85;
+												} else if($rootScope.dockerURIonboarding){
+													counter = 4;
+													width = 85;
+												} else if(!$rootScope.isMicroserviceEnabled){
+													counter = 10;
+													width = 85;
+												} else {											
+													counter = counter + 2;
+												}											
+												angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+												angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
+												$scope.errorVM = '';
+												$scope.completedSteps['ViewModel'] = 'ViewModel';
+												$scope.allSuccess = true;
+											}
+											
+											if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
+												width = width+15;
+												if($rootScope.dockerURIonboarding){
+													angular.element('.docker_onboarding .progress .progress-bar').css({ "width" : width+'%'});	
+												} else {
+													angular.element('.regular_onboarding .progress .progress-bar').css({ "width" : width+'%'});	
+												}
+																					
+												angular.element('.onboardingwebContent').css({ "height" :'100%'});
+											}
+										}
+									}
+									if( $rootScope.trackId != false && ( $scope.allSuccess != true && $scope.stepfailed != true ) ) {
+										$scope.disableOnboardingButton = true;
+									}
+									
+									if( $scope.allSuccess || $scope.stepfailed ){
+										$scope.clearNotificationInterval();
+										
+										if($rootScope.dockerURIonboarding){
+											$scope.disableDockerRefreshButton = false;
+											$rootScope.isMicroserviceEnabled = true;
+										} else {
+											$scope.disableRefreshButton = false;
 										}
 										
-										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
-											width = width+15;
-											if($rootScope.dockerURIonboarding){
-												angular.element('.docker_onboarding .progress .progress-bar').css({ "width" : width+'%'});	
-											} else {
-												angular.element('.regular_onboarding .progress .progress-bar').css({ "width" : width+'%'});	
-											}
-																				
-											angular.element('.onboardingwebContent').css({ "height" :'100%'});
-										}
 									}
 								}
-								if( $rootScope.trackId != false && ( $scope.allSuccess != true && $scope.stepfailed != true ) ) {
-									$scope.disableOnboardingButton = true;
-								}
-								
-								if( $scope.allSuccess || $scope.stepfailed ){
-									$scope.clearNotificationInterval();
-									
-									if($rootScope.dockerURIonboarding){
-										$scope.disableDockerRefreshButton = false;
-										$rootScope.isMicroserviceEnabled = true;
-									} else {
-										$scope.disableRefreshButton = false;
-									}
-									
-								}
-							}
+							
+						 }//
+						
 						},
 						function(error) {
 							
@@ -442,7 +523,6 @@ angular.module('modelResource')
                 $scope.disableRefreshButton = true;
                 $scope.fileSubmit = false;
                 $scope.fileSubmitLicense = false;
-                $scope.disableUploadCheckbox = false;
                 $rootScope.trackId = false;
                 $scope.filename = '';
                 $scope.licenseFilename = '';
@@ -475,7 +555,6 @@ angular.module('modelResource')
 				if(!dockerUrl){
 					dockerUrl = null;
 					$rootScope.dockerURIonboarding = false;
-					$scope.disableUploadCheckbox = true;
 				} else {
 					dockerUrl = $scope.dockerURI;
 					solutionName = $scope.modelDockerURLName;
@@ -609,8 +688,7 @@ angular.module('modelResource')
 			   $scope.clearExistingDockerURLNotifications();
 		       dockerUrlForm.reset();
 		   }
-		   
-		  
+		   	  
 		   $scope.backToDocker = function(){
 			   $scope.dockerBackScreen = true;
 			   $scope.checkingSolution = false;
@@ -627,22 +705,23 @@ angular.module('modelResource')
 		   $scope.checkingSolution = false;
 		   $scope.checkModelName = function(modelName, searchType){
 			   
-			   if(modelName) {
+			   if(modelName) {		 
 				  var request = {
-					   "request_body": {
-					     "activeType": "Y",
-					     "page": 0,
-					     "userId" : $scope.userId[1],
-					     "description" : searchType,
-					     "searchTerm": modelName,
-					     "size": 1000
-					   }
-					};
-				 
+							  "request_body": {
+								    "published" : true,
+								    "active": true,
+								    "nameKeyword" : [modelName],
+								    "userId": $scope.userId[1],
+								    "pageRequest": {
+								      "page" : 0,
+								      "size" : 1000
+								    }
+								  }
+								};
 				  $scope.checkingSolution=true;
 				  $scope.availableSolution=false;
 				  $scope.selectedSolutionId = '';
-	              apiService.searchSolutionsByName(request)
+	              apiService.fetchUserSolutions(request)
 	               .then(
 	                       function(response) {
 	                    	   $scope.checkingSolution = false;
@@ -703,5 +782,41 @@ angular.module('modelResource')
 			   document.execCommand("copy");
 		   }
 		   
+		   $scope.allTemplates = [];
+		   $scope.getAllLicenseTemplates = function(){
+			   apiService.getAllLicenseProfile()
+               .then(
+                       function(response) {                   	  
+                           if(response.data.response_body.length) {
+                        	  $scope.allTemplates = response.data.response_body;
+                        	  $scope.selectedLicense = 0;
+                           } 
+                });
+			   
+			   apiService.getLicenseProfileUrl()
+               .then(function(response){ 
+            	   $scope.licenseProfileUrl = response.data.response_body;
+               });
+		   }
+		      
+		   $scope.getAllLicenseTemplates();
+		   
+		   $scope.createLicenseFile = function(licenseText) {
+			   
+			   var request = licenseText; 
+				if(licenseText){
+					 apiService.createLicenseFile($scope.userId[1], request)
+		               .then(function(response){ 
+		            	   if($scope.isDockerLicense) {
+			            	   $scope.licenseDocfile = true;
+			            	   $scope.fileSubmitDocLicense = true;
+		            	   } else {
+			            	   $scope.licensefile = true;
+			            	   $scope.fileSubmitLicense = true;
+		            	   }
+
+		             });
+				}
+		   }
 		}
 });

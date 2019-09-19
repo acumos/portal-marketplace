@@ -146,8 +146,8 @@ angular
 								                            	 }													                                 
 								                             }
 	
-								                             bannerSt = bannerSt + '</div> <div class="image-container" style="margin: 0 0 0 17px; float: right; width: 35%;"><img ng-show="' + slideObj.graphicImgEnabled + '" ng-src="/api/site/content/carouselImages/' + slideObj.infoImgKey + "?" + new Date().getTime() + '" alt="" title="" '
-                                                             + 'style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); width: unset; max-width: 100%;"/></div> </div> <div class="mountain"></div> </div>';
+								                             bannerSt = bannerSt + '</div> <div class="image-container" style="margin: 15px 0 0 17px; float: right; width: 35%;"><img ng-show="' + slideObj.graphicImgEnabled + '" ng-src="/api/site/content/carouselImages/' + slideObj.infoImgKey + "?" + new Date().getTime() + '" alt="" title="" '
+                                                             + 'style="position: relative; top: 50%; left: 40%; transform: translate(-50%, -50%); width: unset; max-width: 100%;"/></div> </div> <div class="mountain"></div> </div>';
                                                              $scope.banner.slides[index] = bannerSt;
 								                             index++;
 												      }

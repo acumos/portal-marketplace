@@ -1,6 +1,9 @@
 package org.acumos.portal.be.controller;
 
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +14,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
@@ -31,6 +33,7 @@ import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
+import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.transport.RightToUseDetails;
 import org.acumos.portal.be.transport.RtuUser;
 import org.acumos.portal.be.util.PortalConstants;
@@ -38,9 +41,11 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.utils.SVConstants;
+import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
@@ -66,11 +71,17 @@ public class LicensingServiceController extends AbstractController{
 	private LicensingService licensingService;
 	
 	@Autowired
+	private StorageService storageService;
+	
+	@Autowired
 	private MarketPlaceCatalogService marketPlaceService;
 	
 	@Autowired
 	private PushAndPullSolutionService pushAndPullSolutionService;
 	
+	@Autowired
+    private Environment env;
+
 	@ApiOperation(value = "Gets Solutions and Users details for the given RTU ReferenceId.", response = RightToUseDetails.class)
 	@RequestMapping(value = {APINames.RTU_SOLUTION_USER_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -342,6 +353,36 @@ public class LicensingServiceController extends AbstractController{
 		return responseVO;
 	}
 	
+	
+	@RequestMapping(value = { APINames.UPLOAD_LICENSE_TEMPLATE },method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Boolean> createJsonFile(@RequestBody String json, @PathVariable("userId") String userId, @PathVariable String solutionId, @PathVariable String revisionId,
+			@PathVariable String versionId, HttpServletRequest request, HttpServletResponse response)throws IOException {
+		JsonResponse<Boolean> responseVO = new JsonResponse<>();
+		
+		 try {      
+	            MultipartFile multipartFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, json.getBytes());
+	            uploadLicense( multipartFile, userId, solutionId, revisionId, versionId, request, response);
+				responseVO.setResponseDetail("Success");
+				responseVO.setStatusCode(HttpServletResponse.SC_OK);
+	 
+	        } catch (IOException e) {
+	        	responseVO.setStatus(false);
+				responseVO.setResponseDetail(e.getMessage());
+				responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().write(e.getMessage());
+				response.flushBuffer();
+	        }
+
+		catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(
+					"Exception Occurred while creating json file", e);
+		}
+		return responseVO;
+	}
+	
 	@ApiOperation(value = "Fetches all License Profiles",  responseContainer = "List")
 	@RequestMapping(value = { APINames.GET_ALL_LICENSE_PROFILE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -414,6 +455,7 @@ public class LicensingServiceController extends AbstractController{
 			HttpServletResponse response) {
 		JsonResponse<LicenseProfileValidationResults> responseVO=new JsonResponse<>();
 		LicenseProfileValidationResults licenseProfileValidationResults=null;
+
 		try {
 			licenseProfileValidationResults=licensingService.validate(jsonString);
 			if (licenseProfileValidationResults != null) {
@@ -437,6 +479,20 @@ public class LicensingServiceController extends AbstractController{
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 			log.error( "Exception Occurred while validating License Profile", e);
 		}
+		return responseVO;
+	}
+	
+    @ApiOperation(value = "Get License Profile URL", response = JsonResponse.class)
+    @RequestMapping(value = {APINames.LICENSE_PROFILE_URL}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<String> getDocurl(HttpServletRequest request, HttpServletResponse response) {
+		
+		String licenseProfileUrl = env.getProperty("license_profile.url", "");
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		responseVO.setResponseBody(licenseProfileUrl);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		return responseVO;
 	}
 

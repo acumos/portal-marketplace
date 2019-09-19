@@ -544,6 +544,12 @@ z-index:2000;
 .marketplace-btn-container {display: inline-block;}
 .marketplace-btn-container .mdl-button {color: #414141}
 
+#tab7-panel .noresult{padding: 15px 0px;}
+#tab7-panel .license-change-option button { margin-right: 15px;}
+/**licensing template changes */
+#licenseOption md-radio-button{display:inline-block;margin-right: 30px;}
+#modelName #create-new-button, #tab7-panel #create-new-button{margin-left: 30px;}
+
 .tile_icon-catalogs {width: inherit; height: inherit; background: url("../images/general-icons/tile_catalog.png") no-repeat center center;}
 .tile_icon-publish-request {width: inherit; height: inherit; background: url("../images/general-icons/tile_publish_request.png") no-repeat center center;}
 .tile-icons {display:flex;}

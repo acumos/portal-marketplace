@@ -1,8 +1,9 @@
-<!--  
+<!--
 ===============LICENSE_START=======================================================
 Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Modifications Copyright (C) 2019 Nordix Foundation.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -392,12 +393,33 @@ limitations under the License.
 																				</md-select>
 																			</div>
 																		</div>
-																		<div id="modelName">
-																			<md-checkbox aria-label="Upload License" ng-disabled="disableUploadCheckbox == true || fileSubmit == false" ng-model="isLicenseUploaded" ></md-checkbox>					
-																			<span>Upload License</span>
-																		</div>
+																		<div id="modelName">																							
+																			<span>License Profile</span>
+																			<div id="modelName">
+																			<md-radio-group ng-model="licenseOption" id="licenseOption">
+																		      <md-radio-button value="Upload">Upload</md-radio-button>
+																		      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
+																		    </md-radio-group>
+																		    <b>OR</b>
+																		    <button id="create-new-button" ng-click="createNewLicenseProfileTemplate($event, true)"					
+																				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Create New License" title="Create New License">
+																				Create New</button>
+																		    </div>
+																		    <div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="dc-row">
+																			    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+																			    <md-select ng-model="$parent.selectedLicense">
+																			    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
+																				</md-select>
+																				</div>
+																				<div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+																				 <button ng-click="modifyLicenseProfileTemplate($event, true)"					
+																					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Modify License" title="Modify License">
+																				Modify</button>
+																		    	</div>
+																		    </div>
+																		</div>																		
 
-																		<div ng-show="isLicenseUploaded">
+																		<div ng-show="licenseOption=='Upload'" >
 																			<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
@@ -481,10 +503,10 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (isLicenseUploaded && !(licensefile && fileSubmitLicense))"
+										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (!(licensefile && fileSubmitLicense))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
-										<button ng-click="clearExistingNotifications(); isLicenseUploaded = false; $root.isOnnxOrPFAModel = false"
+										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false"
 										 ng-disabled= "!(stepfailed == true || allSuccess == true) || (disableRefreshButton == true)" 
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 											Upload New</button>
@@ -631,81 +653,104 @@ limitations under the License.
 										   </div>
 										</div>
 
-									<div id="modelName">
-										<md-checkbox aria-label="Upload License" ng-disabled="disableUploadDLCheckbox == true" ng-model="isDockerLicUploaded" ></md-checkbox>					
-										<span>Upload License</span>
-									</div>
-									
-									<div ng-show="isDockerLicUploaded">
-										<div
-										class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
-										data-upgraded=",MaterialTextfield">
-											<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile">
-										       <div class="drag-drop-files hide">
-										              <p>doc.pdf</p>
-										       </div>
-
-												<div file-droppable filename="licenseDockerFilename" file=licenseDocfile>
-
-										              <img src="images/upload-doc-vector.png" alt="" title=""/>
-										              <div class="destext">Drag & Drop your file here!</div>
-										       </div>
-										     </div>
-											<div class="upload-file-container">
-												<div class="input-div">
-													<div  file-upload file="licenseDocfile"
-													uploadid="dockerLicuploadid" id="uploadFile"
-													filename="licenseDockerFilename" fileinput="licenseDocfile"
-													ng-model="licenseDocfile" accept = ""
-													alt="Browse" title="Browse" ng-click="resetLicenseUpload(true)" readonly>
-													</div>																						
-													<div class="upload-image-input files-uploaded" >
-									    				<input class="mdl-textfield__input disabledClick"
-														placeholder="Upload License" type="text"
-														ng-model="licenseDockerFilename" readonly />
+								
+										<div id="modelName">																							
+												<span>License Profile</span>
+												<div id="modelName">
+												<md-radio-group ng-model="licenseOption" id="licenseOption">
+											      <md-radio-button value="Upload">Upload</md-radio-button>
+											      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
+											    </md-radio-group>
+											    <b>OR</b>
+											    <button id="create-new-button" ng-click="createNewLicenseProfileTemplate($event, true)"					
+													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Create New License" title="Create New License">
+													Create New</button>
+											    </div>
+											    <div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="dc-row">
+												    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+												    <md-select ng-model="$parent.selectedLicense">
+												    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
+													</md-select>
 													</div>
-												</div> 
-												<div class="input-upload-button">
-													<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!licenseDocfile|| fileSubmitDocLicense" ng-click="fileUpload(true, true);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
-													 	<span> Upload </span>
-													</button>
-												</div>
+													<div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+													 <button ng-click="modifyLicenseProfileTemplate($event, true)"					
+														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Modify License" title="Modify License">
+													Modify</button>
+											    	</div>
+											    </div>
+											</div>																		
+
+											<div ng-show="licenseOption=='Upload'" >
+												<div
+												class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
+												data-upgraded=",MaterialTextfield">
+													<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile">
+												       <div class="drag-drop-files hide">
+												              <p>doc.pdf</p>
+												       </div>
+		
+														<div file-droppable filename="licenseDockerFilename" file=licenseDocfile>
+		
+												              <img src="images/upload-doc-vector.png" alt="" title=""/>
+												              <div class="destext">Drag & Drop your file here!</div>
+												       </div>
+												     </div>
+													<div class="upload-file-container">
+														<div class="input-div">
+															<div  file-upload file="licenseDocfile"
+															uploadid="dockerLicuploadid" id="uploadFile"
+															filename="licenseDockerFilename" fileinput="licenseDocfile"
+															ng-model="licenseDocfile" accept = ""
+															alt="Browse" title="Browse" ng-click="resetLicenseUpload(true)" readonly>
+															</div>																						
+															<div class="upload-image-input files-uploaded" >
+											    				<input class="mdl-textfield__input disabledClick"
+																placeholder="Upload License" type="text"
+																ng-model="licenseDockerFilename" readonly />
+															</div>
+														</div> 
+														<div class="input-upload-button">
+															<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!licenseDocfile|| fileSubmitDocLicense" ng-click="fileUpload(true, true);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+															 	<span> Upload </span>
+															</button>
+														</div>
+													</div>
+											 
+													<div class="progress-bar-div" ng-show="licenseDocfile.name">
+														<div>
+															<span class="namelength">{{licenseDocfile.name}}</span>
+														</div>
+														<div ng-if="file.size/1024/1024 < 1">
+															{{Math.ceil(licenseDocfile.size/1024)}}KB
+														</div>
+														<div ng-if="file.size/1024/1024 > 1">
+															{{Math.ceil(licenseDocfile.size/1024/1024)}}MB
+														</div>
+														<div ng-show = "$root.progressBar > 0 && licUploadFlag == true" style="width:80%">
+													            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
+													               
+													            </div>
+													            <div class="" style="text-align:center;">
+													            	<span>
+													            		{{$root.progressBar| number : 0}}%
+												            		</span>
+											            			
+													            </div>
+													         </div>
+													     <div class="pro-status" ng-show = "$root.progressBar > 0 && licUploadFlag == true">
+														     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
+													         <span ng-show="$root.progressBar == 100" >Done</span>   		
+													     </div>
+													     <div class="fileclose" ng-click="closePoup(true, true)">
+													     	<i class="material-icons">close</i>
+													     </div>
+													</div>
 											</div>
-									 
-											<div class="progress-bar-div" ng-show="licenseDocfile.name">
-												<div>
-													<span class="namelength">{{licenseDocfile.name}}</span>
-												</div>
-												<div ng-if="file.size/1024/1024 < 1">
-													{{Math.ceil(licenseDocfile.size/1024)}}KB
-												</div>
-												<div ng-if="file.size/1024/1024 > 1">
-													{{Math.ceil(licenseDocfile.size/1024/1024)}}MB
-												</div>
-												<div ng-show = "$root.progressBar > 0 && licUploadFlag == true" style="width:80%">
-											            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-											               
-											            </div>
-											            <div class="" style="text-align:center;">
-											            	<span>
-											            		{{$root.progressBar| number : 0}}%
-										            		</span>
-									            			
-											            </div>
-											         </div>
-											     <div class="pro-status" ng-show = "$root.progressBar > 0 && licUploadFlag == true">
-												     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
-											         <span ng-show="$root.progressBar == 100" >Done</span>   		
-											     </div>
-											     <div class="fileclose" ng-click="closePoup(true, true)">
-											     	<i class="material-icons">close</i>
-											     </div>
-											</div>
-									</div>
 									</div>
 								</form>
 							</div>	
 							<small ng-show="modelDocLicUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelDocLicUploadErrorMsg}}</small>
+							
 						</div>
 								<!-- left section end -->
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
@@ -719,7 +764,7 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog(true)"
-										 ng-disabled= "modelDocLicUploadError || !host || !image || !port || !modelDockerURLName || ( disableOnboardingButton == true ) || (isDockerLicUploaded && !(licenseDocfile && fileSubmitDocLicense))"
+										 ng-disabled= "modelDocLicUploadError || !host || !image || !port || !modelDockerURLName || ( disableOnboardingButton == true ) ||  !(licenseDocfile && fileSubmitDocLicense)"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 										<button type="reset" 
