@@ -136,6 +136,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/catalog/solution/{solutionId}").permitAll()
         .antMatchers(HttpMethod.GET, "/solutions/{solutionId}/{revisionId}").permitAll()
         .antMatchers(HttpMethod.GET, "/getLicenseFile").permitAll()
+        .antMatchers(HttpMethod.POST, "/validateLicenseProfile").permitAll()
         .antMatchers(HttpMethod.GET, "/oauth/login/username").permitAll()
         
         

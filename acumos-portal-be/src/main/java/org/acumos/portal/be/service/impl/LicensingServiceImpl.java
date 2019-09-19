@@ -249,10 +249,10 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	public LicenseProfileValidationResults validate(String jsonString)
 			throws LicenseProfileException, AcumosServiceException {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		LicenseProfile LicenseProfile= new LicenseProfile(dataServiceRestClient);
+		LicenseProfile licenseProfile= new LicenseProfile(dataServiceRestClient);
 		LicenseProfileValidationResults licenseProfileValidationResults=null;
 		try {
-			licenseProfileValidationResults=LicenseProfile.validate(jsonString);
+			licenseProfileValidationResults=licenseProfile.validate(jsonString);
 		}catch (LicenseProfileException licExp){
 			throw licExp;
 		}
