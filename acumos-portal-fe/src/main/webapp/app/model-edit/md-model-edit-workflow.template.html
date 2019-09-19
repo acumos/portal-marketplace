@@ -969,6 +969,7 @@ limitations under the License.
 																	<div
 																		class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
 																		<ng-quill-editor ng-model="solutionCompanyDesc" on-content-changed="checkCompDescrLength()"></ng-quill-editor>
+																	<div class="des-info-txt"><span>Total character  : {{newDescriptionLength.length}}</span> <span> <i class="info-icon"></i>More than 500 character will give you five star rating</span> </div>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
@@ -988,9 +989,23 @@ limitations under the License.
 															</div>
 															<!-- update model name end -->
 														</div>
-														<p></p>
-
+														 
+														
+														<description-rating ratedescriptioncheck="ratedescriptioncheck"></description-rating><br>
+											           <div ng-if="ratedescriptioncheck<500 && checkFlag" >
+											           <p class="font600 no_margin">The provided description less than 500 characters</p>
+											           <p class="text-medium">If you want to improve your model description rating then please add more details, else click on 'OK' button to go with the current rating </p>
+											           
+											           <div>
+											           <mdl-button ng-click="checkMessageButton()" class="btn-primary mdl-button mdl-js-button">Ok</mdl-button></div><br>
+											           </div>
+											           
 														<div class="timeline-version">
+														<!-- star rating -->
+											           <!-- star rating -->
+														
+											            <br></br>
+											            
 															<label> Use the Description you have in Other Revisions.</label>
 															<!--  <a>View more</a> -->
 															<select ng-disabled="selectedCatalogId==undefined" ng-model="fromRevisionId"
@@ -1817,8 +1832,13 @@ limitations under the License.
 																			class="mdl-cell md-right-container model-details-tabwrapper">
 																			<div class="mdl-tabs__panel is-active"
 																				id="tab1-panel">
-																				<div class="md-intro-container">
-																					<h6 class="sectiontitle9">INTRODUCTION</h6>	
+																				<div class="md-intro-container spacebetween">
+																					<h6 class="sectiontitle9">INTRODUCTION</h6>
+																					 
+								                  <description-rating ratedescriptioncheck="ratedescriptioncheck"></description-rating>
+																					 
+																					 
+																						
 																				</div>
 
 																				<div class="description-img-container">

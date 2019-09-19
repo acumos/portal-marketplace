@@ -40,6 +40,8 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .pull-right {float:right;}
 .clear_both {clear:both;}
 .wrap_text {word-break: normal;}
+.word_break{word-break:break-all;}
+.no_margin{margin:0px !important;}
 
 .rowcontainer {clear: both;margin-bottom: 15px;}
 .page-wrapper {padding: 10px 20px 15px 20px;}
@@ -71,6 +73,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 #uploadFile, #publicUploadFile {position:relative;}
 #uploadFile .upload-txtbox, #publicUploadFile .upload-txtbox{width: 100%; height:33px;}
 .remove-datalist-icon input::-webkit-calendar-picker-indicator {display: none;}
+.spacebetween{justify-content:space-between !important;}
 /*********** Common CSS classes end  ************/
 
 /*********** Icons section start ************/
@@ -353,7 +356,7 @@ md-input-container.md-default-theme:not(.md-input-focused):not(.md-input-invalid
 
 .text-xsmall {font-size: 11px;}
 .text-small {font-size: 12px;}
-.text-medium {font-size: 13px;}
+.text-medium {font-size: 13px !important;}
 .text-normal {font-size: 14px;}
 
 .headline, .md-headline, .md-headline2
@@ -884,8 +887,36 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .n-rating1 span, .n-rating1 div, .n-rating1 label {text-align: center;}
 
 .star-rating-title {font-size:36px; line-height: 41px;font-weight:600;}
-.fa-star1{color: #b9b9b9 !important;}
-
+.rating span .fa-star1{color: #b9b9b9 !important;}
+.des-info-txt{padding: 10px;
+    border: 1px solid #b1b1b1;
+    border-top: 0;
+    width: 100%;
+    background: #f1f1f1;}
+    
+.des-info-txt span {font-size: 16px;
+    font-weight: 600;
+    display: inline-flex;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-transform: capitalize;
+    color:#002f55;}
+ .des-info-txt span:first-child:after {
+    content: '';
+    width: 1px;
+    height: 25px;
+    background: #002f55;
+    margin: 0 10px;
+    opacity:0.6;
+}
+.des-info-txt span:last-child{font-size:12px; font-weight:600; line-height:25px;}
+.des-info-txt .info-icon{    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../images/info_small.png) no-repeat center center;
+    position: relative; top:5px; line-height:25px; margin-right:5px;}
+   
 .md-tbl1 {width:100%; border: none; margin: 20px 0 30px 0;}
 .md-tbl1 thead tr th {text-align:left;font-weight:600 !important;font-size: 14px;background:#E8E5EC; color: #671C9D; text-transform:uppercase; padding: 0 15px; line-height: 46px;}
 .md-tbl1 tbody tr td {text-align:left; border-color: #F2EEEF;padding: 13px 18px;}
