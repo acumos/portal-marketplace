@@ -22,7 +22,7 @@ limitations under the License.
 
 app.component('sidebarNav',{
 	templateUrl : '/app/header/sidebar-nav.template.html',
-	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $location, apiService, browserStorageService) {
+	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $location, apiService, browserStorageService, $sce) {
 		
 		$scope.dropdownDS = function(){
 			if (document.getElementById("ds-nav-sub-menu").style.display === "block") {
@@ -101,7 +101,7 @@ app.component('sidebarNav',{
 		$scope.getLicenseProfileUrl = function(){
 			 apiService.getLicenseProfileUrl()
 		        .then(function(response){ 
-		     	   $rootScope.licenseProfileUrl = response.data.response_body;
+		     	   $rootScope.licenseProfileUrl = $sce.trustAsResourceUrl(response.data.response_body + '?mode=iframe');
 		        });
 		}   
 		$scope.getLicenseProfileUrl();

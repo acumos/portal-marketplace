@@ -19,6 +19,10 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -31,9 +35,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
@@ -41,6 +47,7 @@ import org.acumos.portal.be.controller.LicensingServiceController;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.impl.LicensingServiceImpl;
 import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
@@ -62,6 +69,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -83,6 +91,8 @@ public class LicensingServiceControllerTest {
 	MarketPlaceCatalogServiceImpl serviceImpl;
 	@InjectMocks
 	MarketPlaceCatalogServiceController marketPlaceController;
+	@Mock
+	PushAndPullSolutionService pushAndPullSolutionService;
 	
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
@@ -189,9 +199,12 @@ public class LicensingServiceControllerTest {
 	}
 	
 	@Test
-	public void uploadLicense() {		
-		MultipartFile dfsdf = null; 
-		MultipartFile file = dfsdf ;
+	public void uploadLicense() {	
+		String JsonFileData="{ \"keyword\": \"Vendor-A-OSS\",\"licenseName\": \"Vendor A Open Source Software License\"," + 
+				"  \"copyright\": {\"company\": \"Vendor A\"},\"softwareType\": \"Machine Learning Model\"," + 
+				"  \"companyName\": \"Vendor A\",\"contact\": {\"email\": \"support@Vendor-A.com\"}," + 
+				"  \"additionalInfo\": \"http://Vendor-A.com/licenses/Vendor-A-OSS\"}";
+		MultipartFile file = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, JsonFileData.getBytes());
 		String userId = "8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb";
 		String solutionId = "4cbf491b-c687-459f-9d81-e150d1a0b972";
 		String revisionId = "2grtccd0-ed84-42c3-8d9a-06d5629dc7bb";
@@ -201,6 +214,9 @@ public class LicensingServiceControllerTest {
 			Assert.assertNotNull(solutionId);
 			Assert.assertNotNull(revisionId);
 			Assert.assertNotNull(versionId);
+			when(licensingService.validate(JsonFileData)).thenReturn("SUCCESS");
+			when(pushAndPullSolutionService.uploadLicense(file, userId, solutionId, revisionId, versionId)).thenReturn(true);
+			
 			licensingServiceController.uploadLicense(file, userId, solutionId, revisionId, versionId, request, response);			
 			service.getLicenseUrl(solutionId, versionId, PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX);
 			
@@ -211,5 +227,41 @@ public class LicensingServiceControllerTest {
 		} catch (Exception e) {
 			logger.error("Exception occurred while uploadLicense ",e.getMessage());
 		}
+	}
+	
+	@Test
+	public void getTemplates() throws LicenseProfileException, AcumosServiceException {
+		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		List<MLPLicenseProfileTemplate> licenseProfileTemplateList=new ArrayList<>();
+		licenseProfileTemplate.setTemplate("My Licence");
+		licenseProfileTemplate.setTemplateName("My Sample Test template");
+		licenseProfileTemplate.setTemplateId(101L);
+		licenseProfileTemplateList.add(licenseProfileTemplate);
+		when(licensingService.getTemplates()).thenReturn(licenseProfileTemplateList);
+		JsonResponse<List<MLPLicenseProfileTemplate>> templateResponseSuccess=licensingServiceController.getTemplates(request, response);
+		assertNotNull(templateResponseSuccess);
+		assertEquals(licenseProfileTemplateList, templateResponseSuccess.getResponseBody());
+		
+		when(licensingService.getTemplates()).thenReturn(null);
+		JsonResponse<List<MLPLicenseProfileTemplate>> templateResponseFail=licensingServiceController.getTemplates(request, response);
+		assertNull(templateResponseFail.getResponseBody());
+	}
+	
+	@Test
+	public void getTemplate() throws LicenseProfileException, AcumosServiceException {
+		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		long tempalteId=101L;
+		licenseProfileTemplate.setTemplate("My Licence");
+		licenseProfileTemplate.setTemplateName("My Sample Test template");
+		licenseProfileTemplate.setTemplateId(tempalteId);
+		when(licensingService.getTemplate(tempalteId)).thenReturn(licenseProfileTemplate);
+		JsonResponse<MLPLicenseProfileTemplate> templateResponseSuccess=licensingServiceController.getTemplate(request,tempalteId, response);
+		assertNotNull(templateResponseSuccess);
+		assertEquals(licenseProfileTemplate, templateResponseSuccess.getResponseBody());
+		
+		when(licensingService.getTemplate(tempalteId)).thenReturn(null);
+		JsonResponse<MLPLicenseProfileTemplate> templateResponseFail=licensingServiceController.getTemplate(request,tempalteId, response);
+		assertNull(templateResponseFail.getResponseBody());
+		
 	}
 }

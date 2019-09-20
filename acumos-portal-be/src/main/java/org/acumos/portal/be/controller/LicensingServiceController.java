@@ -334,15 +334,15 @@ public class LicensingServiceController extends AbstractController{
 				}else {
 					responseVO.setStatus(false);
 					responseVO.setResponseDetail(validationResponse);
-					responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
-					response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-					log.error("Error Occurred during validation of license file");
+					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					log.error("Error Occurred during validation of license file (else) "+validationResponse);
 				}
 			}catch(AcumosServiceException ae) {
 				responseVO.setStatus(false);
 				responseVO.setResponseDetail(ae.getMessage());
-				responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().write(ae.getMessage());
 				response.flushBuffer();
 				log.error("Exception Occurred during validation of license file", ae);

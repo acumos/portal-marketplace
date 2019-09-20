@@ -396,7 +396,7 @@ limitations under the License.
 																		<div id="modelName">																							
 																			<span>License Profile</span>
 																			<div id="modelName">
-																			<md-radio-group ng-model="licenseOption" id="licenseOption">
+																			<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelLicUploadError=false">
 																		      <md-radio-button value="Upload">Upload</md-radio-button>
 																		      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
 																		    </md-radio-group>
@@ -487,7 +487,14 @@ limitations under the License.
 																		</div>
 																	</form>
 																</div>	
-												<small ng-show="modelLicUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelLicUploadErrorMsg}}</small>
+															
+															<div style="color:red" ng-show="modelLicUploadError">
+																<small><strong>Error occurred while license validation:</strong></small>
+																<dl ng-repeat="error in modelLicUploadErrorMsg">
+																	<li ng-if="error">{{error}}</li>
+																</dl>
+															</div>				
+												
 								  </div>
 								<!-- left section end -->
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
@@ -657,7 +664,7 @@ limitations under the License.
 										<div id="modelName">																							
 												<span>License Profile</span>
 												<div id="modelName">
-												<md-radio-group ng-model="licenseOption" id="licenseOption">
+												<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelDocLicUploadError=false;">
 											      <md-radio-button value="Upload">Upload</md-radio-button>
 											      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
 											    </md-radio-group>
@@ -748,9 +755,13 @@ limitations under the License.
 											</div>
 									</div>
 								</form>
+							</div>
+							<div style="color:red" ng-show="modelDocLicUploadError">
+								<small ><strong>Error occurred while license validation:</strong></small>
+								<dl ng-repeat="error in modelDocLicUploadErrorMsg">
+									<li ng-if="error">{{error}}</li>
+								</dl>
 							</div>	
-							<small ng-show="modelDocLicUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelDocLicUploadErrorMsg}}</small>
-							
 						</div>
 								<!-- left section end -->
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
