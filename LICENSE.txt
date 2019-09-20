@@ -1,4 +1,4 @@
-============LICENSE_START=======================================================
+﻿============LICENSE_START=======================================================
 ACUMOS
 ================================================================================
 Copyright © 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
@@ -18,7 +18,7 @@ limitations under the License.
 ================================================================================
 This product bundles "Font Awesome" files, which are available under the
 "Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License".
-For details, see https://fontawesome.com/license.
+For details, see https://fontawesome.c
 ================================================================================
 
 ============LICENSE_END=========================================================
