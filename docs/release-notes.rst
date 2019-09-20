@@ -21,7 +21,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.12 13th September 2019
+Version 3.0.13 20th September 2019
 ==================================
 * ACUMOS-3441   Security-Verification failed and reported back to portal at first attempt
 * ACUMOS-3420   <IST> SV is on but unable to publish the model, while publishing its throwing an error message.
@@ -37,6 +37,20 @@ Version 3.0.12 13th September 2019
 * ACUMOS-3268	Create Backup - BE
 * ACUMOS-3269	Create Repository - BE
 * ACUMOS-3265	O&M System Clean Up Portal changes
+* ACUMOS-3446	ON-BOARD DOCKERIZED MODEL: Upload revision is not working for shared model
+* ACUMOS-3452	IST2 - Unable to create a subscription
+* ACUMOS-3349	As a user, I want Acumos to automatically add a star rating while I publish my model from private to the Marketplace.
+* ACUMOS-3388	Portal team to integrate with LicenseProfile.getTemplates, getTemplate apis
+* ACUMOS-3447	<IST><Portal Marketplace>Tooltip should be properly displayed for ON-BOARDING MODEL and footer link should be renamed from Modeler Resources to  On-Boarding Model.
+* ACUMOS-3444	Publisher user guide is missing information and needs to be corrected
+* ACUMOS-3437	IST: Validation Message need to improve for ACUMOS-2119
+* ACUMOS-3439	IST: Peer(s) Access :  Issue in the Grant Peers Access Popup
+* ACUMOS-3438	IST: Peer(s) Access :  Issue in the Manage Peer(s)Access screen
+* ACUMOS-3432	IST: Submit To Publication button enable when user click on cancel button during skip step
+* ACUMOS-3391	Portal team to upgrade to CDS 3.0  to use new LicenseProfile api
+* ACUMOS-3445	IST: Download Popup: Incorrect text is displaying on the popup
+* ACUMOS-3338	Portal-BE - Call LicenseProfile.validate api
+* ACUMOS-3030	As owner of the asset, I will need to attach a license profile to the asset in the catalog.
 
 Version 3.0.11  10th September 2019
 ====================================
