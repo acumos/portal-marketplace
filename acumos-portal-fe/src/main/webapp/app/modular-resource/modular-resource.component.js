@@ -300,17 +300,19 @@ angular.module('modelResource')
 						},
 						function(error) {
 							if(licUploadFlag){
-								if(isDockerURLLicense){
-									$scope.modelDocLicUploadError = true;
-									$scope.modelDocLicUploadErrorMsg = error;
-								} else{
-									$scope.modelLicUploadError = true;
-									if(error){
-										var validationResult = JSON.parse(error);
+								if(error){
+									if(error['response_detail']){
+										var errorMsg = (error.response_detail).substring(1,(error.response_detail).length-1).split('$.');
 									}
-									$scope.modelLicUploadErrorMsg = error;
 								}
 
+								if(isDockerURLLicense){
+									$scope.modelDocLicUploadError = true;
+									$scope.modelDocLicUploadErrorMsg = errorMsg;
+								} else{
+									$scope.modelLicUploadError = true;
+									$scope.modelLicUploadErrorMsg = errorMsg;
+								}
 							} else {
 								$scope.modelUploadError = true;
 								$scope.modelUploadErrorMsg = error;

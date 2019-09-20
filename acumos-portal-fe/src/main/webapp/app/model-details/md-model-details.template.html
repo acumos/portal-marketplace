@@ -575,8 +575,11 @@ limitations under the License.
 									     </div>
 									</div>
 									<small>Maximum file size: 1mb | Supported files type: .json</small>	
-									<div>
-										<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
+									<div style="color:red">
+										<small ng-show="modelLicUploadError"><strong>Error occurred while license validation:</strong></small>
+										<ul ng-repeat="error in modelLicUploadErrorMsg">
+											<li ng-if="error">{{error}}</li>
+										</ul>
 									</div>
 									<div class="clear_both"></div>
 								</div>

@@ -1708,6 +1708,7 @@ angular
 										$scope.isLicenseFound = true;
 										// update license content after upload
 										$scope.modelLicense = response.response_body;
+                    $scope.changeLicense = false;
 									  $scope.getLicenseFile();
 									},
 									function(error) {
@@ -1729,7 +1730,11 @@ angular
 											});
 										} else {
 											$scope.modelUploadError = true;
-											$scope.modelUploadErrorMsg = error.response_detail;
+										  if(error){
+													if(error['response_detail']){
+														$scope.modelUploadErrorMsg = (error.response_detail).substring(1,(error.response_detail).length-1).split('$.');
+													}
+												}
 											$scope.file = '';
 											$rootScope.progressBar = 0;
 										}
@@ -1763,7 +1768,7 @@ angular
 									 apiService.uploadLicenseFile($scope.loginUserID, $scope.solutionId, $scope.revisionId, $scope.versionId, request)
 						               .then(function(response){ 
 
-						            	    $scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully";; 
+						            	    $scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully"; 
 											$scope.icon = '';
 											$scope.styleclass = 'c-success';
 											$scope.showAlertMessage = true;
@@ -1771,6 +1776,7 @@ angular
 												$scope.showAlertMessage = false;
 											}, 2500);
 						            	   $scope.getLicenseFile();
+						            	   $scope.changeLicense = false;
 						             });
 								}
 						   }
