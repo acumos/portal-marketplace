@@ -236,7 +236,7 @@ limitations under the License.
 						<a ng-show="loginUserID" href="#tab7-panel" class="mdl-tabs__tab" alt="License" title="License">
 							<span class="tab-box"> 
 								<span class="tab-icons tab-license"></span>
-								<span>License</span>
+								<span>License Profile</span>
 							</span>
 						</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
 							class="tab-box"> <span class="tab-icons tab-signatures"></span>
@@ -465,17 +465,123 @@ limitations under the License.
 					</div>
 
 					<div class="mdl-tabs__panel" id="tab7-panel">
-						<button ng-disabled="editModel || isLoadingLicense"  class="mdl-button pull-right mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="uploadLicense()">
-                                                  <span ng-if="isLicenseFound===false"  >Upload</span><span ng-if="isLicenseFound===true" >Update</span> License
-						</button>
-						<h6 class="sectiontitle6">LICENSE</h6>
-							
+						<div class="license-change-option" ng-show="isLoadingLicense===false && !editModel" >
+							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="modifyLicenseProfileTemplate($event, true)">
+	                              Update
+							</button>
+							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="changeLicense=true">
+	                              Change
+							</button>							
+						</div>	
+						<h6 class="sectiontitle6">LICENSE PROFILE</h6>
+						<div class="clear_both"></div>
+						<div>
+							<button class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-show="changeLicense==true" ng-click="changeLicense=false">
+	                              Close
+							</button>
+						</div>
+						<div ng-if="modelLicense">
+							<div class="sectiontitle2">License Details</div>
+							<pre class="wrap" ng-if="modelLicense && changeLicense==false">{{modelLicense | json: 4}}</pre>
+						</div>
 						
-						<pre class="wrap" ng-if="!isLicenseJson && modelLicense">{{modelLicense}}</pre>
-						<pre class="wrap" ng-if="isLicenseJson && modelLicense">{{modelLicense | json: 4}}</pre>
 						<div ng-show="isLicenseFound===false && isLoadingLicense===true">Loading License...</div>
-						<div ng-show="isLicenseFound===false && isLoadingLicense===false">No License Found</div>
-						
+						<div class="noresult" ng-show="isLicenseFound===false && isLoadingLicense===false">No license profile attached, please attach a license profile. </div>
+						<div ng-show="(isLicenseFound===false && isLoadingLicense===false || changeLicense == true) && !editModel">
+							<div>
+								<md-radio-group ng-model="licenseOption" id="licenseOption">
+							      <md-radio-button value="Upload">Upload</md-radio-button>
+							      <md-radio-button value="selectLicProfile"> Select License Profile </md-radio-button>
+							    </md-radio-group>
+							    <b>OR</b>
+							    <button id="create-new-button" ng-click="createNewLicenseProfileTemplate($event)"					
+									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Create New License" title="Create New License">
+									Create New</button>
+									
+								<div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="mdl-grid">
+								    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+									    <md-select ng-model="$parent.selectedLicense">
+									    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
+										</md-select>
+									</div>
+									<div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+										 <button ng-click="modifyLicenseProfileTemplate($event, false)"					
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Modify License" title="Modify License">
+										Modify</button>
+							    	</div>
+							    </div>	
+							</div>
+							
+							<div class="license-detail-modal" ng-show="licenseOption=='Upload'">									
+								<div class="upload-image-input" data-upgraded=",MaterialTextfield">
+									<div class="drag-drop"  id="private-dropbox">
+								       <div class="drag-drop-files hide">
+								              <p>doc.pdf</p>
+								       </div>
+	
+										<div file-droppable filename="filename" file=file>
+								              <img src="images/upload-doc-vector.png" alt="" title=""/>
+								              <div class="destext">Drag & Drop your file here!</div>
+								       </div>
+								     </div>
+									<div class="upload-file-container">
+										<div class="input-div">
+											<div file-upload file="file"
+												uploadid="bundleuploadid" id="uploadFile"
+												filename="filename" fileinput="file" 
+												ng-model="file" accept = ""
+												upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
+											</div>																						
+											<div class="upload-image-input files-uploaded" >
+							    				<input class="mdl-textfield__input disabledClick"
+												placeholder="Upload File" type="text"
+												ng-model="filename" readonly />
+											</div>
+										</div>
+										 <div class="input-upload-button">
+                                             <button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" ng-cloak ng-disabled="!file || file.size/1024/1024 > 1" ng-click="uploadLicenseFile()" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+                                             <span> Upload </span>
+                                             </button>
+                                         </div>
+									</div>
+							
+									<div class="progress-bar-div" ng-show="file.name">
+										<div>
+											<span class="namelength">{{file.name}}</span>
+										</div>
+										<div ng-if="file.size/1024/1024 < 1">
+											{{Math.ceil(file.size/1024)}}KB
+										</div>
+										<div class="help-inline validation-msgs" ng-if="file.size/1024/1024 > 1">
+											<span>License file should be max size of 1MB.</span>
+																					
+										</div>
+										<div ng-show = "$root.progressBar > 0" style="width:80%"> 
+									            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
+									            </div>
+									            <div class="" style="text-align:center;">
+									            	<span>
+									            		{{$root.progressBar| number : 0}}%
+								            		</span>
+							            			
+									            </div>
+									     </div>
+									     <div class="pro-status" ng-show = "$root.progressBar > 0">
+										     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
+									         <span ng-show="$root.progressBar == 100" >Done</span>   		
+									     </div>
+									     <div class="fileclose" ng-click="closeLicensePopup()">
+									     	<i class="material-icons">close</i>
+									     </div>
+									</div>
+									<small>Maximum file size: 1mb | Supported files type: .json</small>	
+									<div>
+										<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
+									</div>
+									<div class="clear_both"></div>
+								</div>
+							</div>
+						</div>
 					</div>
 					
 					<div class="mdl-tabs__panel" id="tab5-panel">Content 5</div>
@@ -1324,97 +1430,3 @@ limitations under the License.
 		  </md-dialog>
 		  </div>
 		    <!-- Create Microservice dialog end -->
-		    
-		<!--  Upload License starts -->
-		<div class="md-dialog-container" id="uploadLicense" style="height: 0;">
-		<md-dialog aria-label="Upload License" class="license-detail-modal">
-			<md-toolbar>
-		      <div class="md-toolbar-tools">
-				<h2><span ng-if="isLicenseFound===false">Upload</span> <span ng-if="isLicenseFound===true">Update</span> License</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click='closeLicensePopup()'>
-				<i class="material-icons">close</i> </md-button>
-			 </div>
-			</md-toolbar>
-		 	<md-dialog-content>
-			<div class="md-dialog-content">
-				<div>
-					<form class="ng-pristine ng-valid">
-							<div class="upload-image-input" data-upgraded=",MaterialTextfield">
-								<div class="drag-drop"  id = "private-dropbox">
-							       <div class="drag-drop-files hide">
-							              <p>doc.pdf</p>
-							       </div>
-
-									<div file-droppable filename="filename" file=file>
-							              <img src="images/upload-doc-vector.png" alt="" title=""/>
-							              <div class="destext">Drag & Drop your file here!</div>
-							       </div>
-							     </div>
-								<div class="upload-file-container">
-									<div class="input-div">
-										<div  file-upload file="file"
-											uploadid="bundleuploadid" id="uploadFile"
-											filename="filename" fileinput="file" 
-											ng-model="file" accept = ""
-											upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
-										</div>																						
-										<div class="upload-image-input files-uploaded" >
-						    				<input class="mdl-textfield__input disabledClick"
-											placeholder="Upload File" type="text"
-											ng-model="filename" readonly />
-										</div>
-									</div> 
-								</div>
-						
-								<div class="progress-bar-div" ng-show="file.name">
-									<div>
-										<span class="namelength">{{file.name}}</span>
-									</div>
-									<div ng-if="file.size/1024/1024 < 1">
-										{{Math.ceil(file.size/1024)}}KB
-									</div>
-									<div class="help-inline validation-msgs" ng-if="file.size/1024/1024 > 1">
-										<span>License file should be max size of 1MB.</span>
-																				
-									</div>
-									<div ng-show = "$root.progressBar > 0" style="width:80%"> 
-								            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-								            </div>
-								            <div class="" style="text-align:center;">
-								            	<span>
-								            		{{$root.progressBar| number : 0}}%
-							            		</span>
-						            			
-								            </div>
-								     </div>
-								     <div class="pro-status" ng-show = "$root.progressBar > 0">
-									     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
-								         <span ng-show="$root.progressBar == 100" >Done</span>   		
-								     </div>
-								     <div class="fileclose" ng-click="closeLicensePopup()">
-								     	<i class="material-icons">close</i>
-								     </div>
-								</div>
-								<small>Maximum file size: 1mb | Supported files type: .json</small>	
-								<div>
-									<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
-								</div>
-								<div class="clear_both"></div>
-						</div>
-					</form>
-			</div>
-			</md-dialog-content>
-			<md-dialog-actions>			
-				
-				<div class="dialog-footer-container1">
-					<button class="mdl-button mdl-js-button btn-secondary md-button md-ink-ripple" type="button" ng-click="closeLicensePopup()" data-upgraded=",MaterialButton,MaterialRipple">
-						<span> Cancel</span>
-					</button>
-					<button class="mdl-button mdl-js-button btn-primary md-button md-ink-ripple" ng-disabled="!file || file.size/1024/1024 > 1" type="button"  ng-click="uploadLicenseFile()" data-upgraded=",MaterialButton,MaterialRipple">
-						<span ng-if="isLicenseFound===false">Upload</span> <span ng-if="isLicenseFound===true">Update</span>
-					</button>
-				</div>
-			</md-dialog-actions>		
-		  </div>
-		    <!-- Upload License end -->

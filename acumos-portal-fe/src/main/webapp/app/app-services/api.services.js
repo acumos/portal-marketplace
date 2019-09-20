@@ -132,7 +132,7 @@ angular.module('AcumosApp')
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
         var urlGatewaySolutions = "api/gateway/solutions";
-		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
+		    var urlMSStatus = "/api/onboardinghistory/getMSStatus";
         var urlRightToUse="/api/rightToUse";
 
         var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
@@ -152,14 +152,14 @@ angular.module('AcumosApp')
         var urlRestoreSnapshot = "api/elk/restore/snapshot";			    //Restore elasticstack snapshot.
         var urlCreateRepositories = "api/elk/repository/create";	        //Create elk repository.
         var urlDeleteIndices = "api/elk/delete/indices";				    //Delete elasticstack Indices.
-		var urlAllArchives = "api/elk/all/archive";				        	//get all archives.
+		    var urlAllArchives = "api/elk/all/archive";				        	//get all archives.
         var urlRestoreArchive = "api/elk/archive/action";				    //restore archives.
 		
-		var urlGetAllLicenseProfile = "api/getAllLicenseProfile";
+		    var urlGetAllLicenseProfile = "api/getAllLicenseProfile";
         var urlGetLicenseTemplate = "api/templateId";
         var urlCreateLicenseFile = "api/writeJsonToFile";
         var urlLicenseProfileUrl = "api/licenseProfileUrl";
-
+        var urlTemplateUploadUrl = "api/licenseTemplate/upload";
 	
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -871,6 +871,8 @@ angular.module('AcumosApp')
         this.getLicenseProfileUrl = function () {
             return $http.get(urlLicenseProfileUrl);
         };
-
-		
+        
+        this.uploadLicenseFile = function(loginUserID, solutionId, revisionId, versionId, request) {        	
+        	 return $http.post(urlTemplateUploadUrl+'/'+loginUserID+'/'+solutionId+'/'+revisionId+'/'+versionId, request);
+        }
     }]);

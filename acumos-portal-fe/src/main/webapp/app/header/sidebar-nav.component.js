@@ -98,6 +98,13 @@ app.component('sidebarNav',{
 	    };
 	    $scope.getMenuLsit();
 	    
+		$scope.getLicenseProfileUrl = function(){
+			 apiService.getLicenseProfileUrl()
+		        .then(function(response){ 
+		     	   $rootScope.licenseProfileUrl = response.data.response_body;
+		        });
+		}   
+		$scope.getLicenseProfileUrl();
 
 		//Hide show of sidebar in mobile device
 		$scope.hamberClick = function(){$rootScope.$broadcast('menuClickToggle');}

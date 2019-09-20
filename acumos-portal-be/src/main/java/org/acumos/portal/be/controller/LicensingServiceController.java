@@ -1,9 +1,6 @@
 package org.acumos.portal.be.controller;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +11,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.acumos.cds.domain.MLPCatalog;
+
 import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPSolution;
@@ -28,12 +25,12 @@ import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import com.networknt.schema.ValidationMessage;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
-import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.transport.RightToUseDetails;
 import org.acumos.portal.be.transport.RtuUser;
 import org.acumos.portal.be.util.PortalConstants;
@@ -41,7 +38,6 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.utils.SVConstants;
-import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +65,6 @@ public class LicensingServiceController extends AbstractController{
 
 	@Autowired
 	private LicensingService licensingService;
-	
-	@Autowired
-	private StorageService storageService;
 	
 	@Autowired
 	private MarketPlaceCatalogService marketPlaceService;
@@ -290,6 +283,7 @@ public class LicensingServiceController extends AbstractController{
 		versionId = SanitizeUtils.sanitize(versionId);
 		
 		JsonResponse<String> responseVO = new JsonResponse<>();
+		String validationResponse=null;
 		log.debug("upload License for user " + userId);
 
 		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(solutionId) || StringUtils.isEmpty(revisionId) || StringUtils.isEmpty(versionId)) {
@@ -301,9 +295,13 @@ public class LicensingServiceController extends AbstractController{
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
 			try {
-				String licenseFileName = (file != null) ? file.getOriginalFilename() : "";
-				file.getOriginalFilename().replace(licenseFileName, PortalConstants.LICENSE_FILENAME);
-				MultipartFile licenseFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME,file.getOriginalFilename(), file.getContentType(), file.getInputStream());
+			
+				String input= new String(file.getBytes());
+				validationResponse=licensingService.validate(input);
+				if(validationResponse=="SUCCESS") {
+					String licenseFileName = (file != null) ? file.getOriginalFilename() : "";
+					file.getOriginalFilename().replace(licenseFileName, PortalConstants.LICENSE_FILENAME);
+					MultipartFile licenseFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME,file.getOriginalFilename(), file.getContentType(), file.getInputStream());
 					log.info("licenseFileNameCheck passed");
 					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(licenseFile, userId, solutionId, revisionId, versionId);
 
@@ -333,7 +331,22 @@ public class LicensingServiceController extends AbstractController{
 						responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 						response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					}
-			} catch (StorageException e) {
+				}else {
+					responseVO.setStatus(false);
+					responseVO.setResponseDetail(validationResponse);
+					responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
+					response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+					log.error("Error Occurred during validation of license file");
+				}
+			}catch(AcumosServiceException ae) {
+				responseVO.setStatus(false);
+				responseVO.setResponseDetail(ae.getMessage());
+				responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
+				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				response.getWriter().write(ae.getMessage());
+				response.flushBuffer();
+				log.error("Exception Occurred during validation of license file", ae);
+			}catch (StorageException e) {
 				responseVO.setStatus(false);
 				responseVO.setResponseDetail(e.getMessage());
 				responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
@@ -361,7 +374,7 @@ public class LicensingServiceController extends AbstractController{
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		
 		 try {      
-	            MultipartFile multipartFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, json.getBytes());
+	            MultipartFile multipartFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, PortalConstants.LICENSE_FILENAME, "application/json", json.getBytes());
 	            uploadLicense( multipartFile, userId, solutionId, revisionId, versionId, request, response);
 				responseVO.setResponseDetail("Success");
 				responseVO.setStatusCode(HttpServletResponse.SC_OK);
@@ -444,40 +457,6 @@ public class LicensingServiceController extends AbstractController{
 			responseVO.setResponseDetail(e.getMessage());
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 			log.error( "Exception Occurred while fetching License Profile", e);
-		}
-		return responseVO;
-	}
-
-	@ApiOperation(value = "Validate License Profile By json", response = LicenseProfileValidationResults.class)
-	@RequestMapping(value = { APINames.VALIDATE_LICENSE_PROFILE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<LicenseProfileValidationResults> validate(HttpServletRequest request,@RequestBody String jsonString,
-			HttpServletResponse response) {
-		JsonResponse<LicenseProfileValidationResults> responseVO=new JsonResponse<>();
-		LicenseProfileValidationResults licenseProfileValidationResults=null;
-
-		try {
-			licenseProfileValidationResults=licensingService.validate(jsonString);
-			if (licenseProfileValidationResults != null) {
-				responseVO.setResponseBody(licenseProfileValidationResults);
-				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				responseVO.setResponseDetail("License Profile validated successfully");
-			} else {
-				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				responseVO.setResponseDetail("Error occured while validating License Profile");
-				log.error("Error Occurred in validating License Profile");
-			}
-		} catch (LicenseProfileException licExp){
-			responseVO.setStatus(false);
-			responseVO.setResponseDetail(licExp.getMessage());
-			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error( "Exception Occurred while validating License Profile", licExp);
-		} catch (Exception e) {
-			responseVO.setStatus(false);
-			responseVO.setResponseDetail(e.getMessage());
-			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error( "Exception Occurred while validating License Profile", e);
 		}
 		return responseVO;
 	}

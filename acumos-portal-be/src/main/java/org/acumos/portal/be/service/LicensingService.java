@@ -60,6 +60,6 @@ public interface LicensingService {
 
 	MLPLicenseProfileTemplate getTemplate(long templateId) throws LicenseProfileException, AcumosServiceException;
 
-	LicenseProfileValidationResults validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
+	String validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
 
 }

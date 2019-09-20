@@ -33,12 +33,12 @@ angular
 						
 						$scope.Math = window.Math;
 						$rootScope.isONAPCompatible = false;
-						$scope.version;
+	
 						$scope.showMicroService = false;
 						$scope.devEnv = '1';
 						$location.hash('md-model-detail-template');  
 						$anchorScroll(); 
-						
+						$scope.licenseOption = 'Upload';
 						$scope.revisionId = $stateParams.revisionId;
 						$scope.loginUserID = "";
 						if (browserStorageService.getUserDetail()) {
@@ -1678,17 +1678,7 @@ angular
 									  clickOutsideToClose: true
 								  });
 							 }
-							 
-							 $scope.uploadLicense = function(){
-								
-								 
-								 $mdDialog.show({
-									  contentElement: '#uploadLicense',
-									  parent: angular.element(document.body),
-									  clickOutsideToClose: true
-								  });
-							 };
-							 
+							 						 
 							 $scope.closeLicensePopup = function(){
 								 $mdDialog.hide();
 								 $scope.file = '';
@@ -1708,7 +1698,7 @@ angular
 										$scope.modelUploadError = false;
 										$rootScope.progressBar = 100;
 										$mdDialog.hide();
-										$scope.msg = ($scope.isLicenseFound)?"License updated successfully":"License uploaded successfully";
+										$scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully";
 										$scope.icon = '';
 										$scope.styleclass = 'c-success';
 										$scope.showAlertMessage = true;
@@ -1718,9 +1708,7 @@ angular
 										$scope.isLicenseFound = true;
 										// update license content after upload
 										$scope.modelLicense = response.response_body;
-										// avoid license json checks during digest cycle
-										$scope.isLicenseJson = angular.isObject($scope.modelLicense);
-										$scope.closeLicensePopup();
+									  $scope.getLicenseFile();
 									},
 									function(error) {
 										if (error.error_code == "sv_info" || error.error_code == "sv_error") {
@@ -1751,11 +1739,141 @@ angular
 							 $scope.resetProgress = function(){
 								 $rootScope.progressBar = 0;
 								 $scope.modelcUploadError = false;
-							 }
+							}
+							$scope.changeLicense = false;
+						   $scope.allTemplates = [];
+						   $scope.getAllLicenseTemplates = function(){
+							   apiService.getAllLicenseProfile()
+				               .then(
+				                       function(response) {                   	  
+				                           if(response.data.response_body.length) {
+				                        	  $scope.allTemplates = response.data.response_body;
+				                        	  $scope.selectedLicense = 0;
+				                           } 
+				                });
+
+						   }
+						      
+						   $scope.getAllLicenseTemplates();
+						   
+						   $scope.createLicenseFile = function(licenseText) {
+							   
+							   var request = licenseText; 
+								if(licenseText){
+									 apiService.uploadLicenseFile($scope.loginUserID, $scope.solutionId, $scope.revisionId, $scope.versionId, request)
+						               .then(function(response){ 
+
+						            	    $scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully";; 
+											$scope.icon = '';
+											$scope.styleclass = 'c-success';
+											$scope.showAlertMessage = true;
+											$timeout(function() {
+												$scope.showAlertMessage = false;
+											}, 2500);
+						            	   $scope.getLicenseFile();
+						             });
+								}
+						   }
+						   
+							// TODO license-profile-editor handlers
+							var selLicProfileTplMsg;
+							var bindEvent = function(element, eventName, eventHandler) {
+									if (element.addEventListener) {
+										element.addEventListener(eventName, eventHandler, false);
+									} else if (element.attachEvent) {
+										element.attachEvent('on' + eventName, eventHandler);
+									}
+								},
+								unbindEvent = function(element, eventName, eventHandler) {
+									if (element.removeEventListener) {
+										element.removeEventListener(eventName, eventHandler, false);
+									} else if (element.detachEvent) {
+										element.detachEvent('on' + eventName, eventHandler);
+									}
+								},
+								winMsgHandler = function(event) {
+									// message listener
+									if (event.data.key === 'output') {
+										var licenseText = JSON.stringify(event.data.value);	
+										$scope.licenseOption = 'selectLicProfile';
+										$scope.createLicenseFile(licenseText);
+										$mdDialog.hide();
+									} else if (event.data.key === 'action') {
+										if (event.data.value === 'cancel') {
+											$mdDialog.hide();
+										}
+									} else if (event.data.key === 'init_iframe') {
+										// if licenseProfileEditorInitMsg then send me
+										var iframe = document.getElementById('iframe-license-profile-editor');
+
+										if (selLicProfileTplMsg && iframe) {
+											// send message to License Profile Editor iframe
+											iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+										}
+									}
+								},
+								showLicenseProfileEditorDialog = function(event) {
+
+									var onCompleteLicProfileTplDialog = function(scope, element, options) {
+										var iframe = document.getElementById('iframe-license-profile-editor');
+
+										if (selLicProfileTplMsg && iframe) {
+											// send message to License Profile Editor iframe
+											iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+										}
+									};
+
+									// open the license profile modal
+									$mdDialog.show({
+										controller: function DialogController($scope, $mdDialog) {
+											$scope.closeDialog = function() {
+												$mdDialog.hide();
+											};
+										},
+										templateUrl:'./app/modular-resource/license-profile-editor-dialog.template.html',
+										parent: angular.element(document.body),
+										targetEvent: event,
+										clickOutsideToClose:true,
+										onComplete: onCompleteLicProfileTplDialog
+									});
+								};
+
+							if (window.licProfEdMsgHandlerRef) {
+								unbindEvent(window, 'message', window.licProfEdMsgHandlerRef);
+							}
+							bindEvent(window, 'message', winMsgHandler);
+							window.licProfEdMsgHandlerRef = winMsgHandler;
+
+							$scope.createNewLicenseProfileTemplate = function(event) {
+								selLicProfileTplMsg = undefined;
+								showLicenseProfileEditorDialog(event);
+							};
+							$scope.allTemplates = [];
+							$scope.modifyLicenseProfileTemplate = function(event, isUpdateLicense) {
+								if(isUpdateLicense){									
+									var template = $scope.modelLicense;
+									var selectedLic = JSON.stringify($scope.modelLicense);
+								} else {
+									var selectedLic = $scope.allTemplates[$scope.selectedLicense];
+									var template = JSON.parse(selectedLic.template);
+								}
+								
+								$scope.createLicenseFile(selectedLic);
+								if (selectedLic) {
+									try {
+										var msgObj = {
+											"key": "input",
+											"value": template
+										};
+										selLicProfileTplMsg = msgObj;
+									} catch (e) {
+										console.error("failed parsing license profile template input", e);
+									}
+								}
+								showLicenseProfileEditorDialog(event);
+							};
+						}
 							
-					}
-
-
 				});
 angular.module('angular-star-rating', []).directive('angularStarRating',
 		angularStarRating);

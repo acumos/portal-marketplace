@@ -23,8 +23,10 @@ package org.acumos.portal.be.service.impl;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.sun.mail.imap.Rights.Right;
@@ -52,6 +54,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+
+import com.networknt.schema.ValidationMessage;
 
 @Service
 public class LicensingServiceImpl extends AbstractServiceImpl implements LicensingService {
@@ -246,20 +250,24 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	}
 
 	@Override
-	public LicenseProfileValidationResults validate(String jsonString)
+	public String validate(String jsonString)
 			throws LicenseProfileException, AcumosServiceException {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		LicenseProfile licenseProfile= new LicenseProfile(dataServiceRestClient);
 		LicenseProfileValidationResults licenseProfileValidationResults=null;
 		try {
 			licenseProfileValidationResults=licenseProfile.validate(jsonString);
+			Set<ValidationMessage> errMesgList=licenseProfileValidationResults.getJsonSchemaErrors();
+			if(errMesgList == null || errMesgList.isEmpty()) {
+				return "SUCCESS";
+			}
+				return errMesgList.toString();
 		}catch (LicenseProfileException licExp){
 			throw licExp;
 		}
 		 catch (Exception e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 		}
-		return licenseProfileValidationResults;
 	}
 
 }	  

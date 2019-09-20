@@ -305,6 +305,9 @@ angular.module('modelResource')
 									$scope.modelDocLicUploadErrorMsg = error;
 								} else{
 									$scope.modelLicUploadError = true;
+									if(error){
+										var validationResult = JSON.parse(error);
+									}
 									$scope.modelLicUploadErrorMsg = error;
 								}
 
@@ -792,11 +795,6 @@ angular.module('modelResource')
                         	  $scope.selectedLicense = 0;
                            } 
                 });
-			   
-			   apiService.getLicenseProfileUrl()
-               .then(function(response){ 
-            	   $scope.licenseProfileUrl = response.data.response_body;
-               });
 		   }
 		      
 		   $scope.getAllLicenseTemplates();
@@ -806,7 +804,17 @@ angular.module('modelResource')
 			   var request = licenseText; 
 				if(licenseText){
 					 apiService.createLicenseFile($scope.userId[1], request)
-		               .then(function(response){ 
+		               .then(function(response){
+		            	    $location.hash('webonboarding');
+	                        $anchorScroll();
+		            	    $scope.msg = "License uploaded successfully. "; 
+							$scope.icon = '';
+							$scope.styleclass = 'c-success';
+							$scope.showAlertMessage = true;
+							$timeout(function() {
+								$scope.showAlertMessage = false;
+							}, 2500);
+							
 		            	   if($scope.isDockerLicense) {
 			            	   $scope.licenseDocfile = true;
 			            	   $scope.fileSubmitDocLicense = true;

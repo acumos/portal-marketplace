@@ -35,8 +35,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.util.SanitizeUtils;
@@ -68,6 +70,9 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 
 	@Autowired
 	private StorageService storageService;
+	
+	@Autowired
+	private LicensingService licensingService;
 
 	@Autowired
 	private PushAndPullSolutionService pushAndPullSolutionService;
@@ -164,7 +169,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		userId = SanitizeUtils.sanitize(userId);
 		
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
-		
+		String validationResponse=null;
 		log.debug("uploadModel for user " + userId);
 
 		// Check if the Onboarding is enabled in the site configuration
@@ -219,12 +224,41 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		}
 		
 		try {
-			boolean resultFlag = storageService.store(file, userId, licUploadFlag);
-			responseVO.setStatus(resultFlag);
-			responseVO.setResponseDetail("Success");
-			responseVO.setResponseBody(resultFlag);
-			responseVO.setStatusCode(HttpServletResponse.SC_OK);
-		} catch (StorageException e) {
+			String input= new String(file.getBytes());
+			if(licUploadFlag) {
+				validationResponse=licensingService.validate(input);
+				if(validationResponse=="SUCCESS") {
+					boolean resultFlag = storageService.store(file, userId, licUploadFlag);
+					responseVO.setStatus(resultFlag);
+					responseVO.setResponseDetail("Success");
+					responseVO.setResponseBody(resultFlag);
+					responseVO.setStatusCode(HttpServletResponse.SC_OK);
+				}
+				else {
+					responseVO.setStatus(false);
+					responseVO.setResponseDetail(validationResponse);
+					responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
+					responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
+					response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+					log.error("Error Occurred during validation of license file"+validationResponse);
+				}
+			}
+			else {	
+				boolean resultFlag = storageService.store(file, userId, licUploadFlag);
+				responseVO.setStatus(resultFlag);
+				responseVO.setResponseDetail("Success");
+				responseVO.setResponseBody(resultFlag);
+				responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			}
+		} catch(AcumosServiceException ae) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(ae.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_FORBIDDEN);
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			response.getWriter().write(ae.getMessage());
+			response.flushBuffer();
+			log.error("Exception Occurred during validation of license file", ae);
+		}catch (StorageException e) {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail(e.getMessage());
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
