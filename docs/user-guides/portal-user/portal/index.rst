@@ -32,3 +32,4 @@ The Portal - For Modelers
    portal-onboarding-dockerized-model.rst
    portal-onboarding-dockerized-uri.rst
    portal-onboarding-history.rst
+   description-rating/index.rst
