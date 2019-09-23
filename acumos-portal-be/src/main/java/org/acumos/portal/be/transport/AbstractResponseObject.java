@@ -38,6 +38,7 @@ public class AbstractResponseObject {
 	private boolean isAdmin;
 	private boolean isPublisher;
 	private boolean firstLogin;
+	private String userId;
 
 	public boolean isLoginPassExpire() {
 		return loginPassExpire;
@@ -61,6 +62,20 @@ public class AbstractResponseObject {
 
 	public void setUserAssignedRolesList(List<MLPRole> userAssignedRolesList) {
 		this.userAssignedRolesList = userAssignedRolesList;
+	}
+	
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return userId;
+	}
+	
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	/**

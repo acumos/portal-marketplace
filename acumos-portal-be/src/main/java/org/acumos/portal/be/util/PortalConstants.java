@@ -30,5 +30,6 @@ public class PortalConstants {
     public static final String LICENSE_FILENAME = "license.json"; 
     public static final String LICENSE_ARTIFACT_TYPE = "LI";
     public static final String LICENSE_FILENAME_PREFIX = "license";
-    public static final String LICENSE_EXT = ".json"; 
+    public static final String LICENSE_EXT = ".json";
+	public static final String LOGIN_EXPIRE_PROPERTY_KEY = "portal.feature.loginExpire.duration"; 
 }

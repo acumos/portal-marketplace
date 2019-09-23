@@ -59,6 +59,10 @@ public class User extends AbstractResponseObject {
 	private String status;
 	private Set<MLPTag> tags;
 	private String apiToken;
+	private Instant loginPassExpireDate;
+	
+	
+	
 
 
 	public String getBulkUpdate() {
@@ -343,5 +347,14 @@ public class User extends AbstractResponseObject {
 	public void setApiToken(String apiToken) {
 		this.apiToken = apiToken;
 	}
+	
+	public Instant getLoginPassExpireDate() {
+		return loginPassExpireDate;
+	}
+
+	public void setLoginPassExpireDate(Instant loginPassExpireDate) {
+		this.loginPassExpireDate = loginPassExpireDate;
+	}
+	
 }
 

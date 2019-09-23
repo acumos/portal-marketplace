@@ -41,6 +41,8 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.DateUtils;
+import org.acumos.portal.be.util.ExpiryDateUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.time.DateTime;
@@ -73,6 +75,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Autowired
     private Environment env;
 
+    @Autowired
+    ExpiryDateUtils dateUtils;
     @Override
     public User save(User user) {
         log.debug("save user={}", user);
@@ -85,6 +89,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         mlpUser.setLastName(user.getLastName());
         mlpUser.setEmail(user.getEmailId());
         mlpUser.setLoginName(user.getUsername());
+        mlpUser.setLoginPassExpire(dateUtils.getExpiryDate());
 
         if(isVerifyAccountEnabled()) {
             Instant expirationTime = Instant.now()
@@ -117,8 +122,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     }
     
     private int getVerifyExpirationhours() {
-    	//Default to 1 hours
-    	int exphours = 1;
+    	//Default to 999 hours
+    	int exphours = 999;
     	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.verifyToken.exp_time")))
     		exphours = Integer.parseInt(env.getProperty("portal.feature.verifyToken.exp_time", "1"));
     	return exphours;
@@ -392,6 +397,9 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 			// If Successful then try to change the password
 			if (oldPass) {
 				dataServiceRestClient.updatePassword(user, changeRequest);
+				user = dataServiceRestClient.getUser(userId);
+				user.setLoginPassExpire(dateUtils.getExpiryDate());
+				dataServiceRestClient.updateUser(user);
 				passwordChangeSuccessful = true;
 			}
 		}
@@ -457,7 +465,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
          // set expire date 24 hours for new password
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
-        Instant tomorrow = Instant.now().plus(1, ChronoUnit.DAYS);
+        Instant tomorrow = Instant.now().plus(24, ChronoUnit.HOURS);
         mlpUser.setLoginPassExpire(tomorrow);
         mlpUser.setAuthToken(null);
 
