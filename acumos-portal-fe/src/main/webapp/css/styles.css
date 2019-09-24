@@ -1473,7 +1473,7 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark as Self "] {width: 100% !important;}
 
 /************** Grant Peer access table   *************************/
-.grant-peer-access .fed-srch-container{margin-left:5px;}
+.fed-row2 .fed-srch-container{margin-left:5px;}
 
 
 /********** Admin page Federation modal box style **********/

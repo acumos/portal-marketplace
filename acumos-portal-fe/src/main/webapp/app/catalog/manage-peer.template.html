@@ -61,7 +61,7 @@ limitations under the License.
 			</div>
 			<hr />
 			<div>
-				<table class="mdl-data-table mdl-js-data-table fullwidth">
+				<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 					<colgroup>
 						<col style="width: 5%;">
 						<col>
@@ -72,12 +72,7 @@ limitations under the License.
 					<thead>
 						<tr>
 							
-							<th><label for="checkbox-1" id="checkbox-label"> <input
-									type="checkbox"  class="mdl-checkbox__input" id="checkbox-1"
-									ng-model="selectAllPeer" ng-click="removeAll(selectAllPeer)"
-									ng-checked="selectAllPeerStatus" /> <span
-									class="mdl-checkbox__label"></span>
-							</label></th>
+							<th><md-checkbox ng-model="selectAllPeer" ng-click="removeAll(selectAllPeer)"></md-checkbox></th>
 							
 							
 							<th
@@ -108,15 +103,11 @@ limitations under the License.
 					<tbody ng-repeat="val in (searchData = (accessedPeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeerDetails))">
 						<tr>
 						
-							<td><label 
-								
-								for="checkBox_{{$index}}" id="checkBox_{{$index}}"> 
-								<input id="cds"
-									type="checkbox" class="mdl-checkbox__input"	ng-model = "val.Selected"
-									ng-checked = "val.Selected"
-									 ng-click="removeSelected(val)">
-									<span class="mdl-checkbox__label"></span>
-							</label></td>
+							<td><md-checkbox 
+							value="{{val}}"
+							ng-model = "val.checked"
+							ng-click="removeSelected(val)">
+							</md-chekbox></td>
 							<td><span>{{val.name}}</span></td>
 							<td><span>{{val.subjectName}}</span></td>
 							<td><span>{{val.contact1}}</span></td>
@@ -158,7 +149,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div>
-				<table class="mdl-data-table mdl-js-data-table fullwidth">
+				<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
 					<colgroup>
 						<col style="width: 5%;">
 						<col>
@@ -167,14 +158,7 @@ limitations under the License.
 					</colgroup>
 					<thead>
 						<tr>
-							<th><label
-								
-								for="checkbox-1" id="checkbox-label"> <input
-									type="checkbox" id="checkbox-1" class="mdl-checkbox__input"
-									ng-model="selectAll" ng-click="grantAccessToAll(selectAll)"
-									ng-checked="selectAllStatus" /> <span
-									class="mdl-checkbox__label"></span>
-							</label></th>
+							<th><md-checkbox ng-model="selectAll" ng-click="grantAccessToAll(selectAll)"></md-checkbox></th>
 							<th
 								ng-click="orderByField='name'; reverseSort = !reverseSort">Peer Name<span ng-if='orderByField!="name"'
 								class="gridcell-sort deactivate"></span><span
@@ -205,20 +189,16 @@ limitations under the License.
 					<tbody ng-repeat="val in (searchData =(availablePeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeer))">
 					
 						<tr>
-						<td><label
-								
-								for="checkBox_{{$index}}" id="checkBox_{{$index}}"> <input
-									type="checkbox"  class="mdl-checkbox__input"
-									ng-model = "val.Selected"
-									ng-checked = "val.Selected"
-									ng-true-value="true" ng-click="grantAccessToSelected(val)" ng-false-value="false">
-									<span class="mdl-checkbox__label"></span>
-							</label></td>
+						<td><md-checkbox 
+							value="{{val}}"
+							ng-model = "val.checked"
+							ng-click="grantAccessToSelected(val)">
+							</md-chekbox></td>
 							
 							<td><span>{{val.name}}</span></td>
 							<td><span>{{val.subjectName}}</span>
 							</td>
-							<td><a href="#">{{val.contact1}}</a></td>
+							<td>{{val.contact1}}</td>
 						</tr>
 						
 						
@@ -270,5 +250,4 @@ limitations under the License.
 	</md-dialog-actions> </md-dialog>
 </div>
 <!-- Modal box end -->
-
 
