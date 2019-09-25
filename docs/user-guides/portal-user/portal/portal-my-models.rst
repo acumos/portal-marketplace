@@ -33,15 +33,12 @@ page. They are sorted into the following sections:
     process) are also displayed in this section but are shown greyed out
     until the on-boarding process is successfully completed.
 
-**MY MODELS: PUBLISHED TO COMPANY MARKETPLACE**
-    Models that have been published to Local, appear in the the LOCAL
-    marketplace and are visible to anyone with an account on the local
-    Acumos Instance.
+**MY PUBLISHED MODELS**
+    Models that have been published to Restricted catalog, appear in the LOCAL marketplace and
+    are visible to anyone with an account on the local Acumos Instance.
 
-**MY MODELS: PUBLISHED TO PUBLIC MARKETPLACE**
-    Models that have been published to Public, appear in the the PUBLIC
-    marketplace and may be viewed by users on Acumos instances that have a
-    federated relationship with your local instance.
+    Models that have been published to Public catalog, appear in the PUBLIC marketplace and may
+    be viewed by users on Acumos instances that have a federated relationship with your local instance.
 
 **MY DELETED MODELS**
     At this time, models are not truly deleted but rather moved into a "deleted" state.

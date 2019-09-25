@@ -69,7 +69,7 @@ The steps to login to Acumos are as follows:
     .. image:: images/portal/signIn_screen.png
 
 
-2. Fill in the username and password.
+2. Fill in the Username or Email Id and Password.
 
 3. Click **Sign in** on the bottom of the screen.
 
@@ -80,7 +80,7 @@ Resetting a Password
 ====================
 The steps to reset a password are as follows:
 
-1. From the **Sign in** window, click the **Forget Password** link
+1. From the **Sign in** window, click the **Forgot password** link
 
     .. image:: images/portal/password-forgetPasswordLink.png
 
