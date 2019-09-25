@@ -82,6 +82,8 @@ public class MLSolution {
 	private Instant lastDownload;
 	private boolean featured;
 	private String catalogId;
+	private String sourceId;
+	private MLPeer mPeer;
 	
 	/**
 	 * @return the onboardingStatusFailed
@@ -103,6 +105,20 @@ public class MLSolution {
 
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
+	}
+
+	/**
+	 * @return the sourceId
+	 */
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	/**
+	 * @param sourceId the sourceId to set
+	 */
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
 	}
 
 	/**
@@ -289,6 +305,21 @@ public class MLSolution {
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
+	
+
+	/**
+	 * @return the mPeer
+	 */
+	public MLPeer getmPeer() {
+		return mPeer;
+	}
+
+	/**
+	 * @param mPeer the mPeer to set
+	 */
+	public void setmPeer(MLPeer mPeer) {
+		this.mPeer = mPeer;
+	}
 
 	@Override
 	public String toString() {
@@ -323,6 +354,8 @@ public class MLSolution {
 		builder.append(sortingOrder);
 		builder.append(", modelType=");
 		builder.append(modelType);
+		builder.append(", mPeer=");
+		builder.append(mPeer.toString());
 		builder.append("]");
 		return builder.toString();
 	}

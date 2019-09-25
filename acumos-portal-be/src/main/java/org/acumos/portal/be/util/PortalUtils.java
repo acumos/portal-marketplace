@@ -34,6 +34,7 @@ import java.util.Map;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPRole;
@@ -56,6 +57,7 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLArtifact;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLPeer;
 import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
@@ -181,7 +183,29 @@ public class PortalUtils {
 		if (mlpSolution.isFeatured() != null) {
 			mlSolution.setFeatured(mlpSolution.isFeatured());
 		}
+		if(mlpSolution.getSourceId() != null) {
+			mlSolution.setSourceId(mlpSolution.getSourceId());
+		}		
 		return mlSolution;
+	}
+	
+	public static MLPeer convertToMLPeer(MLPPeer peer) {
+		MLPeer mPeer = new MLPeer();
+		mPeer.setApiUrl(peer.getApiUrl());
+		mPeer.setContact1(peer.getContact1());
+		mPeer.setCreated(peer.getCreated());
+		mPeer.setModified(peer.getModified());
+		mPeer.setName(peer.getName());
+		mPeer.setPeerId(peer.getPeerId());
+		mPeer.setStatusCode(peer.getStatusCode());
+		mPeer.setSubjectName(peer.getSubjectName());
+		if(peer.getDescription() != null) {
+			mPeer.setDescription(peer.getDescription());
+		}
+		if(peer.getWebUrl() != null) {
+			mPeer.setWebUrl(peer.getWebUrl());
+		}
+		return mPeer;
 	}
 
 	public static MLPSolution convertToMLPSolution(MLSolution mlSolution) {
