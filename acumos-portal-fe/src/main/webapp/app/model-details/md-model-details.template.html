@@ -925,6 +925,7 @@ limitations under the License.
 			<!-- cloudName should match to the model value -->
 				<h2 ng-show="exportTo=='azure'">Deploying to Microsoft Azure</h2>
 				<h2 ng-show="exportTo=='rackspace'">Deploying to RackSpace</h2>
+				<h2 ng-show="exportTo=='K8S'">Deploying to K8S</h2>
 				<h2 ng-show="exportTo=='deploylocal'">Deploying to Local</h2>
 				<h2 ng-show="exportTo=='whitebox'">Deploying to White Box</h2>
 				<span flex></span>
@@ -1132,6 +1133,28 @@ limitations under the License.
 						ng-click="" > Deploy </md-button>
 				</div>
 				<!-- Deploy To Whitebox ends -->
+				
+				<!-- Deploy To Kubernetes starts -->
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show="exportTo=='K8S'">
+					<form name="deployToK8">
+						
+				<div class="select-control">
+				<label class="fedlbl4" style="font-weight: bold">Select Kubernetes cluster</label>
+						<md-select ng-model="ClusterData" placeholder="select">
+			           <md-option value="{{cluster.name}}" ng-repeat="cluster in Clusters">{{cluster.name}}</md-option>
+			          </md-select>
+			      		</div>
+			     </form>
+				</div>
+				<div class="dialog-btn-container-deploy-to-cloud" ng-show="exportTo=='K8S'">
+					<md-button
+						class="mdl-button mdl-js-button btn-secondary"
+						ng-click="handleDismiss()"> Cancel </md-button>
+					<md-button
+						class="mdl-button mdl-js-button btn-primary" ng-disabled ="!ClusterData"
+						ng-click="deployToK8s()" > Deploy </md-button>
+				</div>
+				<!-- Deploy To Kubernetes ends -->
 				
 				
 			</div>
@@ -1378,6 +1401,7 @@ limitations under the License.
 		      <div class="md-toolbar-tools">
 				<h2 ng-show="exportTo=='azure'">Deploy to Microsoft Azure</h2>
 				<h2 ng-show="exportTo=='rackspace'">Deploy to RackSpace</h2>
+				<h2 ng-show="exportTo=='K8S'">Deploy to K8S</h2>
 				<h2 ng-show="exportTo=='deploylocal'">Deploy to Local</h2>
 				<h2 ng-show="exportTo=='whitebox'">Deploy to White Box</h2>
 				<span flex></span>

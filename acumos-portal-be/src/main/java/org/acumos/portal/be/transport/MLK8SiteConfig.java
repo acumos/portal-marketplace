@@ -2,7 +2,7 @@
  * ===============LICENSE_START=======================================================
  * Acumos
  * ===================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * Copyright (C) 2019 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
  * ===================================================================================
  * This Acumos software file is distributed by AT&T and Tech Mahindra
  * under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,35 @@
  * ===============LICENSE_END=========================================================
  */
 
-package org.acumos.portal.be.util;
+package org.acumos.portal.be.transport;
 
-public class PortalConstants {
+import java.util.List;
 
-	public static final String CAROUSEL_CONFIG_KEY = "carousel_config";
-	public static final String TAG_NAME = "tagName";
-	public static final String PUBLISH_SELF_REQ_ENABLED_PROPERTY = "portal.feature.publishSelfRequestEnabled";
-	public static final int DEFAULT_CATALOG_PAGE_SIZE = 1000;
-    public static final String PUBLIC_CATALOG = "PB";
-    public static final String LICENSE_FILENAME = "license.json"; 
-    public static final String LICENSE_ARTIFACT_TYPE = "LI";
-    public static final String LICENSE_FILENAME_PREFIX = "license";
-    public static final String LICENSE_EXT = ".json";
-    public static final String K8CLUSTER_CONFIG_KEY = "k8sCluster";
-    public static final String DEPLOY_TO_K8="/deploy/";
+public class MLK8SiteConfig {
+
+	private String configKey;
+	private List<K8ConfigValue> k8ConfigValueList;
+	private String userId;
+	
+	public MLK8SiteConfig() {}
+	public String getConfigKey() {
+		return configKey;
+	}
+	public void setConfigKey(String configKey) {
+		this.configKey = configKey;
+	}
+	
+	public List<K8ConfigValue> getK8ConfigValueList() {
+		return k8ConfigValueList;
+	}
+	public void setK8ConfigValueList(List<K8ConfigValue> k8ConfigValueList) {
+		this.k8ConfigValueList = k8ConfigValueList;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 }

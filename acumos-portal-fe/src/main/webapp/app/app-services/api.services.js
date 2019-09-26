@@ -557,6 +557,14 @@ angular.module('AcumosApp')
         this.removeAccess = function (catalogId , reqBody) {
             return $http.post("/api/catalog/" + catalogId + "/dropPeer" , reqBody);
         }
+        
+        this.deployToK8s = function (userId , solutionId, revisionId , envId) {
+            return $http.post("/api/deployCloud/deployToK8" + '?userId=' + userId + '&solutionId=' + solutionId + '&revisionId=' + revisionId + '&envId=' + envId);
+        }
+        
+        this.getData = function(userId){
+        	return $http.post("/api/deployCloud/getDeployToK8Config" + '?userId=' + userId);
+        }
 
         
                 

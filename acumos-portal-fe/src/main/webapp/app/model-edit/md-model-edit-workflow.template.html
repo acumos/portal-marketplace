@@ -2282,6 +2282,34 @@ limitations under the License.
 									   </div>
 									</div>
 									<!-- Deploy to Whitebox Ends -->
+									
+									<!-- Deploy to Kubernetes Starts -->
+									<br><br>
+									<div ng-show='checkboxExport=="K8S" && confirmSelection==true'>
+									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
+									      <form name="K8S" class="k8s">
+									         <div>
+												<label class="disblock">Select Kubernetes cluster</label>
+												<md-select class="md-no-underline admin-ddl" ng-model="ClusterData" placeholder="select">
+													<md-option value="{{cluster.name}}" ng-repeat="cluster in Clusters">{{cluster.name}}</md-option>
+			          							</md-select>
+										     </div>
+									      </form>
+									      
+									      
+									       
+									   </div><br>
+									   <div layout="row">
+									    <md-button
+										class="mdl-button mdl-js-button btn-secondary"
+										ng-click="handleDismiss()"> Cancel </md-button>
+										<md-button
+										class="mdl-button mdl-js-button btn-primary btn-gap"
+										ng-click="deployToK8s()" > Deploy </md-button>
+									   </div>
+									</div>
+									
+									<!-- Deploy to Kubernetes Starts -->
 										
 									</div>
 								</div>
@@ -2328,6 +2356,7 @@ limitations under the License.
 											<h2 ng-show="checkboxExport=='rackspace'">Deploy to RackSpace</h2>
 											<h2 ng-show="checkboxExport=='deploylocal'">Deploy to Local</h2>
 											<h2 ng-show="checkboxExport=='whitebox'">Deploy to White Box</h2>
+											<h2 ng-show="checkboxExport=='K8S'">Deploy to K8S</h2>
 											<span flex></span>
 											<md-button class="md-icon-button" ng-click='closePoup()'>
 											<i class="material-icons">close</i> </md-button>
