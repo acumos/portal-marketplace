@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81d273f2_70d7cbd9",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/UserServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T08:00:46Z",
+      "side": 1,
+      "message": "change back to 1 hour and retest throughly",
+      "range": {
+        "startLine": 126,
+        "startChar": 20,
+        "endLine": 126,
+        "endChar": 23
+      },
+      "revId": "7c846f3e8add636d65d2141aef859b81bdc0d40b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d99e7c65_a0cab260",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/UserServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T08:00:46Z",
+      "side": 1,
+      "message": "Create a constant",
+      "range": {
+        "startLine": 468,
+        "startChar": 46,
+        "endLine": 468,
+        "endChar": 48
+      },
+      "revId": "7c846f3e8add636d65d2141aef859b81bdc0d40b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
