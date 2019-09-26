@@ -2396,6 +2396,10 @@ label.model-name{color:#0366d6;}
 .detectnum{ border-radius: 50%; background-color: #FFF; border: 1px solid #000; width:48px; height:48px; text-align:center; line-height:48px; font-weight: 600; font-size: 20px;}
 /* popup onboarding */
 
+/* K8S styling starts  */
+.k8s md-select.md-default-theme:not([disabled]):focus.md-no-underline .md-select-value, .k8s md-select:not([disabled]):focus.md-no-underline .md-select-value{border:transparent!important;}
+/* K8S styling ends  */
+
 /*Catalog page style start*/
 .catalog-page-wrapper {padding: 0px 20px 15px 20px;}
 .catalog-grid-container {display:flex; flex-direction: row;flex-wrap: wrap; }
