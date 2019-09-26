@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f3b8feb_afa779fc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/DeployCloudController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "these variables must be seriazed",
+      "range": {
+        "startLine": 61,
+        "startChar": 27,
+        "endLine": 61,
+        "endChar": 132
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7546af70_aa5fd757",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/K8ConfigValue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "no need for this classes ... use existing MLConfig classes instead",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 26
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cba0b0d_ff1dd3cc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/util/DeployK8Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "create this method in util as a generic and use for other build uri also",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4129faf_0bf52f41",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/util/DeployK8Utils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "make it generic.. search it must already be created as generic method",
+      "range": {
+        "startLine": 81,
+        "startChar": 21,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64d8a974_045b7932",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/util/PortalUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "not required",
+      "range": {
+        "startLine": 752,
+        "startChar": 30,
+        "endLine": 752,
+        "endChar": 50
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b62bea4_ee4bfcaf",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/util/PortalUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "no need",
+      "range": {
+        "startLine": 752,
+        "startChar": 30,
+        "endLine": 752,
+        "endChar": 50
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "629d4106_c5ed3cff",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-09-26T11:17:03Z",
+      "side": 1,
+      "message": "“The deployment process has been started, will take some time to complete. Notification will be sent on completion.”",
+      "range": {
+        "startLine": 1318,
+        "startChar": 25,
+        "endLine": 1318,
+        "endChar": 142
+      },
+      "revId": "ae35d424b986a92a7bc738be7d27cc8c396f7e9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
