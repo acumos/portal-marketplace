@@ -42,6 +42,7 @@ import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPDocument;
+import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
@@ -70,6 +71,7 @@ import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
+import org.acumos.portal.be.transport.MLPeer;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
@@ -997,6 +999,19 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// to fetch the solution separately and then populate the picture
 			MLPSolution sol = dataServiceRestClient.getSolution(mlpSol.getSolutionId());
 			MLSolution mlSolution = PortalUtils.convertToMLSolution(sol);
+			
+			// Get Peer details from CDS and set in MLSolutiuon
+			if(!PortalUtils.isEmptyOrNullString(mlSolution.getSourceId())) {
+				MLPPeer peer = dataServiceRestClient.getPeer(mlSolution.getSourceId());	
+				if(peer!=null) {
+					
+					mlSolution.setmPeer( PortalUtils.convertToMLPeer(peer));
+				}
+				
+			}
+			
+			
+			
 
 			// add tags for models
 			List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(mlSolution.getSolutionId());
