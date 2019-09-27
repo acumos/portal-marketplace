@@ -31,4 +31,7 @@ public class PortalConstants {
     public static final String LICENSE_ARTIFACT_TYPE = "LI";
     public static final String LICENSE_FILENAME_PREFIX = "license";
     public static final String LICENSE_EXT = ".json"; 
+    public static final String ENV_LUM_URL="lum.url";
+    public static final String ENV_NEXUS_URL="nexus.url";
+    
 }
