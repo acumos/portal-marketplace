@@ -48,6 +48,7 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -145,7 +146,7 @@ public class AuthServiceController extends AbstractController {
 					// check password expire date
 					responseObject.setLoginPassExpire(false);
 					if (mlpUser.getLoginPassExpire() != null) {
-						if (mlpUser.getLoginPassExpire().compareTo(Instant.now()) <= 0) {
+						if (mlpUser.getLoginPassExpire().compareTo(Instant.now()) < 0) {
 							responseObject.setLoginPassExpire(true);
 						}
 					}
@@ -254,7 +255,16 @@ public class AuthServiceController extends AbstractController {
 						response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 						return responseObject;
 					}
-				
+					if (!PortalUtils.isEmptyOrNullString(env.getProperty(PortalConstants.LOGIN_EXPIRE_PROPERTY_KEY)) && mlpUser.getLoginPassExpire() != null) {
+						
+						if (mlpUser.getLoginPassExpire().compareTo(Instant.now()) < 0) {
+							responseObject = new ResponseVO(HttpServletResponse.SC_PRECONDITION_FAILED, "Password Expired");
+							responseObject.setLoginPassExpire(true);
+							responseObject.setUserId(mlpUser.getUserId());
+							response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+							return responseObject;
+						}
+					}
 
 					String apiToken = mlpUser.getApiToken();
 					if (isValid) {

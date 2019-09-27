@@ -270,6 +270,10 @@ public class UserServiceTest {
 		stubFor(post(urlEqualTo("/ccds/user/login")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(userObj)));
 
+		stubFor(put(urlEqualTo("/ccds/user/c50e75c6-85c1-4b0f-8617-cc1035a3d430")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		
 		stubFor(put(urlEqualTo("/ccds/user/c50e75c6-85c1-4b0f-8617-cc1035a3d430/chgpw")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
 
