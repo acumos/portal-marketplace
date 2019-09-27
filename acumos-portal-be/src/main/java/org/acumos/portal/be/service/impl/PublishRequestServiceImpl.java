@@ -42,6 +42,7 @@ import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.PagableResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishRequestService;
@@ -78,6 +79,9 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 
 	private static final String MSG_SEVERITY_ME = "ME";
 
+	@Autowired
+	private LicensingService licensingService;
+	
 	@Override
 	public MLPublishRequest getPublishRequestById(Long publishRequestId) {
 		log.debug("getPublishRequestById");
@@ -231,6 +235,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		// If request is approved then change the status of solution revision
 		if (isRequestApproved) {
 			dataServiceRestClient.addSolutionToCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
+			licensingService.licenseAssetRegister(updatedRequest.getSolutionId(), updatedRequest.getRevisionId(), updatedRequest.getRequestUserId());
 			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully",
 					updatedPublishRequest.getRequestUserId());
 		} else {
