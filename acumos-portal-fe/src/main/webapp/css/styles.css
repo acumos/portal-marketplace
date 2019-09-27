@@ -555,6 +555,7 @@ z-index:2000;
 
 .tile_icon-catalogs {width: inherit; height: inherit; background: url("../images/general-icons/tile_catalog.png") no-repeat center center;}
 .tile_icon-publish-request {width: inherit; height: inherit; background: url("../images/general-icons/tile_publish_request.png") no-repeat center center;}
+.tile_icon-federation {width: inherit; height: inherit; background: url("../images/admin-dashboard/federation.png") no-repeat center center;}
 .tile-icons {display:flex;}
 .tile-icons .a-tooltip {width:26px; height:26px; vertical-align:middle;}
 .tile-icons .a-tooltiptext {margin-left: -115px !important;}

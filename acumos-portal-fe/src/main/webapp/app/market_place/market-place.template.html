@@ -212,6 +212,13 @@ limitations under the License.
 														<label class="a-tooltip"><span class="icon-header tile_icon-publish-request"></span>
 															<span class="a-tooltiptext">Pub: {{mlsolution.publisher}}</span>
 														</label>
+														<span ng-show="mlsolution.sourceId">
+														|
+															<label class="a-tooltip"><span class="icon-header tile_icon-federation"></span>
+																<span class="a-tooltiptext">Source: {{mlsolution.mPeer.name}}</span>
+															</label>	
+														</span>
+														
 													</div>	
 													
 													<div class="a-mp-container1">
