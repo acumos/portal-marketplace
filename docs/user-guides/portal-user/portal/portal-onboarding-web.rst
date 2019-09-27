@@ -80,15 +80,41 @@ and Create Tosca steps turn green. Click the **View Model** button to see your m
 see **Create Microservice** button  which is right side of ** Manage My Model** button to 
 create MicroService for your model.
 
-There is a provision to upload a license file while On-boarding the model. You can check 
-**Upload License** checkbox and upload the license file preferably license.json which contains
-high level general terms and conditions for use of your model.
+License file must be uploaded while On-boarding the model. There are two radio buttons **Upload** and 
+**Select License Profile** from where user can upload license file which must be with an extension of *.json* 
+which contains high level general terms and conditions for use of the model.
 
-	.. image:: ../images/portal/model-onboarding-with-license.png
+.. image:: ../images/portal/model-onboarding-with-license.png
                  :width: 75%
-	
-If License is not uploaded while On-boarding, it can be done through by clicking 
-**Upload License** button on **Licenses** tab of a particular model under **My MODELS** page.
+
+
+
+If **Upload** radio button is selected it will allow user to browse a license.json file. 
+Once the file is selected the **Upload** button is enabled clicking which file will be uploaded. 
+
+.. image:: ../images/portal/model-onboarding-upload.png
+                 :width: 75%
+				 
+**Select License Profile** radio button allows the user to select a license template from a drop-down list. 
+The **Modify** button allows the user to change the content of template. 
+
+.. image:: ../images/portal/model-onboarding-select-license.png
+                 :width: 75%
+				 
+Upon clicking the **Modify** button a pop-up will be opened which allows the user to change license templates content. 
+The **Save** button will save the license template.
+
+.. image:: ../images/portal/model-onboarding-modify.png
+                 :width: 75%
+
+.. image:: ../images/portal/model-onboarding-save.png
+                 :width: 75%
+
+The **Create** button will allow the user to create a new license template. 
+
+.. image:: ../images/portal/model-onboarding-create.png
+                 :width: 75%
+
 	
 
 
