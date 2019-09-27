@@ -21,12 +21,14 @@
 package org.acumos.portal.be.service.impl;
 
 import java.lang.invoke.MethodHandles;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.sun.mail.imap.Rights.Right;
@@ -38,20 +40,22 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.licensemanager.client.LicenseCreator;
 import org.acumos.licensemanager.client.LicenseProfile;
-import org.acumos.licensemanager.client.model.CreateRtuRequest;
-import org.acumos.licensemanager.client.model.ICreatedRtuResponse;
-import org.acumos.licensemanager.client.model.ILicenseCreator;
+import org.acumos.licensemanager.client.model.RegisterAssetRequest;
+import org.acumos.licensemanager.client.model.RegisterAssetResponse;
+import org.acumos.licensemanager.client.rtu.LicenseAsset;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.transport.RtuUser;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -61,7 +65,8 @@ import com.networknt.schema.ValidationMessage;
 public class LicensingServiceImpl extends AbstractServiceImpl implements LicensingService {
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
+	@Autowired
+	private Environment env;
 	/*
 	 * No
 	 */
@@ -124,98 +129,28 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 
 	@Override
 	public List<RtuUser> getAllActiveUsers() {
-		List<RtuUser> user = null;
-		List<MLPUser> mlpUser = null;
-		log.debug("getAllActiveUser");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		Map<String, Object> activeUser = new HashMap<>();
-		activeUser.put("active", true);
-		activeUser.put("size", 10000);
-		RestPageResponse<MLPUser> userList = dataServiceRestClient.searchUsers(activeUser, false,
-				new RestPageRequest());
-		if (userList != null) {
-			mlpUser = userList.getContent();
-			if (!PortalUtils.isEmptyList(mlpUser)) {
-				user = new ArrayList<>();
-				for (MLPUser mlpusers : mlpUser) {
-					RtuUser users = PortalUtils.convertToRtuUser(mlpusers, false);
-					if (users.getUserId() != null) {
-						List<MLPRole> mlprolelist = dataServiceRestClient.getUserRoles(users.getUserId());
-						users.setUserAssignedRolesList(mlprolelist);
-					}
-					user.add(users);
-				}
-			}
-		}
-		return user;
-
+		throw new UnsupportedOperationException("removed in Clio - ");
 	}
 
 	@Override
 	public List<MLPRightToUse> getRtusByReference(String rtuReferenceId) throws AcumosServiceException {
-		log.debug("getRtusByReference");
-		List<MLPRightToUse> rtuIds = null;
-		try {
-			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			rtuIds = dataServiceRestClient.getRtusByReference(rtuReferenceId);
-		} catch (IllegalArgumentException e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
-		} catch (HttpClientErrorException e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
-		}
-		return rtuIds;
+		throw new UnsupportedOperationException("removed in Clio - ");
 	}
 
 	@Override
 	public List<MLPRightToUse> createRtuUser(String rtuRefId, String solutionId, List<String> userList)
 			throws Exception,RightToUseException {
 
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
-		List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
-		try {
-				CreateRtuRequest createRtu = new CreateRtuRequest();
-				createRtu.setSolutionId(solutionId);
-				createRtu.setUserIds(userList);
-				List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
-				createRtu.setRtuRefs(rtuRefIdList);
-				ICreatedRtuResponse createdRtu = licenseSrvc.createRtu(createRtu);
-				List<MLPRightToUse> rtus = createdRtu.getRtus();
-				if(rtus != null){
-					createdRtus.addAll(rtus);
-				}
-		}catch (RightToUseException rtuExp){
-			throw rtuExp;
-		}
-		 catch (Exception e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
-		}
-
-		return createdRtus;
+		// For license management Clio - LUM will be used for RTU instead of CDS
+		throw new UnsupportedOperationException("removed in Clio - ");
 	}
 
 	@Override
 	public List<MLPRightToUse> createRtuUser(String rtuRefId, String solutionId, boolean siteWide)
 			throws Exception {
-				ICommonDataServiceRestClient dataServiceRestClient = getClient();
-				ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
-				List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
-				try {
-						CreateRtuRequest createRtu = new CreateRtuRequest();
-						createRtu.setSolutionId(solutionId);
-						createRtu.setSiteWide(true);
-						List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
-						createRtu.setRtuRefs(rtuRefIdList);
-						ICreatedRtuResponse createRtu2 = licenseSrvc.createRtu(createRtu);
-						List<MLPRightToUse> rtus = createRtu2.getRtus();
-						if(rtus != null){
-							createdRtus.addAll(rtus);
-						}
-				} catch (Exception e) {
-					throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
-				}
-		
-				return createdRtus;	}
+		// For license management Clio - LUM will be used for RTU instead of CDS
+		throw new UnsupportedOperationException("removed in Clio - ");
+			}
 
 
 	public final List<MLPLicenseProfileTemplate> getTemplates() throws LicenseProfileException, AcumosServiceException {
@@ -270,4 +205,30 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 		}
 	}
 
+	@Override
+	public boolean licenseAssetRegister(String solutionId, String revisionId, String userId) {
+		log.debug("Enter in register() ..."+" solutionId>>" +solutionId + "revisionId >>"+ revisionId + "userId >>"+  userId);
+		
+		try {
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), env.getProperty(PortalConstants.ENV_NEXUS_URL)); 
+			RegisterAssetRequest registerAssetRequest=new RegisterAssetRequest();
+			registerAssetRequest.setSolutionId(UUID.fromString(solutionId));
+			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
+			registerAssetRequest.setLoggedIdUser(userId);
+			RegisterAssetResponse response = licenseAsset.register(registerAssetRequest).get();
+			if(response != null ) {
+				log.info("LicenseAsset registration Success Response : "+response.isSuccess());
+				return response.isSuccess();
+			}else {
+				log.info("LicenseAsset registration called sucessfully but response is null from LicenseAsset");
+			}
+			
+		}catch(Exception e) {
+			log.error("Excetion in registering licence : "+e.getMessage());
+		}
+		log.debug("Exit from register() ...");
+		return false;
+	}
+	
 }	  

@@ -26,6 +26,7 @@ import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.security.AuthenticatedUserDetails;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.service.SecurityVerificationClientServiceImpl;
@@ -132,9 +133,10 @@ public abstract class AbstractController {
 	}
 	
 	private SecurityVerificationClientServiceImpl getSVClient() {
+
 		return new SecurityVerificationClientServiceImpl(env.getProperty(ENV_SV_API), env.getProperty(ENV_CDMS_API),
 				env.getProperty(ENV_CDMS_USER), env.getProperty(ENV_CDMS_PSWD), env.getProperty(ENV_NEXUS_API),
-				env.getProperty(ENV_NEXUS_USER), env.getProperty(ENV_NEXUS_PSWD));
+				env.getProperty(ENV_NEXUS_USER), env.getProperty(ENV_NEXUS_PSWD), env.getProperty(PortalConstants.ENV_LUM_URL));
 	}
 	
 	protected Workflow getValidWorkflow() {
