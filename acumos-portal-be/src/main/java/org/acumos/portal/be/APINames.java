@@ -335,6 +335,10 @@ public class APINames {
 	public static final String GET_ARCHIVE = "/all/archive";
 	public static final String ARCHIVE_ACTION = "/archive/action";
 	
+	//deploy to K8s
+	public static final String GET_DEPLOY_TO_K8_CONFIG = "/getDeployToK8Config";
+	public static final String DEPLOY_TO_K8 ="/deployToK8";
+	
   
 
 }

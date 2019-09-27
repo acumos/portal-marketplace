@@ -2,7 +2,7 @@
  * ===============LICENSE_START=======================================================
  * Acumos
  * ===================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * Copyright (C) 2019 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
  * ===================================================================================
  * This Acumos software file is distributed by AT&T and Tech Mahindra
  * under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,16 @@
  * ===============LICENSE_END=========================================================
  */
 
-package org.acumos.portal.be.util;
+package org.acumos.portal.be.service;
 
-public class PortalConstants {
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.transport.MLK8SiteConfig;
+import org.springframework.http.ResponseEntity;
 
-	public static final String CAROUSEL_CONFIG_KEY = "carousel_config";
-	public static final String TAG_NAME = "tagName";
-	public static final String PUBLISH_SELF_REQ_ENABLED_PROPERTY = "portal.feature.publishSelfRequestEnabled";
-	public static final int DEFAULT_CATALOG_PAGE_SIZE = 1000;
-    public static final String PUBLIC_CATALOG = "PB";
-    public static final String LICENSE_FILENAME = "license.json"; 
-    public static final String LICENSE_ARTIFACT_TYPE = "LI";
-    public static final String LICENSE_FILENAME_PREFIX = "license";
-    public static final String LICENSE_EXT = ".json"; 
-    public static final String K8CLUSTER_CONFIG_KEY = "k8sCluster";
-    public static final String DEPLOY_TO_K8="/deploy/";
+public interface DeployCloudService {
+
+	public MLK8SiteConfig getSiteConfig(String configKey) throws AcumosServiceException;
+
+	public ResponseEntity<String> deployToK8(String userId, String solutionId, String revisionId, String envId);
+	
 }

@@ -56,6 +56,7 @@ import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLArtifact;
 import org.acumos.portal.be.transport.MLComment;
+import org.acumos.portal.be.transport.MLK8SiteConfig;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLPeer;
 import org.acumos.portal.be.transport.MLPublishRequest;
@@ -769,5 +770,13 @@ public class PortalUtils {
 		log.debug("Cookie map : "+map);
 		apiToken = apiToken.replace("Bearer ", "");
 		return jwtTokenUtil.getUsernameFromToken(apiToken);
+	}
+
+	public static MLK8SiteConfig converToMLSiteConfig(MLPSiteConfig siteConfig) {
+		MLK8SiteConfig mlSiteConfig = new MLK8SiteConfig();
+		mlSiteConfig.setConfigKey(siteConfig.getConfigKey());
+		mlSiteConfig.setUserId(siteConfig.getUserId());
+		return mlSiteConfig;
+
 	}
 }
