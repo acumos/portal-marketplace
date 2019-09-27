@@ -32,13 +32,9 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
-import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
-import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.RtuUser;
-import org.acumos.portal.be.transport.User;
 
 public interface LicensingService {
 	
@@ -61,5 +57,7 @@ public interface LicensingService {
 	MLPLicenseProfileTemplate getTemplate(long templateId) throws LicenseProfileException, AcumosServiceException;
 
 	String validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
+	
+	boolean licenseAssetRegister(String solutionId, String revisionId, String userId);
 
 }
