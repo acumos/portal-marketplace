@@ -125,6 +125,8 @@ public class PortalUtils {
 				user.setStatus("Inactive");
 			}
 		}
+		user.setLoginPassExpireDate(mlpUser.getLoginPassExpire());
+		user.setOrgName(mlpUser.getOrgName());
 		user.setLastLogin(mlpUser.getLastLogin());
 		user.setUsername(mlpUser.getLoginName());
 		user.setCreated(mlpUser.getCreated());
@@ -329,7 +331,9 @@ public class PortalUtils {
 		if (user.getLastLogin() != null) {
 			mlpUser.setLastLogin(user.getLastLogin());
 		}
-
+		if(user.getLoginPassExpireDate() != null) {
+			mlpUser.setLoginPassExpire(user.getLoginPassExpireDate());
+		}
 		if (!PortalUtils.isEmptyOrNullString(user.getUsername())) {
 			mlpUser.setLoginName(user.getUsername());
 		}

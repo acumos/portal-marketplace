@@ -751,6 +751,145 @@ angular.module('headerNav')
       		angular.element('.notelist_1').parent().addClass('menu_notification_container');
               $mdMenu.open(ev);
             };
+                    
+            //Password Expiration start
+              $rootScope.showPasswordExpire = function(userId) {
+            	                                  	  
+				$mdDialog.show({
+					locals: {userId: userId},
+                    templateUrl: './app/header/expire-pwd.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    controller: function signinController($scope, userId, apiService, browserStorageService) {                                              	
+				 
+                    	 $scope.changePswd = function() {
+						
+     							var validCheck = false;
+     							if ($scope.resetPswd.$invalid) {
+     								validCheck = true;
+     								$location.hash('myDialog'); // id of a container on the top of the page - where to scroll (top)
+     								$anchorScroll();
+     								$scope.msg = "Enter all fields.";
+     								$scope.icon = 'report_problem';
+     								$scope.styleclass = 'c-warning';
+     								$scope.showAlertMessage = true;
+     								$timeout(function() {
+     									$scope.showAlertMessage = false;
+     								}, 2000);
+     								return;
+     							}
+     							if (validCheck == false
+     									&& $scope.oldPswd == $scope.newPswd) {
+     								$mdDialog.hide();
+     								$location.hash('myDialog'); // id of a container on the top of the page - where to scroll (top)
+     								$anchorScroll();
+     								$scope.msg = "Old and New password should not match";
+     								$scope.icon = 'report_problem';
+     								$scope.styleclass = 'c-warning';
+     								$scope.showAlertMessage = true;
+     								$timeout(function() {
+     									$scope.showAlertMessage = false;
+     								}, 2000);
+     								$scope.oldPswd = '';
+     								$scope.newPswd = false;
+     								$scope.cpwd = '';
+     								return;
+     							} else
+     								validCheck = false;
+
+     							if (validCheck == false) {
+     								$scope.userDetails = {
+     									"userId" : userId,
+     									"oldPassword" : $scope.oldPswd,
+     									"newPassword" : $scope.newPswd
+     								}
+
+     								apiService
+     										.updateUserPass($scope.userDetails)
+     										.then(
+     												function(response) {
+     													if (response.data.error_code == 204
+     															&& response.data.response_detail == "Old password does not match") {
+     														$mdDialog.hide();
+     														$location
+     																.hash('myDialog'); // id of a container on the top of the page - where to scroll (top)
+     														$anchorScroll();
+     														$scope.msg = response.data.response_detail;
+     														$scope.icon = 'report_problem';
+     														$scope.styleclass = 'c-warning';
+     														$scope.showAlertMessage = true;
+     														$timeout(
+     																function() {
+     																	$scope.showAlertMessage = false;
+     																}, 2000);
+     													} else {
+     														$mdDialog.hide();
+     														$location
+     																.hash('myDialog'); // id of a container on the top of the page - where to scroll (top)
+     														$anchorScroll();
+     														$scope.msg = "Password updated";
+     														$scope.icon = '';
+     														$scope.styleclass = 'c-success';
+     														$scope.showAlertMessage = true;
+     														$timeout(function() {
+     																	if(browserStorageService.getUserDetail()){
+     																		$scope.showAlertMessage = false;
+         																	$rootScope.$broadcast("MyLogOutEvent",{"request_body" : $scope.user});
+         																}
+     																}, 2000);
+     													}
+     													$scope.closePoup();
+     													$scope.oldPswd = '';
+     													$scope.newPswd = false;
+     													$scope.cpwd = '';
+
+     												});
+     							}
+     						};
+     						
+     						// Match password
+     						$scope.matchPswd = function() {
+     							$scope.matchString = true;
+     							if ($scope.newPswd === $scope.cpwd) {
+     								$scope.matchString = false;
+     							}
+     						}
+     						$scope.oldPswdShow = 'Show';
+     						$scope.newPswdShow = 'Show';
+     						$scope.showNewPassword = false;
+     						$scope.showOldPassword = false;
+     						
+     						// Password hide/show on change password
+     						$scope.showPasswd = function(value) {
+     							if (value == "new") {
+     								if ($scope.showNewPassword == true) {
+     									$scope.showNewPassword = false;
+     									$scope.newPswdShow = 'Show';
+     								} else {
+     									$scope.showNewPassword = true;
+     									$scope.newPswdShow = 'Hide';
+     								}
+
+     							}
+     							if (value == "old") {
+     								if ($scope.showOldPassword == true) {
+     									$scope.showOldPassword = false;
+     									$scope.oldPswdShow = 'Show';
+     								} else {
+     									$scope.showOldPassword = true;
+     									$scope.oldPswdShow = 'Hide';
+     								}
+     							}
+     						}
+     						
+     						$scope.closePoup = function() {
+  		                	  $mdDialog.hide();
+  		                	  //$mdDialog.cancel();
+  		                    }		       
+                    }
+                  })
+                };
+              //Password Expiration end
             
 
 	},

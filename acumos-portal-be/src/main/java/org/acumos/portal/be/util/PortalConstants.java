@@ -33,4 +33,6 @@ public class PortalConstants {
     public static final String LICENSE_EXT = ".json"; 
     public static final String K8CLUSTER_CONFIG_KEY = "k8sCluster";
     public static final String DEPLOY_TO_K8="deploy/";
+    public static final String LOGIN_EXPIRE_PROPERTY_KEY = "portal.feature.loginExpire.duration";
+	public static final long ONE_DAY_EXPIRY = 24; 
 }
