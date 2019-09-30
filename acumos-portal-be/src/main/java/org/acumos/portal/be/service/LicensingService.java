@@ -61,5 +61,7 @@ public interface LicensingService {
 	MLPLicenseProfileTemplate getTemplate(long templateId) throws LicenseProfileException, AcumosServiceException;
 
 	String validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
+	
+	boolean licenseAssetRegister(String solutionId, String revisionId, String userId);
 
 }

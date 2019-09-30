@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.sun.mail.imap.Rights.Right;
@@ -38,30 +39,39 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.licensemanager.client.LicenseCreator;
+//import org.acumos.licensemanager.client.LicenseCreator;
 import org.acumos.licensemanager.client.LicenseProfile;
-import org.acumos.licensemanager.client.model.CreateRtuRequest;
-import org.acumos.licensemanager.client.model.ICreatedRtuResponse;
-import org.acumos.licensemanager.client.model.ILicenseCreator;
+//import org.acumos.licensemanager.client.model.CreateRtuRequest;
+//import org.acumos.licensemanager.client.model.ICreatedRtuResponse;
+//import org.acumos.licensemanager.client.model.ILicenseCreator;
+import org.acumos.licensemanager.client.model.RegisterAssetRequest;
+import org.acumos.licensemanager.client.model.RegisterAssetResponse;
+import org.acumos.licensemanager.client.rtu.LicenseAsset;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.transport.RtuUser;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.networknt.schema.ValidationMessage;
+import org.springframework.core.env.Environment;
 
 @Service
 public class LicensingServiceImpl extends AbstractServiceImpl implements LicensingService {
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	@Autowired
+	private Environment env;
+	
 	/*
 	 * No
 	 */
@@ -170,13 +180,13 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	public List<MLPRightToUse> createRtuUser(String rtuRefId, String solutionId, List<String> userList)
 			throws Exception,RightToUseException {
 
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
+		/*ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); */
 		List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
-		try {
+		/*try {
 				CreateRtuRequest createRtu = new CreateRtuRequest();
 				createRtu.setSolutionId(solutionId);
-				createRtu.setUserIds(userList);
+				//createRtu.setUserIds(userList);
 				List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
 				createRtu.setRtuRefs(rtuRefIdList);
 				ICreatedRtuResponse createdRtu = licenseSrvc.createRtu(createRtu);
@@ -189,7 +199,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 		}
 		 catch (Exception e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
-		}
+		}*/
 
 		return createdRtus;
 	}
@@ -197,13 +207,13 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	@Override
 	public List<MLPRightToUse> createRtuUser(String rtuRefId, String solutionId, boolean siteWide)
 			throws Exception {
-				ICommonDataServiceRestClient dataServiceRestClient = getClient();
+				/*ICommonDataServiceRestClient dataServiceRestClient = getClient();
 				ILicenseCreator licenseSrvc = new LicenseCreator(dataServiceRestClient); 
 				List<MLPRightToUse> createdRtus = new ArrayList<MLPRightToUse>();
 				try {
 						CreateRtuRequest createRtu = new CreateRtuRequest();
 						createRtu.setSolutionId(solutionId);
-						createRtu.setSiteWide(true);
+						//createRtu.setSiteWide(true);
 						List<String> rtuRefIdList = Stream.of(rtuRefId).collect(Collectors.toList()); 
 						createRtu.setRtuRefs(rtuRefIdList);
 						ICreatedRtuResponse createRtu2 = licenseSrvc.createRtu(createRtu);
@@ -215,7 +225,9 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 				}
 		
-				return createdRtus;	}
+				return createdRtus;*/	
+		return null;
+	}
 
 
 	public final List<MLPLicenseProfileTemplate> getTemplates() throws LicenseProfileException, AcumosServiceException {
@@ -268,6 +280,32 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 		 catch (Exception e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 		}
+	}
+	
+	@Override
+	public boolean licenseAssetRegister(String solutionId, String revisionId, String userId) {
+		log.debug("Enter in register() ..."+" solutionId>>" +solutionId + "revisionId >>"+ revisionId + "userId >>"+  userId);
+		
+		try {
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), env.getProperty(PortalConstants.ENV_NEXUS_URL)); 
+			RegisterAssetRequest registerAssetRequest=new RegisterAssetRequest();
+			registerAssetRequest.setSolutionId(UUID.fromString(solutionId));
+			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
+			registerAssetRequest.setLoggedIdUser(userId);
+			RegisterAssetResponse response = licenseAsset.register(registerAssetRequest).get();
+			if(response != null ) {
+				log.info("LicenseAsset registration Success Response : "+response.isSuccess());
+				return response.isSuccess();
+			}else {
+				log.info("LicenseAsset registration called sucessfully but response is null from LicenseAsset");
+			}
+			
+		}catch(Exception e) {
+			log.error("Excetion in registering licence : "+e.getMessage());
+		}
+		log.debug("Exit from register() ...");
+		return false;
 	}
 
 }	  
