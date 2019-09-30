@@ -31,6 +31,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.DeployCloudService;
 import org.acumos.portal.be.transport.MLK8SiteConfig;
 import org.acumos.portal.be.util.PortalConstants;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +59,12 @@ public class DeployCloudController {
 	@ResponseBody
 	public JsonResponse<String> deployToK8(HttpServletRequest request,
 			@RequestParam("userId") String userId,@RequestParam("solutionId") String solutionId,@RequestParam("revisionId") String revisionId ,@RequestParam("envId") String envId, HttpServletResponse response) {
-		log.debug("deployToK8");
+		log.debug("deployToK8 : userId:"+userId+" ,solutionId: "+solutionId+" ,revisionId: "+revisionId+" ,envId: "+envId);
 		JsonResponse<String> data = new JsonResponse<>();
+		userId = SanitizeUtils.sanitize(userId);
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		envId = SanitizeUtils.sanitize(envId);
+		SanitizeUtils.sanitize(userId);
 		ResponseEntity<String> deployToK8Response=null;
 		try {
 			deployToK8Response=deployCloudService.deployToK8(userId,solutionId,revisionId,envId);
@@ -97,6 +102,7 @@ public class DeployCloudController {
 				data.setResponseBody(configValue);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("K8 Config Fetched Successfully");
+				log.info("K8 Config Fetched Successfully");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
