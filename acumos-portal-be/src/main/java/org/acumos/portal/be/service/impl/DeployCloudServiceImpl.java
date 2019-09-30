@@ -31,6 +31,7 @@ import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.DeployCloudService;
 import org.acumos.portal.be.transport.K8ConfigValue;
+import org.acumos.portal.be.transport.K8DeployRequest;
 import org.acumos.portal.be.transport.MLK8SiteConfig;
 import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
@@ -45,8 +46,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,7 +55,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DeployCloudServiceImpl extends AbstractServiceImpl implements DeployCloudService{
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
-	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	Environment env;
@@ -87,22 +86,19 @@ public class DeployCloudServiceImpl extends AbstractServiceImpl implements Deplo
 		
 		String url=env.getProperty("k8_deploy.url");
 		URI uri =URIBuildUtils.buildUri(url,new String[] { PortalConstants.DEPLOY_TO_K8 }, null);
-		logger.debug("deployToK8: uri {}", uri);
+		log.debug("deployToK8: uri {}", uri);
 		RestTemplate restTemplate = URIBuildUtils.getRestTemplate(uri.toString());
 		
-		
-		MultiValueMap<String, String> bodyMap = new LinkedMultiValueMap<String, String>();
-		bodyMap.add("userId", userId);
-		bodyMap.add("solutionId", solutionId);
-		bodyMap.add("revisionId", revisionId);
-		bodyMap.add("envId", envId);
-		
+		K8DeployRequest k8DeployRequest=new K8DeployRequest();
+		k8DeployRequest.setUserId(userId);
+		k8DeployRequest.setSolutionId(solutionId);
+		k8DeployRequest.setRevisionId(revisionId);
+		k8DeployRequest.setEnvId(envId);
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(bodyMap, headers);
-       
+        HttpEntity<K8DeployRequest> entity = new HttpEntity<K8DeployRequest>(k8DeployRequest, headers);
         ResponseEntity<String> response = restTemplate.exchange(uri,
-                HttpMethod.POST, requestEntity, String.class);
+                HttpMethod.POST, entity, String.class);
        return response;
 	}
 
