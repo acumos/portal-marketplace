@@ -19,8 +19,17 @@
  */
 package org.acumos.be.test.service.impl;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,45 +37,67 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.acumos.cds.domain.MLPNotifUserMap;
-import org.acumos.cds.domain.MLPNotification;
+
+import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.impl.LicensingServiceImpl;
-import org.acumos.portal.be.service.impl.NotificationServiceImpl;
-import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.RtuUser;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.http.HttpStatus;
+import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.*;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import org.junit.Assert;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LicensingServiceImplTest {
 
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));
+	
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
+	@InjectMocks
+	LicensingServiceImpl impl;
+	
+	@Mock
+	Environment env;
+	
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
-
-	@Mock
-	LicensingServiceImpl impl = new LicensingServiceImpl();
-
+	private final String url = "http://localhost:8000/ccds";
+	private final String user = "ccds_client";
+	private final String pass = "ccds_client";
+	private final String LICENSE_TEMPLATE_URL = "/ccds/lic/templ?page=0&size=0&sort=priority,DESC";
+	private final String GET_LICENSE_TEMPLATE_URL ="/ccds/lic/templ/";
+	private static final String CCDS_USER="/ccds/user/";
+	private static final String MLPUSER_URL = CCDS_USER + "search?size=10000&active=true&_j=a";
 	@Test
 	public void getMLPSolutionsTest() {
 		try {
@@ -131,14 +162,53 @@ public class LicensingServiceImplTest {
 	
 	@Test
 	public void getAllActiveUserTest() {
-
+			String roleId="UserId123";
 			RtuUser mlpUser = getUser();
 			List<RtuUser> list = new ArrayList<RtuUser>();
 			list.add(mlpUser);
-
-			Mockito.when(impl.getAllActiveUsers()).thenReturn(list);
-
-			Assert.assertEquals(list, list);
+			
+			MLPUser mluser=new MLPUser();
+			List<MLPUser> userList=new ArrayList<>();
+			mluser.setFirstName("UserFirstName");
+			mluser.setLastName("UserLastName");
+			mluser.setUserId("UserId123");
+			mluser.setEmail("user1@email.com");
+			mluser.setActive(true);
+			mlpUser.setAssociatedWithRtuFlag(true);
+			userList.add(mluser);
+			
+			List<MLPRole> mlprolelist=new ArrayList<>();
+			MLPRole role=new MLPRole();
+			role.setActive(true);
+			role.setName("My");
+			role.setRoleId("UserId123");
+			role.setActive(true);
+			mlprolelist.add(role);
+		        PageRequest pageRequest = PageRequest.of(0, 3);
+			int totalElements = 15;
+			RestPageResponse<MLPUser> restResponse=new  RestPageResponse<>(userList,pageRequest,totalElements);
+			ObjectMapper Obj = new ObjectMapper();
+			String userJson=null;
+			String userRolejson=null;
+			try { 
+				userJson = Obj.writeValueAsString(restResponse); 
+				userRolejson = Obj.writeValueAsString(mlprolelist);
+			} 
+			catch (IOException e) { 
+				logger.error("Exception occurred while parsing rest page response to string ",e.getMessage());
+			} 
+			stubFor(get(urlEqualTo(MLPUSER_URL)).willReturn(
+	                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+	                .withBody(userJson)));
+			stubFor(get(urlEqualTo(CCDS_USER +roleId+"/role")).willReturn(
+	                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+	                .withBody(userRolejson)));
+			when(env.getProperty("cdms.client.url")).thenReturn(url);
+			when(env.getProperty("cdms.client.username")).thenReturn(user);
+			when(env.getProperty("cdms.client.password")).thenReturn(pass);
+			List<RtuUser> rtuUserlistSuccess =impl.getAllActiveUsers();
+			Assert.assertNotNull(rtuUserlistSuccess);
+			Assert.assertEquals(list, rtuUserlistSuccess);
 			logger.info("Successfully fetched notifications ");
 
 	}
@@ -160,14 +230,87 @@ public class LicensingServiceImplTest {
 		}
 	}
 	
+	@Test
+	public void getTemplates() throws LicenseProfileException, AcumosServiceException {
+		
+		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		List<MLPLicenseProfileTemplate> licenseProfileTemplateList=new ArrayList<>();
+		licenseProfileTemplate.setTemplate("My Licence");
+		licenseProfileTemplate.setTemplateName("My Sample Test template");
+		licenseProfileTemplate.setTemplateId(101L);
+		licenseProfileTemplateList.add(licenseProfileTemplate);
+	        PageRequest pageRequest = PageRequest.of(0, 3);
+		int totalElements = 15;
+		RestPageResponse<MLPLicenseProfileTemplate> restResponse = new RestPageResponse<>(licenseProfileTemplateList, pageRequest, totalElements);
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStr=null;
+		try { 
+			jsonStr = Obj.writeValueAsString(restResponse); 
+		} 
+		catch (IOException e) { 
+			logger.error("Exception occurred while parsing rest page response to string ",e.getMessage());
+		} 
+		stubFor(get(urlEqualTo(LICENSE_TEMPLATE_URL)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStr)));
+		when(env.getProperty("cdms.client.url")).thenReturn(url);
+		when(env.getProperty("cdms.client.username")).thenReturn(user);
+		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		List<MLPLicenseProfileTemplate> licenseProfileTemplateListSuccess=impl.getTemplates();
+		assertNotNull(licenseProfileTemplateListSuccess);
+		assertEquals(licenseProfileTemplateList, licenseProfileTemplateListSuccess);
+}
+	
+	@Test
+	public void getTemplate() throws LicenseProfileException, AcumosServiceException {
+		long templateId=101;
+		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		licenseProfileTemplate.setTemplate("My Licence");
+		licenseProfileTemplate.setTemplateName("My Sample Test template");
+		licenseProfileTemplate.setTemplateId(101L);
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStr=null;
+		try { 
+			jsonStr = Obj.writeValueAsString(licenseProfileTemplate); 
+		} 
+		catch (IOException e) { 
+			logger.error("Exception occurred while parsing rest page response to string ",e.getMessage());
+		} 
+		stubFor(get(urlEqualTo(GET_LICENSE_TEMPLATE_URL+templateId)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStr)));
+
+		when(env.getProperty("cdms.client.url")).thenReturn(url);
+		when(env.getProperty("cdms.client.username")).thenReturn(user);
+		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		MLPLicenseProfileTemplate licenseProfileTemplateSuccess=impl.getTemplate(templateId);
+		assertNotNull(licenseProfileTemplateSuccess);
+		assertEquals(licenseProfileTemplate, licenseProfileTemplateSuccess);
+	}
+	
+	@Test
+	public void validateTest() throws LicenseProfileException, AcumosServiceException {
+		
+		String jsonInput="{\"keyword\": \"Vendor-A-OSS\",\"licenseName\": \"Vendor A Open Source Software License\"," +
+				 "\"copyright\": {\"year\":2019,\"company\":\"VendorA\",\"suffix\":\"AllRights Reserved\"},\"softwareType\": " +
+				 "\"Machine Learning Model\",\"companyName\": \"Vendor A\",\"contact\": {\"name\": \"Vendor A Team\",\"URL\": " +
+				 "\"Vendor-A.com\",\"email\": \"support@Vendor-A.com\"},\"additionalInfo\": \"Vendor-A.com\"}";
+		when(env.getProperty("cdms.client.url")).thenReturn(url);
+		when(env.getProperty("cdms.client.username")).thenReturn(user);
+		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		String validateResult=impl.validate(jsonInput);
+		assertNotNull(validateResult);
+		assertEquals(validateResult, "SUCCESS");
+}
+
 	
 
 	private RtuUser getUser() {
 		RtuUser user = new RtuUser();
-		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setUserId("UserId123");
 		user.setFirstName("UserFirstName");
 		user.setLastName("UserLastName");
-		user.setEmailId("user1@emial.com");
+		user.setEmailId("user1@email.com");
 		user.setActive(true);
 		user.setAssociatedWithRtuFlag(true);
 		return user;
