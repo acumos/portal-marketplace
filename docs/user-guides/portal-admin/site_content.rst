@@ -28,7 +28,7 @@ the site content of acumos site admin page.
 Go to **SITE ADMIN** of Acumos Portal page and click on **Site Content** tab , you can see 
 **Footer Contact Information** and **Terms and Conditions** under **CONTENT PAGES** panel.
 
-	.. image:: images/admin-site-content.png
+	.. image:: images/admin-site-content.PNG
                  :width: 75%
 
 
