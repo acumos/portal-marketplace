@@ -33,7 +33,7 @@ The Admin Interface is a web-based tool for a site admin to:
 
 2. Manage users and change their roles.
 
-3. Update and edit the site content that is managed by the CMS.
+3. Update and edit the site content.
 
 4. Configure the site.
 
@@ -42,9 +42,7 @@ The Admin Interface is a web-based tool for a site admin to:
 
 6. Manage Federation requests for specific models.
 
-7. Configure workflows.
-
-8. Configure RTU
+7. Configure RTU
 
 Admin Access to the Acumos Portal
 ---------------------------------
