@@ -35,6 +35,7 @@ import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.CommonConstants;
+import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
@@ -50,7 +51,10 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	@Autowired
 	private Environment env;
-
+	
+	@Autowired
+	private LicensingService licensingService;
+	
 	public PublishSolutionServiceImpl() {
 		// TODO Auto-generated constructor stub
 	}
@@ -82,11 +86,13 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							
 						} else {
 							dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
+							licensingService.licenseAssetRegister(solutionId, revisionId, userId);
 							publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 						}
 					}
 				} else {
 					dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
+					licensingService.licenseAssetRegister(solutionId, revisionId, userId);
 					publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 				}
 			}
