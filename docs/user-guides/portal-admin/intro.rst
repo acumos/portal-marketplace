@@ -40,9 +40,7 @@ The Admin Interface is a web-based tool for a site admin to:
 5. Manage Federation relationships: configure peer gateways and set up
    subscriptions to that peer’s public marketplace.
 
-6. Manage Federation requests for specific models.
-
-7. Configure RTU
+6. Manatained Backup Logs.
 
 Admin Access to the Acumos Portal
 ---------------------------------

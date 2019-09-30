@@ -30,10 +30,6 @@ Portal and Marketplace Admin Guide
    site_content.rst
    site_configuration.rst
    federation.rst
-   requests.rst
-   configure_workflows.rst
-   rtu_configuration.rst
-   addendum/index
    maintained_backup_logs.rst
 
 
