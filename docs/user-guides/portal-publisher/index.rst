@@ -25,4 +25,5 @@ Portal and Marketplace Publisher Guide
     
    publish/publisher-guide.rst
    catalog-management/manage-catalogs.rst
+   catalog-management/ManagePeer(s) Access.rst
   
