@@ -22,6 +22,8 @@
 Site Content
 ============
 
+Content Pages
+-------------
 Admin users can update 'Footer Contact Information' as well as 'Terms and Conditions' from 
 the site content of acumos site admin page.
 
@@ -30,6 +32,28 @@ Go to **SITE ADMIN** of Acumos Portal page and click on **Site Content** tab , y
 
 	.. image:: images/admin-site-content.PNG
                  :width: 75%
+Carousels
+---------
+Admin users can update 'Top Carousel' , 'Event Carousel' as well as 'Success Story Carousel' from the site content of Acumos site admin page.
 
+Go to **SITE ADMIN** of Acumos Portal page and click on **Site Content** tab , you can see 
+**Top Carousel** , **Event Carousel**  and **Success Story Carousel** under **Carousels** panel.
 
+	.. image:: images/admin-site-content-carousel.PNG
+                 :width: 75%
 
+Admin users can add carousel by clicking on the **Add Slide** button.
+
+	.. image:: images/admin-site-content-addbutton.PNG
+                 :width: 75%
+
+Admin users can edit carousel by clicking on the **Edit** link. Also slides can be enable and disable by **Enable/Disable Slides** button.
+Admin user can not disable slide if only one slide is present. 
+
+Admin users can set order of the carousel by clicking on the  **Set Order** link. 
+
+	.. image:: images/admin-site-content-setorder.PNG
+                 :width: 75%
+
+All the added slides will be display on the home page.
+               

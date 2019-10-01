@@ -37,10 +37,10 @@ The Admin Interface is a web-based tool for a site admin to:
 
 4. Configure the site.
 
-5. Manage Federation relationships: configure peer gateways and set up
-   subscriptions to that peer’s public marketplace.
+5. Manatained Backup Logs.
 
-6. Manatained Backup Logs.
+6. Manage Federation relationships: configure peer gateways and set up
+   subscriptions to that peer’s public marketplace.
 
 Admin Access to the Acumos Portal
 ---------------------------------
@@ -60,5 +60,3 @@ The Site Admin Dashboard provides the toolset that admins use to manage
 the Acumos portal. The Site Admin Dashboard can be accessed by site
 admins only. Admins will have the “SITE ADMIN” option on the left of the
 portal UI when they login.
-
-The following sections address each tool under the Site Admin Dashboard.
