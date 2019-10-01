@@ -122,11 +122,9 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug("getNotifications: size is {} ", mlNotificationList.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while getNotifications");
-				log.debug("Error Occurred while getNotifications ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -166,8 +164,6 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotificationListSorted);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug("getUserNotifications: size is {} ",
-						mlNotificationListSorted.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("No notifications exist for user : " + userId);
@@ -206,7 +202,6 @@ public class NotificationController extends AbstractController {
 				notificationService.addNotificationUser(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug("addNotificationUser: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while addNotificationUser");
@@ -245,7 +240,6 @@ public class NotificationController extends AbstractController {
 				notificationService.dropNotificationUser(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications droped Successfully");
-				log.debug("dropNotificationUser: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while dropNotificationUser");
@@ -284,7 +278,6 @@ public class NotificationController extends AbstractController {
 				notificationService.setNotificationUserViewed(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Set Notifications viewed by user Successfully");
-				log.debug("setNotificationUserViewed: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while setNotificationUserViewed");
@@ -320,7 +313,6 @@ public class NotificationController extends AbstractController {
 				notificationService.deleteNotification(notificationId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications droped Successfully");
-				log.debug("deleteNotification: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while deleteNotification");
@@ -350,7 +342,6 @@ public class NotificationController extends AbstractController {
 			data.setResponseBody(notification);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Notification count fetched Successfully");
-			log.debug("getNotificationCount: size is {} ", count);
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while getNotificationCount");
@@ -374,8 +365,6 @@ public class NotificationController extends AbstractController {
 	               data.setResponseBody(mlUserNotifPrefList);
 	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 	               data.setResponseDetail("Notification preferences fetched Successfully");
-	               log.debug("getUserNotificationPreferences: size is {} ",
-	                                   mlUserNotifPrefList.size());
 	          } else {
 	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	               data.setResponseDetail("No notification preferences for : " + userId);
@@ -485,7 +474,6 @@ public class NotificationController extends AbstractController {
             data.setResponseBody(notification);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
             data.setResponseDetail("User Unread Notification count fetched Successfully");
-            log.debug("getUnreadNotificationCount: size is {} ", count);
         } catch (Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
             data.setResponseDetail("Exception Occurred while getUnreadNotificationCount");
