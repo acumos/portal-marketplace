@@ -36,22 +36,26 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPDocument;
+
 import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPPublishRequest;
+
 import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPTaskStepResult;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPTask;
+import org.acumos.cds.domain.MLPTaskStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
@@ -67,8 +71,8 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.DeleteImageCommand;
-import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLPeer;
@@ -91,7 +95,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -1113,11 +1116,16 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				}
 			}
 			// Search for pending Approvals
-			if (mlSolution.getSolutionId() != null && mlSolution.getLatestRevisionId() != null) {
-				boolean pendingApproval = dataServiceRestClient.isPublishRequestPending(mlSolution.getSolutionId(),
-						mlSolution.getLatestRevisionId());
-				mlSolution.setPendingApproval(pendingApproval);
-			}
+			boolean pendingApproval = false;
+            if (mlSolution.getSolutionId() != null ) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("solutionId", mlSolution.getSolutionId());
+                RestPageResponse<MLPPublishRequest> reqs = dataServiceRestClient.searchPublishRequests(map, false, new RestPageRequest(0, 1));
+                List<MLPPublishRequest> pendingList=reqs.getContent();
+                boolean pendingFlag=pendingList.stream().anyMatch(req -> req.getStatusCode().equals("PE"));
+                mlSolution.setPendingApproval(pendingFlag);
+          }
+
 
 			content.add(mlSolution);
 		}

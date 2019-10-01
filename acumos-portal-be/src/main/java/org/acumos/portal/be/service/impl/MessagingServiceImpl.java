@@ -49,7 +49,6 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 	public List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId) {
 
 		List<MLStepResult> messageStatus = new ArrayList<>();
-		log.debug("callOnBoardingStatus");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPTask> tasks = findTasksByTrackingId(trackingId);
 		if (!PortalUtils.isEmptyList(tasks)) {

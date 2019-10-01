@@ -294,7 +294,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser findUserByEmail(String emailId) {
-        log.debug("findUserByEmail ={}", emailId);
+       
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser mlpUser = null;
         //TODO WorkAround for emailId as there is no method available for finding user using emailId
@@ -321,7 +321,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser findUserByUsername(String username) {
-        log.debug("findUserByUsername ={}", username);
+        
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser mlpUser = null;
         Map<String, Object> queryParams = new HashMap<>();
@@ -352,7 +352,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser login(String username, String password) {
-        log.debug("login ={}", username);
+       
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         return dataServiceRestClient.loginUser(username, password);
         //PortalRestClienttImpl portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.user.name"), env.getProperty("cdms.client.password"));;
@@ -430,14 +430,14 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public void updateUser(User user) {
-        log.debug("updateUser ={}", user);
+        
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(PortalUtils.convertToMLPUserForUpdate(user));
     }
     
     @Override
     public void updateMLPUser(MLPUser mlpUser) {
-        log.debug("updateMLPUser ={}", mlpUser);
+        
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(mlpUser);
     }
@@ -495,7 +495,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
 	@Override
 	public MLPUser findUserByUserId(String userId) {
-			log.debug("findUserByUserId ={}", userId);
+			
 	        ICommonDataServiceRestClient dataServiceRestClient = getClient();
 	        MLPUser mlpUser = null;
 	        Map<String, Object> queryParams = new HashMap<>();
@@ -510,7 +510,6 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Override
     public List<MLPRole> getUserRole(String userId) {
 
-        log.debug("getUserRole for user {}", userId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         //queryParameters.put("active_yn","Y");
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
@@ -540,7 +539,6 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     }
     @Override
     public MLRole getRoleCountForUser(RestPageRequest pageRequest) {
-        log.debug("getAllRoles");
         MLRole roleUserMap = new MLRole();
         ICommonDataServiceRestClient dataServiceRestClient = getClient();        
 		RestPageResponse<MLPUser> userList = dataServiceRestClient.getUsers(pageRequest);

@@ -82,7 +82,6 @@ public class TokenValidation extends AbstractServiceImpl implements JWTTokenVali
 
 			}
 		}
-		log.debug(" isVallidToken : " + isVallidToken);
 		return isVallidToken;
 	}
 
