@@ -122,11 +122,9 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug("getNotifications: size is {} ", mlNotificationList.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while getNotifications");
-				log.debug("Error Occurred while getNotifications ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
