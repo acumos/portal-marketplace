@@ -21,6 +21,18 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.14 01st October 2019
+==================================
+* ACUMOS-3433   "deploy to K8s" option
+* ACUMOS-3340   Portal - Use LicenseAsset.registerAsset when a solution is published
+* ACUMOS-3461   hide rtu admin view in portal  (waiting on decision for re-purpose)
+* ACUMOS-3470   Forgot Password: Message need to corrected in forgot password popup
+* ACUMOS-3158   Sharing Model: Message is not displaying anywhere which user is giving at the time of sharing of model
+* ACUMOS-3226   Portal FE - displays Acumos Admin for federated models
+* ACUMOS-3438   IST: Peer(s) Access :  Issue in the Manage Peer(s)Access screen
+* ACUMOS-3022   <IST2> <Onboarding> <Asynchronous Microservice> Errored model is getting onboarded successfully 
+* ACUMOS-3439   IST: Peer(s) Access :  Issue in the Grant Peers Access Popup
+
 Version 3.0.13 20th September 2019
 ==================================
 * ACUMOS-3441   Security-Verification failed and reported back to portal at first attempt
