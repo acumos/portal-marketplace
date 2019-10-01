@@ -19,14 +19,14 @@
 .. _maintained-backup-logs:
 
 ======================
-MAINTAINED BACKUP LOGS
+Maintained Backup Logs
 ======================
 
 In Acumos, any user having administrative privileges can take and maintain backups of logs that are stored in server using an UI. In **SITE ADMIN** page a **Maintained Backup Logs** menu is available, it contains two tabs **BACKUP LOGS** and **ARCHIVED LOGS**.
 
 
-**BACKUP LOGS**
-===============
+Backup Logs
+============
 
 In **BACKUP LOGS** tab, there are **Create Backup** and **Archive** buttons.
 
@@ -65,8 +65,8 @@ The icon of action on **MAINTAINED BACKUP LOGS** page will Archive each reposito
                  :width: 75% 
  
 
-**ARCHIVED LOGS**
-=================
+Archived Logs
+==============
 
 In **ARCHIVED LOGS** tab, there are **Restore** and **Delete** buttons which are used to restore and delete the archived repositories.
 

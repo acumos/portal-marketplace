@@ -20,7 +20,7 @@
 ManagePeer(s) Access
 ====================
 
-- Through this functionality user can allow peers to access restricted catalogs.   
+- Publishers can allow peers to access restricted catalogs.   
 - Federation allows peers to access only public catalogs.
 - For restricted catalog access peers need to get permission from the user.
 
@@ -30,7 +30,6 @@ ManagePeer(s) Access
 In order to provide access user will see a button enabled only for restricted catalogs in **Action** coloumn under catalog page.
 
 .. image:: ../images/publish/User_access.png
-                  :width: 19%
                  
 User can grant permission to the peers to provide access to Restricted Catalogs.
 On click of **Grant Peer Access** button you can see a dialog through which user can give grant permission to peers.
