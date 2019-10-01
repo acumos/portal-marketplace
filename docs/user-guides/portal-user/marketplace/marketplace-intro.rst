@@ -32,7 +32,7 @@ The Marketplace only displays Public catalog models to users who have not logged
  There is no option to display models from marketplaces other than Public.
 
 
-    .. image:: ../images/portal/marketplace_mainViewNotLoggedIn.png
+    .. image:: ../images/portal/marketplace_mainViewLoggedIn.png
        :width: 75%
 
 
@@ -47,7 +47,7 @@ After you have used models on the Marketplace, you can share your experiences
 by using the comments and ratings capabilities on the Marketplace.
 
 
-    .. image:: ../images/portal/marketplace_mainViewLoggedIn.png
+    .. image:: ../images/portal/marketplace_mainViewNotLoggedIn.png
        :width: 75%
 
 
