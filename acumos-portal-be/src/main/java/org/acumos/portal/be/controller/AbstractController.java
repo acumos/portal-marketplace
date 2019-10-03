@@ -36,6 +36,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.acumos.portal.be.util.PortalConstants;
 
 
 public abstract class AbstractController {
@@ -134,7 +135,7 @@ public abstract class AbstractController {
 	private SecurityVerificationClientServiceImpl getSVClient() {
 		return new SecurityVerificationClientServiceImpl(env.getProperty(ENV_SV_API), env.getProperty(ENV_CDMS_API),
 				env.getProperty(ENV_CDMS_USER), env.getProperty(ENV_CDMS_PSWD), env.getProperty(ENV_NEXUS_API),
-				env.getProperty(ENV_NEXUS_USER), env.getProperty(ENV_NEXUS_PSWD));
+				env.getProperty(ENV_NEXUS_USER), env.getProperty(ENV_NEXUS_PSWD), env.getProperty(PortalConstants.ENV_LUM_URL));
 	}
 	
 	protected Workflow getValidWorkflow() {
