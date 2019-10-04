@@ -918,12 +918,12 @@ limitations under the License.
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc || showDCKEditor">
-														<span class="entypo-suitcase">2</span>
+														ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc  || showDCKEditor || checkFlag">
+														<span class="entypo-suitcase" >2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionCompanyDescStatus && !showDCKEditor || copiedCompanyDesc">
-														<span class="entypo-feather fa fa-check"></span>
+														ng-if="(solutionCompanyDescStatus && !showDCKEditor   || copiedCompanyDesc)  && !checkFlag  ">
+														<span class="entypo-feather fa fa-check "></span>
 													</div>
 													<div class="timeline-label" ng-style="(selectedCatalogId == undefined) ? {'pointer-events': 'none'} : {}">
 														<h2>
@@ -1670,7 +1670,7 @@ limitations under the License.
 
 									<div>
 										<button ng-click="publishConfirmation(true)"
-											ng-disabled=" checkPublish ? 'false' : (activePublishBtn == false || !selectedCatalogId || existingCatalogId) "
+											ng-disabled=" (checkPublish ? 'false' : (activePublishBtn == false || !selectedCatalogId || existingCatalogId || checkFlag)) "
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
 										<button ng-click="publishConfirmation(false)"
