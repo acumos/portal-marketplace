@@ -928,7 +928,12 @@ angular
 								$scope.checkFlag = true;
 								
 							}
-																																	
+								
+							
+							if($scope.ratedescriptioncheck>500){ 
+								$scope.checkFlag = false;
+								
+							}
 						}
 												
 						$scope.checkMessageButton = function(){
