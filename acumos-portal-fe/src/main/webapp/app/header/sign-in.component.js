@@ -317,7 +317,9 @@ angular.module('signInModal')
                                                 }
                                                 $mdDialog.hide();
                                                },function errorCallback(response) {
-                                                   
+                                            	   
+                                            	   $scope.userId = response.data.userId;
+                                            	   
                                                    if(response.data.message.indexOf("Failed to find active user") > -1){
                                                 	   $scope.userIdDisabled = true;
                                                 	   $scope.userPassBlocked = false;
@@ -332,6 +334,12 @@ angular.module('signInModal')
                                                 	   	 /*$mdDialog.hide();
                                                          alert("User Id is disabled");*/
                                                    }
+                                                   
+                                                   //Password Expired
+                                                   if(response.data.message == "Password Expired"){ 
+                                                	   $rootScope.showPasswordExpire($scope.userId);
+                                                   }
+                                                   
                                                    if(response.data.message.indexOf('blocked') > -1){
                                                 	   $scope.userPassBlocked = true; 
                                                 	   $scope.userBlockedMessage = response.data.message;

@@ -29,7 +29,7 @@ package org.acumos.portal.be.transport;
 public class ResponseVO extends AbstractResponseObject {
 
 	private int resultCode;
-	
+	private String UserId;
 	private String message;
 
 	public ResponseVO() {
@@ -41,6 +41,14 @@ public class ResponseVO extends AbstractResponseObject {
 		super();
 		this.resultCode = resultCode;
 		this.message = message;
+	}
+	
+	
+	public ResponseVO(int resultCode, String message,String UserId) {
+		super();
+		this.resultCode = resultCode;
+		this.message = message;
+		this.UserId = UserId;
 	}
 
 
@@ -70,6 +78,20 @@ public class ResponseVO extends AbstractResponseObject {
 	 */
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return UserId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId) {
+		UserId = userId;
 	}
 
 	

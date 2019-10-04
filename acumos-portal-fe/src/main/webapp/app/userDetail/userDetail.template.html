@@ -55,8 +55,8 @@ limitations under the License.
 						alt="Change Photo" title="Change Photo">Change Photo</a>
 				</div>
 				<div class="text-center" ng-hide="isLfUser">
-					<a ng-click="showPrerenderedDialog($event);openChangePassword()"
-						class="link-blue text-small" data-target="#" alt="Change Password"
+					<a ng-click="$root.showPasswordExpire(loginUserID)"
+						class="link-blue text-small" alt="Change Password"
 						title="Change Password">Change Password</a>
 				</div>
 			</div>
@@ -354,7 +354,7 @@ limitations under the License.
 
 					</div>
 
-					<span class="page-stats"> Catalog's</span>
+					<span class="page-stats"> Catalogs</span>
 
 				</div>
 				<div class="pagination-right-section">
@@ -416,104 +416,6 @@ limitations under the License.
 	
 	</md-tabs>
 </div>
-
-<!-- material popup for change password start-->
-<div class="md-dialog-container" id="myDialog" style="height: 0;">
-	<md-dialog aria-label="Mango (Fruit)" class="ud-change-password">
-
-	<md-toolbar>
-	<div class="md-toolbar-tools">
-		<h2>Change Password</h2>
-		<span flex></span>
-		<md-button class="md-icon-button" ng-click="closePoup()">
-		<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
-	</div>
-	</md-toolbar> <md-dialog-content>
-	<form name="resetPswd">
-		<div class="md-dialog-content">
-			<label class="disblock">Once you are finished, use your new
-				password to sign in {{$root.siteInstanceName}}.</label> <br />
-			<div class="">
-				<!-- <md-input-container class="md-icon-float md-block cp-container1">
-												      Use floating label instead of placeholder
-												      <div class="ud-row">
-													      <div>
-													      	<label>Old Password</label>												      
-													      	<input class="userprofiletxtbox" type="text" ng-attr-type="{{ showOldPassword ? 'text' : 'password' }}" name="oldPswd" ng-model="oldPswd" required>
-													      </div>
-													      <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd('old')"><i class="material-icons btn-view-icon">remove_red_eye</i>{{oldPswdShow}}</md-button>
-												      </div>
-												 </md-input-container> -->
-				<md-input-container class="md-block"> <!-- Use floating label instead of placeholder -->
-				<label>Old Password</label>
-				<div class="password-container1 chng-pass-container">
-					<input class="userprofiletxtbox" type="text"
-						ng-attr-type="{{ showOldPassword ? 'text' : 'password' }}"
-						name="oldPswd" ng-model="oldPswd" required>
-					<md-button class="mdl-button mdl-js-button btn-secondary eyebutton"
-						ng-click="showPasswd('old')" alt="Show Password"
-						title="Show Password"> <i
-						class="material-icons btn-view-icon">remove_red_eye</i></md-button>
-				</div>
-				</md-input-container>
-			</div>
-			<div class="">
-				<md-input-container class="md-icon-float md-block cp-container1">
-				<label>New Password</label>
-				<div class="password-container1 chng-pass-container">
-					<input class="userprofiletxtbox" type="text"
-						ng-attr-type="{{ showNewPassword ? 'text' : 'password' }}"
-						name="pwd" ng-model="newPswd" maxlength="20" valid-password
-						required>
-					<md-button class="mdl-button mdl-js-button btn-secondary eyebutton"
-						ng-click="showPasswd('new')" alt="Show Password"
-						title="Show Password"> <i
-						class="material-icons btn-view-icon">remove_red_eye</i><!-- {{newPswdShow}} --></md-button>
-				</div>
-
-				<!-- <p>Must be atleast 8 charactors</p> -->
-				<div class="help-inline validation-msgs"
-					ng-class="{validationmsg:!resetPswd.pwd.$valid}">
-					<span ng-show="!!resetPswd.pwd.$error.isBlank">Password
-						Required.</span> <span
-						ng-show="!! (resetPswd.pwd.$dirty && resetPswd.pwd.$error.isWeak)">Must
-						contain one upper &amp; lower case letter and a non-letter (number
-						& symbol.)</span> <span
-						ng-show="!! (resetPswd.pwd.$dirty && resetPswd.pwd.$error.invalidLen)">Must
-						be 8-20 characters.</span>
-				</div>
-				</md-input-container>
-			</div>
-			<div class="">
-				<md-input-container class="md-icon-float md-block">
-				<!-- Use floating label instead of placeholder --> <label>Confirm
-					New Password</label> <input class="userprofiletxtbox" type="password"
-					id="cpwd" name="cpwd" ng-model="cpwd"
-					ng-change="matchPswd();$event.stopPropagation();" required>
-				<div class="help-inline validation-msgs" ng-show="matchString">
-					<span class="validationmsg">Passwords don't match.</span>
-				</div>
-				</md-input-container>
-			</div>
-
-		</div>
-	</md-dialog-content> <md-dialog-actions>
-	<div class="dialog-footer-container1">
-		<md-button ng-click="closePoup()"
-			class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
-			title="Cancel"> Cancel </md-button>
-		<md-button ng-click="changePswd();"
-			ng-disabled="resetPswd.oldPswd.$invalid || resetPswd.pwd.$invalid || resetPswd.pwd.cpwd || resetPswd.cpwd.$invalid || matchString || (newPswd!=cpwd)"
-			class="mdl-button mdl-js-button btn-primary" alt="Confirm"
-			title="Cancel"> Confirm </md-button>
-	</div>
-	</md-dialog-actions>
-	</form>
-	</md-dialog>
-</div>
-<!-- material popup  for change password end -->
-
-
 
 <!-- material popup for change Photo start-->
 <div class="md-dialog-container" id="myDialogPhoto" style="height: 0;">
