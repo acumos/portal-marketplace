@@ -101,7 +101,7 @@ profile is always available by clicking on your name.
 To update your user profile, click on your name in the upper right corner and
 then choose **Account Settings**.
 
-    .. image:: images/portal/userProfile_setupScreen.png
+    .. image:: images/portal/Account_setting_profile_settings.png
 
 1) The API Token is used to onboard models from the command line. If you want to delete the API Token for security reasons, you can delete by clicking the **Delete Token** button. if you want API Token, click on **Refresh** button to generate new one.
 2) When you change your email address, you will be automatically logged out of the application and must log in again
@@ -111,4 +111,15 @@ requesting access to a model, has completed. To set up your notification
 preferences, access the **Notification Preferences** tab.
 
 
-    .. image:: images/portal/accountSettingNotificationPrefs.png
+    .. image:: images/portal/Account_setting_notification.png
+
+User can favorite or unfavorite catalog by clicking on favorite icon. Once user click on favorite icon, icon will get changed into filled one.
+
+    .. image:: images/portal/Account_setting_favorite_selected_catalog.png
+
+
+
+    
+   
+    
+    

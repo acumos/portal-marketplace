@@ -53,20 +53,20 @@ Rating will be given if the description field contains character count :
 
 Once the description is added rating can be viewed after exiting the text editor. There will be a note stating, if the character count is less than 500 characters suggests that the Owner/ Co-owners to add more information or else he can go with current rating by clicking the **OK** button.
 
-	.. image:: ../images/description-rating/rating.png
+	.. image:: ../images/description-rating/Rating_descripton_ok.jpg
                   :width: 75%
 
 Upon confirming the description data Owner/ Co-owners can view the description as well as the rating under the **Model Description** section.
 
-	.. image:: ../images/description-rating/confirm-rating.png
+	.. image:: ../images/description-rating/Rating_descripton_final.jpg
                   :width: 75%
 
 Rating of a model can be viewed  in preview section of model as well as the model details page.
 
-	.. image:: ../images/description-rating/preview-page.png
+	.. image:: ../images/description-rating/model_detail_preview.jpg
                   :width: 75%
 
-	.. image:: ../images/description-rating/model-home-page.png
+	.. image:: ../images/description-rating/model_detail_home.jpg
                   :width: 75%
 
 
