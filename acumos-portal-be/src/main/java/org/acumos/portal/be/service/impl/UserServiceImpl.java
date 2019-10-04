@@ -41,6 +41,9 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.DateUtils;
+import org.acumos.portal.be.util.ExpiryDateUtils;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.time.DateTime;
@@ -73,6 +76,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Autowired
     private Environment env;
 
+    @Autowired
+    ExpiryDateUtils dateUtils;
     @Override
     public User save(User user) {
         log.debug("save user={}", user);
@@ -85,6 +90,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         mlpUser.setLastName(user.getLastName());
         mlpUser.setEmail(user.getEmailId());
         mlpUser.setLoginName(user.getUsername());
+        mlpUser.setLoginPassExpire(dateUtils.getExpiryDate());
 
         if(isVerifyAccountEnabled()) {
             Instant expirationTime = Instant.now()
@@ -294,7 +300,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser findUserByEmail(String emailId) {
-       
+        log.debug("findUserByEmail ={}", emailId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser mlpUser = null;
         //TODO WorkAround for emailId as there is no method available for finding user using emailId
@@ -321,7 +327,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser findUserByUsername(String username) {
-        
+        log.debug("findUserByUsername ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser mlpUser = null;
         Map<String, Object> queryParams = new HashMap<>();
@@ -352,7 +358,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser login(String username, String password) {
-       
+        log.debug("login ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         return dataServiceRestClient.loginUser(username, password);
         //PortalRestClienttImpl portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.user.name"), env.getProperty("cdms.client.password"));;
@@ -392,6 +398,9 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 			// If Successful then try to change the password
 			if (oldPass) {
 				dataServiceRestClient.updatePassword(user, changeRequest);
+				user = dataServiceRestClient.getUser(userId);
+				user.setLoginPassExpire(dateUtils.getExpiryDate());
+				dataServiceRestClient.updateUser(user);
 				passwordChangeSuccessful = true;
 			}
 		}
@@ -430,14 +439,14 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public void updateUser(User user) {
-        
+        log.debug("updateUser ={}", user);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(PortalUtils.convertToMLPUserForUpdate(user));
     }
     
     @Override
     public void updateMLPUser(MLPUser mlpUser) {
-        
+        log.debug("updateMLPUser ={}", mlpUser);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(mlpUser);
     }
@@ -457,7 +466,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
          // set expire date 24 hours for new password
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
-        Instant tomorrow = Instant.now().plus(1, ChronoUnit.DAYS);
+        Instant tomorrow = Instant.now().plus(PortalConstants.ONE_DAY_EXPIRY, ChronoUnit.HOURS);
         mlpUser.setLoginPassExpire(tomorrow);
         mlpUser.setAuthToken(null);
 
@@ -495,7 +504,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
 	@Override
 	public MLPUser findUserByUserId(String userId) {
-			
+			log.debug("findUserByUserId ={}", userId);
 	        ICommonDataServiceRestClient dataServiceRestClient = getClient();
 	        MLPUser mlpUser = null;
 	        Map<String, Object> queryParams = new HashMap<>();
@@ -510,6 +519,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Override
     public List<MLPRole> getUserRole(String userId) {
 
+        log.debug("getUserRole for user {}", userId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         //queryParameters.put("active_yn","Y");
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
@@ -539,6 +549,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     }
     @Override
     public MLRole getRoleCountForUser(RestPageRequest pageRequest) {
+        log.debug("getAllRoles");
         MLRole roleUserMap = new MLRole();
         ICommonDataServiceRestClient dataServiceRestClient = getClient();        
 		RestPageResponse<MLPUser> userList = dataServiceRestClient.getUsers(pageRequest);

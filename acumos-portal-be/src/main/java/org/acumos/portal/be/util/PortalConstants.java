@@ -35,4 +35,6 @@ public class PortalConstants {
     public static final String DEPLOY_TO_K8="deploy/";
     public static final String ENV_LUM_URL="lum.url";
     public static final String ENV_NEXUS_URL="nexus.url";
+	public static final String LOGIN_EXPIRE_PROPERTY_KEY = "portal.feature.loginExpire.duration";
+	public static final long ONE_DAY_EXPIRY = 24; 
 }
