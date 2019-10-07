@@ -143,8 +143,8 @@ public class JwtTokenUtil {
 	}
 
 	private Boolean isCreatedBeforeLastPasswordReset(Instant created, Instant lastPasswordReset) {
-	    if(lastPasswordReset == null ) return true;
-		return (lastPasswordReset != null && created.isBefore(lastPasswordReset));
+	    if(lastPasswordReset == null ) return false;
+		return (lastPasswordReset != null && lastPasswordReset.isBefore(created));
 	}
 
 	/*
@@ -243,14 +243,8 @@ public class JwtTokenUtil {
 
 	public Boolean validateToken(String token, MLPUser userDetails) {
 		MLPUser user = (MLPUser) userDetails;
-		//log.debug("####### 220 Token Util ########### userDetails : " + userDetails.getUserId());
 		final String username = getUsernameFromToken(token);
-		final Date created = getCreatedDateFromToken(token);
-		// final Date expiration = getExpirationDateFromToken(token);
-		//log.debug("####### 228 Check 1  ########### username : " + username.equals(user.getFirstName()));
-		//log.debug("####### 228 Check 1  ########### isTokenExpired : " + !isTokenExpired(token));
-		//log.debug("####### 228 Check 1  ########### isCreatedBeforeLastPasswordReset : " + !isCreatedBeforeLastPasswordReset(created, user.getLoginPassExpire()));
-		
+		final Date created = getCreatedDateFromToken(token);	
 		
 		return (username.equals(user.getLoginName()) && !isTokenExpired(token))
 				&& !isCreatedBeforeLastPasswordReset(created.toInstant(), user.getLoginPassExpire());
