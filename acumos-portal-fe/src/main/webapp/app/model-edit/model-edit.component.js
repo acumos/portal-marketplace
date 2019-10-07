@@ -762,7 +762,19 @@ angular
 			              }	
 						  
 						$scope.updateSolution = function() {
-							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
+							if($scope.categoryname&&$scope.toolkitname){
+								$scope.pToP = true;
+							}else{
+								$location.hash('manage-models');
+								$anchorScroll();
+								$scope.msg = "Please fill out Model Category field.";
+								$scope.icon = 'report_problem';
+								$scope.styleclass = 'c-warning';
+								$scope.showAlertMessage = true;
+								$timeout(function() {$scope.showAlertMessage = false;}, 2500);
+								return false;
+								
+							}
 							$scope.solution.PrevSolname = $scope.solution.name;
 							$scope.solution.name = $scope.solutionName;							
 							$scope.solution.solutionId = $scope.popupSolutionId;

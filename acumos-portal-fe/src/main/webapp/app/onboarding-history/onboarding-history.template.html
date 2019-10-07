@@ -71,17 +71,53 @@ limitations under the License.
 			</colgroup>
 			<thead >
 				<tr>
-					<th>MODEL NAME</th> 				
-					<th>STATUS CODE</th>					
-					<th>SOLUTION ID</th>
-					<th>REVISION ID</th>
-					<th>DATE & TIME</th>
-					<th>STATUS</th>
+					<th
+						ng-click="orderByField='modelName'; reverseSortModelName = !reverseSortModelName; reverseSort = reverseSortModelName;">MODEL NAME<span
+						ng-if='orderByField!="modelName"' class="gridcell-sort deactivate"></span><span
+						ng-if='orderByField=="modelName"'
+						ng-class="reverseSort?'ascending':'descending'"
+						class="gridcell-sort"></span>
+					</th>
+					<th
+						ng-click="orderByField='taskCode'; reverseSortTaskCode = !reverseSortTaskCode; reverseSort = reverseSortTaskCode;">STATUS CODE<span
+						ng-if='orderByField!="taskCode"' class="gridcell-sort deactivate"></span><span
+						ng-if='orderByField=="taskCode"'
+						ng-class="reverseSort?'ascending':'descending'"
+						class="gridcell-sort"></span>
+					</th>	
+					<th
+						ng-click="orderByField='solutionId'; reverseSortSolutionId = !reverseSortSolutionId; reverseSort = reverseSortSolutionId;">SOLUTION ID<span
+						ng-if='orderByField!="solutionId"' class="gridcell-sort deactivate"></span><span
+						ng-if='orderByField=="solutionId"'
+						ng-class="reverseSort?'ascending':'descending'"
+						class="gridcell-sort"></span>
+					</th>
+					<th
+						ng-click="orderByField='revisionId'; reverseSortRevisionId = !reverseSortRevisionId; reverseSort = reverseSortRevisionId;">REVISION ID<span
+						ng-if='orderByField!="revisionId"' class="gridcell-sort deactivate"></span><span
+						ng-if='orderByField=="revisionId"'
+						ng-class="reverseSort?'ascending':'descending'"
+						class="gridcell-sort"></span>
+					</th>
+					<th
+						ng-click="orderByField='textDate'; reverseSortTextDate = !reverseSortTextDate; reverseSort = reverseSortTextDate;">DATE & TIME<span
+						ng-if='orderByField!="textDate"' class="gridcell-sort deactivate"></span><span
+						ng-if='orderByField=="textDate"'
+						ng-class="reverseSort?'ascending':'descending'"
+						class="gridcell-sort"></span>
+					</th>	
+					<th
+						ng-click="orderByField='status'; reverseSortStatus = !reverseSortStatus; reverseSort = reverseSortStatus;">STATUS<span
+						ng-if='orderByField!="status"' class="gridcell-sort deactivate"></span><span
+						ng-if='orderByField=="status"'
+						ng-class="reverseSort?'ascending':'descending'"
+						class="gridcell-sort"></span>
+					</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody> 
-				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList" >						
+				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList | orderBy:orderByField:reverseSort" >						
 					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
 					<td>{{Task.taskCode}}</td>			
 					<td><span class="md-breadcrumb-item"> {{Task.solutionId}}</span></td>
@@ -92,7 +128,8 @@ limitations under the License.
 						'history-progress': Task.statusCode == 'ST', 
 						'history-success': Task.statusCode == 'SU' }" >{{Task.status}}</td>
 					<td>					
-						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA" || Task.statusCode == "SU"' ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode, Task.modelName)">View
+						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA" || Task.statusCode == "SU"' 
+							ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode, Task.modelName)">View
 							Results</button>
 						<span ng-if='Task.statusCode == "ST" '> -- </span>											
 					</td>
