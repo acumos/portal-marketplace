@@ -301,9 +301,11 @@ angular.module('modelResource')
 						function(error) {
 							if(licUploadFlag){
 								if(error){
-									if(error['response_detail']){
-										var errorMsg = (error.response_detail).substring(1,(error.response_detail).length-1).split('$.');
-									}
+									var errorMsg = [error];
+									if(error['response_detail'] &&  (error.response_detail).indexOf('$') != -1) {
+											var errorMsg = (error.response_detail).substring(1,(error.response_detail).length-1).split('$.');							
+											errorMsg.shift();
+									} 
 								}
 
 								if(isDockerURLLicense){

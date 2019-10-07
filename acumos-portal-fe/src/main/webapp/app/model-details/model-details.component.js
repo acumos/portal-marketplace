@@ -1760,7 +1760,7 @@ angular
 										$scope.isLicenseFound = true;
 										// update license content after upload
 										$scope.modelLicense = response.response_body;
-                    $scope.changeLicense = false;
+										$scope.changeLicense = false;
 									  $scope.getLicenseFile();
 									},
 									function(error) {
@@ -1783,8 +1783,10 @@ angular
 										} else {
 											$scope.modelUploadError = true;
 										  if(error){
-													if(error['response_detail']){
+											  		$scope.modelUploadErrorMsg = [error];
+													if(error['response_detail'] && (error.response_detail).indexOf('$') != -1){
 														$scope.modelUploadErrorMsg = (error.response_detail).substring(1,(error.response_detail).length-1).split('$.');
+														$scope.modelUploadErrorMsg.shift();
 													}
 												}
 											$scope.file = '';

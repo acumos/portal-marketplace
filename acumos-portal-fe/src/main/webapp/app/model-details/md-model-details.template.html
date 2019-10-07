@@ -574,15 +574,16 @@ limitations under the License.
 									     	<i class="material-icons">close</i>
 									     </div>
 									</div>
-									<small>Maximum file size: 1mb | Supported files type: .json</small>	
-									<div style="color:red">
-										<small ng-show="modelLicUploadError"><strong>Error occurred while license validation:</strong></small>
-										<ul ng-repeat="error in modelLicUploadErrorMsg">
-											<li ng-if="error">{{error}}</li>
-										</ul>
-									</div>
+
 									<div class="clear_both"></div>
 								</div>
+								<small>Maximum file size: 1mb | Supported files type: .json</small>																	
+								<div class="upload-error">
+									<small ng-show="modelUploadErrorMsg"><strong>Please update the license profile to correct the following validation errors:</strong></small>
+									<ul>
+										<li ng-repeat="error in modelUploadErrorMsg"><span>{{error}}</span></li>
+									</ul>
+								</div>	
 							</div>
 						</div>
 					</div>
