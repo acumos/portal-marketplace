@@ -1566,8 +1566,8 @@ input[type="text"].medium-textbox {width: 300px;}
 .btn-icon-valign-horizontal {height: 33px;padding:0 5px; min-width: 20px;margin-bottom:2px;}
 .grid-small-text {font-size: 11px; color:#999;margin-left: 7px;}
 .white-overlay {width: 100%; position:absolute; bottom:0; left:0; height: 93%; z-index: 2; background: rgba(255,255,255, 1) url("../images/ajax-loader.gif") no-repeat center center}
-.mdl-tabs__tab .tab-maintained_logs {width:25px; height:16px;background: url("../images/admin-dashboard/mbl_inactive.png") no-repeat center center; }
-.mdl-tabs__tab.is-active .tab-maintained_logs {background: url("../images/admin-dashboard/mbl_active.png") no-repeat center center; }
+.mdl-tabs__tab .tab-maintained_logs {width:25px; height:16px;background: url("../images/admin-dashboard/mbl_inactive.png") no-repeat center center; margin-right:7px;}
+.mdl-tabs__tab.is-active .tab-maintained_logs {background: url("../images/admin-dashboard/mbl_active.png") no-repeat center center; margin-right:7px;}
 
 /******** Maintained Backup Logs CSS end *****/
 
