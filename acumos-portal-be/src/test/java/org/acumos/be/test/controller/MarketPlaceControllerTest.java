@@ -460,6 +460,12 @@ public class MarketPlaceControllerTest {
 						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
 						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
 
+		stubFor(get(urlEqualTo(
+				"/ccds/pubreq/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+		
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
 
@@ -569,6 +575,12 @@ public class MarketPlaceControllerTest {
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("1")));
 		
+		stubFor(get(urlEqualTo(
+				"/ccds/pubreq/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+		
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
 
@@ -660,7 +672,13 @@ public class MarketPlaceControllerTest {
 						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
 						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
 						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
-
+		
+		stubFor(get(urlEqualTo(
+				"/ccds/pubreq/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+		
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
 
@@ -744,7 +762,7 @@ public class MarketPlaceControllerTest {
 										"[{\"stepResultId\":28,\"taskId\":5,\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}]")));
 
 		stubFor(get(urlEqualTo(
-				"/ccds/pubreq/search?revisionId=02c5f263-c612-4bd2-abaa-d12ccc0d2476&solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&statusCode=PE&page=0&size=1"))
+				"/ccds/pubreq/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
