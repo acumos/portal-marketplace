@@ -21,8 +21,15 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.15 10th October 2019
-==================================
+Version 3.0.16 17th October 2019
+================================
+* ACUMOS-3505  Move RTU check directly into portal (currently inside security verification)
+  - Update tests to use SecurityContext / MockMLUser
+  - Use non blocking call for verify using CompletableFuture/ AsyncConfiguration
+  - new optional configuration options for @Async service calls
+    "concurrency.async.core-pool-size=10"
+    "concurrency.async.max-pool-size=50"
+    "concurrency.async.queue-capacity=10000"
 * ACUMOS-3503  add acumos-c-client link to model obdr page 
 * ACUMOS-1437  As a User , I want Portal set and use expiration date on instances with passwords
 * ACUMOS-3535  User not able to be created by portal

@@ -8,10 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPSolution;
@@ -20,12 +18,11 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
-import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
-import com.networknt.schema.ValidationMessage;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.LicensingService;
@@ -54,7 +51,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -65,15 +61,21 @@ public class LicensingServiceController extends AbstractController{
 
 	@Autowired
 	private LicensingService licensingService;
-	
+
 	@Autowired
 	private MarketPlaceCatalogService marketPlaceService;
-	
+
 	@Autowired
 	private PushAndPullSolutionService pushAndPullSolutionService;
-	
+
 	@Autowired
-    private Environment env;
+	CredentialsService credentialService;
+
+	@Autowired
+	private Environment env;
+
+	@Autowired
+	CredentialsService credentials;
 
 	@ApiOperation(value = "Gets Solutions and Users details for the given RTU ReferenceId.", response = RightToUseDetails.class)
 	@RequestMapping(value = {APINames.RTU_SOLUTION_USER_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -81,12 +83,9 @@ public class LicensingServiceController extends AbstractController{
 	public JsonResponse<RightToUseDetails> getRtuSolutionsAndUsers(HttpServletRequest request,
 			@RequestHeader(value = "rtuReferenceId", required = true) String rtuReferenceId,
 			@RequestHeader(value = "solutionName", required = false) String solutionName, HttpServletResponse response) {
-		
-
 
 		RightToUseDetails rightToUseDetails = new RightToUseDetails();
 		MLPSolution mlpSolutionAssociatedWithRtuId = null;
-
 		List<MLPUser> mlpUsersAssociatedWithRtuId = null;
 		JsonResponse<RightToUseDetails> data = new JsonResponse<>();
 		
@@ -101,38 +100,27 @@ public class LicensingServiceController extends AbstractController{
 		
 		try {
 			if (rtuReferenceId != null && solutionName == null) {
-				
 				log.debug("Getting Associated Solutions and Users details for RTU ReferenceId:  ", rtuReferenceId);
-				
 				//Getting List of MLPRightToUse objects from CDS
 				List<MLPRightToUse> rtus = licensingService.getRtusByReference(rtuReferenceId);
-				
 				//Extracting only RtuIds as List from MLPRightToUse
 				List<Long> rtuIds =new ArrayList<Long>();
-				
 				if(rtus.size() != 0) {
-					
 					MLPRightToUse rtu = rtus.get(0);
 					rtuIds.add(rtu.getRtuId());
-					
 					rightToUseDetails.setRightToUse(rtu);
 				}
-					
 					log.debug("List of RTUIDs associated to RTU ReferenceId:  ", rtuReferenceId);
-	
 					// Get Solution Details associated with RtuID. On UI Solution Name and Solution Id will be displayed
 					List<MLPSolution> listOfSolutions = new ArrayList<MLPSolution>();
 					for (Long rtuId : rtuIds) {
 						mlpSolutionAssociatedWithRtuId = licensingService.getMLPSolutions(rtuId);
-						
 						listOfSolutions.add(mlpSolutionAssociatedWithRtuId);
 					}
 					Set<MLPSolution> allSolutionSet = new HashSet<MLPSolution>(listOfSolutions);
 					//Convert back to List
 					List<MLPSolution> uniqueAllSolutions = new ArrayList<MLPSolution>(allSolutionSet);	
-					
 					rightToUseDetails.setMlpSolutionAssociatedWithRtuId(uniqueAllSolutions);
-	
 					// Get All Active Users
 					List<RtuUser> allUsers = licensingService.getAllActiveUsers();
 					
@@ -146,10 +134,8 @@ public class LicensingServiceController extends AbstractController{
 								usersListAssociatedWithRtuId.add(user);
 							}
 						}
-	
-					}		
-						
-					
+					}
+
 					//Removing duplicate users from All users, if any
 					Set<RtuUser> allUsersSet = new HashSet<RtuUser>(allUsers);
 					//Convert back to List
@@ -277,11 +263,12 @@ public class LicensingServiceController extends AbstractController{
 			@PathVariable String versionId, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 
+		String loggedInUserName = credentialService.getLoggedInUserName();
 		userId = SanitizeUtils.sanitize(userId);
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		versionId = SanitizeUtils.sanitize(versionId);
-		
+
 		JsonResponse<String> responseVO = new JsonResponse<>();
 		String validationResponse=null;
 		log.debug("upload License for user " + userId);
@@ -313,7 +300,7 @@ public class LicensingServiceController extends AbstractController{
 					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(licenseFile, userId, solutionId, revisionId, versionId);
 
 					if (uploadedFile) {
-						Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED);
+						Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED, loggedInUserName).get();
 						if (workflow.isWorkflowAllowed()) {
 							String licenseContent = marketPlaceService.getLicenseUrl(solutionId, versionId,
 									PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX);
@@ -376,13 +363,16 @@ public class LicensingServiceController extends AbstractController{
 	
 	@RequestMapping(value = { APINames.UPLOAD_LICENSE_TEMPLATE },method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse<Boolean> createJsonFile(@RequestBody String json, @PathVariable("userId") String userId, @PathVariable String solutionId, @PathVariable String revisionId,
-			@PathVariable String versionId, HttpServletRequest request, HttpServletResponse response)throws IOException {
+	public JsonResponse<Boolean> createJsonFile(@RequestBody String json,
+			@PathVariable("userId") String userId,
+			@PathVariable String solutionId, @PathVariable String revisionId,
+			@PathVariable String versionId, HttpServletRequest request,
+			HttpServletResponse response)throws IOException {
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		
 		 try {      
-	            MultipartFile multipartFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, PortalConstants.LICENSE_FILENAME, "application/json", json.getBytes());
-	            uploadLicense( multipartFile, userId, solutionId, revisionId, versionId, request, response);
+	      MultipartFile multipartFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, PortalConstants.LICENSE_FILENAME, "application/json", json.getBytes());
+	      uploadLicense( multipartFile, userId, solutionId, revisionId, versionId, request, response);
 				responseVO.setResponseDetail("Success");
 				responseVO.setStatusCode(HttpServletResponse.SC_OK);
 	 
