@@ -253,6 +253,6 @@ public class JwtTokenUtil {
 		
 		
 		return (username.equals(user.getLoginName()) && !isTokenExpired(token))
-				&& !isCreatedBeforeLastPasswordReset(created.toInstant(), user.getLoginPassExpire());
+				&& isCreatedBeforeLastPasswordReset(created.toInstant(), user.getLoginPassExpire()); //!isCreatedBeforeLastPasswordReset
 	}
 }
