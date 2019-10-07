@@ -143,6 +143,7 @@ public class JwtTokenUtil {
 	}
 
 	private Boolean isCreatedBeforeLastPasswordReset(Instant created, Instant lastPasswordReset) {
+	    if(lastPasswordReset == null ) return true;
 		return (lastPasswordReset != null && created.isBefore(lastPasswordReset));
 	}
 
