@@ -22,10 +22,18 @@ package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.portal.be.security.AuthenticatedUserDetails;
+import org.acumos.licensemanager.client.model.LicenseAction;
+import org.acumos.licensemanager.client.model.LicenseRtuVerification;
+import org.acumos.licensemanager.client.model.VerifyLicenseRequest;
+import org.acumos.licensemanager.client.rtu.LicenseRtuVerifier;
+import org.acumos.licensemanager.exceptions.RightToUseException;
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.service.SecurityVerificationClientServiceImpl;
@@ -33,11 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.acumos.portal.be.util.PortalConstants;
-
 
 public abstract class AbstractController {
 
@@ -47,8 +50,11 @@ public abstract class AbstractController {
 	@Autowired
 	private MarketPlaceCatalogService catalogService;
 
+	@Autowired
+	private CredentialsService credentialService;
+
 	protected static final String APPLICATION_JSON = "application/json";
-	
+
 	private static final String ENV_CDMS_API = "cdms.client.url";
 	private static final String ENV_CDMS_USER = "cdms.client.username";
 	private static final String ENV_CDMS_PSWD = "cdms.client.password";
@@ -63,55 +69,83 @@ public abstract class AbstractController {
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	public AbstractController() {
+	public AbstractController(){
 		mapper = new ObjectMapper();
 	}
 
-	public Workflow performSVScan(String solutionId, String revisionId, String workflowId) {
-		log.debug("performSVScan, solutionId=" + solutionId + ", revisionId=" + revisionId + ", workflowId=" + workflowId); 
-		Workflow workflow = getValidWorkflow();
-		if (Boolean.parseBoolean(env.getProperty(ENV_SV_ENABLED))) {
-			try {
-				SecurityVerificationClientServiceImpl sv = getSVClient();
-
-				String loggedInUserId = getLoggedInUserId();
-				workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId, loggedInUserId);
-				if (!workflow.isWorkflowAllowed()) {
-					String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
-							? workflow.getSvException()
-							: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
-									: "Unknown problem occurred during security verification";
-					workflow.setReason(message);
-					log.error("Problem occurred during SV scan: ", message);
-				}
-			} catch (Exception e) {
-				String message = (e.getMessage() != null) ? e.getMessage() : e.getClass().getName();
-				workflow = getInvalidWorkflow(message);
-				log.error("Exception occurred during SV scan: ", message);
-			}
+	/**
+	 * Performs a right to use check
+	 * 
+	 * Calls License Mgr Client Library which will call License Usage Manager service.
+	 * 
+	 * @param solutionId
+	 * @param revisionId
+	 * @param licenseAction
+	 * @param assetUsageId
+	 * @return CompletableFuture<LicenseRtuVerification>
+	 */
+	public CompletableFuture<LicenseRtuVerification> performRtuCheck(String solutionId,
+			String revisionId, String workflowId, String assetUsageId, String loggedInUserName) {
+		LicenseAction action = null;	
+		action = LicenseAction.valueOf( workflowId.toUpperCase());
+		assetUsageId = assetUsageId == null ? UUID.randomUUID().toString() : assetUsageId;
+		LicenseRtuVerifier licenseVerifier =
+				new LicenseRtuVerifier(env.getProperty(PortalConstants.ENV_LUM_URL));
+		VerifyLicenseRequest licenseDownloadRequest = new VerifyLicenseRequest(action,
+				solutionId, revisionId, loggedInUserName, assetUsageId);
+		licenseDownloadRequest.setAction(action);
+		CompletableFuture<LicenseRtuVerification> verifyUserRTU = null;
+		try {
+			verifyUserRTU = licenseVerifier.verifyRtu(licenseDownloadRequest);
+		} catch (RightToUseException e) {
+			log.error("verifyUserRTU failed: {} ", verifyUserRTU);
 		}
-		return workflow;
+		return verifyUserRTU;
 	}
 
-	private String getLoggedInUserId() {
-		String loggedInUserId = null;
-		Object principal= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof AuthenticatedUserDetails) {
-			loggedInUserId = ((AuthenticatedUserDetails) principal).getUserId();
-		} 
-		return loggedInUserId;
+
+	public CompletableFuture<Workflow> performSVScan(String solutionId, String revisionId,
+			String workflowId, String loggedInUserName ) {
+		return CompletableFuture.supplyAsync(() -> {
+			log.debug("performSVScan, solutionId=" + solutionId + ", revisionId=" + revisionId
+					+ ", workflowId=" + workflowId);
+			Workflow workflow = getValidWorkflow();
+			if (Boolean.parseBoolean(env.getProperty(ENV_SV_ENABLED))) {
+				try {
+					SecurityVerificationClientServiceImpl sv = getSVClient();
+					workflow =
+							sv.securityVerificationScan(solutionId, revisionId, workflowId,
+							loggedInUserName);
+					if (!workflow.isWorkflowAllowed()) {
+						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
+								? workflow.getSvException()
+								: (!PortalUtils.isEmptyOrNullString(workflow.getReason())) ? workflow.getReason()
+										: "Unknown problem occurred during security verification";
+						workflow.setReason(message);
+						log.error("Problem occurred during SV scan: ", message);
+					}
+				} catch (Exception e) {
+					String message = (e.getMessage() != null) ? e.getMessage() : e.getClass().getName();
+					workflow = getInvalidWorkflow(message);
+					log.error("Exception occurred during SV scan: ", message);
+				}
+			}
+
+			return workflow;
+		});
 	}
+
 
 	public Workflow performSVScan(String solutionId, String workflowId) {
 		log.debug("performSVScan, solutionId=" + solutionId + ", workflowId=" + workflowId); 
 		Workflow workflow = getValidWorkflow();
+		String loggedInUserName = credentialService.getLoggedInUserName();
 		if (Boolean.parseBoolean(env.getProperty(ENV_SV_ENABLED))) {
 			try {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
 				List<MLPSolutionRevision> revs = catalogService.getSolutionRevision(solutionId);
 				for (MLPSolutionRevision rev : revs) {
-					String loggedInUser = getLoggedInUserId();
-					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId, loggedInUser);
+					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId, loggedInUserName);
 					if (!workflow.isWorkflowAllowed()) {
 						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
 							? workflow.getSvException()
@@ -135,7 +169,7 @@ public abstract class AbstractController {
 	private SecurityVerificationClientServiceImpl getSVClient() {
 		return new SecurityVerificationClientServiceImpl(env.getProperty(ENV_SV_API), env.getProperty(ENV_CDMS_API),
 				env.getProperty(ENV_CDMS_USER), env.getProperty(ENV_CDMS_PSWD), env.getProperty(ENV_NEXUS_API),
-				env.getProperty(ENV_NEXUS_USER), env.getProperty(ENV_NEXUS_PSWD), env.getProperty(PortalConstants.ENV_LUM_URL));
+				env.getProperty(ENV_NEXUS_USER), env.getProperty(ENV_NEXUS_PSWD));
 	}
 	
 	protected Workflow getValidWorkflow() {

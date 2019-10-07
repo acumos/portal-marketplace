@@ -31,7 +31,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.junit.Assert.*;
 
 import javax.servlet.http.HttpServletResponse;
-
+import org.acumos.be.test.security.WithMLMockUser;
 import org.acumos.cds.domain.MLPSiteContent;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.ConfigConstants;
@@ -40,11 +40,13 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.impl.SiteContentServiceImpl;
 import org.apache.http.HttpStatus;
 import org.glassfish.jersey.internal.util.Base64;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -54,7 +56,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.client.MockMvcClientHttpRequestFactory;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -63,16 +68,22 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 @SpringBootTest(classes = org.acumos.portal.be.Application.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = {
 		ConfigConstants.cdms_client_url + "=http://localhost:8000/ccds",
 		ConfigConstants.cdms_client_username + "=ccds_test", ConfigConstants.cdms_client_password + "=ccds_test" })
-@EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class })
+@AutoConfigureMockMvc
+@EnableAutoConfiguration
+@ContextConfiguration
+@WithMLMockUser
 public class SiteContentControllerTest {
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));
 
-	private RestTemplate restTemplate = new RestTemplate();
+	private RestTemplate restTemplate;
 
 	@LocalServerPort
 	int randomServerPort;
+
+	@Autowired
+	private MockMvc mvc;
 
 	private static final String PATH_TERMS_CONDITIONS = APINames.SITE_PATH + APINames.GET_TERMS_CONDITIONS;
 	private static final String PATH_ONBOARDING_OVERVIEW = APINames.SITE_PATH + APINames.GET_ONBOARDING_OVERVIEW;
@@ -85,6 +96,12 @@ public class SiteContentControllerTest {
 	private static final String GET_CONTENT = "/ccds/site/content/";
 	private static final String SET_CONTENT = "/ccds/site/content";
 	private static final String CAROUSEL_TEST_KEY = "carousel.top.test.bgImg";
+
+	@Before
+	public void setup(){
+		MockMvcClientHttpRequestFactory requestFactory = new MockMvcClientHttpRequestFactory(mvc);
+		restTemplate = new RestTemplate(requestFactory);
+	}
 
 	@Test
 	public void getTermsConditionsTest() {
