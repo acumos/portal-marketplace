@@ -21,11 +21,10 @@ package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.acumos.cds.domain.MLPPublishRequest;
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
@@ -48,7 +47,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -57,14 +55,14 @@ public class PublishRequestController extends AbstractController {
 	
 	@Autowired
 	private PublishRequestService publishRequestService;
-	
+
+	@Autowired
+	CredentialsService credentialService;
+
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
-	/**
-	 * 
-	 */
 	public PublishRequestController() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
 	@ApiOperation(value = "Get Latest publish requests for the revision Id.", response = JsonResponse.class)
@@ -159,12 +157,14 @@ public class PublishRequestController extends AbstractController {
     @ResponseBody
     public JsonResponse<MLPublishRequest> updatePublishRequest(HttpServletRequest request, @PathVariable("publishRequestId") String publishRequestId, @RequestBody JsonRequest<MLPublishRequest> mlPublishRequest, HttpServletResponse response) {
 		JsonResponse<MLPublishRequest> data = new JsonResponse<>();
+		String loggedInUserName  = credentialService.getLoggedInUserName();
+
 		try {
 			MLPublishRequest pendingRequest = mlPublishRequest.getBody();
 			Workflow workflow = getValidWorkflow();
 			if (pendingRequest.getRequestStatusCode().equalsIgnoreCase("AP")) {
 				MLPublishRequest oldRequest = publishRequestService.getPublishRequestById(pendingRequest.getPublishRequestId());
-				workflow = performSVScan(oldRequest.getSolutionId(), oldRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC);
+				workflow = performSVScan(oldRequest.getSolutionId(), oldRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC, loggedInUserName).get();
 			}
 			if (workflow.isWorkflowAllowed()) {
 				MLPublishRequest updatedPublishRequest = publishRequestService.updatePublishRequest(pendingRequest);

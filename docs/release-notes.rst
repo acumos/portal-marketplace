@@ -21,8 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.15 10th October 2019
-==================================
+Version 3.0.16 10th October 2019
+================================
+* ACUMOS-3505  Move RTU check directly into portal (currently inside security verification)
+
+Version 3.0.16 10th October 2019
+================================
 * ACUMOS-3503  add acumos-c-client link to model obdr page 
 * ACUMOS-1437  As a User , I want Portal set and use expiration date on instances with passwords
 * ACUMOS-3535  User not able to be created by portal
