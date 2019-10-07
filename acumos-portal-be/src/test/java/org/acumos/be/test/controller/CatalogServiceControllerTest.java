@@ -28,21 +28,18 @@ import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
-
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.acumos.be.test.security.WithMLMockUser;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
@@ -55,11 +52,13 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
 import org.apache.http.HttpStatus;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -69,26 +68,34 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.client.MockMvcClientHttpRequestFactory;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-
 @RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = org.acumos.portal.be.Application.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = {
 		ConfigConstants.cdms_client_url + "=http://localhost:8000/ccds",
 		ConfigConstants.cdms_client_username + "=ccds_test", ConfigConstants.cdms_client_password + "=ccds_test" })
-@EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class })
+@AutoConfigureMockMvc
+@EnableAutoConfiguration()
+@ContextConfiguration
+@WithMLMockUser
 public class CatalogServiceControllerTest {
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));
 
-	private RestTemplate restTemplate = new RestTemplate();
+	private RestTemplate restTemplate;
 
 	@LocalServerPort
 	int randomServerPort;
+
+	@Autowired
+	private MockMvc mvc;
 
 	private static final String VARIABLE = "/%s";
 	private static final String CCDS_PATH = "/ccds";
@@ -113,6 +120,13 @@ public class CatalogServiceControllerTest {
 	private static final String PEER_PATH = "/peer";
 	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
 	
+
+	@Before
+	public void setup(){
+		MockMvcClientHttpRequestFactory requestFactory = new MockMvcClientHttpRequestFactory(mvc);
+		restTemplate = new RestTemplate(requestFactory);
+	}
+
 	@Test
 	public void getCatalogsTest() {
 		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
