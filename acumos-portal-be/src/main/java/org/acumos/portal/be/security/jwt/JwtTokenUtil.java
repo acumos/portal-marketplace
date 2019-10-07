@@ -143,8 +143,8 @@ public class JwtTokenUtil {
 	}
 
 	private Boolean isCreatedBeforeLastPasswordReset(Instant created, Instant lastPasswordReset) {
-	    if(lastPasswordReset == null ) return true;
-		return (lastPasswordReset != null && created.isBefore(lastPasswordReset));
+	    if(lastPasswordReset == null ) return false;
+		return (lastPasswordReset != null && lastPasswordReset.isBefore(created));
 	}
 
 	/*
@@ -253,6 +253,6 @@ public class JwtTokenUtil {
 		
 		
 		return (username.equals(user.getLoginName()) && !isTokenExpired(token))
-				&& !isCreatedBeforeLastPasswordReset(created.toInstant(), user.getLoginPassExpire());
+				&& !isCreatedBeforeLastPasswordReset(created.toInstant(), user.getLoginPassExpire()); //!isCreatedBeforeLastPasswordReset
 	}
 }
