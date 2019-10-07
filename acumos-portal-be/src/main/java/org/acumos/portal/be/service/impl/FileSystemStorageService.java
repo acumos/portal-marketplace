@@ -77,12 +77,7 @@ public class FileSystemStorageService implements StorageService {
 						"Cannot store file with relative path outside current directory " + filename);
 			}
 			
-			if(flag){
-				
-				if (!filename.endsWith(".json")) {				
-					log.error("json File Required. Original File :  " + filename );
-					throw new StorageException("json File Required. Original File : " + filename);
-				}		
+			if(flag){						
 				
 				log.debug("Remove Previously Uploaded files for User  " + userId );
 				Path modelFolderLocation = Paths

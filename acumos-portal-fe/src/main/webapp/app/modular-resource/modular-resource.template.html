@@ -488,10 +488,10 @@ limitations under the License.
 																	</form>
 																</div>	
 															
-															<div style="color:red" ng-show="modelLicUploadError">
-																<small><strong>Error occurred while license validation:</strong></small>
-																<dl ng-repeat="error in modelLicUploadErrorMsg">
-																	<li ng-if="error">{{error}}</li>
+															<div class="upload-error">
+																<small ng-show="modelLicUploadError"><strong>Please update the license profile to correct the following validation errors:</strong></small>
+																<dl>
+																	<li ng-repeat="error in modelLicUploadErrorMsg">{{error}}</li>
 																</dl>
 															</div>				
 												
@@ -756,8 +756,8 @@ limitations under the License.
 									</div>
 								</form>
 							</div>
-							<div style="color:red" ng-show="modelDocLicUploadError">
-								<small ><strong>Error occurred while license validation:</strong></small>
+							<div class="upload-error" ng-show="modelDocLicUploadError">
+								<small><strong>Please update the license profile to correct the following validation errors:</strong></small>
 								<dl ng-repeat="error in modelDocLicUploadErrorMsg">
 									<li ng-if="error">{{error}}</li>
 								</dl>

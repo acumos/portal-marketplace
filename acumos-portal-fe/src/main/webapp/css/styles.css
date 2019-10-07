@@ -944,10 +944,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .license-detail-modal .upload-image-input input.mdl-textfield__input{float:none !important; margin-top:0 !important; box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666;}
 .license-detail-modal .upload-field { position: relative;    cursor: pointer;    float: right;    height: 26px;    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
-.license-detail-modal .upload-file-container .input-div {
-    float: left;
-    width: 100%;
-}  
+.license-detail-modal .upload-file-container .input-div {float: left;}  
 .license-detail-modal .input-upload-button .mdl-button.mdl-js-button[disabled]{ margin-left: 4px; margin-top: 5px;}
 .license-detail-modal .input-upload-button button.btn-secondary{margin-right:0; margin-top:5px; background: #671C9D; color: #fff; height: 34px; border-radius: 0;  border: 1px solid rgba(0,0,0,.12);}
 .license-detail-modal .input-div .upload-field{margin-top: 7px; margin-right: 5px;}
@@ -957,6 +954,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .license-detail-modal .progress-bar {background-color: #671c9d;	border-radius: 5px;	height: 5px; cursor:pointer;}
 .license-detail-modal .progress-bar-div .pro-status{width:75px; margin-right:15px; text-align: center;}  
 a.mdl-tabs__tab.tab5-panel {height:1px;}
+.upload-error{ color:red;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {max-width: 350px; text-overflow: ellipsis; overflow: hidden;}
 
 .btn-comments-edit, .btn-comments-delete {border: 1px solid #b1b1b1; font-size: 10px;line-height: 18px;text-align:right; height: 20px; padding: 0 4px; min-width: 25px; }

@@ -225,7 +225,12 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		
 		try {
 			String input= new String(file.getBytes());
+			String filename = file.getOriginalFilename();
 			if(licUploadFlag) {
+				if (!filename.endsWith(".json")) {				
+					log.error("json File Required. Original File :  " + filename );
+					throw new StorageException("json File Required. Original File : " + filename);
+				}
 				validationResponse=licensingService.validate(input);
 				if(validationResponse=="SUCCESS") {
 					boolean resultFlag = storageService.store(file, userId, licUploadFlag);

@@ -297,6 +297,13 @@ public class LicensingServiceController extends AbstractController{
 			try {
 			
 				String input= new String(file.getBytes());
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+				
+				if (!filename.endsWith(".json")) {				
+					log.error("json File Required. Original File :  " + filename );
+					throw new StorageException("json File Required. Original File : " + filename);
+				}
+				
 				validationResponse=licensingService.validate(input);
 				if(validationResponse=="SUCCESS") {
 					String licenseFileName = (file != null) ? file.getOriginalFilename() : "";
