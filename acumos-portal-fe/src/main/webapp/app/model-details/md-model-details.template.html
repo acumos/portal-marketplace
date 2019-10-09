@@ -322,12 +322,15 @@ limitations under the License.
 				</div>
 				<div class="mdl-cell md-right-container model-details-tabwrapper">
 					<div class="mdl-tabs__panel is-active" id="tab1-panel">
-						<div class="md-intro-container spacebetween">
+						<div class="md-intro-container spacebetween" ng-if="solution.modelTypeName && version.accessTypeCode != 'PR'">
 							<div ng-if="solution.modelTypeName && version.accessTypeCode != 'PR'"><h6 class="sectiontitle9">INTRODUCTION | CATEGORY:{{solution.modelTypeName}}</h6></div>
 						
 							    <description-rating ratedescriptioncheck="ratedescriptioncheck"></description-rating>
 							
-							<div ng-if="!solution.modelTypeName || version.accessTypeCode =='PR'"><h6 class="sectiontitle9">INTRODUCTION</h6></div>
+						</div>		
+										
+						<div class="md-intro-container" ng-if="!solution.modelTypeName || version.accessTypeCode =='PR'">
+						<div ng-if="!solution.modelTypeName || version.accessTypeCode =='PR'"><h6 class="sectiontitle9">INTRODUCTION</h6></div>
 						</div>
 
 						<div class="description-img-container">
