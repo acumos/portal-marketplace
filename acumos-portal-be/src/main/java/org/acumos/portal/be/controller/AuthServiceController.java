@@ -255,8 +255,7 @@ public class AuthServiceController extends AbstractController {
 						response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 						return responseObject;
 					}
-					if (!PortalUtils.isEmptyOrNullString(env.getProperty(PortalConstants.LOGIN_EXPIRE_PROPERTY_KEY)) && mlpUser.getLoginPassExpire() != null) {
-						
+					if (mlpUser.getLoginPassExpire() != null) {
 						if (mlpUser.getLoginPassExpire().compareTo(Instant.now()) < 0) {
 							responseObject = new ResponseVO(HttpServletResponse.SC_PRECONDITION_FAILED, "Password Expired" , mlpUser.getUserId());
 							responseObject.setLoginPassExpire(true);

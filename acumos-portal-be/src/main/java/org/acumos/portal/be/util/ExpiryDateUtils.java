@@ -20,7 +20,6 @@
 
 package org.acumos.portal.be.util;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Matcher;
@@ -47,7 +46,6 @@ public class ExpiryDateUtils {
 			if (m.matches()) {
                 int val = Integer.parseInt(m.group(1));
                 String denomination = m.group(2);
-                int factor;
                 if (denomination.equals("H")) {
                 	return Instant.now().plus(val, ChronoUnit.HOURS);
                 } else if (denomination.equals("D")) {
@@ -74,6 +72,6 @@ public class ExpiryDateUtils {
 		
 		
 		}
-		return Instant.now().plus(100, ChronoUnit.YEARS);
+		return null;
 	}
 }
