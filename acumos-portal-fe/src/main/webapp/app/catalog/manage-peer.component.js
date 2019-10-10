@@ -243,17 +243,18 @@ angular
 				            }
 			            	
 						
-						$scope.grantAccessToAll = function(selected){
-			            	for (var i = 0; i < $scope.availablePeers.length; i++) {
-			            		$scope.availablePeers[i].checked = !selected;
-			            		if($scope.selectAll == false){
-			            			$scope.grantPeersSelected.push($scope.availablePeers[i].peerId);
-			            		}
-			            	}
-			            	if($scope.selectAll == true){
+			            	$scope.grantAccessToAll = function(selected) {
 			            		$scope.grantPeersSelected=[];
+			            		if (selected) {
+			            			$filter('filter')($scope.availablePeers, $scope.searchPeer)
+			            				.forEach(item => {
+											item.checked = true;
+								            $scope.grantPeersSelected.push(item.peerId);
+						            	});
+			            		} else {
+			            			$scope.availablePeers.forEach(item => item.checked = false);
 			            		}
-			            	};
+							}
 						
 						}
 				});

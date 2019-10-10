@@ -158,7 +158,7 @@ limitations under the License.
 					</colgroup>
 					<thead>
 						<tr>
-							<th><md-checkbox ng-model="selectAll" ng-click="grantAccessToAll(selectAll)"></md-checkbox></th>
+							<th><md-checkbox ng-model="selectAll" ng-click="grantAccessToAll(!selectAll)"></md-checkbox></th>
 							<th
 								ng-click="orderByField='name'; reverseSort = !reverseSort">Peer Name<span ng-if='orderByField!="name"'
 								class="gridcell-sort deactivate"></span><span
