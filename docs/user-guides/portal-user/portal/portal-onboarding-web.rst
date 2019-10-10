@@ -70,7 +70,7 @@ The above On-boarding process is along with microservice generation. If you dont
 want MicroService Generation you can uncheck  **Create micro-service during on-boarding**
 checkbox which is checked by default.
 
-    .. image:: ../images/portal/model-onboarding-wo-microservice-success.png
+    .. image:: ../images/portal/model-onboarding-wo-microservice-success.PNG
              :width: 75%
 	  
 The above process will skip the steps **Dockerize** and **Add Docker Image** when we uncheck 
@@ -84,7 +84,7 @@ License file must be uploaded while On-boarding the model. There are two radio b
 **Select License Profile** from where user can upload license file which must be with an extension of *.json* 
 which contains high level general terms and conditions for use of the model.
 
-.. image:: ../images/portal/model-onboarding-with-license.png
+.. image:: ../images/portal/model-onboarding-with-license.PNG
                  :width: 75%
 
 

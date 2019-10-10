@@ -126,6 +126,10 @@ Specific steps:
 
 #. Once the publishing process is complete, all the workflow icons will be highlighted and the model will be available in the Company Marketplace
 
+
+Note: If user have not added author details in the model before publishing, a continous message "You cannot publish the model without entering the author name. Please add author name in the "Manage Publisher/Authors" page to publish it" will display and Submit to Publication button showing disabled.
+ 
+	.. image:: ../images/portal/models_author.PNG
   
 
 Un-publishing the model from the catalog

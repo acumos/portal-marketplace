@@ -112,10 +112,14 @@ preferences, access the **Notification Preferences** tab.
 
 
     .. image:: images/portal/Account_setting_notification.png
+    
+    
 
+Favorite Catalog
+================
 User can favorite or unfavorite catalog by clicking on favorite icon. Once user click on favorite icon, icon will get changed into filled one.
 
-    .. image:: images/portal/Account_setting_favorite_selected_catalog.png
+    .. image:: images/portal/Account_setting_favorite_selected_catalog.PNG
 
 
 

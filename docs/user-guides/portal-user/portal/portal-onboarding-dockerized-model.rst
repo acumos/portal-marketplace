@@ -24,7 +24,7 @@ Acumos allows users to On-board their docker image models. Each model dockerized
 acumos by modelers can be On-boarded in Acumos. You just have to use the **On-boarding dockerized model** 
 panel in the **on-boarding model** page of the Acumos portal.In this panel you can find two options.
 
-	.. image:: ../images/portal/onboarding-dockerized-model.png
+	.. image:: ../images/portal/onboarding-dockerized-model.PNG
                  :width: 75%
 
 - Upload New 
@@ -33,7 +33,7 @@ When you click **Upload New** button , you will get **Model Name** field, just t
 and click on **Check Availability** to check whether the model name is available. Click the **Create Docker Image Reference** 
 button which is shown after name validation. 
 
-	.. image:: ../images/portal/onboarding-dockerized-model-new.png
+	.. image:: ../images/portal/onboarding-dockerized-model-new.PNG
                  :width: 75%
 
 - Upload Revision
@@ -41,7 +41,7 @@ button which is shown after name validation.
 When you click on **Upload Revision** button, you can search the existing model and select that model. You can Click on  
 **Update Docker Image Reference**  button which is shown after selecting your model.
 
-	.. image:: ../images/portal/onboarding-dockerized-model-uploadrev.png
+	.. image:: ../images/portal/onboarding-dockerized-model-uploadrev.PNG
                  :width: 75%
 
 In the above both cases, you will receive the Acumos image reference in the **My Image Model** field which is to be used 
