@@ -21,6 +21,27 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.15 10th October 2019
+==================================
+* ACUMOS-3503  add acumos-c-client link to model obdr page 
+* ACUMOS-1437  As a User , I want Portal set and use expiration date on instances with passwords
+* ACUMOS-3535  User not able to be created by portal
+* ACUMOS-3536  Use security verification 1.1.0 jar in portal
+* ACUMOS-3495  [Licensing] License Profile validation error message update
+* ACUMOS-1743  As a User , I want Portal to show information about federated solution provenance in Marketplace
+* ACUMOS-2994  IST: Pending for approval is not displaying on model tile on manage my model screen when a published model is published in a catalog which have self publish no
+* ACUMOS-3530  Modify on-boarding portal for java spark
+* ACUMOS-3499  Documenation: Federation user guide need to update for CLIO Release
+* ACUMOS-3521  Description Rating: Publish to Marketplace button enable without clicking on OK Button
+* ACUMOS-3403  <IST> Gramatical mistake is showing on page numbers and model numbers in favorite catalog screen on the bottom left corner.
+* ACUMOS-3525  <IST2><Portal Marketplace><Web Onboarding>'License Profile' header font format should be proper and consistent
+* ACUMOS-3511  Alignment of Introduction word is incorrect on model description screen
+* ACUMOS-3439  IST: Peer(s) Access :  Issue in the Grant Peers Access Popup
+* ACUMOS-3532  <IST2> Catalogs page:- Action icon as manage peer, the tool-tip should have space in between manage & peer.
+* ACUMOS-3533  <IST2> View on-boarding history screen should have sorting icon for tabulation field.
+* ACUMOS-3515  while publishing model:- without selecting any category clicking on done success message is displaying.
+* ACUMOS-3519  <IST2> Maintained Backup Logs Side menu icon is getting trimmed and loader is not consistent with the application
+
 Version 3.0.14 01st October 2019
 ==================================
 * ACUMOS-3433   "deploy to K8s" option
