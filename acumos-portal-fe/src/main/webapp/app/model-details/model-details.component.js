@@ -1807,7 +1807,7 @@ angular
 				                       function(response) {                   	  
 				                           if(response.data.response_body.length) {
 				                        	  $scope.allTemplates = response.data.response_body;
-				                        	  $scope.selectedLicense = 0;
+				                        	  $scope.selectedLicense = -1;
 				                           } 
 				                });
 
@@ -1908,7 +1908,6 @@ angular
 								selLicProfileTplMsg = undefined;
 								showLicenseProfileEditorDialog(event);
 							};
-							$scope.allTemplates = [];
 							$scope.modifyLicenseProfileTemplate = function(event, isUpdateLicense) {
 								if(isUpdateLicense){									
 									var template = $scope.modelLicense;
