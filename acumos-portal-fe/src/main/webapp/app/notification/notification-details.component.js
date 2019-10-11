@@ -186,8 +186,8 @@ app.component('notificationModule',{
                 		$location.hash('notification-details');
 	                	$anchorScroll(); 							// used to scroll to the id 
 						$scope.msg = "Already marked as read."; 
-						$scope.icon = 'report_problem';
-						$scope.styleclass = 'c-success';
+						$scope.icon = 'info_outline';
+						$scope.styleclass = 'c-info';
 						$scope.showReadAlertMessage = true;
 						$timeout(function() {
 							$scope.showReadAlertMessage = false;
