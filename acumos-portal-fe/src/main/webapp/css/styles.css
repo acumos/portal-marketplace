@@ -946,8 +946,8 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .license-detail-modal .upload-field { position: relative;    cursor: pointer;    float: right;    height: 26px;    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
 .license-detail-modal .upload-file-container .input-div {float: left;}  
-.license-detail-modal .input-upload-button .mdl-button.mdl-js-button[disabled]{ margin-left: 4px; margin-top: 5px;}
-.license-detail-modal .input-upload-button button.btn-secondary{margin-right:0; margin-top:5px; background: #671C9D; color: #fff; height: 34px; border-radius: 0;  border: 1px solid rgba(0,0,0,.12);}
+.license-detail-modal .input-upload-button .mdl-button.mdl-js-button[disabled]{ margin-left: 4px; margin-top: 5px; }
+.license-detail-modal .input-upload-button button.btn-secondary{margin-right:0; margin-top:3px !important; background: #671C9D; color: #fff; height: 34px; border-radius: 0;  border: 1px solid rgba(0,0,0,.12);}
 .license-detail-modal .input-div .upload-field{margin-top: 7px; margin-right: 5px;}
 .license-detail-modal .progress-bar-div{display: flex; flex-direction: row; flex-wrap: nowrap;position:relative; border: 1px solid rgba(0,0,0,.12); font-size:11px; margin-top: 5px; float: left;  width: 100%; padding-bottom: 5px;}
 .license-detail-modal .progress-bar-div div{padding: 1px 2px; margin-top:5px; line-height: 14px;}   
@@ -967,7 +967,8 @@ a.mdl-tabs__tab.tab5-panel {height:1px;}
     color: #2e2f2f !important;
 }
 .supporting-doc a i{color: inherit !important}
-
+.license-detail-form.mdl-grid, .license-detail-form.dc-row {padding-left:0px; margin-left: -13px;}
+.remove-marleft6{margin-left:-6px;}
 /*************progress bar style start **************/
 /* File upload controller starts */
 
@@ -2458,7 +2459,8 @@ label.model-name{color:#0366d6;}
 .catalog-details2 > label {font-size: 13px;}
 .catalog-small-text {font-size: 11px; color:#666;}
 /*Catalog page style end*/
-
+/*license details*/
+.licence-closebtn{margin-right: 15px; margin-top: 4px;}
 
 /*********** MEDIA QUERIES SECTION START************/
 
