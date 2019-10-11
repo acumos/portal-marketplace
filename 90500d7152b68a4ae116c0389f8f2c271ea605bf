@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9de746dd_63051130",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/FilterCategoriesServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-11T15:23:24Z",
+      "side": 1,
+      "message": "if not used, then remove the code all together no need to keep commented code\nand why do we remove key and jwtToken? not used anywhere?",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 60
+      },
+      "revId": "90500d7152b68a4ae116c0389f8f2c271ea605bf",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a888b9b5_1dee44b5",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-11T15:23:24Z",
+      "side": 1,
+      "message": "remove commented code",
+      "range": {
+        "startLine": 394,
+        "startChar": 0,
+        "endLine": 397,
+        "endChar": 72
+      },
+      "revId": "90500d7152b68a4ae116c0389f8f2c271ea605bf",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
