@@ -74,11 +74,11 @@ public class FilterCategoriesServiceController extends AbstractController {
 	public JsonResponse<List<MLPCodeNamePair>> getSolutionsCategoryTypes(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		Enumeration headerNames = request.getHeaderNames();
-		String key = (String) headerNames.nextElement();
-		String jwtToken = request.getHeader(key);
-
-		TokenValidation tokenValidation = new TokenValidation();
+//		Enumeration headerNames = request.getHeaderNames();
+//		String key = (String) headerNames.nextElement();
+//		String jwtToken = request.getHeader(key);
+//
+//		TokenValidation tokenValidation = new TokenValidation();
 
 		log.debug("getSolutionsCategoryTypes: Entering");
 		List<MLPCodeNamePair> mlpModelTypes = null;

@@ -19,6 +19,8 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,23 +36,26 @@ import org.acumos.cds.domain.MLPNotifUserMap;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.NotificationController;
-import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.impl.NotificationServiceImpl;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -64,8 +69,6 @@ public class NotificationControllerTest {
 	NotificationController notificationController;
 	@Mock
 	NotificationServiceImpl notificationService;
-	@Mock
-	NotificationService notificationServiceImpl;
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
@@ -94,12 +97,6 @@ public class NotificationControllerTest {
 		when(notificationService.createNotification(mlpNotification)).thenReturn(value);
 		data = notificationController.createNotification(request, notificationReq, response);
 		data.setResponseBody(value);
-
-		if (data != null) {
-			logger.debug("Notification created Successfully :  " + data.getResponseBody());
-		} else {
-			logger.error("Error Occurred createNotification :");
-		}
 	}
 
 	@Test
@@ -316,9 +313,10 @@ public class NotificationControllerTest {
 		Assert.assertNotNull(mlNotification);
 		JsonResponse<MLNotification> notificationres = new JsonResponse<>();
 		notificationres.setResponseBody(mlNotification);
-		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
-		mockImpl.getNotificationCount();
-		when(notificationServiceImpl.getNotificationCount());
+		when(notificationService.getNotificationCount()).thenReturn(5);
+		JsonResponse<MLNotification> PassData=notificationController.getNotificationCount();
+		assertNotNull(PassData);
+		when(notificationService.getNotificationCount());
 		notificationres = notificationController.getNotificationCount();
 		notificationService.getNotificationCount();
 		logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
@@ -380,4 +378,68 @@ public class NotificationControllerTest {
 		data = notificationController.updateUserNotificationPreference(request, notificationReq, response);
 		Assert.assertEquals("Error occured while updateUserNotificationPreference",data.getResponseDetail());
 	}
+	
+	@Test
+	public void sendUserNotificationTest() {
+		NotificationRequestObject notificationRequestObject=new NotificationRequestObject();
+		JsonRequest<NotificationRequestObject> req = new JsonRequest<>();
+		JsonResponse<NotificationRequestObject> data = new JsonResponse<>();
+		notificationRequestObject.setComponent("TestComponent");
+		notificationRequestObject.setMessageType("Test Message Type");
+		notificationRequestObject.setSeverity("Medium");
+		notificationRequestObject.setSubject("Test User Notification");
+		notificationRequestObject.setUserId("TestUser");
+		req.setBody(notificationRequestObject);
+		notificationController.sendUserNotification(request, req, response);
+//		Exception e=new Exception("Exception while fetching data");
+//		req.setBody(null);
+//		Mockito.when(notificationService.sendUserNotification(req.getBody())).thenReturn(e);
+//		notificationController.sendUserNotification(request, req, response);
+	}
+	
+	@Test
+	public void getUnreadNotificationCountTest() {
+		Mockito.when(notificationService.getUserUnreadNotificationCount("TestUser")).thenReturn(5);
+		notificationController.getUnreadNotificationCount(request, "TestUser", response);
+	}
+	
+	@Test
+	public void getUserNotificationsPaginationTest() {
+		MLPUserNotification mlpUserNotification = new MLPUserNotification();
+		Instant created = Instant.now();
+		mlpUserNotification.setCreated(created);
+		mlpUserNotification.setMessage("notification created");
+		Instant modified = Instant.now();
+		mlpUserNotification.setModified(modified);
+		mlpUserNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
+		mlpUserNotification.setTitle("Notification");
+		mlpUserNotification.setUrl("http://notify.com");
+		Instant viewed = Instant.now();
+		mlpUserNotification.setViewed(viewed);
+		Assert.assertNotNull(mlpUserNotification);
+		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
+		mlpNotificationUserMap.setNotificationId(mlpUserNotification.getNotificationId());
+		mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotificationUserMap);
+		List<MLPUserNotification> mlpUserNotificationList = new ArrayList<>();
+		mlpUserNotificationList.add(mlpUserNotification);
+		Assert.assertNotNull(mlpUserNotificationList);
+		String userId = mlpNotificationUserMap.getUserId();
+		JsonRequest<RestPageRequest> restPageReq = new JsonRequest<>();
+		RestPageRequest restPageRequest = new RestPageRequest();
+		restPageRequest.setPage(0);
+		restPageRequest.setSize(9);
+		restPageReq.setBody(restPageRequest);
+		//RestPageResponse<MLPSolution> solutionsByName = new RestPageResponse<>(solutionList, PageRequest.of(0, 1), 1);
+		
+		RestPageResponse<MLPUserNotification> notification=new RestPageResponse<>(mlpUserNotificationList, PageRequest.of(0, 1), 1);
+		Mockito.when(notificationService.getUserNotificationsPagination(userId, restPageRequest)).thenReturn(notification);
+		JsonResponse<RestPageResponse<MLPUserNotification>> data=notificationController.getUserNotificationsPagination(request, userId, restPageReq, response);
+		assertNotNull(data);
+		Mockito.when(notificationService.getUserNotificationsPagination(userId, restPageRequest)).thenReturn(null);
+		JsonResponse<RestPageResponse<MLPUserNotification>> failData=notificationController.getUserNotificationsPagination(request, userId, restPageReq, response);
+		assertNull(failData.getResponseBody());
+	}
+	
+	
 }
