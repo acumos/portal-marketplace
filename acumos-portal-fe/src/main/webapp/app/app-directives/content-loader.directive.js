@@ -37,6 +37,7 @@ app
 			return {
 				restrict : 'AE',
 				template : '<div class="white-overlay">'
+						+ '<p class="white-overlay-msg">Please wait...</p>'
 						+ '</div>'
 			}
 		});

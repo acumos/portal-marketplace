@@ -124,13 +124,14 @@ limitations under the License.
 						<td ng-class="{'read-notification': notification.viewed}">{{notification.start
 							| date : "MM/dd/yyyy" }}</td>
 					</tr>
+					<div class="alert c-info margin-b2 text-center"
+						ng-if="!filtertedNotification.length">
+						<strong>No Result found</strong>
+					</div>
 				</tbody>
 			</table>
 
-			<div class="alert c-info margin-b2"
-				ng-if="!filtertedNotification.length">
-				<strong>No Result found</strong>
-			</div>
+			
 
 			<!-- Pagination Starts-->
 			<div class="pagination-wrapper">
