@@ -1063,38 +1063,22 @@ limitations under the License.
 												</colgroup>
 												<thead>
 													<tr>
-														<th><md-checkbox ng-model="checkedSnapshot" ng-click="checkAllSnapshot(!checkedSnapshot)">
-														</md-checkbox>
-															</th>
-														
-														<!-- <th ng-click="orderSnapshots='backupName';reverseSortbackup = !reverseSortbackup">
-															Backup Name
-															<span ng-if='orderSnapshots!="backupName"'
-																class="gridcell-sort deactivate"></span><span
-																ng-if='orderSnapshots=="backupName"'
-																ng-class="reverseSortbackup?'ascending':'descending'"
-																class="gridcell-sort"></span></th> -->
-																
+														<th>
+															<md-checkbox ng-model="checkedSnapshot" ng-click="checkAllSnapshot(!checkedSnapshot)"></md-checkbox>
+														</th>
 														<th ng-click="orderSnapshots='repositoryName';reverseSortbackup = !reverseSortbackup">
 																REPOSITORY NAME	<span ng-if='orderSnapshots!="repositoryName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderSnapshots=="repositoryName"'
 																ng-class="reverseSortbackup?'ascending':'descending'"
 																class="gridcell-sort"></span></th>
-														<!-- <th ng-click="orderSnapshots='createdDate';reverseSortbackup = !reverseSortbackup">Created 
-														Date
-															<span ng-if='orderSnapshots!="createdDate"'
-																class="gridcell-sort deactivate"></span><span
-																ng-if='orderSnapshots=="createdDate"'
-																ng-class="reverseSortbackup?'ascending':'descending'"
-																class="gridcell-sort"></span>
-														</th> -->
 														<th>ACTIONS</th>
 													</tr>
 												</thead>
 												<tbody ng-repeat="snapshot in allRepoSnapshots | orderBy:orderSnapshots:reverseSortbackup 
-													| filter:searchSnapshot">
+													| filter:searchSnapshot as filteredSnapshot">
 													<!-- Code based on Repository -->
+													
 													<tr>
 														<td>
 															<md-checkbox
@@ -1140,41 +1124,19 @@ limitations under the License.
 															</table>
 														</td>
 													</tr> 
-													<!-- <tr ng-if="allRepoSnapshots.length == 0">
-			                                       		<td class='text-center' colspan="5">No data available</td>
-				                                    </tr> -->
 													<!-- Content Loader directive -->
-													<div content-loader ng-show="showContentLoader"></div>
-													
-													
-													<!-- Code based on Snapshots -->
-													<!-- <tr ng-repeat="snapshot in allSnapshots | orderBy:orderSnapshots:reverseSortbackup 
-													| filter:searchSnapshot">
-														<td>
-															<md-checkbox
-																ng-model="snapshot.checked" ng-checked="snapshot.checked"
-																ng-click="removeSelectAllSnapshot()">
-															</md-checkbox>
-														</td>
-														<td><span>{{snapshot.backupName}}</span></td>
-														<td><span>{{snapshot.repositoryName}}</span></td>
-														<td><span>{{snapshot.createdDate}}</span></td>
-														<td class="text-center">
-															<md-button class="md-icon-button md-primary" aria-label="archive" 
-																ng-click="confirmCreateRestoreArchive('archive', snapshot.repositoryName)">
-																<i class="gridicon-archive"></i>
-															</md-button>
-														</td>
-													</tr>
-													<tr ng-if="allSnapshots.length == 0">
-			                                       		<td class='text-center' colspan="5">No data available</td>
-				                                    </tr> -->
+													<content-loader ng-show="showContentLoader"></content-loader>
 												</tbody>
 											</table>
+											
+											<div class="alert c-info text-center" ng-if="filteredSnapshot.length == 0">
+												<strong>No Result Found</strong>
+											</div>
 											<div class="alert text-center"
 												ng-if="allRepoSnapshots.length == 0">
 												<strong>No data available</strong>
 											</div> 
+											
 										</div>
 										
 										<div class="pagination-wrapper" ng-if="snapshots.length > 10">
@@ -1309,7 +1271,7 @@ limitations under the License.
 														<th>Actions</th>
 													</tr>
 												</thead>
-												<tbody ng-repeat="archive in allRepoArchives | orderBy:orderArchives:reverseSortArchives | filter:searchArchives">
+												<tbody ng-repeat="archive in allRepoArchives | orderBy:orderArchives:reverseSortArchives | filter:searchArchives as filteredArchives">
 													<tr> 
 														<td>															
 															<md-checkbox
@@ -1364,6 +1326,10 @@ limitations under the License.
 													</tr>
 											</tbody>
 											</table>
+											
+											<div class="alert c-info text-center" ng-if="filteredArchives.length == 0">
+												<strong>No Result Found</strong>
+											</div>
 											<div class="alert text-center"
 												ng-if="allRepoArchives.length == 0">
 												<strong>No data available</strong>

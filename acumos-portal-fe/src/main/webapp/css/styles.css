@@ -1012,6 +1012,7 @@ font-size:14px;font-weight: 600; position:relative !important; top: 0; left:0;wi
 .c-warning { background-color: #ffefbc; border-color: #ba9a32; color:#ba9a32;}
 .c-error { background-color: #f9c8c7; border-color: #e85656; color:#e85656;}
 .c-info { background-color: #c6e6ff; border-color: #138ae9; color:#002f55;}
+.c-info:hover { background-color: #c6e6ff !important; border-color: #138ae9; color:#002f55;}
 
 .editmodel-alert-container {padding: 0 20px;}
 .editmodel-alert-container .c-alert {margin-bottom: 20px;}
@@ -1564,7 +1565,8 @@ input[type="text"].medium-textbox {width: 300px;}
 .margin-left-auto {margin-left: auto;}
 .btn-icon-valign-horizontal {height: 33px;padding:0 5px; min-width: 20px;margin-bottom:2px;}
 .grid-small-text {font-size: 11px; color:#999;margin-left: 7px;}
-.white-overlay {width: 100%; position:absolute; bottom:0; left:0; height: 93%; z-index: 2; background: rgba(255,255,255, 1) url("../images/ajax-loader.gif") no-repeat center center}
+.white-overlay {width: 100%; position:absolute; bottom:0; left:0; height: 100%; z-index: 2; background: rgba(255,255,255, 1) url("../images/ajax-loader.gif") no-repeat center center}
+.white-overlay-msg{ display: inline-block; color: #000; position: absolute; top: 50%; font-size: 14px; left: 50%; margin-top: 40px; margin-left: -39px; z-index: 3;}
 .mdl-tabs__tab .tab-maintained_logs {width:25px; height:16px;background: url("../images/admin-dashboard/mbl_inactive.png") no-repeat center center; margin-right:7px;}
 .mdl-tabs__tab.is-active .tab-maintained_logs {background: url("../images/admin-dashboard/mbl_active.png") no-repeat center center; margin-right:7px;}
 
