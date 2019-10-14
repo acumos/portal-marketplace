@@ -796,7 +796,7 @@ angular.module('modelResource')
                        function(response) {                   	  
                            if(response.data.response_body.length) {
                         	  $scope.allTemplates = response.data.response_body;
-                        	  $scope.selectedLicense = 0;
+                        	  $scope.selectedLicense = -1;
                            } 
                 });
 		   }

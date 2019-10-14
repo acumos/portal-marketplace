@@ -468,11 +468,11 @@ limitations under the License.
 					</div>
 
 					<div class="mdl-tabs__panel" id="tab7-panel">
-						<div class="license-change-option" ng-show="isLoadingLicense===false && !editModel" >
+						<div class="license-change-option" >
 							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="modifyLicenseProfileTemplate($event, true)">
 	                              Update
 							</button>
-							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="changeLicense=true">
+							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false || changeLicense"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="changeLicense=true">
 	                              Change
 							</button>							
 						</div>	
@@ -501,15 +501,15 @@ limitations under the License.
 									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Create New License" title="Create New License">
 									Create New</button>
 									
-								<div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="mdl-grid">
-								    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
-									    <md-select ng-model="$parent.selectedLicense">
+								<div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="mdl-grid" style="padding: 0">
+								    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone" style="margin: 8px 0; padding: 0 6px 0 0">
+									    <md-select ng-model="$parent.selectedLicense" placeholder="Select...">
 									    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
 										</md-select>
 									</div>
 									<div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
-										 <button ng-click="modifyLicenseProfileTemplate($event, false)"					
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Modify License" title="Modify License">
+										 <button ng-click="modifyLicenseProfileTemplate($event, false)"	ng-disabled="$parent.selectedLicense==-1"
+										 	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Modify License" title="Modify License">
 										Modify</button>
 							    	</div>
 							    </div>	
@@ -542,7 +542,7 @@ limitations under the License.
 											</div>
 										</div>
 										 <div class="input-upload-button">
-                                             <button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" ng-cloak ng-disabled="!file || file.size/1024/1024 > 1" ng-click="uploadLicenseFile()" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+                                             <button class="btn-primary mdl-button mdl-js-button btn-secondary md-ink-ripple" ng-cloak ng-disabled="!file || file.size/1024/1024 > 1" ng-click="uploadLicenseFile()" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
                                              <span> Upload </span>
                                              </button>
                                          </div>
