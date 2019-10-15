@@ -1893,7 +1893,7 @@ angular
 										templateUrl:'./app/modular-resource/license-profile-editor-dialog.template.html',
 										parent: angular.element(document.body),
 										targetEvent: event,
-										clickOutsideToClose:true,
+										clickOutsideToClose:false,
 										onComplete: onCompleteLicProfileTplDialog
 									});
 								};
@@ -1916,8 +1916,7 @@ angular
 									var selectedLic = $scope.allTemplates[$scope.selectedLicense];
 									var template = JSON.parse(selectedLic.template);
 								}
-								
-								$scope.createLicenseFile(selectedLic);
+
 								if (selectedLic) {
 									try {
 										var msgObj = {
