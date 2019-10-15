@@ -933,10 +933,10 @@ limitations under the License.
 																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
-																ng-if="solutionCompanyDescStatus || copiedCompanyDesc">
+																ng-if="(solutionCompanyDescStatus || copiedCompanyDesc) && !checkFlag">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span
-																ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc && selectedCatalogId != undefined"
+																ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc   && selectedCatalogId != undefined || checkFlag"
 																class="red">Not Started</span> <span
 																ng-if="selectedCatalogId == undefined"
 																class="red">Select a Catalog</span>
@@ -993,6 +993,8 @@ limitations under the License.
 														 
 														
 														<description-rating ratedescriptioncheck="ratedescriptioncheck"></description-rating><br>
+														<small ng-show="modelDescriptionError" class="red"><strong>Error Occurred:</strong> {{modelDescriptionErrorMsg}}</small>
+														
 											           <div ng-if="ratedescriptioncheck<500 && checkFlag" >
 											           <p class="font600 no_margin">The provided description less than 500 characters</p>
 											           <p class="text-medium">If you want to improve your model description rating then please add more details, else click on 'OK' button to go with the current rating </p>
