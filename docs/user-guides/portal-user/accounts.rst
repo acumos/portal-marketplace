@@ -113,7 +113,14 @@ preferences, access the **Notification Preferences** tab.
 
     .. image:: images/portal/Account_setting_notification.png
     
-    
+Password Expiration
+====================    
+1) The expiration duration is configurable through yml with possible values like (nD / nW / nM / nY) where D = Days, W = weeks, M = Months & Y = Years)
+2) If above property not found or configured, password will not be expired or captured in DB
+3) Expiration date will be set in below scenarios:
+	a)When user registers
+	b)Reset the password
+	c)Forgot password 
 
 Favorite Catalog
 ================

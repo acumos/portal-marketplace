@@ -356,3 +356,27 @@ The Acumos platform does not automatically remove resources that it creates
 under your Azure account. When you are done testing with the model in the 
 launched VM, if you do not want to keep these resources active, you can delete 
 them through the Azure "All resources" list.
+
+Deploy to K8S
+=============
+Logged-in users may deploy a model's microservice to Kubernetes.
+
+Kubernetes (commonly stylized as k8s) is an open-source container-orchestration system for automating application deployment, scaling, and management.
+It aims to provide a "platform for automating deployment, scaling, and operations of application containers across clusters of hosts".
+
+Steps:
+------
+1) User can select the kubernetes from the deploy to cloud option.
+ 	.. image:: ../images/portal/Deploy-kubernetes.PNG
+ 
+2) User can click on the OK button and select any of the Kubernetes cluster value.
+	.. image:: ../images/portal/Deploy-cluster-values.PNG
+
+3) User will get a info message that process is started.
+	.. image:: ../images/portal/Deploy-info.PNG
+	
+4) Once the model is successfully deploy user will get the notification in the bell icon.
+	.. image:: ../images/portal/Deploy-notification.PNG
+
+ 
+
