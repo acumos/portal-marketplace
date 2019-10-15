@@ -302,7 +302,7 @@ limitations under the License.
 								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone upload-model-bundle-left">
 								  	<div class="mdl-grid mdl-grid--no-spacing deploy-grid add-document">
 																	<form class="ng-pristine ng-valid" name="onboardingForm">
-																		<h5>Upload Model Bundle</h5>
+																		<h5>Upload Model Bundle<sup>*</sup></h5>
 																		<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
@@ -383,7 +383,7 @@ limitations under the License.
 																			<md-checkbox aria-label="Create micro-service during on-boarding" ng-model="$root.isMicroserviceEnabled" ng-disabled="disableOnboardingButton==true  || ($root.trackId && !$root.dockerURIonboarding)"></md-checkbox>					
 																			<span>Create micro-service during on-boarding</span>
 																		</div>
-																		<div ng-show="$root.isMicroserviceEnabled && !$root.isOnnxOrPFAModel" class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+																		<div ng-show="$root.isMicroserviceEnabled && !$root.isOnnxOrPFAModel" class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-marleft6">
 																			<div class="select-control">
 																				<label class="fedlbl4">Select Deployment Environment</label>
 																				<md-select ng-model="devEnv">
@@ -394,7 +394,7 @@ limitations under the License.
 																			</div>
 																		</div>
 																		<div id="modelName" class="upload-model-bundle-left">																							
-																			<h5>License Profile</h5>
+																			<h5>License Profile<sup>*</sup></h5>
 																			<div id="modelName">
 																			<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelLicUploadError=false">
 																		      <md-radio-button value="Upload">Upload</md-radio-button>
@@ -405,7 +405,7 @@ limitations under the License.
 																				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Create New License" title="Create New License">
 																				Create New</button>
 																		    </div>
-																		    <div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="dc-row" style="padding: 0">
+																		    <div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="license-detail-form dc-row" style="padding: 0">
 																			    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone" style="margin: 8px 0; padding: 0 6px 0 0">
 																			    <md-select ng-model="$parent.selectedLicense" placeholder="Select...">
 																			    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
@@ -663,7 +663,7 @@ limitations under the License.
 
 								
 										<div id="modelName">																							
-												<span>License Profile</span>
+												<span>License Profile<sup>*</sup></span>
 												<div id="modelName">
 												<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelDocLicUploadError=false;">
 											      <md-radio-button value="Upload">Upload</md-radio-button>
