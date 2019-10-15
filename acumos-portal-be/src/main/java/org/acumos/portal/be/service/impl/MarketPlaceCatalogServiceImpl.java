@@ -43,10 +43,8 @@ import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPDocument;
-
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPublishRequest;
-
 import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
@@ -75,7 +73,6 @@ import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
-import org.acumos.portal.be.transport.MLPeer;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
@@ -362,36 +359,69 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		log.debug("deleteSolutionArtifacts");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			if (revisionId != null) {
-				List<MLPArtifact> mlpArtifactsList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId,
-						revisionId);
-				DockerClient dockerClient = null;
-				String nexusUrl = env.getProperty("nexus.url");
-				String nexusUserName = env.getProperty("nexus.username");
-				String nexusPd = env.getProperty("nexus.password");
-				String dockerUrl = env.getProperty("nexus.docker");
-				String artifactReference = "";
-				for (MLPArtifact mlp : mlpArtifactsList) {
-					// Delete the file from the Nexus
-					if ("DI".equals(mlp.getArtifactTypeCode())) {
-						
-						String dockerUri =  mlp.getUri();
-						String[] result = dockerUri.split("/");					
-						String[] result2 = result[1].split(":");
-						String solutionName = result2[0];
-						String version = result2[1];
-						
-						log.info("solutionName-->>"+solutionName+"version---->>"+version);
-						artifactReference = dockerUrl+"/v2/"+solutionName+"/manifests/"+version;
+
+			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
+			try {
+				List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
+				HashSet<MLPTag> tags = new HashSet<MLPTag>(taglist.size());
+				for (MLPTag tag : taglist)
+					tags.add(tag);
+				solution.setTags(tags);
+			} catch (HttpStatusCodeException e) {
+				log.error("Could not fetch tag list for delete solution artifacts: " + e.getMessage());
+			} finally {
+				// start
+				List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(solutionId);
+				if (catalogs != null) {
+					for (MLPCatalog catalog : catalogs) {
+						dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalog.getCatalogId());
 					}
-					log.info("mlp.getUri ----->>" + mlp.getUri());
-					log.info("mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
-					deleteArtifactsFromDockerRepo(dockerClient, mlp);
-					log.info(" artifactReference------->>>"+artifactReference);
-					deleteArtifcatsFromNexusRepo(nexusUrl, nexusUserName, nexusPd, mlp, artifactReference);					
-					 
-					deleteArtifactFromCds(solutionId, revisionId, dataServiceRestClient, mlp);
 				}
+				if (revisionId != null) {
+					List<MLPArtifact> mlpArtifactsList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId,
+							revisionId);
+
+					for (MLPArtifact mlp : mlpArtifactsList) {
+						boolean deleteNexus = false;
+						// Delete the file from the Nexus
+						log.info("mlp.getUri ----->>" + mlp.getUri());
+						log.info("mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
+						if ("DI".equals(mlp.getArtifactTypeCode())) {
+							DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
+							DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
+							deleteImg.setClient(dockerClient);
+							deleteImg.execute();
+							deleteNexus = true;
+						} else {
+							// Delete the file from the Nexus
+							String nexusUrl = env.getProperty("nexus.url");
+							String nexusUserName = env.getProperty("nexus.username");
+							String nexusPd = env.getProperty("nexus.password");
+							log.info("nexusUrl ----->>" + nexusUrl);
+							log.info("nexusUserName ----->>" + nexusUserName);
+							log.info("nexusPd ----->>" + nexusPd);
+							NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName,
+									nexusPd);
+							nexusArtifactClient.deleteArtifact(mlp.getUri());
+							deleteNexus = true;
+						}
+						if (deleteNexus) {
+
+							String artifactId = mlp.getArtifactId();
+							// Delete SolutionRevisionArtifact
+							dataServiceRestClient.dropSolutionRevisionArtifact(solutionId, revisionId, artifactId);
+							log.debug(" Successfully Deleted the SolutionRevisionArtifact ");
+							// Delete Artifact from CDS
+							dataServiceRestClient.deleteArtifact(artifactId);
+							log.debug(" Successfully Deleted the CDump Artifact ");
+						} else {
+							throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER,
+									"Unable to delete  solution from Database");
+						}
+					}
+				}
+				// end
+				dataServiceRestClient.updateSolution(solution);
 			}
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
@@ -399,47 +429,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}		
 		return mlSolution;
-	}
-
-	private void deleteArtifactsFromDockerRepo(DockerClient dockerClient, MLPArtifact mlp)
-			throws AcumosServiceException {
-		log.info("mlp.getArtifactTypeCode() ----->>" + mlp.getArtifactTypeCode());
-		if ("DI".equals(mlp.getArtifactTypeCode())) {			
-			if(dockerClient ==null ) {																		
-				dockerClient = 	DockerClientFactory.getDockerClient(dockerConfiguration);
-			}			
-			log.info("mlp.getUri()--docker-------->>>"+mlp.getUri());
-			DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
-			deleteImg.setClient(dockerClient);
-			deleteImg.execute();
-			log.info("mlp.getArtifactTypeCode() inside----->>" + mlp.getArtifactTypeCode());
-		}
-	}
-
-	private void deleteArtifcatsFromNexusRepo(String nexusUrl, String nexusUserName, String nexusPd, MLPArtifact mlp, String artifactReference) throws URISyntaxException {
-		
-		log.info("nexusUrl ----->>" + nexusUrl);
-		log.info("nexusUserName ----->>" + nexusUserName);
-		log.info("mlp.getUri()----nexus---->>>"+mlp.getUri());
-		
-		NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName,
-				nexusPd);
-		if("DI".equals(mlp.getArtifactTypeCode()))
-			nexusArtifactClient.deleteArtifact(artifactReference);
-		else
-			nexusArtifactClient.deleteArtifact(mlp.getUri());
-	}
-
-	private void deleteArtifactFromCds(String solutionId, String revisionId,
-			ICommonDataServiceRestClient dataServiceRestClient, MLPArtifact mlp)
-			throws AcumosServiceException {	
-			String artifactId = mlp.getArtifactId();
-			// Delete SolutionRevisionArtifact
-			dataServiceRestClient.dropSolutionRevisionArtifact(solutionId, revisionId, artifactId);
-			log.debug(" Successfully Deleted the SolutionRevisionArtifact ");
-			// Delete Artifact from CDS
-			dataServiceRestClient.deleteArtifact(artifactId);
-			log.debug(" Successfully Deleted the CDump Artifact ");
 	}
 
 	public NexusArtifactClient nexusArtifactClient(String nexusUrl, String nexusUserName, String nexusPd) {
