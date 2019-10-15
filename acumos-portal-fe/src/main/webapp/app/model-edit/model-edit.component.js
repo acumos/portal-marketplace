@@ -94,9 +94,11 @@ angular
 						$scope.activePublishBtn = false;
 						$scope.showSolutionImage = false;
 						$scope.showSolutionDocs = false;
+                                                $scope.modelDescriptionError = false;
+                                                $scope.modelDescriptionError = false;
 						$scope.supportingDocs = [];
 						$scope.tags1 = [];
-                        $scope.checkFlag = true;
+                                                $scope.checkFlag = true;
 						componentHandler.upgradeAllRegistered();
 						$scope.solutionCompanyDescStatus = false;
 						$scope.icon = false;
@@ -901,10 +903,23 @@ angular
 																}}, 3500);
 												}).error(
 												function(data) {
-													$scope.solutionCompanyDesc = '';
-													$scope.solutionCompanyDescStatus = false;
-													$scope.solutionCompanyDescLength = false;
-													$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');;
+													
+													if(data.status == 500){
+													
+														
+														$scope.modelDescriptionError = true;
+														$scope.modelDescriptionErrorMsg = data;
+														
+														
+														
+													}
+													else{
+														$scope.solutionCompanyDesc = '';
+														$scope.solutionCompanyDescStatus = false;
+														$scope.solutionCompanyDescLength = false;
+														$scope.newDescriptionLength = $scope.solutionCompanyDesc.replace(/<[^>]+>/gm, '');
+													}
+													
 													
 												});
 							} else {
