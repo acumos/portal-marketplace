@@ -1092,23 +1092,27 @@ limitations under the License.
 																		<i class="material-icons" style="margin: 0"
 																			ng-show="!expanded">add</i> <i
 																			class="material-icons" style="margin: 0"
-																			ng-show="expanded">indeterminate_check_box</i> 
+																			ng-show="expanded">remove</i> 
 																</md-icon>
 															</span>
 															
 															<span>{{snapshot.repositoryName}}</span>
 														</td>
 														<td>
-															<md-button class="md-icon-button md-primary" aria-label="archive" 
+															<md-button class="md-icon-button md-primary" aria-label="archive" title="archive" 
 																ng-click="confirmCreateRestoreArchive('archive', snapshot.repositoryName)">
 																<i class="gridicon-archive"></i>
 															</md-button>
 														</td>
 													</tr>
 													<tr ng-show="expanded">
-														<td></td>
-														<td colspan="3">
-															<table>
+														
+														<td colspan="3" class="no_padding">
+															<table class="create_bkp_inner_tbl">
+															<colgroup>
+																<col style="width:80%">
+																<col style="width:20%;">															
+															</colgroup>
 															<thead>
 																<tr>
 																	<th>Backup Name</th>
@@ -1118,7 +1122,7 @@ limitations under the License.
 															<tbody>
 																<tr ng-repeat="snapshotName in snapshot.snapshots">
 																	<td>{{snapshotName.snapShotId}}</td>
-																	<td>{{snapshotName.startTime}}</td>
+																	<td>{{snapshotName.startTime | customdate}}</td>
 																</tr>
 															</tbody>
 															</table>
@@ -1287,28 +1291,31 @@ limitations under the License.
 																		<i class="material-icons" style="margin: 0"
 																			ng-show="!expandedArchive">add</i> <i
 																			class="material-icons" style="margin: 0"
-																			ng-show="expandedArchive">indeterminate_check_box</i> 
+																			ng-show="expandedArchive">remove</i> 
 																</md-icon>
 															</span>
 															<span>{{archive.repositoryName}}</span>
 														</td>
 														<!-- <td><span>{{archive.createdDate}}</span></td> -->
 														<td> <!--  class="text-center" -->
-															<md-button class="md-icon-button md-primary" aria-label="Restore"
+															<md-button class="md-icon-button md-primary" aria-label="Restore" title="Restore"
 															 ng-click="confirmCreateRestoreArchive('restore', archive.repositoryName)">
 																<span class="gridicon-restore"></span>
 																				  
 															</md-button>
-															<a ng-click="confirmCreateRestoreArchive('delete', archive.repositoryName)">
+															<a ng-click="confirmCreateRestoreArchive('delete', archive.repositoryName)" title="delete">
 																<span class="gridicon-delete"></span>
 															</a>
 														</td>
 													</tr>
 													
 													<tr ng-show="expandedArchive">
-														<td></td>
-														<td colspan="3">
-															<table>
+														<td colspan="3" class="no_padding">
+															<table class="create_bkp_inner_tbl">
+															<colgroup>
+																<col style="width:80%">
+																<col style="width:20%;">															
+															</colgroup>
 															<thead>
 																<tr>
 																	<th>Backup Name</th>
@@ -1318,7 +1325,7 @@ limitations under the License.
 															<tbody>
 																<tr ng-repeat="archivedSnapshot in archive.snapshots">
 																	<td>{{archivedSnapshot.snapShotId}}</td>
-																	<td>{{archivedSnapshot.startTime}}</td>
+																	<td>{{archivedSnapshot.startTime | customdate}}</td>
 																</tr>
 															</tbody>
 															</table>

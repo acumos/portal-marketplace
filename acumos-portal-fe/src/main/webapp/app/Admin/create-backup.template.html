@@ -59,8 +59,12 @@ limitations under the License.
 						<div>
 							<md-input-container class="md-block">
 								<label>Repository Name</label>
-								<input type="text" class="medium-textbox" ng-model="repositoryName" placeholder="Enter Name" required/>
+								<input type="text" class="medium-textbox" ng-model="repositoryName" name="repositoryName" placeholder="Enter Name" required ng-pattern ="/^[a-zA-Z0-9_-]+$/" />
 							</md-input-container>
+							<div class="help-inline validation-msgs">
+										<span ng-show="createRepo.repositoryName.$error.pattern">Repository Name can consists of alphanumeric, hyphen and underscore characters only.</span>
+							</div>
+							 
 						</div>
 						<div>
 							<label class="disblock">&nbsp;</label>
@@ -72,7 +76,7 @@ limitations under the License.
 						<div>
 							<label class="disblock">&nbsp;</label>
 							<button ng-click="createFirstRepo = !createFirstRepo;" 
-								class="mdl-button mdl-js-button btn-secondary btn-valign-horizontal">Back</button>
+								class="mdl-button mdl-js-button btn-secondary btn-valign-horizontal">Cancel</button>
 						</div>
 						</div>
 					</div>
@@ -104,15 +108,18 @@ limitations under the License.
 											name="backupName" required 
 											ng-pattern ="/^[0-9a-z-_\s]*$/" />
 										</md-input-container>
-										<small ng-show="backupForm.backupName.$error.pattern">Backup name in lower case and only 
-										hyphen and underscore is allowed.</small>
+										<div class="help-inline validation-msgs">
+										<span ng-show="backupForm.backupName.$error.pattern">Backup name in lower case and only 
+										hyphen and underscore is allowed.</span>
+
+									</div>
 									</div>
 							</div>
 							
 							<div class="c-alert c-warning static-position margin-backlog">
 								<div class="c-alert-inner"><span class="material-icons">report_problem</span>
 								<span class="alert-text">If you delete any indices from this page it will be
-								deleted permanently from the database.</span></div>
+								deleted permanently from the elasticsearch.</span></div>
 							</div>
 							
 							

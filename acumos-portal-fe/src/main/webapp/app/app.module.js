@@ -68,6 +68,14 @@ app.filter('filterByTags', function () {
       return filtered;
     };
   });
+
+app.filter('customdate',function(){
+    return function(input)
+    {
+          return ((input).split(" ")[0]).replace(/-/g,"/");
+    }
+});
+
 angular
 .module('AcumosApp').directive('resizer', function($document) {
 
