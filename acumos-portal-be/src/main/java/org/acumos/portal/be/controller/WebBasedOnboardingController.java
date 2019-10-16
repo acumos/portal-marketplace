@@ -166,8 +166,6 @@ public class WebBasedOnboardingController extends AbstractController {
 
 		userId = SanitizeUtils.sanitize(userId);
 		trackingId = SanitizeUtils.sanitize(trackingId);
-
-		log.debug("messagingStatus");
 		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
 
 		try {

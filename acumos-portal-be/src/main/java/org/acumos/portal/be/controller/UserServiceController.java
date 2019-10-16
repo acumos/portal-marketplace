@@ -578,8 +578,7 @@ public class UserServiceController extends AbstractController {
 		// public JsonResponse getUserAccountDetails() {
 		
 		userId = SanitizeUtils.sanitize(userId);
-		
-		log.debug("getUserImage={}");
+
 		// Object responseVO = null;
 		JsonResponse<byte []> responseVO = new JsonResponse<>();
 		try {
@@ -600,7 +599,7 @@ public class UserServiceController extends AbstractController {
 					responseVO.setStatus(false);
 					responseVO.setResponseDetail("Failed");
 					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-					log.error("Exception Occurred while getUserImage()");
+					log.debug("getUserImage() - no image found for userid "+userId);
 				}
 			}
 		} catch (Exception e) {

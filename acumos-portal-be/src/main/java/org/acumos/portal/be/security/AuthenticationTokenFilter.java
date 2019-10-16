@@ -154,10 +154,6 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 	    			    SecurityContextHolder.getContext().setAuthentication(authentication);
 	    			} 
 	    	
-				  } else {
-					  log.debug("Cannot Validate Token : " + authToken);
-					  //response.setHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer");
-				  }
 	    	    break;
 		
 	    	} 
