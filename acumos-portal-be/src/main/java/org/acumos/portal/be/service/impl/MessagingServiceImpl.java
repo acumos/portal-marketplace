@@ -53,13 +53,11 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		List<MLPTask> tasks = findTasksByTrackingId(trackingId);
 		if (!PortalUtils.isEmptyList(tasks)) {
 			for (MLPTask task : tasks) {
-				log.debug("callOnBoardingStatus:TaskId=" + task.getTaskId());
 				for (MLPTaskStepResult step : dataServiceRestClient.getTaskStepResults(task.getTaskId())) {
 					messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
 				}
 			}
 			Collections.sort(messageStatus, (a, b) -> a.getStepResultId().compareTo(b.getStepResultId()));
-			log.debug("callOnBoardingStatus:messageStatus.length=" + messageStatus.size());
 		}
 		return messageStatus;
 	}
@@ -103,11 +101,6 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		if (!PortalUtils.isEmptyList(pageResponse.getContent())) {
 			tasks = pageResponse.getContent();
 		}
-		
-		if(tasks!=null) {
-			log.debug("callOnBoardingStatus:findTasksByTrackingId() : tasks size=" + tasks.size());
-		}
-
 		return tasks;
 	}
 
