@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f801d3f0_40616bc6",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-10-17T23:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cb8d5fd_e5a0457b",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "5ee666aa02f12449b74195b2778c283a7509d974",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c81de139_17ff3fd0",
         "filename": "acumos-portal-fe/pom.xml",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-17T13:41:35Z",
       "side": 1,
       "message": "keep version to 3.0.16",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "5ee666aa02f12449b74195b2778c283a7509d974",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99afa067_0de946e7",
+        "filename": "acumos-portal-fe/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-10-17T23:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c81de139_17ff3fd0",
       "range": {
         "startLine": 26,
         "startChar": 10,
