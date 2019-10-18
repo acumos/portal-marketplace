@@ -121,7 +121,7 @@ angular
 												
 												$scope.allOnBoardingHistoryTaskList.forEach(function(element) {
 												element.textDate = $filter('date')(element.modifiedDate, "MM/dd/yyyy '|' h:mm a");
-												element.status = element.statusCode == "ST" ? "InProgress" : element.statusCode == "SU" ? "Successful" : "Failed"
+												element.status = element.statusCode == "ST" ? "In Progress" : element.statusCode == "SU" ? "Successful" : "Failed"
 											    });
 												$scope.totalPages = response.data.totalPages;
 												$scope.totalElements = response.data.totalElements;
