@@ -1032,11 +1032,17 @@ limitations under the License.
 					<div class="mdl-tabs__panel" id="tab9-panel">
 						<div class="admin-tab-heading">
 							<span class="admin-title2">Maintained Backup Logs</span>
-						</div>
+					</div>
+					
 						<div class="site-content-wrapper">
+							
 							<md-tabs md-dynamic-height md-border-bottom>
 								<md-tab label="Backup Logs">
 									<md-content class="md-padding">
+										<div class="c-alert static-position margin-backlog" ng-class="styleclass?'c-success':'c-error'" ng-show="backupStatus">
+											<div class="c-alert-inner"><span class="material-icons">{{icon}}</span>
+											<span class="alert-text">{{msg}}</span></div>
+										</div>
 										<div class="fed-row1">
 											<div class="fedrow-cell1">
 												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>

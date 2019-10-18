@@ -43,6 +43,7 @@ angular.module('admin').filter('abs', function () {
             $scope.verify = true;
             $scope.changeOrderfor = 0;
             $scope.validImageFile = false;
+            $scope.backupStatus=false;
            
 
             $scope.changeOrderValue = 0
@@ -3588,7 +3589,7 @@ angular.module('admin').filter('abs', function () {
 			/********************Archive methods*************/ 
             //$scope.orderArchives='backupName';
             $scope.reverseSortarchive = true;
-            
+          
             $scope.getAllArchives = function () {
             	$scope.allArchives = [];
             	$scope.archives = [];
@@ -3709,6 +3710,7 @@ angular.module('admin').filter('abs', function () {
                             $scope.getMaintainedBackupLogs();
                         });
             };
+          
             
             $scope.deleteSnapshot = function(){
                 var reqBody = {
@@ -3754,6 +3756,7 @@ angular.module('admin').filter('abs', function () {
             
             
             /******** Repository Methods **************/
+            
             $scope.createFirstRepo = false;
             $scope.createBackup = function(ev) {
             	var _isRepoAvailable = $scope.isRepoAvailable;
@@ -3770,6 +3773,7 @@ angular.module('admin').filter('abs', function () {
                 	 $scope.isRepoAvailable = isRepoAvailable;
                 	 $scope.createFirstRepo = createFirstRepo;
                 	 $scope.selectAllIndice = false;
+                	 $scope.repositoryStatus=false;
 						$scope.closePoup = function(){
 							$mdDialog.hide();
 	                    };
@@ -3839,7 +3843,7 @@ angular.module('admin').filter('abs', function () {
                  		   });
                  		   return selectedCount;
                         };
-                        
+                       
                         $scope.createRepository = function(repositoryName){
                         	
                         		$scope.selectRepository = true;
@@ -3853,39 +3857,37 @@ angular.module('admin').filter('abs', function () {
                                 .createRepositories(reqBody)
                                 .then(
                                     function (response) {
-                                    	
-                                    	$location.hash('backupLogs'); 
-                                        $anchorScroll();
-                                        $scope.msg = "Repository created successfully.";
+                                    	$scope.repositoryStatus=true;
+                                    	$scope.msg = "Repository created successfully.";
                                         $scope.icon = '';
-                                        $scope.styleclass = 'c-success';
-                                        $scope.showBackupLogsMessage = true;
-                                        $timeout(function () {
-                                            $scope.showBackupLogsMessage = false;
+                                        $scope.styleclass = true;
+                                       $timeout(function () {
+                                            $scope.repositoryStatus = false;
                                         }, 3000);
                                         createRepo.reset();
                                         $scope.fetchAllRepositories();
                                       },
                                       
                                     function (error) {
+                                    	$scope.repositoryStatus=true;
                                         var error = error.data;
                                         $location.hash('backupLogs'); 
                                         $anchorScroll();
                                         $scope.msg = "Error Occurred while creating repository.";
                                         $scope.icon = 'info_outline';
-                                        $scope.styleclass = 'c-error';
-                                        $scope.showBackupLogsMessage = true;
+                                        $scope.styleclass = false;
                                         $timeout(function () {
-                                            $scope.showBackupLogsMessage = false;
+                                            $scope.repositoryStatus = false;
                                         }, 3000);
                                         createRepo.reset();
                                         $scope.fetchAllRepositories();
                                     });
-                        
-           
+                        	
+            
                         };
                         $scope.elements = [];
                         
+                       
                         $scope.createBackup = function(){
                         	$scope.selectedRepoName = $scope.selectRepo;
                         	$scope.allIndices;
@@ -3915,15 +3917,13 @@ angular.module('admin').filter('abs', function () {
                                 .then(
                                     function (response) {
                                     	$scope.closePoup();
+                                    	$scope.parent.backupStatus=true;
                                     	$scope.selectAllIndices(true);
-                                    	$location.hash('myDialog'); 
-                                        $anchorScroll();
-                                        $scope.parent.msg = "Created Backup successfully.";
+                                    	$scope.parent.msg = "Created Backup successfully.";
                                         $scope.parent.icon = '';
-                                        $scope.parent.styleclass = 'c-success';
-                                        $scope.parent.showAlertMessage = true;
+                                        $scope.parent.styleclass = true;
                                         $timeout(function () {
-                                            $scope.parent.showAlertMessage = false;
+                                            $scope.parent.backupStatus = false;
                                         }, 3000);
                                         backupForm.reset();
                                         $scope.selectRepo=" ";
@@ -3932,15 +3932,16 @@ angular.module('admin').filter('abs', function () {
                                     },
                                     function (error) {
                                     	$scope.closePoup();
+                                    	$scope.parent.backupStatus=true;
                                         var error = error.data;
                                         $location.hash('myDialog'); 
                                         $anchorScroll();
                                         $scope.parent.msg = "Error Occurred while creating backup.";
                                         $scope.parent.icon = 'info_outline';
-                                        $scope.parent.styleclass = 'c-error';
-                                        $scope.parent.showAlertMessagesage = true;
+                                        $scope.parent.styleclass = false;
+                                      
                                         $timeout(function () {
-                                            $scope.parent.showAlertMessage = false;
+                                        	$scope.parent.backupStatus = false;
                                         }, 3000);
                                         backupForm.reset();
                                         $scope.selectRepo=" ";
