@@ -35,26 +35,25 @@ import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.federation.client.GatewayClient;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.Clients;
-import org.acumos.portal.be.common.GatewayClient;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -62,10 +61,6 @@ import io.swagger.annotations.ApiOperation;
 public class GatewayController extends AbstractController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
-	
-	
-	@Autowired
-	private Environment env;
 	
 	@Autowired
 	Clients clients;
@@ -94,7 +89,7 @@ public class GatewayController extends AbstractController {
 		peerId = SanitizeUtils.sanitize(peerId);
 		
 		JsonResponse<MLPPeer> data = new JsonResponse<>();
-		JsonResponse<MLPPeer> peer = null;
+		MLPPeer peer = null;
 		try {
 			if(peerId != null && peerId != "") {
 				GatewayClient gateway = clients.getGatewayClient();
@@ -104,7 +99,7 @@ public class GatewayController extends AbstractController {
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Cannot Establish Connection");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseBody(peer.getContent());
+				data.setResponseBody(peer);
 			}
 		}catch(Exception e) {
 			data = new JsonResponse<>();
@@ -130,27 +125,27 @@ public class GatewayController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLPSolution>> getSolutions(HttpServletRequest request, @RequestBody JsonRequest<MLPPeerSubscription> peerSubscription, HttpServletResponse response) {
 		JsonResponse<List<MLPSolution>> data = new JsonResponse<>();
-		String selector = null;
+		String catalogId = null;
+		
 		Map<String, Object> selectorMap = new HashMap<>();
-		JsonResponse<List<MLPSolution>> solutions = null;
+		List<MLPSolution> solutionList=null;
 		if(peerSubscription != null) {
 			try {
 				MLPPeerSubscription mlpPeerSubscription = peerSubscription.getBody();
-				if  (mlpPeerSubscription != null ) {
-					selector = mlpPeerSubscription.getSelector();
-					selectorMap = JsonUtils.serializer().mapFromJson(selector);
-				}
-				if (selectorMap != null && selectorMap.size() > 0) {
+				selectorMap = JsonUtils.serializer().mapFromJson(mlpPeerSubscription.getSelector());
+				if (mlpPeerSubscription != null && selectorMap != null && selectorMap.size() > 0) {
+					catalogId=selectorMap.get("catalogId").toString();
 					GatewayClient gateway = clients.getGatewayClient();
-					solutions = gateway.getSolutions(mlpPeerSubscription.getPeerId(), selector);
-					
-					log.info(JsonUtils.serializer().toPrettyString(solutions));
+					if(StringUtils.isEmpty(catalogId)) {
+						solutionList = gateway.getSolutions(mlpPeerSubscription.getPeerId(), catalogId);
+					}
+					log.info(JsonUtils.serializer().toPrettyString(solutionList));
 				}
-				if (solutions == null){
+				if (solutionList == null){
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-					data.setResponseBody(solutions.getContent());
+					data.setResponseBody(solutionList);
 				}
 			}catch(Exception e) {
 				data = new JsonResponse<>();
@@ -181,7 +176,7 @@ public class GatewayController extends AbstractController {
 		peerId = SanitizeUtils.sanitize(peerId);
 		
 		JsonResponse<MLPSolution> data = new JsonResponse<MLPSolution>();
-		JsonResponse<MLPSolution> solution = null;
+		MLPSolution solution = null;
 		if(solutionId != null) {
 			try {
 				GatewayClient gateway = clients.getGatewayClient();
@@ -190,7 +185,7 @@ public class GatewayController extends AbstractController {
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-					data.setResponseBody(solution.getContent());
+					data.setResponseBody(solution);
 				}
 			}catch(Exception e) {
 				data = new JsonResponse<>();
@@ -211,7 +206,7 @@ public class GatewayController extends AbstractController {
         peerId = SanitizeUtils.sanitize(peerId);
 		
 		JsonResponse<List<MLPCatalog>> data = new JsonResponse<>();
-		JsonResponse<List<MLPCatalog>> catalogs = null;
+		List<MLPCatalog> catalogs = null;
 		try {
 			if(peerId != null && peerId != "") {
 				GatewayClient gateway = clients.getGatewayClient();
@@ -221,7 +216,7 @@ public class GatewayController extends AbstractController {
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Cannot Establish Connection");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseBody(catalogs.getContent());
+				data.setResponseBody(catalogs);
 			}
 		}catch(Exception e) {
 			data = new JsonResponse<>();

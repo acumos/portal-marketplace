@@ -45,7 +45,7 @@ import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.Clients;
 import org.acumos.portal.be.common.ConfigConstants;
-import org.acumos.portal.be.common.GatewayClient;
+import org.acumos.federation.client.GatewayClient;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
@@ -87,7 +87,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -724,7 +723,7 @@ public class AdminServiceController extends AbstractController {
 				
 				// Fetch remote catalog
 				GatewayClient gateway = clients.getGatewayClient();
-				List<MLPCatalog> catalogs = gateway.getCatalogs(peerId).getResponseBody();
+				List<MLPCatalog> catalogs = gateway.getCatalogs(peerId);
 				log.debug("createSubscription remote catalogs size={}", catalogs.size());
 				MLPCatalog remoteCatalog = null;
 				for (MLPCatalog cat : catalogs) {
