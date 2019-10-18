@@ -28,5 +28,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "client")
 public class GatewayClientConfiguration extends ClientConfig {
 	
+	
 }
 
