@@ -140,6 +140,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.GET, "/licenseProfileUrl").permitAll()
         .antMatchers(HttpMethod.GET, "/oauth/login/username").permitAll()
         
+        .antMatchers(HttpMethod.PUT, "/users/changePassword").permitAll()
+        
         
         .anyRequest().authenticated();
     	
