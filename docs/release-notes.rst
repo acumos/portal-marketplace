@@ -21,8 +21,26 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.16 17th October 2019
+Version 3.0.16 18th October 2019
 ================================
+* ACUMOS-3452  IST2 - Unable to create a subscription
+* ACUMOS-3581  IST : Not able to login with the updated password after password expiry
+* ACUMOS-2465  <IST2> Not able to delete the unpublished models.
+* ACUMOS-3559  Error is not displaying while updating the description when SV flag is ON
+* ACUMOS-3557  <IST2> <Portal Marketplace> Backup Logs /Archived Logs Issues
+* ACUMOS-3527  <IST2> License Profile screen is having cosmetic, alignment and button functionality issue 
+* ACUMOS-3587  Model Preview - License tab should be License profile tab
+* ACUMOS-3552  VD need to be update for on-boarding page
+* ACUMOS-3561  IST: Description Rating: Status is showing completed without clicking on OK button
+* ACUMOS-3514  <Portal Marketplace><Web Onboarding> Proper validation not provide on On-board Model button
+* ACUMOS-3513  <IST2><Portal Marketplace><Web Onboarding><My Models/Preview Model> Create New profile/ Modify profile window is getting closed in unexpected manner
+* ACUMOS-3528  <IST2> Grant Peers Access, when search result is 'No Result Found' and user select the check-box then 'Grant Access' button is getting enabled.
+* ACUMOS-3571  On-Boarding History: In progress text need to display in orange color and in the status field space is missing in In Progress
+* ACUMOS-3563  IST/IST2 Portal Error when logging in in
+* ACUMOS-3519  <IST2> Maintained Backup Logs Side menu icon is getting trimmed and loader is not consistent with the application
+* ACUMOS-3533  <IST2> View on-boarding history screen should have sorting icon for tabulation field.
+* ACUMOS-3526  No Result Found color changing when user hover the cursor
+* ACUMOS-3545  Notification: Icon is displaying wrong when user  mark as read on already read notification 
 * ACUMOS-3505  Move RTU check directly into portal (currently inside security verification)
   - Update tests to use SecurityContext / MockMLUser
   - Use non blocking call for verify using CompletableFuture/ AsyncConfiguration
@@ -30,6 +48,9 @@ Version 3.0.16 17th October 2019
     "concurrency.async.core-pool-size=10"
     "concurrency.async.max-pool-size=50"
     "concurrency.async.queue-capacity=10000"
+
+Version 3.0.15 10th October 2019
+================================
 * ACUMOS-3503  add acumos-c-client link to model obdr page 
 * ACUMOS-1437  As a User , I want Portal set and use expiration date on instances with passwords
 * ACUMOS-3535  User not able to be created by portal
