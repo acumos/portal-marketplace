@@ -21,7 +21,6 @@
 package org.acumos.portal.be.common;
 
 import java.lang.invoke.MethodHandles;
-
 import org.acumos.federation.client.GatewayClient;
 import org.acumos.portal.be.config.GatewayClientConfiguration;
 import org.slf4j.Logger;
