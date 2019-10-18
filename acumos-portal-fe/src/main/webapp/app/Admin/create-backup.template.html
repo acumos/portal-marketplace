@@ -59,13 +59,14 @@ limitations under the License.
 						<div>
 							<md-input-container class="md-block">
 								<label>Repository Name</label>
-								<input type="text" class="medium-textbox" ng-model="repositoryName" name="repositoryName" placeholder="Enter Name" required ng-pattern ="/^[a-zA-Z0-9_-]+$/" />
-							</md-input-container>
-							<div class="help-inline validation-msgs">
-										<span ng-show="createRepo.repositoryName.$error.pattern">Repository Name can consists of alphanumeric, hyphen and underscore characters only.</span>
+								<input type="text" class="medium-textbox" ng-model="repositoryName" name="repositoryName" placeholder="Enter Name" required ng-pattern ="/^[a-zA-Z0-9_-]+$/" /></br>
+							<div class="help-inline validation-msgs repo_name_msg">
+							<span ng-show="createRepo.repositoryName.$error.pattern">Repository Name can consists of alphanumeric, hyphen and underscore characters only.</span>
 							</div>
-							 
-						</div>
+							</md-input-container>
+					 	</div>
+						
+						
 						<div>
 							<label class="disblock">&nbsp;</label>
 							<button class="mdl-button mdl-js-button btn-primary btn-valign-horizontal"
@@ -105,14 +106,14 @@ limitations under the License.
 										class="mdl-button mdl-js-button btn-primary btn-icon-valign-horizontal"
 										ng-disabled="createFirstRepo"><i
 											class="material-icons">add</i></button></div>
-									<div class="margin-left-auto">
+									<div class="">
 										<md-input-container class="md-block">
 											<label>Backup Name</label>
 											<input ng-model="backupName" type="text" class="medium-textbox" placeholder="Enter Backup Name"
 											name="backupName" required 
 											ng-pattern ="/^[0-9a-z-_\s]*$/" />
 										</md-input-container>
-										<div class="help-inline validation-msgs">
+										<div class="help-inline validation-msgs repo_name_msg">
 										<span ng-show="backupForm.backupName.$error.pattern">Backup name in lower case and only 
 										hyphen and underscore is allowed.</span>
 
@@ -123,7 +124,7 @@ limitations under the License.
 							<div class="c-alert c-warning static-position margin-backlog">
 								<div class="c-alert-inner"><span class="material-icons">report_problem</span>
 								<span class="alert-text">If you delete any indices from this page it will be
-								deleted permanently from the elasticsearch.</span></div>
+								deleted permanently</br> from the elasticsearch.</span></div>
 							</div>
 							
 							
