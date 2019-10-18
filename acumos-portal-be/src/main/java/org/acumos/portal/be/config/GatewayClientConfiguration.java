@@ -20,13 +20,13 @@
 
 package org.acumos.portal.be.config;
 
+import org.acumos.federation.client.config.ClientConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "client")
-public class GatewayClientConfiguration extends HttpClientConfiguration {
-
+public class GatewayClientConfiguration extends ClientConfig {
 	
 }
 
