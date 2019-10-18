@@ -22,6 +22,7 @@ package org.acumos.portal.be.common;
 
 import java.lang.invoke.MethodHandles;
 
+import org.acumos.federation.client.GatewayClient;
 import org.acumos.portal.be.config.GatewayClientConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class Clients {
 	private ApplicationContext appCtx = null;
 	
 	@Autowired
-	private GatewayClientConfiguration gatewayClientConfiguration = null;
+	private GatewayClientConfiguration gatewayClientConfiguration;
 	
 	@Autowired
 	private Environment env;
@@ -65,6 +66,8 @@ public class Clients {
         final String gatewayUrl = env.getProperty(gatewayUrlKey);
         if (gatewayUrl == null || gatewayUrl.isEmpty())
             throw new IllegalArgumentException("getGatewayClient: failed to find config " + gatewayUrlKey);
-        return new GatewayClient(gatewayUrl, gatewayClientConfiguration.buildClient());
-	}	
+        return new GatewayClient(gatewayUrl, gatewayClientConfiguration);
+	}
+	
+	
 }
