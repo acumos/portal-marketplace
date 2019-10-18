@@ -407,7 +407,7 @@ md-tabs-content-wrapper {
 
 .history-error{color:red;}
 .history-success{color:green;}
-.history-progress{color:orange;}
+.history-progress{color: #f98868;}
 
 .timeline-on-brd-cont {padding-left: 20px;padding-right: 20px;}
 .pdgLtRtSml {padding: 0px 10px;}
