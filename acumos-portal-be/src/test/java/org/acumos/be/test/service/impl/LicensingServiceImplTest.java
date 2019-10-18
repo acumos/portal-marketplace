@@ -27,17 +27,16 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
-
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.acumos.cds.domain.MLPLicenseProfileTemplate;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPRole;
@@ -69,9 +68,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LicensingServiceImplTest {
@@ -291,7 +287,7 @@ public class LicensingServiceImplTest {
 	@Test
 	public void validateTest() throws LicenseProfileException, AcumosServiceException {
 		
-		String jsonInput="{\"keyword\": \"Vendor-A-OSS\",\"licenseName\": \"Vendor A Open Source Software License\"," +
+		String jsonInput="{\"$schema\": \"https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json\",\"keyword\": \"Vendor-A-OSS\",\"licenseName\": \"Vendor A Open Source Software License\"," +
 				 "\"copyright\": {\"year\":2019,\"company\":\"VendorA\",\"suffix\":\"AllRights Reserved\"},\"softwareType\": " +
 				 "\"Machine Learning Model\",\"companyName\": \"Vendor A\",\"contact\": {\"name\": \"Vendor A Team\",\"URL\": " +
 				 "\"Vendor-A.com\",\"email\": \"support@Vendor-A.com\"},\"additionalInfo\": \"Vendor-A.com\"}";

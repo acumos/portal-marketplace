@@ -25,13 +25,12 @@ package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.CommonConstants;
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.NotificationService;
@@ -49,7 +48,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -64,8 +62,10 @@ public class PublishSolutionServiceController extends AbstractController {
 	@Autowired
 	private NotificationService notificationService;
 	
+	@Autowired
+	CredentialsService credentialService;
+
 	private static final String MSG_SEVERITY_ME = "ME";
-	
 	/**
 	 * 
 	 */
@@ -81,6 +81,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
+		String loggedInUserName  = credentialService.getLoggedInUserName();
 		
 		log.debug("publishSolution={}", solutionId, visibility);
 		log.info("publishSolution={}", solutionId, visibility);
@@ -89,7 +90,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		try {
 			String workflowId = (visibility.equalsIgnoreCase(CommonConstants.PUBLIC)
 					? SVConstants.PUBLISHPUBLIC : SVConstants.PUBLISHCOMPANY);
-			Workflow workflow = performSVScan(solutionId, revisionId, workflowId);
+			Workflow workflow = performSVScan(solutionId, revisionId, workflowId, loggedInUserName).get();
 			if (!workflow.isWorkflowAllowed()) {
 				data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
