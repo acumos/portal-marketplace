@@ -603,8 +603,8 @@ angular.module('modelResource')
 					.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
 					.then(
 							function(response) {
-								$location.hash('webonboarding');  // id of a container on the top of the page - where to scroll (top)
-		                        $anchorScroll();
+								//$location.hash('webonboarding');  // id of a container on the top of the page - where to scroll (top)
+		                        //$anchorScroll();
 		                       
 		                        $scope.msg = "On-boarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = 'info_outline';
@@ -809,8 +809,8 @@ angular.module('modelResource')
 				if(licenseText){
 					 apiService.createLicenseFile($scope.userId[1], request)
 		               .then(function(response){
-		            	    $location.hash('webonboarding');
-	                        $anchorScroll();
+		            	    //$location.hash('webonboarding');
+	                        //$anchorScroll();
 		            	    $scope.msg = "License uploaded successfully. "; 
 							$scope.icon = '';
 							$scope.styleclass = 'c-success';
