@@ -136,7 +136,7 @@ public class GatewayController extends AbstractController {
 				if (mlpPeerSubscription != null && selectorMap != null && selectorMap.size() > 0) {
 					catalogId=selectorMap.get("catalogId").toString();
 					GatewayClient gateway = clients.getGatewayClient();
-					if(StringUtils.isEmpty(catalogId)) {
+					if(!StringUtils.isEmpty(catalogId)) {
 						solutionList = gateway.getSolutions(mlpPeerSubscription.getPeerId(), catalogId);
 					}
 					log.info(JsonUtils.serializer().toPrettyString(solutionList));

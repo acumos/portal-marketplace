@@ -106,8 +106,8 @@ public class DeployCloudController {
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				data.setResponseDetail("Error occured while fetching K8 config");
-				log.error("Error occured while fetching K8 config");
+				data.setResponseDetail("K8SiteConfig is missing or not configured!!!");
+				log.error("K8SiteConfig is missing or not configured!!!");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);

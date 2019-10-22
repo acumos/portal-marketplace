@@ -69,10 +69,13 @@ public class DeployCloudServiceImpl extends AbstractServiceImpl implements Deplo
 			if (configKey != null) {
 				siteConfig = dataServiceRestClient.getSiteConfig(configKey);
 			}
-			String jsonString=siteConfig.getConfigValue();
-			List<K8ConfigValue> siteConfigValueList = Arrays.asList(mapper.readValue(jsonString, K8ConfigValue[].class));
-			mlSiteConfig = PortalUtils.converToMLSiteConfig(siteConfig);
-			mlSiteConfig.setK8ConfigValueList(siteConfigValueList);
+			if(siteConfig !=null) {
+				String jsonString=siteConfig.getConfigValue();
+				List<K8ConfigValue> siteConfigValueList = Arrays.asList(mapper.readValue(jsonString, K8ConfigValue[].class));
+				mlSiteConfig = PortalUtils.converToMLSiteConfig(siteConfig);
+				mlSiteConfig.setK8ConfigValueList(siteConfigValueList);
+			}
+			
 		} catch (IOException e) {
 			log.debug("Exception occured while fetching Site Config:"+e);
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
