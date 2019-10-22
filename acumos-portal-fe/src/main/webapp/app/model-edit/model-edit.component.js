@@ -763,42 +763,44 @@ angular
 			              		return false;
 			              }	
 						  
-						$scope.updateSolution = function() {
-							if($scope.categoryname&&$scope.toolkitname){
-								$scope.pToP = true;
-							}else{
-								$location.hash('manage-models');
-								$anchorScroll();
-								$scope.msg = "Please fill out Model Category field.";
-								$scope.icon = 'report_problem';
-								$scope.styleclass = 'c-warning';
-								$scope.showAlertMessage = true;
-								$timeout(function() {$scope.showAlertMessage = false;}, 2500);
-								return false;
-								
+						$scope.updateSolution = function(type) {
+							
+							if(type=="modelCategory"){
+									if($scope.categoryname&&$scope.toolkitname){
+										$scope.pToP = true;
+									}else{
+										$location.hash('manage-models');
+										$anchorScroll();
+										$scope.msg = "Please fill out Model Category field.";
+										$scope.icon = 'report_problem';
+										$scope.styleclass = 'c-warning';
+										$scope.showAlertMessage = true;
+										$timeout(function() {$scope.showAlertMessage = false;}, 2500);
+										return false;
+										
+									}
 							}
-							$scope.solution.PrevSolname = $scope.solution.name;
-							$scope.solution.name = $scope.solutionName;							
-							$scope.solution.solutionId = $scope.popupSolutionId;
-
+							if(type=="modelName"){
+								$scope.solution.PrevSolname = $scope.solution.name;
+								$scope.solution.name = $scope.solutionName;							
+								$scope.solution.solutionId = $scope.popupSolutionId;
+							}
 							if ($scope.activeFalse == false) {
 								$scope.solution.active = $scope.activeFalse;
 							}
 							var solution = {
-								"request_body" : {									
-									"active" : $scope.solution.active,
-									"created" : $scope.solution.created,									
-									"modelType" : $scope.categoryname,									
-									"name" : $scope.solution.name,
-									"ownerId" : $scope.solution.ownerId,									
-									"solutionId" : $scope.solution.solutionId,									
-									"tookitType" : $scope.toolkitname
+									"request_body" : {									
+										"active" : $scope.solution.active,
+										"created" : $scope.solution.created,									
+										"modelType" : $scope.categoryname,									
+										"name" : $scope.solution.name,
+										"ownerId" : $scope.solution.ownerId,									
+										"solutionId" : $scope.solution.solutionId,									
+										"tookitType" : $scope.toolkitname
+									}
 								}
-							// ,
-							// "request_from": "string",
-							// "request_id": "string"
-							}
-
+							
+							
 							apiService
 									.updateSolutions(solution)
 									.then(

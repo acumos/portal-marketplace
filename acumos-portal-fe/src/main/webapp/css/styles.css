@@ -110,6 +110,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .mdl-tabs__tab.is-active .tab-versionhistory {background: url("../images/model_details/version_history_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-author_details {background: url("../images/model_details/icon_author_publisher_details_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-box.author-details{width:200px;}
+.preview_description p{word-break:break-all;}
 
 .md-icons1 {margin-right: 5px;}
 /*********** Icons section end **************/
@@ -618,7 +619,7 @@ left: -7px; transform: rotate(45deg); width: 14px; height: 14px;top: 2px; border
 .link-write-comments {line-height: 25px;}
 .new-rating-container {text-align:center; max-width: 160px;float:right; margin-right: 40px; margin-top: 10px;}
 
-.tab-box {display:flex;align-items:center;}
+.tab-box {display:flex;align-items:center; width:200px;}
 .tab-box .tab-icons {margin-right: 10px;}
 .mdl-tabs__tab .tab-box span {color: #2e2f2f;font-weight: 600;white-space: nowrap;}
 .mdl-tabs__tab.is-active .tab-box span {color: #671C9D;}

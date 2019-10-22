@@ -895,7 +895,7 @@ limitations under the License.
 																		Cancel </md-button>
 																		<md-button
 																			ng-disabled="ORmodelNameForm.OrModelName.$error.pattern || solutionName==''"
-																			ng-click="updateSolution(); showSolName = !showSolName"
+																			ng-click="updateSolution('modelName'); showSolName = !showSolName"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="solution.name.length<1">Done</span> 
 																		<span ng-if="solution.name.length>=1">Update</span>
@@ -1154,7 +1154,7 @@ limitations under the License.
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
 																	<md-button
-																		ng-click="updateSolution(); showSolCat = !showSolCat"
+																		ng-click="updateSolution('modelCategory'); showSolCat = !showSolCat"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-show="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
 																		<span ng-show="(solution.modelTypeName || solution.tookitTypeName )">Update</span> 
@@ -1853,7 +1853,7 @@ limitations under the License.
 																				</div>
 
 																				<div ng-if="!publicPreview"
-																					ng-bind-html="solutionCompanyDesc1"></div>
+																					ng-bind-html="solutionCompanyDesc1" class="preview_description"></div>
 																				<h6 ng-if="dockerUrlOfModel" class="md-subhead lbl1"> My Image Model: {{dockerUrlOfModel}}</h6>
 
 																			</div>
