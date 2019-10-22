@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6c56aa3_8e9945a0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/DeployCloudServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-22T14:00:38Z",
+      "side": 1,
+      "message": "we dont need this else part.. anyway mlSiteConfig will be null if siteConfig is null",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 4
+      },
+      "revId": "36b44341c8964967d3bcde8b4cc04e511746e1e1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
