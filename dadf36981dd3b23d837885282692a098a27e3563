@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75d46b19_87dfcd01",
+        "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-22T13:50:42Z",
+      "side": 1,
+      "message": "Remove the code rather commenting it out",
+      "range": {
+        "startLine": 606,
+        "startChar": 7,
+        "endLine": 607,
+        "endChar": 44
+      },
+      "revId": "dadf36981dd3b23d837885282692a098a27e3563",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586e53ee_55790852",
+        "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-22T13:50:42Z",
+      "side": 1,
+      "message": "remove the code rather commenting it out",
+      "range": {
+        "startLine": 812,
+        "startChar": 0,
+        "endLine": 813,
+        "endChar": 43
+      },
+      "revId": "dadf36981dd3b23d837885282692a098a27e3563",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
