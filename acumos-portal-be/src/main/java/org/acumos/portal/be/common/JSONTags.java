@@ -60,4 +60,6 @@ public class JSONTags {
 	
 	public static final String REQUEST_APPROVED = "approve";
 	public static final String REQUEST_DENIED = "deny";
+  public static final String TAG_INFO_RTU = "rtu_info";
+  public static final String TAG_ERROR_RTU = "rtu_error";
 }

@@ -1984,10 +1984,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			boolean allowed = rtu.isAllowed();
 			resp.setWorkflowAllowed(allowed);
 			data.setErrorCode(allowed ? JSONTags.TAG_ERROR_CODE_SUCCESS
-					: (isReasonInfo(rtu.getDenialReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
+					: (isReasonInfo(rtu.getDenialReason().getAssetUsageDenialSummary())) ? JSONTags.TAG_INFO_RTU : JSONTags.TAG_ERROR_RTU);
 			if (!allowed) {
-				// denial info
-				resp.setReason(rtu.getDenialReason());
+				// denial summary
+				resp.setSummary(rtu.getDenialReason().getAssetUsageDenialSummary());
+				// denial details
+				resp.setReason(rtu.getDenialReason().getAssetUsageDenialDetails());
 			}
 			data.setResponseBody(resp);
 		}

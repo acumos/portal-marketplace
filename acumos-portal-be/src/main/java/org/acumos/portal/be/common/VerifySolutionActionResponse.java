@@ -27,6 +27,7 @@ public class VerifySolutionActionResponse {
 
   boolean workflowAllowed;
   String reason;
+  String summary;
   String exception;
 
   public boolean isWorkflowAllowed() {
@@ -47,6 +48,14 @@ public class VerifySolutionActionResponse {
 
   public String getException() {
     return exception;
+  }
+
+  public String getSummary(){
+    return summary;
+  }
+
+  public void setSummary(String summary){
+    this.summary = summary;
   }
 
   public void setException(String exception) {
