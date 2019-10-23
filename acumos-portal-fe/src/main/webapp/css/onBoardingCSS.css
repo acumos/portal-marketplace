@@ -405,9 +405,9 @@ md-tabs-content-wrapper {
     box-shadow: 5px 61px 10px -1px #e3e3e3;
 } */
 
-.history-error{color:red;}
-.history-success{color:green;}
-.history-progress{color: #f98868;}
+.history-error{color:#ff0000;}
+.history-success{color:#009900;}
+.history-progress{color:#f86234;}
 
 .timeline-on-brd-cont {padding-left: 20px;padding-right: 20px;}
 .pdgLtRtSml {padding: 0px 10px;}
@@ -424,6 +424,7 @@ md-tabs-content-wrapper {
 .btnhistory{margin: 0 0 20px 20px;}
 .onboard-history{font-size: 14px; padding: 0 20px 20px 20px; min-height: auto;}
 .onboard-history table.admin-tbl1 tbody tr td span{white-space:normal; word-break:break-all;float: left;}
+.onboard-history .admin-grid-container table tr td:first-child span{max-width: 218px; text-overflow: ellipsis; overflow: hidden; display: inline-block;}
 
 md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 158) !important;}
 .onboarding .timeline h6{padding: }
@@ -608,7 +609,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .upload-model-bundle-right h5{font-size:14px; color:#671c9d; font-weight:400px; line-height: 19px; margin: 0 -16px 16px; padding: 0px 16px 16px;}
 .upload-model-bundle-right-content{padding:16px;}
 .upload-model-bundle-right.mdl-cell, .upload-model-bundle-left.mdl-cell{margin-top:0px;}
-.upload-model-bundle-left h5{font-size:14px; border-bottom:0px; padding: 15px 10px 12px 0; margin-bottom: 0;}
+.upload-model-bundle-left h5{font-size:14px; border-bottom:0px; padding: 15px 10px 12px 0; margin-bottom: 0; font-weight:normal;}
 .upload-model-bundle-right-content p{margin-bottom: 10px; line-height: 18px;}
 .progress-bar-div .pro-status{width:75px; margin-right:15px; text-align: center;}
 .namelength{white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:150px; float:left;}
