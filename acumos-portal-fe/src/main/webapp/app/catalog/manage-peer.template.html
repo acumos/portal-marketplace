@@ -47,7 +47,7 @@ limitations under the License.
 				</div>
 				<div class="fed-row2">
 					<button class="mdl-button mdl-js-button btn-primary"
-						ng-click="grantAccessDialog()" ng-disabled="availablePeers.length==0">Grant Peers Access</button>
+						ng-click="grantAccessDialog()" ng-disabled="$parent.searchData.length == 0">Grant Peers Access</button>
 					<button class="mdl-button mdl-js-button btn-secondary btn-gap" ng-disabled="accessedPeers.length==0 || peersSelected.length == 0"
 						ng-click="removePeerDialog()">Remove</button>
 					<div class="fed-srch-container">
@@ -72,7 +72,7 @@ limitations under the License.
 					<thead>
 						<tr>
 							
-							<th><md-checkbox ng-model="selectAllPeer" ng-click="removeAll(selectAllPeer)"></md-checkbox></th>
+							<th><md-checkbox ng-model="selectAllPeer" ng-click="removeAll(selectAllPeer)" ng-disabled="$parent.searchData.length==0"></md-checkbox></th>
 							
 							
 							<th
@@ -100,7 +100,7 @@ limitations under the License.
 							<th>Action</th>
 						</tr>
 					</thead>
-					<tbody ng-repeat="val in (searchData = (accessedPeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeerDetails))">
+					<tbody ng-repeat="val in ($parent.searchData = (accessedPeers | orderBy:propertyName:reverse | orderBy:orderByField:!reverseSort | filter:searchPeerDetails))">
 						<tr>
 						
 							<td><md-checkbox 
@@ -115,7 +115,7 @@ limitations under the License.
 							<span class="fas fa-times" ng-click="removeIndividualPeer(val)"}></span></td>
 						</tr>
 					</tbody>
-					<tbody ng-if="searchData.length == 0">
+					<tbody ng-if="$parent.searchData.length == 0">
 								<tr class="alert c-info text-center">
 									<td class="text-center" colspan="7"><strong>No
 											Results Found</strong></td>
