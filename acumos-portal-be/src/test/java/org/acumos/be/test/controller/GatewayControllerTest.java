@@ -19,38 +19,45 @@
  */
 package org.acumos.be.test.controller;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.federation.client.GatewayClient;
+import org.acumos.federation.client.config.BasicAuthConfig;
+import org.acumos.federation.client.config.ClientConfig;
+import org.acumos.federation.client.config.TlsConfig;
 import org.acumos.portal.be.common.Clients;
-import org.acumos.portal.be.common.GatewayClient;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.config.GatewayClientConfiguration;
 import org.acumos.portal.be.controller.GatewayController;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.HttpStatus;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.client.RestTemplate;
+
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GatewayControllerTest {
@@ -60,50 +67,29 @@ public class GatewayControllerTest {
 	
 	@Mock
 	private Clients clients;
-	@Mock
-	private RestTemplate restTemplate;
 	
-	@Mock
-	private GatewayClient gateway;
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(9084));
 	
-	@Mock
-	private Environment env;
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
 	
-	@Mock
-	private GatewayClientConfiguration gatewayClientConfiguration;
-	
-	@Mock
-	private GatewayClient client;
-	
-	private MockMvc mockMvc;
-		
-		@Before
-		public void setUp() throws Exception {
-			mockMvc = standaloneSetup(gatewayController).build();
-
-		}
-	
+	private static final String peerApiUrl = "http://localhost:9084";
 	private HttpServletResponse response = new MockHttpServletResponse();
 	private HttpServletRequest request = new MockHttpServletRequest();
 	
 	@Test
-	public void pingGateway() {
+	public void getPingTest() {
 		
-		JsonResponse<MLPPeer> peer = new JsonResponse<>();
-		MLPPeer mlpPeer=new MLPPeer();
-		mlpPeer.setPeerId("peerId");
-		mlpPeer.setName("peerName");
-		peer.setContent(mlpPeer);
-		
-		/*HttpClientBuilder clientBuilder = HttpClients.custom();
-		when(env.getProperty("gateway.url")).thenReturn("http://abc.com");
-		when(gatewayClientConfiguration.buildClient()).thenReturn(clientBuilder.build());
-		GatewayClient client = new GatewayClient(env.getProperty("gateway.url"), gatewayClientConfiguration.buildClient());
+		stubFor(get(urlEqualTo("/peer/somepeerid/ping")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody("{}")));
+		ClientConfig cconf = getConfig("acumosa");
+		cconf.getSsl().setKeyAlias("acumosa");
+		GatewayClient client = new GatewayClient(peerApiUrl, cconf);
 		when(clients.getGatewayClient()).thenReturn(client);
-		
-		when(gateway.ping("peer123")).thenReturn(peer);
-		JsonResponse<MLPPeer> result = gatewayController.pingGateway(request, "ggre34gsd", response);
-		Assert.assertNotNull(result);*/
+		JsonResponse<MLPPeer> result = gatewayController.pingGateway(request, "somepeerid", response);
+		Assert.assertNotNull(result);
 	}
 	
 	@Test
@@ -112,37 +98,64 @@ public class GatewayControllerTest {
 		JsonRequest<MLPPeerSubscription> peerSubscription = new JsonRequest<>();
 		MLPPeerSubscription sub=new MLPPeerSubscription();
 		sub.setSubId(1234L);
-		sub.setPeerId("1ce7-41e8-a364-93f5b57deb14");
+		sub.setPeerId("somepeerid");
 		sub.setUserId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
-		String selector="{modelTypeCode:CL,toolkitTypeCode:DS}";
+		
+		String selector="{\"catalogId\":\"somecatid\"}";
 		sub.setSelector(selector);
 		peerSubscription.setBody(sub);
-		
-		List<MLPSolution> solList = new ArrayList<>();
-		MLPSolution sol = new MLPSolution();
-		sol.setSolutionId("4e1c2a84-c597-499b-a9be-3b5e563ec100");
-		sol.setUserId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
-		sol.setName("Robot");
-		solList.add(sol);
-		JsonResponse<List<MLPSolution>> solutions = new JsonResponse<>();
-		solutions.setResponseBody(solList);
-	/*	HttpClientBuilder clientBuilder = HttpClients.custom();
-		when(env.getProperty("gateway.url")).thenReturn("http://abc.com");
-		when(gatewayClientConfiguration.buildClient()).thenReturn(clientBuilder.build());
-		GatewayClient client = new GatewayClient(env.getProperty("gateway.url"), gatewayClientConfiguration.buildClient());
+		ClientConfig cconf = getConfig("acumosa");
+		cconf.getSsl().setKeyAlias("acumosa");
+		stubFor(get(urlEqualTo("/peer/somepeerid/solutions?catalogId=somecatid")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody("{\"content\":[{\"solutionId\":\"someId\"},{\"solutionId\":\"someOtherId\"}]}")));
+		GatewayClient client = new GatewayClient(peerApiUrl, cconf);
 		when(clients.getGatewayClient()).thenReturn(client);
 		JsonResponse<List<MLPSolution>> result = gatewayController.getSolutions(request, peerSubscription, response);
-		Assert.assertNotNull(result);*/
+		Assert.assertNotNull(result);
 	}
 	
 	@Test
 	public void getSolution() {
-	/*	HttpClientBuilder clientBuilder = HttpClients.custom();
-		when(env.getProperty("gateway.url")).thenReturn("http://abc.com");
-		when(gatewayClientConfiguration.buildClient()).thenReturn(clientBuilder.build());
-		GatewayClient client = new GatewayClient(env.getProperty("gateway.url"), gatewayClientConfiguration.buildClient());
+
+		ClientConfig cconf = getConfig("acumosa");
+		cconf.getSsl().setKeyAlias("acumosa");
+		stubFor(get(urlEqualTo("/peer/somepeerid/solutions/someid")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody("{\"content\":{\"solutionId\":\"someId\",\"picture\":\"9999\",\"revisions\":[{\"artifacts\":[],\"documents\":[],\"revCatDescription\":{}}]}}")));
+		GatewayClient client = new GatewayClient(peerApiUrl, cconf);
 		when(clients.getGatewayClient()).thenReturn(client);	
-		JsonResponse<MLPSolution> result = gatewayController.getSolution(request, "4e1c2a84-c597-499b-a9be-3b5e563ec100", "1ce7-41e8-a364-93f5b57deb14", response);
-		Assert.assertNotNull(result);*/
+		JsonResponse<MLPSolution> result = gatewayController.getSolution(request, "someid", "somepeerid", response);
+		Assert.assertNotNull(result);
+	}
+	
+	@Test
+	public void getCatalogsTest() {
+
+		ClientConfig cconf = getConfig("acumosa");
+		cconf.getSsl().setKeyAlias("acumosa");
+		stubFor(get(urlEqualTo("/peer/somepeerid/catalogs")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody("{ \"content\": [ { \"catalogId\": \"1\" }, { \"catalogId\": \"2\" }]}")));
+		GatewayClient client = new GatewayClient(peerApiUrl, cconf);
+		when(clients.getGatewayClient()).thenReturn(client);	
+		JsonResponse<List<MLPCatalog>> result = gatewayController.getCatalogs(request, "somepeerid", response);
+		Assert.assertNotNull(result);
+	}
+	
+	public static ClientConfig getConfig(String name) {
+		ClientConfig ret = new ClientConfig();
+		TlsConfig tls = new TlsConfig();
+		tls.setKeyStore("classpath:" + name + ".pkcs12");
+		tls.setKeyStoreType("PKCS12");
+		tls.setKeyStorePassword(name);
+		tls.setTrustStore("classpath:acumosTrustStore.jks");
+		tls.setTrustStorePassword("acumos");
+		ret.setSsl(tls);
+		BasicAuthConfig creds = new BasicAuthConfig();
+		creds.setUsername(name);
+		creds.setPassword(name);
+		ret.setCreds(creds);
+		return ret;
 	}
 }
