@@ -396,7 +396,7 @@ limitations under the License.
 																		<div id="modelName" class="upload-model-bundle-left">																							
 																			<h5>License Profile<sup>*</sup></h5>
 																			<div id="modelName">
-																			<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelLicUploadError=false">
+																			<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelLicUploadError=false; licensefile= false">
 																		      <md-radio-button value="Upload">Upload</md-radio-button>
 																		      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
 																		    </md-radio-group>
@@ -511,7 +511,7 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && selectedLicense == -1)"
+										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && (!licensefile || selectedLicense == -1))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false"
@@ -665,7 +665,7 @@ limitations under the License.
 										<div id="modelName">																							
 												<span>License Profile<sup>*</sup></span>
 												<div id="modelName">
-												<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelDocLicUploadError=false;">
+												<md-radio-group ng-model="licenseOption" id="licenseOption"  ng-change="modelDocLicUploadError=false; licenseDocfile=false;">
 											      <md-radio-button value="Upload">Upload</md-radio-button>
 											      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
 											    </md-radio-group>
