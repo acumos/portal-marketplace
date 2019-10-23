@@ -19,12 +19,19 @@
  */
 package org.acumos.be.test.controller;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -32,11 +39,10 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.File;
-import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
@@ -44,19 +50,21 @@ import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.federation.client.GatewayClient;
+import org.acumos.federation.client.config.ClientConfig;
 import org.acumos.portal.be.common.Clients;
-import org.acumos.portal.be.common.GatewayClient;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
-import org.acumos.portal.be.config.GatewayClientConfiguration;
 import org.acumos.portal.be.controller.AdminServiceController;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
+import org.acumos.portal.be.service.impl.CatalogServiceImpl;
 import org.acumos.portal.be.transport.DesignStudioBlock;
 import org.acumos.portal.be.transport.DesignStudioMenu;
+import org.acumos.portal.be.transport.MLCatalog;
 import org.acumos.portal.be.transport.MLPeerSubscription;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.PortalMenu;
@@ -64,24 +72,29 @@ import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AdminServiceControllerTest {
@@ -102,19 +115,22 @@ public class AdminServiceControllerTest {
 	@Mock
 	UserService userService;
 	
-	@Autowired
-	private UserRoleService userRoleService;
-	
-	@Mock
-	private GatewayClientConfiguration gatewayClientConfiguration;
-	
 	@Mock
 	private Clients clients;
 
+	@Mock
+	CatalogServiceImpl catalogService;
 	
 	@Mock
 	private Environment env;
+	
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(9084));
+	
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+	private static final String peerApiUrl = "http://localhost:9084";
 	private HttpServletResponse response = new MockHttpServletResponse();
 	private HttpServletRequest request = new MockHttpServletRequest();
 
@@ -690,23 +706,42 @@ public class AdminServiceControllerTest {
 	
 	@Test
 	public void createSubscriptionTest() {
-		String peerId = "agf145";
+		String peerId = "somepeerid";
 		JsonRequest<MLPeerSubscription> solList = new JsonRequest<>();
 		MLPeerSubscription newSub = new MLPeerSubscription();
 		newSub.setUserId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
+		newSub.setCatalogName("FirstCat");
 		newSub.setRefreshInterval(3600L);
 		solList.setBody(newSub);
-
-	/*	HttpClientBuilder clientBuilder = HttpClients.custom();
-		when(env.getProperty("gateway.url")).thenReturn("http://abc.com");
-		when(gatewayClientConfiguration.buildClient()).thenReturn(clientBuilder.build());
-		GatewayClient client = new GatewayClient(env.getProperty("gateway.url"), gatewayClientConfiguration.buildClient());
-		when(clients.getGatewayClient()).thenReturn(client);
+		MLCatalog catalogFirst=new MLCatalog();
+		catalogFirst.setCatalogId("One");
+		catalogFirst.setName("First");
+		MLCatalog catalogSecond=new MLCatalog();
+		catalogFirst.setCatalogId("Two");
+		catalogFirst.setName("Second");
+		List<MLCatalog> list=new ArrayList<>();
+		List<MLCatalog> listEmpty=new ArrayList<>();
+		list.add(catalogFirst);
+		list.add(catalogSecond);
 		
-		AdminService service = mock(AdminService.class);
-		doNothing().when(service).createSubscription(newSub, peerId);
+		ClientConfig cconf = GatewayControllerTest.getConfig("acumosa");
+		cconf.getSsl().setKeyAlias("acumosa");
+		stubFor(get(urlEqualTo("/peer/somepeerid/catalogs")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody("{\"content\":[{\"catalogId\":\"1\",\"name\":\"FirstCat\"},{\"catalogId\":\"2\",\"name\":\"SecondCat\"}]}")));
+		GatewayClient client = new GatewayClient(peerApiUrl, cconf);
+		when(clients.getGatewayClient()).thenReturn(client);
+		RestPageResponse<MLCatalog> res=new RestPageResponse<>(listEmpty,PageRequest.of(0,10),0);
+
+		when(catalogService.searchCatalogs(Mockito.any())).thenReturn(res);
 		JsonResponse<MLPPeerSubscription> response = adminController.createSubscription(solList, peerId);
-		Assert.assertNotNull(response);*/
+		Assert.assertNotNull(response);
+		
+		RestPageResponse<MLCatalog> secondRes=new RestPageResponse<>(list,PageRequest.of(0,10),0);
+		when(catalogService.searchCatalogs(Mockito.any())).thenReturn(res);
+		JsonResponse<MLPPeerSubscription> secondResponse = adminController.createSubscription(solList, peerId);
+		Assert.assertNotNull(secondResponse);
+		
 	}
 	
 
@@ -768,8 +803,6 @@ public class AdminServiceControllerTest {
 			user.setUserNewRoleList(newRoleList);
 			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
 			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
-			UserService service = mock(UserService.class);
-			//userRoleService rservice=mock(userRoleService.class);
 			doNothing().when(userRoleService).addUserRole(userId,roleId);
 			Mockito.when(userService.save(user)).thenReturn(user);
 			
