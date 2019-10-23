@@ -178,7 +178,7 @@ limitations under the License.
 										
 										<div class="mp-grid"  ng-show="Viewtile">
 										  <div class="alert c-info" ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
-							                   <strong>No results found</strong> 
+							                   <strong>No Results Found</strong> 
 						                   </div>
 										  <!--  <div infinite-scroll='loadMore()' infinite-scroll-distance="2"> -->
 											<div class="grid-item" ng-repeat="mlsolution in mlsolutions | unique:'solutionId' | filter:(!searchResults || '') && {active:true} as filtered">
@@ -256,7 +256,7 @@ limitations under the License.
 										</div>
 										<div class="mp-grid-list" ng-show="!Viewtile">
 											<div class="alert c-info" ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
-											    <strong>No results found</strong> 
+											    <strong>No Results Found</strong> 
 										    </div>
 											<div class="mp-grid-list-row" ng-repeat="mlsolution in mlsolutions | unique:'solutionId' | filter:(!searchResults || '') && {active:true}">
 												<div class="mp-grid-list-image-cell">

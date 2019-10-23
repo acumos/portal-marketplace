@@ -354,7 +354,7 @@ limitations under the License.
 							<tbody ng-if="filtertedUser.length == 0">
 								<tr class="alert c-info text-center">
 									<td class="text-center" colspan="5"><strong>No
-											Result Found</strong></td>
+											Results Found</strong></td>
 								</tr>
 							</tbody>
 
@@ -1007,7 +1007,7 @@ limitations under the License.
 										<tbody ng-if="filtertedUser.length == 0">
 											<tr class="alert c-info text-center">
 												<td class="text-center" colspan="5"><strong>No
-														Result Found</strong></td>
+														Results Found</strong></td>
 											</tr>
 										</tbody>
 									</table>
@@ -1140,7 +1140,7 @@ limitations under the License.
 											</table>
 											
 											<div class="alert c-info text-center" ng-if="filteredSnapshot.length == 0">
-												<strong>No Result Found</strong>
+												<strong>No Results Found</strong>
 											</div>
 											<div class="alert text-center"
 												ng-if="allRepoSnapshots.length == 0">
@@ -1341,7 +1341,7 @@ limitations under the License.
 											</table>
 											
 											<div class="alert c-info text-center" ng-if="filteredArchives.length == 0">
-												<strong>No Result Found</strong>
+												<strong>No Results Found</strong>
 											</div>
 											<div class="alert text-center"
 												ng-if="allRepoArchives.length == 0">
@@ -1515,7 +1515,7 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr
-										ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails'
+										ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails as filtered'
 										ng-hide="val.statusCode == 'RN' || val.statusCode == 'DC'"
 										ng-class="val.statusCode == 'IN' ?'disabledRow':''">
 										<!-- |  filter: { statusCode: "AC"} -->
@@ -1609,7 +1609,7 @@ limitations under the License.
 							</table>
 							<div class="alert c-info text-center"
 								ng-if="filtered.length == 0">
-								<strong>No Result Found</strong>
+								<strong>No Results Found</strong>
 							</div>
 						</div>
 					</div>
@@ -1690,7 +1690,7 @@ limitations under the License.
 							</table>
 							<div class="alert c-info text-center"
 								ng-if="subscription.length<1">
-								<strong>No Result Found</strong>
+								<strong>No Results Found</strong>
 							</div>
 						</div>
 					</div>
@@ -2707,7 +2707,7 @@ limitations under the License.
 								</tbody>
 							</table>
 							<div class="alert c-info text-center" ng-if="filte.length == 0">
-								<strong>No Result Found</strong>
+								<strong>No Results Found</strong>
 							</div>
 						</div>
 					</div>
@@ -2808,7 +2808,7 @@ limitations under the License.
 						</div>
 						<div class="alert c-info text-center"
 							ng-if="!solutionDetail&&noData">
-							<strong>No Result Found</strong>
+							<strong>No Results Found</strong>
 						</div>
 						<div class="fedgridcontainer"
 							ng-show="toolKitTypeValue||categoryValue">
