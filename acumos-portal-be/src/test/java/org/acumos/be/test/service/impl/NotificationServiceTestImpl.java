@@ -61,6 +61,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -97,8 +98,7 @@ public class NotificationServiceTestImpl {
 	Environment env;
 	
 	@Test
-	public void createNotificationTest() {
-		try {
+	public void createNotificationTest() throws JsonProcessingException {
 				MLPNotification mlpNotification = new MLPNotification();
 				mlpNotification.setMessage("notification created for view count");
 				mlpNotification.setTitle("Notification");
@@ -120,14 +120,10 @@ public class NotificationServiceTestImpl {
 					Assert.assertEquals(notifiacation.getTitle(), mlNotification.getTitle());
 					logger.info("Successfully created notification " + notifiacation);
 				}
-		} catch (Exception e) {
-			logger.info("Failed to create notification ");
-		}
 	}
 
 	@Test
-	public void getNotificationsTest() {
-		try {
+	public void getNotificationsTest() throws JsonProcessingException {
 				MLPNotification mlpNotification = new MLPNotification();
 				mlpNotification.setMessage("notification created for view count");
 				mlpNotification.setTitle("Notification");
@@ -155,14 +151,10 @@ public class NotificationServiceTestImpl {
 					Assert.assertNotNull(mlLNotificationList);
 					Assert.assertEquals(mlNotificationList.get(0).getMessage(), mlLNotificationList.get(0).getMessage());
 				}
-		} catch (Exception e) {
-			logger.info("Failed while fetching notifications ");
-		}
 	}
 
 	@Test
-	public void getUserNotificationsTest() {
-		try {
+	public void getUserNotificationsTest() throws JsonProcessingException {
 				RestPageRequest restPageRequest = new RestPageRequest();
 				restPageRequest.setSize(9);
 				restPageRequest.setPage(1);
@@ -199,15 +191,10 @@ public class NotificationServiceTestImpl {
 					Assert.assertNotNull(mlpNotificationList);
 					Assert.assertEquals(mlpUserNotificationList.get(0).getMessage(), mlpNotificationList.get(0).getMessage());
 				}
-
-		} catch (Exception e) {
-			logger.info("Failed to get user notifications  " + e);
-		}
 	}
 
 	@Test
-	public void addNotificationUserTest() {
-		try {
+	public void addNotificationUserTest() throws JsonProcessingException {
 				MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
 				mlpNotificationUserMap.setNotificationId("de70d37d-c556-4d5f-8582-bed318ac3e49");
 				mlpNotificationUserMap.setUserId("1810f833-8698-4233-add4-091e34b8703c");
@@ -228,15 +215,10 @@ public class NotificationServiceTestImpl {
 					Assert.assertNotNull(userId);
 					Assert.assertEquals(mlpNotificationUserMap, mlpNotificationUserMap);
 				}
-		} catch (Exception e) {
-			logger.info("Failed to add user notifications  " + e);
 		}
-	}
 
 	@Test
-	public void dropNotificationUserTest() {
-		try {
-
+	public void dropNotificationUserTest() throws JsonProcessingException {
 				MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
 				mlpNotificationUserMap.setNotificationId("de70d37d-c556-4d5f-8582-bed318ac3e49");
 				mlpNotificationUserMap.setUserId("1810f833-8698-4233-add4-091e34b8703c");
@@ -262,14 +244,10 @@ public class NotificationServiceTestImpl {
 					Assert.assertNotNull(userId);
 					Assert.assertEquals(mlpNotificationUserMap, mlpNotificationUserMap);
 				}
-		} catch (Exception e) {
-			logger.info("Failed to drop user notifications  " + e);
-		}
 	}
 
 	@Test
-	public void setNotificationUserViewedTest() {
-		try {
+	public void setNotificationUserViewedTest() throws JsonProcessingException {
 				MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
 				mlpNotificationUserMap.setNotificationId("de70d37d-c556-4d5f-8582-bed318ac3e49");
 				mlpNotificationUserMap.setUserId("1810f833-8698-4233-add4-091e34b8703c");
@@ -292,14 +270,10 @@ public class NotificationServiceTestImpl {
 					Assert.assertNotNull(userId);
 					Assert.assertEquals(mlpNotificationUserMap, mlpNotificationUserMap);
 				}
-		} catch (Exception e) {
-			logger.info("Failed to setNotificationUserViewedTest  " + e);
-		}
 	}
 
 	@Test
-	public void deleteNotificationTest() {
-		try {
+	public void deleteNotificationTest() throws JsonProcessingException {
 				MLNotification mlNotification = new MLNotification();
 				mlNotification.getNotificationId();
 	
@@ -319,16 +293,11 @@ public class NotificationServiceTestImpl {
 					impl.deleteNotification(notificationId);
 					logger.info("Notification deleted successfully ");
 				}
-
-		} catch (Exception e) {
-			logger.info("Failed to deleteNotificationTest  " + e);
-		}
 	}
 
 	@Test
-	public void getNotificationCountTest() {
-		try {
-				Integer value = new Integer(2);
+	public void getNotificationCountTest() throws JsonProcessingException {
+				int value=2;
 				setCdsProperty();
 				ObjectMapper Obj = new ObjectMapper();
 				String jsonStr=null;
@@ -340,15 +309,11 @@ public class NotificationServiceTestImpl {
 				
 				logger.info("Notification count fetched ");
 				Assert.assertNotNull(returnValue);
-				Assert.assertEquals(value.longValue(), returnValue);
-		} catch (Exception e) {
-			logger.info("Failed to getNotificationCountTest  " + e);
-		}
+				Assert.assertEquals(value, returnValue);
 	}
 	
 	@Test
-	public void generateNotificationTest() {
-		try {
+	public void generateNotificationTest() throws JsonProcessingException {
 				MLPNotification mlpNotification = new MLPNotification();
 				mlpNotification.setMessage("notification created for view count");
 				mlpNotification.setTitle("Notification");
@@ -371,14 +336,10 @@ public class NotificationServiceTestImpl {
 				impl.generateNotification(mlpNotification, userId);
 				logger.info("Successfully generate notification for user");
 				Assert.assertNotNull(userId);
-		} catch (Exception e) {
-			logger.info("Failed to generate user notifications  " + e);
-		}
 	}
 	
 	@Test
-	public void generateNotificationWhenNotificationIsNullTest() {
-		try {
+	public void generateNotificationWhenNotificationIsNullTest() throws JsonProcessingException {
 				MLPNotification mlpNotification =null;
 				String userId = null;
 				setCdsProperty();
@@ -396,15 +357,10 @@ public class NotificationServiceTestImpl {
 				
 				impl.generateNotification(mlpNotification, userId);
 				logger.info("Failed to generate user notifications");
-		} catch (Exception e) {
-			logger.info("Failed to generate user notifications  " + e);
-		}
 	}
 	
 	@Test
-	public void createUserNotificationPreferenceTest() {
-		try {
-			
+	public void createUserNotificationPreferenceTest() throws JsonProcessingException {
 				MLUserNotifPref mlUserNotifPref =new MLUserNotifPref(); 
 				mlUserNotifPref.setUserId("1810f833-8698-4233-add4-091e34b8703c");
 				setCdsProperty();
@@ -418,18 +374,13 @@ public class NotificationServiceTestImpl {
 				MLUserNotifPref mlpUserNotifPref =impl.createUserNotificationPreference(mlUserNotifPref);
 				logger.info("Successfully create notification Preferences for user");
 					Assert.assertNotNull(mlpUserNotifPref);
-		} catch (Exception e) {
-			logger.info("Failed to create notification Preferences for user  " + e);
-		}
 	}
 	
 	@Test
-	public void updateUserNotificationPreferenceTest() {
-		try {
-			
+	public void updateUserNotificationPreferenceTest() throws JsonProcessingException {
 				MLUserNotifPref mlUserNotifPref =new MLUserNotifPref(); 
 				mlUserNotifPref.setUserId("1810f833-8698-4233-add4-091e34b8703c");
-				mlUserNotifPref.setUserNotifPrefId(new Long(123));
+				mlUserNotifPref.setUserNotifPrefId(123L);
 				setCdsProperty();
 				
 				ObjectMapper Obj = new ObjectMapper();
@@ -440,9 +391,6 @@ public class NotificationServiceTestImpl {
 				            .withBody(jsonStr)));
 				impl.updateUserNotificationPreference(mlUserNotifPref);
 				logger.info("Successfully update notification Preferences for user");
-		} catch (Exception e) {
-			logger.info("Failed to update notification Preferences for user  " + e);
-		}
 	}
 	
 	private void setCdsProperty() {
