@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf641dee_a5f370da",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-24T10:14:12Z",
+      "side": 1,
+      "message": "change the message to :\n\"Unable to delete model image due to no image found on Nexus\"",
+      "range": {
+        "startLine": 329,
+        "startChar": 27,
+        "endLine": 329,
+        "endChar": 67
+      },
+      "revId": "11a4389fd85d470bd32bee8d669fd8cb97fb9f8b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
