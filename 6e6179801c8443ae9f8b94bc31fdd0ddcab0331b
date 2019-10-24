@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "540746c5_cea4f500",
+        "filename": "acumos-portal-fe/src/main/webapp/app/onboarding-history/onboarding-history.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-24T08:02:45Z",
+      "side": 1,
+      "message": "it should be \"No Results found\" this is what we are using in all the screens.. srividya fixed this yesterday so please revert your changes",
+      "range": {
+        "startLine": 142,
+        "startChar": 11,
+        "endLine": 142,
+        "endChar": 26
+      },
+      "revId": "6e6179801c8443ae9f8b94bc31fdd0ddcab0331b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
