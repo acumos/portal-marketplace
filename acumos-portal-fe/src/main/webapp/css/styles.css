@@ -2058,7 +2058,7 @@ padding: 20px;background:#e5e5e5;}
 .disabledButton { pointer-events: none;  opacity: 0.4; }
 /***** Sign-in promt modal start ********/
 .sign-in-promt-modal-box {width: 400px;margin-left: auto; margin-right: auto;}
-.sign-in-promt-modal-box .md-dialog-content {min-height: 80px;}
+.sign-in-promt-modal-box .md-dialog-content {min-height: 80px;max-height: 90vh;}
 
 /***** Sign-in promt modal end ********/
 

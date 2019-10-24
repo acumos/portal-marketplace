@@ -865,11 +865,15 @@ angular
 											clickOutsideToClose : true,
 											locals: {
 												reasons: workflow.reason,
-												isError: response.data.error_code == "sv_error"
+												summary: workflow.summary,
+												isError: response.data.error_code == "sv_error",
+												isUsageDenied: response.data.error_code == "rtu_error"
 											},
-											controller : function DialogController($scope, reasons, isError) {
+											controller : function DialogController($scope, reasons, summary, isError, isUsageDenied) {
 												$scope.reasons = reasons;
 												$scope.isError = isError;
+												$scope.isUsageDenied = isUsageDenied;
+												$scope.summary = summary;
 												$scope.closePoup = function(){
 													$mdDialog.hide();
 												}

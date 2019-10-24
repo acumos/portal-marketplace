@@ -23,6 +23,7 @@ Portal Marketplace Release Notes
 
 Version 3.0.16 18th October 2019
 ================================
+* ACUMOS-3601  Bump LMCL to 1.4.0 to support LUM 0.28.0 improved denial messages
 * ACUMOS-3082  Bump LMCL to 1.3.0 - to support LUM 0.27.1,0.27.2
 * ACUMOS-3452  IST2 - Unable to create a subscription
 * ACUMOS-3581  IST : Not able to login with the updated password after password expiry

@@ -23,7 +23,7 @@ limitations under the License.
 	<md-dialog aria-label="Sign In" class="sign-in-promt-modal-box" style="width:800px">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Security Verification Status</h2>
+				<h2>{{(isUsageDenied) ? "Right to Use Status": "Security Verification Status"}}</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="closePoup()">
 				<i class="material-icons">close</i> </md-button>
@@ -32,15 +32,17 @@ limitations under the License.
 		<md-dialog-content>
 			<div class="md-dialog-content">
 				<div style="display: block">
-					<img ng-src="{{(isError) ? 'images/icon_verification_failed.png' : 'images/icon_pending.png'}}" alt="" title="failed"
+					<img ng-src="{{(isError || isUsageDenied) ? 'images/icon_verification_failed.png' : 'images/icon_pending.png'}}" alt="" title="failed"
 						style="display: block; margin-left: auto; margin-right: auto; height: 50px;">
 				</div>
-				<p class="text-center" style="font-size: 18px; font-weight: bold; margin-top: 8px;">{{(isError) ? "Failed" : "Pending"}}</p>
-				<span style="font-size: 15px; font-weight:550;">Your request could not be completed, for the reason(s) below:</span>
+				<p class="text-center" style="font-size: 18px; font-weight: bold; margin-top: 8px;">{{(isError) ? "Failed" : (isUsageDenied) ? "Usage Denied": "Pending"}}</p>
+				<span style="font-size: 15px; font-weight:550;">Your request could not be completed, for the reason below:</span>
+				<p ng-if="summary" ng-style="isUsageDenied && {'color':'red'}" style="color:orange">{{summary}}</p>
+				<span ng-if="summary && reasons" style="font-size: 15px; font-weight:550;">Additional Details:</span>
 				<ul style="margin: 8px 0px 0px -24px;" ng-style="!isError && {'margin':'8px 0px 8px -24px'}">
-					<li ng-repeat="reason in reasons.split(',')" ng-style="isError && {'color':'red'}" style="color:orange">{{reason}}</li>
+					<li ng-repeat="reason in reasons.split(',')" ng-style="(isError || isUsageDenied) && {'color':'red'}" style="color:orange">{{reason}}</li>
 				</ul>
-				<span ng-if="!isError" style="font-size: 15px; font-weight:550;">Please wait and try again later.</span>
+				<span ng-if="(!isError && !isUsageDenied)" style="font-size: 15px; font-weight:550;">Please wait and try again later.</span>
 			</div>
 		</md-dialog-content>
 		<!-- <md-dialog-actions>
