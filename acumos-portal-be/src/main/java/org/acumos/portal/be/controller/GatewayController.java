@@ -123,7 +123,7 @@ public class GatewayController extends AbstractController {
 	@ApiOperation(value = "Get All the solutions according to the catagories or toolkit type selected", response = JsonResponse.class)
 	@RequestMapping(value = {"/solutions"},method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPSolution>> getSolutions(HttpServletRequest request, @RequestBody JsonRequest<MLPPeerSubscription> peerSubscription, HttpServletResponse response) {
+	public JsonResponse<List<MLPSolution>> getSolutions(HttpServletRequest request, @RequestBody MLPPeerSubscription peerSubscription, HttpServletResponse response) {
 		JsonResponse<List<MLPSolution>> data = new JsonResponse<>();
 		String catalogId = null;
 		
@@ -131,16 +131,15 @@ public class GatewayController extends AbstractController {
 		List<MLPSolution> solutionList=null;
 		if(peerSubscription != null) {
 			try {
-				MLPPeerSubscription mlpPeerSubscription = peerSubscription.getBody();
-				log.info("MLPPEER SUBSCRIPTION: "+mlpPeerSubscription);
-				log.info("SELECTOR: "+mlpPeerSubscription.getSelector());
-				selectorMap = JsonUtils.serializer().mapFromJson(mlpPeerSubscription.getSelector());
-				if (mlpPeerSubscription != null && selectorMap != null && selectorMap.size() > 0) {
+				log.info("MLPPEER SUBSCRIPTION: "+peerSubscription.toString());
+				log.info("SELECTOR: "+peerSubscription.getSelector());
+				selectorMap = JsonUtils.serializer().mapFromJson(peerSubscription.getSelector());
+				if (peerSubscription != null && selectorMap != null && selectorMap.size() > 0) {
 					catalogId=selectorMap.get("catalogId").toString();
 					log.info("Catelog Id: "+catalogId);
 					GatewayClient gateway = clients.getGatewayClient();
 					if(!StringUtils.isEmpty(catalogId)) {
-						solutionList = gateway.getSolutions(mlpPeerSubscription.getPeerId(), catalogId);
+						solutionList = gateway.getSolutions(peerSubscription.getPeerId(), catalogId);
 						log.info("Solution List size : "+solutionList.size());
 					}
 					log.info(JsonUtils.serializer().toPrettyString(solutionList));

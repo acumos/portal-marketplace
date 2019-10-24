@@ -94,8 +94,6 @@ public class GatewayControllerTest {
 	
 	@Test
 	public void getSolutions() {
-		
-		JsonRequest<MLPPeerSubscription> peerSubscription = new JsonRequest<>();
 		MLPPeerSubscription sub=new MLPPeerSubscription();
 		sub.setSubId(1234L);
 		sub.setPeerId("somepeerid");
@@ -103,7 +101,6 @@ public class GatewayControllerTest {
 		
 		String selector="{\"catalogId\":\"somecatid\"}";
 		sub.setSelector(selector);
-		peerSubscription.setBody(sub);
 		ClientConfig cconf = getConfig("acumosa");
 		cconf.getSsl().setKeyAlias("acumosa");
 		stubFor(get(urlEqualTo("/peer/somepeerid/solutions?catalogId=somecatid")).willReturn(
@@ -111,7 +108,7 @@ public class GatewayControllerTest {
                 .withBody("{\"content\":[{\"solutionId\":\"someId\"},{\"solutionId\":\"someOtherId\"}]}")));
 		GatewayClient client = new GatewayClient(peerApiUrl, cconf);
 		when(clients.getGatewayClient()).thenReturn(client);
-		JsonResponse<List<MLPSolution>> result = gatewayController.getSolutions(request, peerSubscription, response);
+		JsonResponse<List<MLPSolution>> result = gatewayController.getSolutions(request, sub, response);
 		Assert.assertNotNull(result);
 	}
 	
