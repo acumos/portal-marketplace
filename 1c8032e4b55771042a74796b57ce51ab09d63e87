@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "964f6a8d_4ddff811",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/GatewayController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-24T09:49:25Z",
+      "side": 1,
+      "message": "dont call toString method.. log will call it internally\nif you will call and object is null it will throw NPE\n\ndo this\nlog.info(\"MLPPEER SOLUION \"+mlpPeerSubscription );",
+      "range": {
+        "startLine": 135,
+        "startChar": 60,
+        "endLine": 135,
+        "endChar": 71
+      },
+      "revId": "1c8032e4b55771042a74796b57ce51ab09d63e87",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b356f5_8ec93747",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/GatewayController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-10-24T09:49:25Z",
+      "side": 1,
+      "message": "add one more line above this line\nlog.info(\"SELECTOR \"+mlpPeerSubscription.getSelector());",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 59
+      },
+      "revId": "1c8032e4b55771042a74796b57ce51ab09d63e87",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
