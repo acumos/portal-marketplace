@@ -472,7 +472,7 @@ limitations under the License.
 							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="modifyLicenseProfileTemplate($event, true)">
 	                              Update
 							</button>
-							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false || changeLicense"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="changeLicense=true">
+							<button ng-disabled="editModel || isLoadingLicense || isLicenseFound==false || changeLicense"  class="mdl-button pull-right mdl-js-button mdl-js-ripple-effect btn-secondary-small" ng-click="changeLicense=true;modelUploadErrorMsg='';file = '';filename = ''">
 	                              Change
 							</button>							
 						</div>	
