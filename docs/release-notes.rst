@@ -21,10 +21,30 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.16 18th October 2019
+Version 3.0.17 25th October 2019
 ================================
 * ACUMOS-3601  Bump LMCL to 1.4.0 to support LUM 0.28.0 improved denial messages
 * ACUMOS-3082  Bump LMCL to 1.3.0 - to support LUM 0.27.1,0.27.2
+* ACUMOS-3596	<IST> License is not getting updated on model description page, when the license upload option will be 'select license profile'.
+* ACUMOS-3626	<IST> Error is displaying when user is uploading valid license
+* ACUMOS-3594	<IST> Manage my mode & Preview screen have few issues
+* ACUMOS-3526	No Result Found color changing when user hover the cursor
+* ACUMOS-3452	IST2 - Unable to create a subscription
+* ACUMOS-3612	IST: Proper Error message should display when user try to delete a model without nexus image
+* ACUMOS-3590	k8 deployment NullPointerException
+* ACUMOS-3555	<IST2> When we upload license at the time of on-boarding then that license is not displaying on 'model description' page, when license upload option is "Select  license Profile".
+* ACUMOS-3586	on-boarding license profile is not correctly shown
+* ACUMOS-3607	<IST> Manage Peer(s) Access Screen:-When search result is not found, and user is checking the check-box the both "Grant Peer Access" & "Remove" button should be disable.
+* ACUMOS-3592	<IST> On-boarding dockerized model URI:- When we select license option as 'select license profile', then at the top of the on-boarding screen, all on-boarding option is not visible.
+* ACUMOS-3533	<IST2> View on-boarding history screen should have sorting icon for tabulation field.
+* ACUMOS-3611	Portal - Dropdown missing left border
+* ACUMOS-3613	<IST> Model name is getting overlapped with 'new' when model name is large in select favorite catalog screen.
+* ACUMOS-3516	While publishing model:- Model description << after typing one word if copying and pasting it then its placing in new line.
+* ACUMOS-3514	<Portal Marketplace><Web Onboarding> Proper validation not provide on On-board Model button
+* ACUMOS-3633   <IST> By default 'micro-services' check-box is not getting checked once user clicks on 'upload new model'.
+
+Version 3.0.16 18th October 2019
+================================
 * ACUMOS-3452  IST2 - Unable to create a subscription
 * ACUMOS-3581  IST : Not able to login with the updated password after password expiry
 * ACUMOS-2465  <IST2> Not able to delete the unpublished models.
