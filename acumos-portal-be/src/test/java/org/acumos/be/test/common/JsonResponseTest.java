@@ -43,7 +43,17 @@ public class JsonResponseTest {
 			jsonReq.setResponseDetail(responseDetail);
 			jsonReq.setStatus(status);
 			jsonReq.setStatusCode(statusCode);
+			
+			
 			Assert.assertNotNull(jsonReq);
+			Assert.assertEquals(status, jsonReq.getStatus());
+			Assert.assertEquals(statusCode, jsonReq.getStatusCode());
+			Assert.assertEquals(responseDetail, jsonReq.getResponseDetail());
+			Assert.assertEquals(responseCode, jsonReq.getResponseCode());
+			Assert.assertEquals(responseBody, jsonReq.getResponseBody());
+			Assert.assertEquals(errorCode, jsonReq.getErrorCode());
+			
+			
 		}catch(Exception e){
 			
 		}

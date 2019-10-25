@@ -27,6 +27,7 @@ import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -37,8 +38,9 @@ public class JwtTokenUtilTest {
 
 	private static Logger logger = LoggerFactory.getLogger(JwtTokenUtilTest.class);
 
-	@Mock
-	JwtTokenUtilTest test;
+	@InjectMocks
+	JwtTokenUtil jwtTokenUtil;
+	
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -46,7 +48,6 @@ public class JwtTokenUtilTest {
 
 	@Test
 	public void generateToken() {
-		JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
 		String jwtToken = null;
 		try {
 			MLPUser userDetails = new MLPUser();

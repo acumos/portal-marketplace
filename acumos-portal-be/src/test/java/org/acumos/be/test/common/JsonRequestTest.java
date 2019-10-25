@@ -39,6 +39,9 @@ public class JsonRequestTest {
 		jsonReq.setRequestFrom(requestFrom);		
 		jsonReq.setRequestId(requestId);
 		
+		Assert.assertEquals(requestFrom, jsonReq.getRequestFrom());
+		Assert.assertEquals(requestId, jsonReq.getRequestId());
+		Assert.assertEquals(body, jsonReq.getBody());
 		Assert.assertNotNull(jsonReq);
 	}
 }

@@ -19,6 +19,11 @@
  */
 package org.acumos.be.test.common;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.junit.Assert;
 import org.junit.Test; 
@@ -40,6 +45,13 @@ public class RestPageRequestBETest {
 		String sortBy = "ASC";
 		String sortById = "";
 		String sortingOrder = "ASC";
+		String userId = "userId";
+		List<String> tagList = new ArrayList<String>();
+		tagList.add("tag-1");
+		tagList.add("tag-2");
+		List<String> dropTagList = new ArrayList<String>();
+		dropTagList.add("dropTagList-1");
+		dropTagList.add("dropTagList-2");
 		
 		RestPageRequestBE restReq = new RestPageRequestBE();
 		restReq.setAccessType(accessType);
@@ -55,7 +67,29 @@ public class RestPageRequestBETest {
 		restReq.setSortById(sortById);
 		restReq.setSortingOrder(sortingOrder);
 		restReq.setSearchTerm(searchTerm);
+		restReq.setUserId(userId);
+		restReq.setTagList(tagList);
+		restReq.setDropTagList(dropTagList);
+		
+		
+		Assert.assertEquals(accessType, restReq.getAccessType());
+		Assert.assertEquals(activeType, restReq.getActiveType());
+		Assert.assertEquals(description, restReq.getDescription());
+		Assert.assertEquals(modelToolkitType, restReq.getModelToolkitType());
+		Assert.assertEquals(modelType, restReq.getModelType());
+		Assert.assertEquals(name, restReq.getName());
+		Assert.assertEquals(page, restReq.getPage());
+		Assert.assertEquals(searchTerm, restReq.getSearchTerm());
+		Assert.assertEquals(size, restReq.getSize());
+		Assert.assertEquals(sortBy, restReq.getSortBy());
+		Assert.assertEquals(sortById, restReq.getSortById());
+		Assert.assertEquals(sortingOrder, restReq.getSortingOrder());
+		Assert.assertEquals(searchTerm, restReq.getSearchTerm());
+		Assert.assertEquals(userId, restReq.getUserId());
+		Assert.assertEquals(tagList, restReq.getTagList());
+		Assert.assertEquals(dropTagList, restReq.getDropTagList());
 		
 		Assert.assertNotNull(restReq);
+		
 	}
 }

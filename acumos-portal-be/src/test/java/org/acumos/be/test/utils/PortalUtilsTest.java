@@ -23,15 +23,36 @@ package org.acumos.be.test.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.invoke.MethodHandles;
+import java.time.Instant;
 import java.util.ArrayList;
 
+import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.transport.MLPeer;
+import org.acumos.portal.be.transport.MLRole;
+import org.acumos.portal.be.transport.MLRoleFunction;
+import org.acumos.portal.be.transport.OauthUser;
+import org.acumos.portal.be.transport.UserMasterObject;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 
 public class PortalUtilsTest {
 
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+
+	@Mock
+	Environment env;
+	
 	@Test
 	public void convertRestPageResponseTest() {
 		ArrayList<Integer> intList = new ArrayList<>();
@@ -60,4 +81,124 @@ public class PortalUtilsTest {
 		assertEquals(first.isEmpty(), second.isEmpty());
 		assertEquals(first.getNumberOfElements(), second.getNumberOfElements());
 	}
+	
+	@Test
+	public void convertUserMasterIntoOauthUserTest() {
+		
+		UserMasterObject userMasterObject = new UserMasterObject();
+		userMasterObject.setUserId("user");
+		userMasterObject.setProviderCd("providerCd");
+		userMasterObject.setProviderUserId("ProviderUserId");
+		userMasterObject.setRank(0);
+		userMasterObject.setDisplayName("displayName");
+		userMasterObject.setProfileURL("profileURL");
+		userMasterObject.setImageURL("ImageURL");
+		userMasterObject.setSecret("secret");
+		userMasterObject.setAccessToken("AccessToken");
+		userMasterObject.setRefreshToken("RefreshToken");
+		Instant expireTime = Instant.now();
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		userMasterObject.setExpireTime(expireTime);
+		userMasterObject.setCreated(created);
+		userMasterObject.setModified(modified);
+		
+		OauthUser oauthUser = PortalUtils.convertUserMasterIntoOauthUser(userMasterObject);
+		
+		assertNotNull(oauthUser);
+	}
+	
+	@Test
+	public void convertToOathUserTest() {
+		MLPUserLoginProvider mlpUserLoginProvider = new MLPUserLoginProvider();
+		mlpUserLoginProvider.setUserId("userID");
+		mlpUserLoginProvider.setProviderCode("providerID");
+		mlpUserLoginProvider.setProviderUserId("providerUserID");
+		mlpUserLoginProvider.setRank(0);
+		mlpUserLoginProvider.setDisplayName("displayName");
+		mlpUserLoginProvider.setProfileUrl("profileURL");
+		mlpUserLoginProvider.setImageUrl("ImageUrl");
+		mlpUserLoginProvider.setSecret("Secret");
+		mlpUserLoginProvider.setAccessToken("AccessToken");
+		mlpUserLoginProvider.setRefreshToken("RefreshToken");
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		mlpUserLoginProvider.setCreated(created);
+		mlpUserLoginProvider.setModified(modified);
+		
+		OauthUser oauthUser = PortalUtils.convertToOathUser(mlpUserLoginProvider);
+		
+		assertNotNull(oauthUser);
+	}
+	
+	@Test
+	public void convertToMLRoleFunctionTest() {
+		MLPRoleFunction mlpRoleFunction = new MLPRoleFunction();
+		mlpRoleFunction.setRoleFunctionId("RoleFunctionID");
+		mlpRoleFunction.setName("Name");
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		mlpRoleFunction.setCreated(created);
+		mlpRoleFunction.setModified(modified);
+		
+		MLRoleFunction mlRoleFunction = PortalUtils.convertToMLRoleFunction(mlpRoleFunction);
+		
+		assertNotNull(mlRoleFunction);
+	}
+	
+	@Test
+	public void convertToMLPRoleTest() {
+		MLRole mlRole = new MLRole();
+		mlRole.setRoleId("RoleID");
+		mlRole.setName("Name");
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		mlRole.setCreated(created);
+		mlRole.setModified(modified);
+		mlRole.setActive(false);
+		
+		MLPRole mlpRole = PortalUtils.convertToMLPRole(mlRole);
+		
+		assertNotNull(mlpRole);
+	}
+	
+	@Test
+	public void convertToMLRoleTest() {
+		
+		MLPRole mlpRole = new MLPRole();
+		
+		mlpRole.setRoleId("RoleID");
+		mlpRole.setName("Name");
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		mlpRole.setCreated(created);
+		mlpRole.setModified(modified);
+		mlpRole.setActive(false);
+		
+		MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
+		
+		assertNotNull(mlRole);
+	}
+	
+	@Test
+	public void convertToMLPeerTest() {
+		MLPPeer peer = new MLPPeer();
+		peer.setApiUrl("apiURL");
+		peer.setContact1("contact");
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		peer.setCreated(created);
+		peer.setModified(modified);
+		peer.setName("Name");
+		peer.setPeerId("PeerID");
+		peer.setStatusCode("statusCode");
+		peer.setSubjectName("SubjectName");
+		peer.setDescription("description");
+		peer.setWebUrl("webURL");
+		
+		MLPeer mPeer = PortalUtils.convertToMLPeer(peer);
+		
+		assertNotNull(mPeer);
+	}
+	
 }
