@@ -106,8 +106,7 @@ public class FileSystemStorageService implements StorageService {
 					log.error("On-boarded Model does not contain required files " + filename );
 					throw new StorageException("On-boarded Model does not contain required files: " + getMissingFiles(file));
 				}
-				// Remove older files before uploading another solution files
-				deleteAll(userId);
+				
 				log.debug("Remove Previously Uploaded files for User  " + userId );
 				Path modelFolderLocation = Paths
 						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
