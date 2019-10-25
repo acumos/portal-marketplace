@@ -514,7 +514,7 @@ limitations under the License.
 										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && (!licensefile || selectedLicense == -1))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
-										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false"
+										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false;  $root.isMicroserviceEnabled = true;"
 										 ng-disabled= "!(stepfailed == true || allSuccess == true) || (disableRefreshButton == true)" 
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 											Upload New</button>
