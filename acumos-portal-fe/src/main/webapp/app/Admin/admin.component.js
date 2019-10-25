@@ -1759,7 +1759,7 @@ angular.module('admin').filter('abs', function () {
 
             /*Add all models start*/
             $scope.addAllSolutions = function () {
-            	 if($scope.allCatalogList == []){
+            	 if(typeof $scope.CatalogSendDeatils == "undefined"){
                 	  $location.hash('subscontainer');  // id of a container on the top of the page - where to scroll (top)
                       $anchorScroll();
                       $scope.msg = "Please select any catalog";
@@ -1774,8 +1774,8 @@ angular.module('admin').filter('abs', function () {
 	                    "request_body": {
 	                        "userId": userId,
 	                        "refreshInterval": freqChangeValue,
-	                        "selector": "{\"catalogId\":\"" + $scope.allCatalogList.catalogId + "\"}",
-	                        "catalogName": $scope.allCatalogList.name
+	                        "selector": "{\"catalogId\":\"" + $scope.CatalogSendDeatils.catalogId + "\"}",
+	                        "catalogName": $scope.CatalogSendDeatils.name
 	                    }
 	                };
 	                
@@ -3276,36 +3276,48 @@ angular.module('admin').filter('abs', function () {
                         function successCallback(response) {
                             $scope.listCatalog = response.data.response_body;
                             $scope.CatalogValue = "";
-                            $scope.allCatalogList = [];
+                            
+                            //$scope.allCatalogList = [];
+                            
                             if($scope.listCatalog.length < 1){
                             	$scope.catalogError = true;
                             }
                         },
                         function errorCallback(error) {
                         	$scope.CatalogValue = "";
-                            $scope.allCatalogList = [];
+                           // $scope.allCatalogList = [];
                             $scope.listCatalog = "";
                             $scope.catalogError = true;
                         });
             }
 
             $scope.getCatalogDetails = function (CatalogId) {
-                $scope.allCatalogList = [];
+              //  $scope.allCatalogList = [];
                 $scope.selectedCatalogId = CatalogId;
+            
+                //Filtering now on List of catalogs with selected CatalogId
                 
+              if($scope.listCatalog.length>0){ 
+                Object.values($scope.listCatalog).forEach(function(value, index) {
+                    if (value.catalogId == $scope.selectedCatalogId) {
+                        $scope.CatalogSendDeatils = value;
+                                                
+                    }
+                });
+            }
                 var reqObj = {
                 		"peerId": $scope.peerIdForSubsList,
                 		"selector": "{\"catalogId\":\"" + CatalogId + "\"}"
                 	};
-                
-                apiService
+             // Removed Functionality   since it is not working
+               /* apiService
                     .getPeerSolutionsByCatalog(reqObj)
                     .then(
                         function successCallback(response) {
                             $scope.allCatalogList = response.data.response_body;
                         },
                         function errorCallback(response) {
-                        });
+                        });*/
             }
 
             /* Catalog changes */
