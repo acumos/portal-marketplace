@@ -406,7 +406,7 @@ limitations under the License.
 																				Create New</button>
 																		    </div>
 																		    <div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="license-detail-form dc-row" style="padding: 0">
-																			    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+																			    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone" style="margin-left: 0; padding-left: 0;">
 																			    <md-select ng-model="$parent.selectedLicense" placeholder="Select">
 																			    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
 																				</md-select>
@@ -511,7 +511,7 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && (!licensefile || selectedLicense == -1))"
+										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && selectedLicense == -1)"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false;  $root.isMicroserviceEnabled = true;"
@@ -676,8 +676,8 @@ limitations under the License.
 											    </div>
 											    <div ng-if="licenseOption=='selectLicProfile' && allTemplates" class="license-detail-form dc-row">
 											     
-												    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
-												    <md-select ng-model="$parent.selectedLicense">
+												    <div class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone" style="margin-left: 0; padding-left: 0;">
+												    <md-select ng-model="$parent.selectedLicense" placeholder="Select">
 												    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
 													</md-select>
 													</div>
@@ -777,7 +777,7 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog(true)"
-										 ng-disabled= "modelDocLicUploadError || !host || !image || !port || !modelDockerURLName || ( disableOnboardingButton == true ) ||  !(licenseDocfile && fileSubmitDocLicense)"
+										 ng-disabled= "modelDocLicUploadError || !host || !image || !port || !modelDockerURLName || ( disableOnboardingButton == true ) || (licenseOption=='Upload' && !(licenseDocfile && fileSubmitDocLicense)) || (licenseOption=='selectLicProfile' && selectedLicense == -1)"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 										<button type="reset" 

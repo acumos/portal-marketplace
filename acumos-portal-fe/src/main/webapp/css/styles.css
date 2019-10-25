@@ -969,7 +969,7 @@ a.mdl-tabs__tab.tab5-panel {height:1px;}
     color: #2e2f2f !important;
 }
 .supporting-doc a i{color: inherit !important}
-.license-detail-form.mdl-grid, .license-detail-form.dc-row {padding-left:0px; margin-left: -13px;}
+.license-detail-form.mdl-grid, .license-detail-form.dc-row {padding-left:0px; /* margin-left: -13px; */}
 .remove-marleft6{margin-left:-6px;}
 /*************progress bar style start **************/
 /* File upload controller starts */
@@ -2468,7 +2468,7 @@ label.model-name{color:#0366d6;}
 .catalog-small-text {font-size: 11px; color:#666;}
 /*Catalog page style end*/
 /*license details*/
-.licence-closebtn{margin-right: 15px; margin-top: 4px;}
+.licence-closebtn{/* margin-right: 15px; */ margin-top: 4px;}
 
 /*********** MEDIA QUERIES SECTION START************/
 
