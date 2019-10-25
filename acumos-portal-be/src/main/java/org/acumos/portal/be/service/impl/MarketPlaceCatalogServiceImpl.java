@@ -175,39 +175,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public List<MLSolution> getAllPublishedSolutions() throws AcumosServiceException {
-		log.debug("getAllPublishedSolutions");
-		List<MLSolution> mlSolutions = null;
-		try {
-			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			Map<String, Object> queryParameters = new HashMap<>();
-			// queryParameters.put("active", "Y"); //Fetch all active solutions
-			queryParameters.put("accessTypeCode", CommonConstants.PUBLIC);
-			// TODO Lets keep it simple by using List for now. Need to modify
-			// this to use Pagination by providing page number and result fetch
-			// size
-			List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();// dataServiceRestClient.searchSolutions(queryParameters,
-			// false);
-			if (!PortalUtils.isEmptyList(mlpSolutions)) {
-				mlSolutions = new ArrayList<>();
-				for (MLPSolution mlpSolution : mlpSolutions) {
-					MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
-					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getUserId());
-					if (user != null) {
-						mlSolution.setOwnerName(user.getFirstName());
-						mlSolutions.add(mlSolution);
-					}
-				}
-			}
-		} catch (IllegalArgumentException e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
-		} catch (HttpClientErrorException e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
-		}
-		return mlSolutions;
-	}
-
-	@Override
 	public MLSolution getSolution(String solutionId, String loginUserId) throws AcumosServiceException {
 		log.debug("getSolution");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();

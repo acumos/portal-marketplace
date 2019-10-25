@@ -54,8 +54,6 @@ import org.acumos.cds.transport.RestPageResponse;
  */
 public interface MarketPlaceCatalogService {
 	 
-	List<MLSolution> getAllPublishedSolutions() throws AcumosServiceException;
-	
 	RestPageResponse<MLPSolution> getAllPaginatedSolutions(Integer page, Integer size, String sortingOrder) throws AcumosServiceException;
 	
 	MLSolution getSolution(String solutionId) throws AcumosServiceException;

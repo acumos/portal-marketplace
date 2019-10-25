@@ -93,31 +93,6 @@ public class MarketPlaceServiceImplTest {
 	}
 
 	@Test
-	public void getAllPublishedSolutionsTest() {
-		try {
-			MLSolution mlsolution = new MLSolution();
-			mlsolution.setSolutionId("Solution1");
-			mlsolution.setName("Test_Solution data");
-			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlsolution.setActive(true);
-			mlsolution.setModelType("CL");
-			mlsolution.setTookitType("DS");
-
-			List<MLSolution> mlSolutions = new ArrayList<>();
-			mlSolutions.add(mlsolution);
-			if (mlSolutions != null) {
-				Mockito.when(impl.getAllPublishedSolutions()).thenReturn(mlSolutions);
-				logger.info("Successfully fetched list of solutions ");
-				Assert.assertNotNull("Solution List : ", mlSolutions);
-
-			}
-
-		} catch (Exception e) {
-			logger.info("Failed to fetch published solutions " + e);
-		}
-	}
-
-	@Test
 	public void getSolutionTest() {
 		try {
 
