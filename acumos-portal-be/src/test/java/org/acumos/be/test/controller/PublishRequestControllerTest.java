@@ -149,7 +149,7 @@ public class PublishRequestControllerTest {
 		Workflow workflow = new Workflow();
 		workflow.setReason("Workflow Reason");
 		workflow.setWorkflowAllowed(true);
-		when(credentials.getLoggedInUserName()).thenReturn("admin");
+		when(credentials.getLoggedInUserId()).thenReturn("admin");
 		when(sv.securityVerificationScan(publishRequest.getSolutionId(), publishRequest.getRevisionId(),
 				SVConstants.PUBLISHPUBLIC, "admin")).thenReturn(workflow);
 		Workflow resultWorkflow = null;
