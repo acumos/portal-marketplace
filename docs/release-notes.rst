@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.18 25th October 2019
+================================
+* ACUMOS-3644 - Portal 3.0.16 incorrectly changed call to SV interface securityVerificationScan
+
 Version 3.0.17 25th October 2019
 ================================
 * ACUMOS-3601  Bump LMCL to 1.4.0 to support LUM 0.28.0 improved denial messages

@@ -105,7 +105,7 @@ public abstract class AbstractController {
 
 
 	public CompletableFuture<Workflow> performSVScan(String solutionId, String revisionId,
-			String workflowId, String loggedInUserName ) {
+			String workflowId, String loggedInUserId ) {
 		return CompletableFuture.supplyAsync(() -> {
 			log.debug("performSVScan, solutionId=" + solutionId + ", revisionId=" + revisionId
 					+ ", workflowId=" + workflowId);
@@ -115,7 +115,7 @@ public abstract class AbstractController {
 					SecurityVerificationClientServiceImpl sv = getSVClient();
 					workflow =
 							sv.securityVerificationScan(solutionId, revisionId, workflowId,
-							loggedInUserName);
+							loggedInUserId);
 					if (!workflow.isWorkflowAllowed()) {
 						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
 								? workflow.getSvException()
@@ -139,13 +139,13 @@ public abstract class AbstractController {
 	public Workflow performSVScan(String solutionId, String workflowId) {
 		log.debug("performSVScan, solutionId=" + solutionId + ", workflowId=" + workflowId); 
 		Workflow workflow = getValidWorkflow();
-		String loggedInUserName = credentialService.getLoggedInUserName();
+		String loggedInUserId = credentialService.getLoggedInUserId();
 		if (Boolean.parseBoolean(env.getProperty(ENV_SV_ENABLED))) {
 			try {
 				SecurityVerificationClientServiceImpl sv = getSVClient();
 				List<MLPSolutionRevision> revs = catalogService.getSolutionRevision(solutionId);
 				for (MLPSolutionRevision rev : revs) {
-					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId, loggedInUserName);
+					workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId, loggedInUserId);
 					if (!workflow.isWorkflowAllowed()) {
 						String message = (!PortalUtils.isEmptyOrNullString(workflow.getSvException()))
 							? workflow.getSvException()
