@@ -263,7 +263,7 @@ public class LicensingServiceController extends AbstractController{
 			@PathVariable String versionId, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 
-		String loggedInUserName = credentialService.getLoggedInUserName();
+		String loggedInUserId = credentialService.getLoggedInUserId();
 		userId = SanitizeUtils.sanitize(userId);
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
@@ -300,7 +300,7 @@ public class LicensingServiceController extends AbstractController{
 					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(licenseFile, userId, solutionId, revisionId, versionId);
 
 					if (uploadedFile) {
-						Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED, loggedInUserName).get();
+						Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED, loggedInUserId).get();
 						if (workflow.isWorkflowAllowed()) {
 							String licenseContent = marketPlaceService.getLicenseUrl(solutionId, versionId,
 									PortalConstants.LICENSE_ARTIFACT_TYPE, PortalConstants.LICENSE_FILENAME_PREFIX);
