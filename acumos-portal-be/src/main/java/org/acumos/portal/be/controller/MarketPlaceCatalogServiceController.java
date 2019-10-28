@@ -1616,7 +1616,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@PathVariable String solutionId, @PathVariable String revisionId,
 			@PathVariable String catalogId, @RequestParam("file") MultipartFile file,
 			HttpServletResponse response) {
-		String loggedInUserName = credentialService.getLoggedInUserName();
+		String loggedInUserId = credentialService.getLoggedInUserId();
 		final String  sanitizedSolutionId = SanitizeUtils.sanitize(solutionId);
 		final String  sanitizedRevisionId = SanitizeUtils.sanitize(revisionId);
 		final String  sanitizedCatalogId = SanitizeUtils.sanitize(catalogId);
@@ -1625,7 +1625,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		try {
-			Workflow workflow = performSVScan(sanitizedSolutionId, sanitizedRevisionId, SVConstants.UPDATED, loggedInUserName).get();
+			Workflow workflow = performSVScan(sanitizedSolutionId, sanitizedRevisionId, SVConstants.UPDATED, loggedInUserId).get();
 			if (workflow.isWorkflowAllowed()) {
 				double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString());
 				long fileSizeByKB = file.getBytes().length;
@@ -1801,13 +1801,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		catalogId = SanitizeUtils.sanitize(catalogId);
-		String loggedInUserName = credentialService.getLoggedInUserName();
+		String loggedInUserId = credentialService.getLoggedInUserId();
 
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		// String userId = (String) request.getAttribute("loginUserId");
 		RevisionDescription description = revisionDescription.getBody();
 		try {
-			Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED, loggedInUserName).get();
+			Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED, loggedInUserId).get();
 
 			if (workflow.isWorkflowAllowed()) {
 
@@ -1921,7 +1921,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		final String sanitizedSolutionId = SanitizeUtils.sanitize(solutionId);
 		final String sanitizedRevisionId = SanitizeUtils.sanitize(revisionId);
 		final String sanitizedWorkflowId = SanitizeUtils.sanitize(workflowId);
-	  String loggedInUserName  = credentialService.getLoggedInUserName();
+		String loggedInUserName  = credentialService.getLoggedInUserName();
+		String loggedInUserId = credentialService.getLoggedInUserId();
 		return CompletableFuture.supplyAsync(() -> {
 
 			JsonResponse<VerifySolutionActionResponse> data = new JsonResponse<>();
@@ -1930,7 +1931,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					performRtuCheck(sanitizedSolutionId, sanitizedRevisionId, sanitizedWorkflowId, null, loggedInUserName);
 
 			CompletableFuture<Workflow> workflowFuture =
-					performSVScan(sanitizedSolutionId, sanitizedRevisionId, sanitizedWorkflowId, loggedInUserName);
+					performSVScan(sanitizedSolutionId, sanitizedRevisionId, sanitizedWorkflowId, loggedInUserId);
 
 			LicenseRtuVerification rtu = null;
 			try {

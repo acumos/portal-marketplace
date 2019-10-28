@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -149,13 +150,14 @@ public class PublishRequestControllerTest {
 		Workflow workflow = new Workflow();
 		workflow.setReason("Workflow Reason");
 		workflow.setWorkflowAllowed(true);
-		when(credentials.getLoggedInUserId()).thenReturn("admin");
+		UUID userId = UUID.randomUUID();
+		when(credentials.getLoggedInUserId()).thenReturn(userId.toString());
 		when(sv.securityVerificationScan(publishRequest.getSolutionId(), publishRequest.getRevisionId(),
-				SVConstants.PUBLISHPUBLIC, "admin")).thenReturn(workflow);
+				SVConstants.PUBLISHPUBLIC, userId.toString())).thenReturn(workflow);
 		Workflow resultWorkflow = null;
 		try {
 			resultWorkflow = publishRequestController.performSVScan(publishRequest.getSolutionId(),
-					publishRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC, "admin").get();
+					publishRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC, userId.toString()).get();
 		} catch (InterruptedException | ExecutionException e) {
 			fail(e.getMessage());
 		}

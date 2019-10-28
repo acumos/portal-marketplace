@@ -157,14 +157,14 @@ public class PublishRequestController extends AbstractController {
     @ResponseBody
     public JsonResponse<MLPublishRequest> updatePublishRequest(HttpServletRequest request, @PathVariable("publishRequestId") String publishRequestId, @RequestBody JsonRequest<MLPublishRequest> mlPublishRequest, HttpServletResponse response) {
 		JsonResponse<MLPublishRequest> data = new JsonResponse<>();
-		String loggedInUserName  = credentialService.getLoggedInUserName();
+		String loggedInUserId  = credentialService.getLoggedInUserId();
 
 		try {
 			MLPublishRequest pendingRequest = mlPublishRequest.getBody();
 			Workflow workflow = getValidWorkflow();
 			if (pendingRequest.getRequestStatusCode().equalsIgnoreCase("AP")) {
 				MLPublishRequest oldRequest = publishRequestService.getPublishRequestById(pendingRequest.getPublishRequestId());
-				workflow = performSVScan(oldRequest.getSolutionId(), oldRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC, loggedInUserName).get();
+				workflow = performSVScan(oldRequest.getSolutionId(), oldRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC, loggedInUserId).get();
 			}
 			if (workflow.isWorkflowAllowed()) {
 				MLPublishRequest updatedPublishRequest = publishRequestService.updatePublishRequest(pendingRequest);

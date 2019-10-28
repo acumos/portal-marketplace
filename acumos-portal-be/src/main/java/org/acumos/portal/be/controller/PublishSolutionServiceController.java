@@ -81,7 +81,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		String loggedInUserName  = credentialService.getLoggedInUserName();
+		String loggedInUserId  = credentialService.getLoggedInUserId();
 		
 		log.debug("publishSolution={}", solutionId, visibility);
 		log.info("publishSolution={}", solutionId, visibility);
@@ -90,7 +90,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		try {
 			String workflowId = (visibility.equalsIgnoreCase(CommonConstants.PUBLIC)
 					? SVConstants.PUBLISHPUBLIC : SVConstants.PUBLISHCOMPANY);
-			Workflow workflow = performSVScan(solutionId, revisionId, workflowId, loggedInUserName).get();
+			Workflow workflow = performSVScan(solutionId, revisionId, workflowId, loggedInUserId).get();
 			if (!workflow.isWorkflowAllowed()) {
 				data.setErrorCode((isReasonInfo(workflow.getReason())) ? JSONTags.TAG_INFO_SV : JSONTags.TAG_ERROR_SV);
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
