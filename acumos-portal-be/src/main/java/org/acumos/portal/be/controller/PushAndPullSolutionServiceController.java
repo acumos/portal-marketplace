@@ -142,7 +142,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(
-					"Exception Occurred downloading a artifact for a Solution in Push and Pull Solution serive", e);
+					"Exception Occurred downloading a artifact for a Solution in Push and Pull Solution service", e);
 		}
 		// return resource;
 	}
@@ -202,31 +202,31 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 					}
 				}
 			} catch (JsonParseException e) {
-				log.error("Exception Occured while parsing site configuration.", e.getMessage());
-				log.info("Exception Occured while parsing site configuration. Do Nothing");
+				log.error("Exception Occurred while parsing site configuration.", e.getMessage());
+				log.info("Exception Occurred while parsing site configuration. Do Nothing");
 			} catch (JsonMappingException e) {
-				log.error("Exception Occured while parsing site configuration.", e.getMessage());
-				log.info("Exception Occured while parsing site configuration. Do Nothing");
+				log.error("Exception Occurred while parsing site configuration.", e.getMessage());
+				log.info("Exception Occurred while parsing site configuration. Do Nothing");
 			} catch (IOException e) {
-				log.error("Exception Occured while parsing site configuration.", e.getMessage());
-				log.info("Exception Occured while parsing site configuration. Do Nothing");
+				log.error("Exception Occurred while parsing site configuration.", e.getMessage());
+				log.info("Exception Occurred while parsing site configuration. Do Nothing");
 			}
 		}
 		if (StringUtils.isEmpty(userId)) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.info("User Id Required to uplpoad the model");
+			log.info("User Id Required to upload the model");
 			responseVO.setStatus(false);
-			responseVO.setResponseDetail("User Id Required to uplpoad the model");
+			responseVO.setResponseDetail("User Id Required to upload the model");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
 			
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write("User Id Required to uplpoad the model");
+			response.getWriter().write("User Id Required to upload the model");
 		}
 		
 		try {
-			String input= new String(file.getBytes());
-			String filename = file.getOriginalFilename();
 			if(licUploadFlag) {
+				String input= new String(file.getBytes());
+				String filename = file.getOriginalFilename();
 				if (!filename.endsWith(".json")) {				
 					log.error("json File Required. Original File :  " + filename );
 					throw new StorageException("json File Required. Original File : " + filename);
@@ -273,12 +273,12 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			response.flushBuffer();
 			
 			log.error(
-					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+					"Exception Occurred while uploading the model in Push and Pull Solution service", e);
 		}
 		catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(
-					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+					"Exception Occurred while uploading the model in Push and Pull Solution service", e);
 		}
 		return responseVO;
 	}
@@ -316,7 +316,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(
-					"Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
+					"Exception Occurred downloading a document for a Solution in Push and Pull Solution service", e);
 		}
 	}
 	
