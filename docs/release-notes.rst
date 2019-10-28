@@ -23,6 +23,7 @@ Portal Marketplace Release Notes
 
 Version 3.0.19 29th October 2019
 ================================
+* ACUMOS-3645 - OOM during web-onboarding in portal
 * ACUMOS-3644 - Portal 3.0.16 incorrectly changed call to SV interface securityVerificationScan - fixes post review
 
 Version 3.0.18 25th October 2019
