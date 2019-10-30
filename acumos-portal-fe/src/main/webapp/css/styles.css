@@ -1574,9 +1574,11 @@ input[type="text"].medium-textbox {width: 300px;}
 .mdl-tabs__tab .tab-maintained_logs {width:25px; height:16px;background: url("../images/admin-dashboard/mbl_inactive.png") no-repeat center center; margin-right:7px;}
 .mdl-tabs__tab.is-active .tab-maintained_logs {background: url("../images/admin-dashboard/mbl_active.png") no-repeat center center; margin-right:7px;}
 
-.create_bkp_inner_tbl{width:100%; border-collapse: collapse;}
-.create_bkp_inner_tbl td{background-color: #f3f1f5;}
+.create_bkp_inner_tbl{width:100%; border-collapse: seperate; border-spacing:0;}
+.create_bkp_inner_tbl td{background-color: #f3f1f5; }
 .create_bkp_inner_tbl thead th{font-size:13px !important; font-weight:600 !important;}
+.create_bkp_inner_tbl tbody tr td{border:0; border-bottom: 1px solid rgba(0,0,0,.12);}
+.create_bkp_inner_tbl tbody tr:last-child td{border-bottom: none;}
 /******** Maintained Backup Logs CSS end *****/
 
 /*************Admin User page style End ***************/
