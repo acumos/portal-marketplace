@@ -3712,7 +3712,7 @@ angular.module('admin').filter('abs', function () {
                         function (error) {
                             $location.hash('myDialog'); 
                             $anchorScroll();
-                            $scope.msg = error.data.message;
+                            $scope.msg = error.data.response_detail;
                             $scope.icon = 'info_outline';
                             $scope.styleclass = 'c-error';
                             $scope.showAlertMessage = true;
