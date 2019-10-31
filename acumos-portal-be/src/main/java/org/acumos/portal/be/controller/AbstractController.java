@@ -22,18 +22,13 @@ package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.licensemanager.client.model.LicenseAction;
 import org.acumos.licensemanager.client.model.LicenseRtuVerification;
-import org.acumos.licensemanager.client.model.VerifyLicenseRequest;
-import org.acumos.licensemanager.client.rtu.LicenseRtuVerifier;
-import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.portal.be.common.CredentialsService;
+import org.acumos.portal.be.common.RtuServiceImpl;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
-import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.service.SecurityVerificationClientServiceImpl;
@@ -52,6 +47,9 @@ public abstract class AbstractController {
 
 	@Autowired
 	private CredentialsService credentialService;
+
+	@Autowired
+	private RtuServiceImpl rtuService;
 
 	protected static final String APPLICATION_JSON = "application/json";
 
@@ -73,36 +71,21 @@ public abstract class AbstractController {
 		mapper = new ObjectMapper();
 	}
 
-	/**
-	 * Performs a right to use check
-	 * 
-	 * Calls License Mgr Client Library which will call License Usage Manager service.
-	 * 
-	 * @param solutionId
-	 * @param revisionId
-	 * @param workflowId
-	 * @param assetUsageId
-	 * @return a license rtu verification in the future
-	 */
-	public CompletableFuture<LicenseRtuVerification> performRtuCheck(String solutionId,
-			String revisionId, String workflowId, String assetUsageId, String loggedInUserName) {
-		LicenseAction action = null;	
-		action = LicenseAction.valueOf( workflowId.toUpperCase());
-		assetUsageId = assetUsageId == null ? UUID.randomUUID().toString() : assetUsageId;
-		LicenseRtuVerifier licenseVerifier =
-				new LicenseRtuVerifier(env.getProperty(PortalConstants.ENV_LUM_URL));
-		VerifyLicenseRequest licenseDownloadRequest = new VerifyLicenseRequest(action,
-				solutionId, revisionId, loggedInUserName, assetUsageId);
-		licenseDownloadRequest.setAction(action);
-		CompletableFuture<LicenseRtuVerification> verifyUserRTU = null;
-		try {
-			verifyUserRTU = licenseVerifier.verifyRtu(licenseDownloadRequest);
-		} catch (RightToUseException e) {
-			log.error("verifyUserRTU failed: {} ", verifyUserRTU);
-		}
-		return verifyUserRTU;
-	}
-
+  /**
+   * Performs a right to use check
+   * 
+   * Calls License Mgr Client Library which will call License Usage Manager service.
+   * 
+   * @param solutionId
+   * @param revisionId
+   * @param workflowId
+   * @param assetUsageId
+   * @return a license rtu verification in the future
+   */
+  public CompletableFuture<LicenseRtuVerification> performRtuCheck(String solutionId,
+      String revisionId, String workflowId, String assetUsageId, String loggedInUserName) {
+				return rtuService.performRtuCheck(solutionId, revisionId, workflowId, assetUsageId, loggedInUserName);
+			}
 
 	public CompletableFuture<Workflow> performSVScan(String solutionId, String revisionId,
 			String workflowId, String loggedInUserId ) {
