@@ -65,7 +65,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.license-manager</groupId>
 			<artifactId>license-manager-client-library</artifactId>
-			<version>1.4.0</version>
+			<version>1.4.1-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.collections</groupId>
