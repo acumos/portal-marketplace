@@ -86,26 +86,30 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 		}
 		
 		window.onmessage = function(event) {
-			  iframeEl.parentNode.removeChild( iframeEl );
-			  if (event.data === "navigateToMyModel") {
-			    location.href = "/#/manageModule";
-			  } else if(event.data === "navigateToDesignStudio"){
-				  location.reload();
-				  location.href = "/#/designStudio";
-			  } else if(event.data === "navigateToAcuCompose"){
-				  location.href = "/#/acuCompose";
-			  } else if(event.data === "navigateToHome"){
-				  location.href = "/#/home";
-			  } else {
-				  let childMessage = event.data.split("?");
-				  if(childMessage[0] === "navigateToMyModelDetails"){
-					  let solutionId = childMessage[1];
-					  let revisionId = childMessage[2];
-					  location.href = "/#/marketSolutions?solutionId="+solutionId+"&revisionId="+revisionId+"&parentUrl=mymodel";
-				  }
-			  }
-			  
-			};
+			iframeEl.parentNode.removeChild(iframeEl);
+			if (event.data === "navigateToMyModel") {
+				location.href = "#/manageModule";
+			} else if (event.data === "navigateToMarketplace") {
+				location.href = "#/marketPlace";
+			} else if (event.data === "navigateToDesignStudio") {
+				location.reload();
+				location.href = "/index.html#/designStudio";
+			} else if (event.data.message === "navigateToAcuCompose") {
+				location.href = "/index.html#/acuCompose";
+			} else if (event.data === "navigateToHome") {
+				location.href = "/index.html#/home";
+			} else {
+				let childMessage = event.data.split("?");
+				if (childMessage[0] === "navigateToMyModelDetails") {
+					let solutionId = childMessage[1];
+					let revisionId = childMessage[2];
+					location.href = "/index.html#/marketSolutions?solutionId="
+							+ solutionId + "&revisionId=" + revisionId
+							+ "&parentUrl=mymodel";
+				}
+			}
+
+		};
 	}
 }
 		
