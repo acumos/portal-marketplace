@@ -54,7 +54,7 @@ public class Clients {
 	}
 		
 	public Clients() {
-		log.info("Clients::new");
+		log.debug("Clients::new");
 	}	
 
 	/**

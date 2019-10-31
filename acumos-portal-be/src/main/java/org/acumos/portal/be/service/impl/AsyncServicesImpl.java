@@ -116,7 +116,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 	@Async
 	public Future<String> initiateAsyncProcess() throws InterruptedException {
-		log.info("###Start Processing with Thread id: " + Thread.currentThread().getId());
+		log.debug("###Start Processing with Thread id: " + Thread.currentThread().getId());
 		log.debug("process");
 
 		String processInfo = String.format("Processing is Done with Thread id= %d", Thread.currentThread().getId());
@@ -128,7 +128,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			String access_token, String modelName, String dockerfileURI,
 			String deploymentEnv) throws InterruptedException, ClientProtocolException, IOException {
 
-		log.info("CallOnboarding service Async");
+		log.debug("CallOnboarding service Async");
 		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
 		CloseableHttpClient httpclient = hcbuilder.build();
 		HttpResponse response = null;
@@ -145,7 +145,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			String deploymentEnv, DockerUploadResult dockerUploadResult)
 			throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException {
 		
-		log.info("CallOnboarding service Async");
+		log.debug("CallOnboarding service Async");
 		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
 		CloseableHttpClient httpclient = hcbuilder.build();
 		HttpResponse response = null;
@@ -280,7 +280,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				post.setEntity(entity);
 
 				response = httpclient.execute(post);
-				log.info("inside callOnboarding response.getStatusLine().getStatusCode() ---->>>"
+				log.debug("inside callOnboarding response.getStatusLine().getStatusCode() ---->>>"
 						+ response.getStatusLine().getStatusCode());
 				notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 				if (response.getStatusLine().getStatusCode() == 200
@@ -290,7 +290,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 					ObjectMapper mapper = new ObjectMapper();
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
-					log.info("inside callOnboarding if after resp.toString() ---->>>" + resp.toString());
+					log.debug("inside callOnboarding if after resp.toString() ---->>>" + resp.toString());
 					Map<String, Object> solutionStr = (Map<String, Object>) resp.get("result");
 					
 					if(dockerUploadResult != null) {
@@ -317,12 +317,12 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String result = convertStreamToString(instream);
 
 					ObjectMapper mapper = new ObjectMapper();
-					log.info("inside callOnboarding else before readValue ---->>>");
+					log.debug("inside callOnboarding else before readValue ---->>>");
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
-					log.info("inside callOnboarding else after readValue ---->>>");
-					log.info("inside callOnboarding else after resp.toString() ---->>>" + resp.toString());
-					log.info(resp.toString());
-					log.info((String) resp.get("errorMessage"));
+					log.debug("inside callOnboarding else after readValue ---->>>");
+					log.debug("inside callOnboarding else after resp.toString() ---->>>" + resp.toString());
+					log.debug(resp.toString());
+					log.debug((String) resp.get("errorMessage"));
 
 					String errorLog = getErrorLogArtiffact(uuid, user.getUserId());
 					String notifMsg = "On-boarding Failed"
@@ -330,7 +330,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 					notification.setMessage(notifMsg);
 					notification.setTitle(NOTIFICATION_TITLE);
-					log.info("inside callOnboarding else before generateNotification ---->>>");
+					log.debug("inside callOnboarding else before generateNotification ---->>>");
 					notificationService.generateNotification(notification, user.getUserId());
 
 					sendTrackerErrorNotification(uuid, user.getUserId(), (String) resp.get("errorMessage"));
@@ -396,7 +396,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		} finally {
 			httpclient.close();
 			// Remove all files once the process is completed
-			log.info("inside finallly callOnboarding ---->>>");
+			log.debug("inside finallly callOnboarding ---->>>");
 
 			fileSystemStorageService.deleteAll(user.getUserId());
 		}
@@ -701,7 +701,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 
 			post.setHeader("X-ACUMOS-Request-Id", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
-			log.info("Call on-boarding to convertSolutioToONAP wit request Id : "
+			log.debug("Call on-boarding to convertSolutioToONAP wit request Id : "
 					+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
 			try {

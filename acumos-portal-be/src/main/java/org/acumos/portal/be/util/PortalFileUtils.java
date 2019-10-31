@@ -88,7 +88,7 @@ public class PortalFileUtils {
 		String entryName = destinationPath + File.separator + zipentry.getName();
 		entryName = entryName.replace('/', File.separatorChar);
 		entryName = entryName.replace('\\', File.separatorChar);
-		log.info("entryname " + entryName);
+		log.debug("entryname " + entryName);
 		int n;
 		File newFile = new File(entryName);
 		if (zipentry.isDirectory()) {
