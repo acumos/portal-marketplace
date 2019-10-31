@@ -50,16 +50,16 @@ limitations under the License.
 				</div>
 
 				<!-- Create First Repo -->
-				<form name="createRepo">
-				<div ng-show="createFirstRepo">
 				
+				<div ng-show="createFirstRepo">
+				<ng-form name="createRepo">
 					<div class="md-dialog-content">
 						<h6 class="sectiontitle" style="color: #671c9d">CREATE REPOSITORY</h6>
 						<div class="popup-input-container">
 						<div>
 							<md-input-container class="md-block">
-								<label>Repository Name</label>
-								<input type="text" class="medium-textbox" ng-model="repositoryName" name="repositoryName" placeholder="Enter Name" required ng-pattern ="/^[a-zA-Z0-9_-]+$/" /></br>
+								<label>Repository Name</label> 
+								<input type="text" class="medium-textbox" ng-model="repositoryName" required name="repositoryName" placeholder="Enter Name"  ng-pattern ="/^[a-zA-Z0-9_-]+$/" />
 							<div class="help-inline validation-msgs repo_name_msg">
 							<span ng-show="createRepo.repositoryName.$error.pattern">Repository Name can consists of alphanumeric, hyphen and underscore characters only.</span>
 							</div>
@@ -81,13 +81,15 @@ limitations under the License.
 						</div>
 						</div>
 					</div>
+					</ng-form>
+					
 				</div>
-				</form>
-
+				
 				<!-- Repo available -->
 				<div ng-show="isRepoAvailable">
-					<form  name="backupForm" ng-cloak novalidate>
+					
 						<div class="md-dialog-content">
+						<form  name="backupForm" ng-cloak novalidate>
 							<div class="c-alert static-position margin-backlog" ng-class="styleclass?'c-success':'c-error'" ng-show="repositoryStatus">
 											<div class="c-alert-inner"><span class="material-icons">{{icon}}</span>
 											<span class="alert-text">{{msg}}</span></div>
@@ -108,16 +110,14 @@ limitations under the License.
 											class="material-icons">add</i></button></div>
 									<div class="">
 										<md-input-container class="md-block">
-											<label>Backup Name</label>
+											<label>Backup Name </label>
 											<input ng-model="backupName" type="text" class="medium-textbox" placeholder="Enter Backup Name"
-											name="backupName" required 
-											ng-pattern ="/^[0-9a-z-_\s]*$/" />
-										</md-input-container>
+											name="backupName" required
+											ng-pattern ="/^[0-9a-z-_\s]*$/">
 										<div class="help-inline validation-msgs repo_name_msg">
-										<span ng-show="backupForm.backupName.$error.pattern">Backup name in lower case and only 
-										hyphen and underscore is allowed.</span>
-
-									</div>
+										<span ng-show="backupForm.backupName.$error.pattern">Backup Name can consists of numeric, lower case, hyphen and underscore characters only</span>
+										</div>
+										</md-input-container>
 									</div>
 							</div>
 							
@@ -163,8 +163,9 @@ limitations under the License.
 									</tbody>
 								</table>
 							</div>
+							</form>
 						</div>
-					</form>
+					
 				</div>
 
 				</div>

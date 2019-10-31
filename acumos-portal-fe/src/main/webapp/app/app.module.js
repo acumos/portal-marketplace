@@ -72,7 +72,8 @@ app.filter('filterByTags', function () {
 app.filter('customdate',function(){
     return function(input)
     {
-          return ((input).split(" ")[0]).replace(/-/g,"/");
+          var date= ((input).split(" ")[0]).replace(/-/g,"/");
+          return date.split("/")[1]+'/'+date.split("/")[2]+'/'+date.split("/")[0];
     }
 });
 
