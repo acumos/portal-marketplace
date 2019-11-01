@@ -1,7 +1,10 @@
 package org.acumos.portal.be.controller;
-
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,12 +38,13 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.acumos.securityverification.domain.Workflow;
 import org.acumos.securityverification.utils.SVConstants;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +55,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -293,10 +299,13 @@ public class LicensingServiceController extends AbstractController{
 				
 				validationResponse=licensingService.validate(input);
 				if(validationResponse=="SUCCESS") {
-					String licenseFileName = (file != null) ? file.getOriginalFilename() : "";
-					file.getOriginalFilename().replace(licenseFileName, PortalConstants.LICENSE_FILENAME);
-					MultipartFile licenseFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME,file.getOriginalFilename(), file.getContentType(), file.getInputStream());
-					log.info("licenseFileNameCheck passed");
+					FileItem fileItem = new DiskFileItemFactory().createItem("file", file.getContentType(), false, PortalConstants.LICENSE_FILENAME);
+					try (InputStream in = file.getInputStream(); OutputStream out = fileItem.getOutputStream()) {
+					    in.transferTo(out);
+					} catch (Exception e) {
+					    throw new IllegalArgumentException("Invalid file: " + e);
+					}
+					MultipartFile licenseFile = new CommonsMultipartFile(fileItem);
 					boolean uploadedFile = pushAndPullSolutionService.uploadLicense(licenseFile, userId, solutionId, revisionId, versionId);
 
 					if (uploadedFile) {
@@ -371,8 +380,14 @@ public class LicensingServiceController extends AbstractController{
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		
 		 try {      
-	      MultipartFile multipartFile = new MockMultipartFile(PortalConstants.LICENSE_FILENAME, PortalConstants.LICENSE_FILENAME, "application/json", json.getBytes());
-	      uploadLicense( multipartFile, userId, solutionId, revisionId, versionId, request, response);
+			 	FileItem fileItem = new DiskFileItemFactory().createItem("file", "application/json", false, PortalConstants.LICENSE_FILENAME);
+				try (InputStream in = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8)); OutputStream out = fileItem.getOutputStream()) {
+				    in.transferTo(out);
+				} catch (Exception e) {
+				    throw new IllegalArgumentException("Invalid file: " + e);
+				}
+				MultipartFile licenseFile = new CommonsMultipartFile(fileItem);
+				uploadLicense( licenseFile, userId, solutionId, revisionId, versionId, request, response);
 				responseVO.setResponseDetail("Success");
 				responseVO.setStatusCode(HttpServletResponse.SC_OK);
 	 
