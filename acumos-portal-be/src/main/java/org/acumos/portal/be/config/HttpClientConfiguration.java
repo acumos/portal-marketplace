@@ -162,13 +162,13 @@ public class HttpClientConfiguration {
 	public HttpClient buildClient() {
 
 		SSLContext sslContext = null;
-		log.info( "Build HttpClient with " + this);
+		log.debug( "Build HttpClient with " + this);
 
 		if (this.resourceLoader == null)
 			this.resourceLoader = new DefaultResourceLoader();
 
 		if (this.ssl == null) {
-			log.info( "No ssl config was provided");
+			log.debug( "No ssl config was provided");
 		} else {
 			KeyStore keyStore = null;
 			if (this.ssl.hasKeyStoreInfo()) {
@@ -191,7 +191,7 @@ public class HttpClientConfiguration {
 				try {
 					keyStore = KeyStore.getInstance(this.ssl.keyStoreType);
 					keyStore.load(keyStoreSource,	this.ssl.keyStorePasswd.toCharArray());
-					log.info( "Loaded key store: " + this.ssl.keyStore);
+					log.debug( "Loaded key store: " + this.ssl.keyStore);
 				}
 				catch (Exception x) {
 					throw new IllegalStateException("Error loading key material: " + x, x);
@@ -219,7 +219,7 @@ public class HttpClientConfiguration {
 				try {
 					trustStore = KeyStore.getInstance(this.ssl.trustStoreType);
 					trustStore.load(trustStoreSource,	this.ssl.trustStorePasswd.toCharArray());
-					log.info( "Loaded trust store: " + this.ssl.trustStore);
+					log.debug( "Loaded trust store: " + this.ssl.trustStore);
 				}
 				catch (Exception x) {
 					throw new IllegalStateException("Error loading trust material: " + x, x);

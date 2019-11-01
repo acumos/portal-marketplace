@@ -24,10 +24,9 @@ public class DeleteImageCommand extends DockerCommand {
 		String imageFullName = pathUri;
 
 		try {
-			System.out.println("dockerClient=" + client);
 			RemoveImageCmd removeImageCmd = client.removeImageCmd(imageFullName).withForce(true);
 			removeImageCmd.exec();
-			logger.info("execute DeleteImageCommand:", removeImageCmd);
+			logger.debug("execute DeleteImageCommand:", removeImageCmd);
 
 		} catch (Exception e) {
 			final String msg = String.format("execute failed on DeleteImageCommand:pathUri '%s'",
