@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcdf2c58_806763cf",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-11-01T10:01:35Z",
+      "side": 1,
+      "message": "\u003cscope\u003etest\u003c/scope\u003e should be added here...",
+      "range": {
+        "startLine": 224,
+        "startChar": 3,
+        "endLine": 224,
+        "endChar": 27
+      },
+      "revId": "8a2aefabee59c404b0373b91f837d7b151999107",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58bb20d8_0051f658",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/LicensingServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-11-01T10:01:35Z",
+      "side": 1,
+      "message": "will this create a file phisically on server? i dont want that to be the case",
+      "range": {
+        "startLine": 302,
+        "startChar": 5,
+        "endLine": 302,
+        "endChar": 134
+      },
+      "revId": "8a2aefabee59c404b0373b91f837d7b151999107",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
