@@ -21,6 +21,23 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.20 04th November 2019
+=================================
+* ACUMOS-3644 - Portal 3.0.16 incorrectly changed call to SV interface securityVerificationScan
+* ACUMOS-3635 - IST2: Pending for approval is not displaying when user republished a already published model in a catalog with Self publish NO
+* ACUMOS-3646 - <IST2> On-boarding through Docrized URI << Once on-boarded model successfully, only 'Upload New' button should be enabled not 'On-board model'.
+* ACUMOS-3653 - Notifications: Notifications is not displaying date wise
+* ACUMOS-3574 - Mock class in production code
+* ACUMOS-3607 - <IST> Manage Peer(s) Access Screen:-When search result is not found, and user is checking the check-box the both "Grant Peer Access" & "Remove" button should be disable.
+* ACUMOS-3612 - IST: Proper Error message should display when user try to delete a model without nexus image
+* ACUMOS-3556 - <IST2><Portal Marketplace>Site Admin > Maintained Backup Logs: Archive functionality is not working with red error box displayed on screen
+* ACUMOS-3527 - <IST2> License Profile screen is having cosmetic, alignment and button functionality issue 
+* ACUMOS-3557 - <IST2> <Portal Marketplace> Backup Logs /Archived Logs Issues
+* ACUMOS-3645 - OOM when using web on-boarding in portal
+* ACUMOS-3655 - Acu Compose: Deploy to Cloud: Text is overlapping on the cloud options
+* ACUMOS-3370 - <IST> Wrong sentence in Sign In pop-up
+* ACUMOS-3595 - Cleaning up GatewayClient Code
+
 Version 3.0.19 29th October 2019
 ================================
 * ACUMOS-3651 - LMCL 1.4.1 - pre onboarded download/deploy action allow, cds client is required by rtu verification
