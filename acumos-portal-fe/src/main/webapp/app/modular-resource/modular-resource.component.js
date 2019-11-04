@@ -523,6 +523,8 @@ angular.module('modelResource')
 				$scope.disableOnboardingButton = false;
 				$scope.file = '';
 				$scope.licensefile = "";
+				$scope.licenseDocfile = '';
+				$scope.fileSubmitDocLicense = "";
 				$interval.cancel($scope.clearInterval);
 			}
 			
@@ -549,6 +551,7 @@ angular.module('modelResource')
                 $scope.isDockerLicUploaded = false;
                 $scope.licenseDockerFilename = '';
                 $scope.licenseDocfile = false;
+		$scope.selectedLicense = -1;
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
                 angular.element('.docker_onboarding .progress .progress-bar').css({ "width" : '0%'});               

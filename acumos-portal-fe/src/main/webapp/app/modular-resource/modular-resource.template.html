@@ -143,7 +143,7 @@ limitations under the License.
 							</div>
 						</div>
 						<!-- On-Boarding By Command Line Section --> </md-content> </md-tab>
-						 <md-tab label="On-Boarding By Web"> 
+						 <md-tab label="On-Boarding By Web" ng-click="selectedLicense = -1;"> 
 						 		<alert-message msg="msg" icon="icon" styleclass="styleclass" ng-show="showAlertMessage"></alert-message>
 						 <div class="mdl-tabs__panel regular_onboarding">
 						 <md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
@@ -511,7 +511,7 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && selectedLicense == -1)"
+										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && (!licensefile || selectedLicense == -1))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false;  $root.isMicroserviceEnabled = true;"
@@ -526,7 +526,7 @@ limitations under the License.
 						</div>
 
 						</md-content>
-						<md-tab label="On-Boarding Dockerized model uri"> 
+						<md-tab label="On-Boarding Dockerized model uri" ng-click="selectedLicense = -1;"> 
 						<alert-message msg="msg" icon="icon" styleclass="styleclass" ng-show="showAlertMessage"></alert-message>
 						 <div class="mdl-tabs__panel docker_onboarding" >
 						 <md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
@@ -777,7 +777,7 @@ limitations under the License.
 								
 								<div class="onboardbtn">
 									<button ng-click="addToCatalog(true)"
-										 ng-disabled= "modelDocLicUploadError || !host || !image || !port || !modelDockerURLName || ( disableOnboardingButton == true ) || (licenseOption=='Upload' && !(licenseDocfile && fileSubmitDocLicense)) || (licenseOption=='selectLicProfile' && selectedLicense == -1)"
+										 ng-disabled= "modelDocLicUploadError || !host || !image || !port || !modelDockerURLName || ( disableOnboardingButton == true ) || (licenseOption=='Upload' && !(licenseDocfile && fileSubmitDocLicense)) || (licenseOption=='selectLicProfile' &&  (!licenseDocfile || selectedLicense == -1))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 										<button type="reset" 
