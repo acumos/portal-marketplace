@@ -49,6 +49,7 @@ app.component('notificationModule',{
 			
 			var req = {
 		    	  "request_body": {
+						"fieldToDirectionMap": {'start': "DESC"},
 			    	    "page": page,
 			    	    "size": size
 			    	 } 
