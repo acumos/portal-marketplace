@@ -184,14 +184,8 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		if (mlpPublishRequestResponse != null) {
 			List<MLPPublishRequest> mlpPublishRequestList = mlpPublishRequestResponse.getContent();
 			for (MLPPublishRequest mlpPublishRequest : mlpPublishRequestList) {
-				MLPSolution solutionDetail = dataServiceRestClient.getSolution(mlpPublishRequest.getSolutionId());
-				if (solutionDetail != null && solutionDetail.isActive()) {
-					MLPublishRequest mlPublishRequest = getPublishRequestDetails(mlpPublishRequest);
-					publishrequestList.add(mlPublishRequest);
-				} else {
-					log.debug("getAllPublishRequest : Solution is not active, SolutionId : "
-							+ mlpPublishRequest.getSolutionId());
-				}
+				MLPublishRequest mlPublishRequest = getPublishRequestDetails(mlpPublishRequest);
+				publishrequestList.add(mlPublishRequest);
 			}
 		}
 		response.setResponseBody(publishrequestList);
