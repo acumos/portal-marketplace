@@ -459,11 +459,11 @@ public class UserServiceController extends AbstractController {
     @ApiOperation(value = "Get user Account Details. Returns successful response after the data.", response = JsonResponse.class)
     @RequestMapping(value = {APINames.USER_ACCOUNT_DETAILS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
-	public JsonResponse<MLPUser> getUserAccountDetails(@RequestBody JsonRequest<User> userDetails) {
+	public JsonResponse<User> getUserAccountDetails(@RequestBody JsonRequest<User> userDetails) {
 		// public JsonResponse getUserAccountDetails() {
 		log.debug("getUserAccountDetails={}");
 		// Object responseVO = null;
-		JsonResponse<MLPUser> responseVO = new JsonResponse<>();
+		JsonResponse<User> responseVO = new JsonResponse<>();
 		try {
 			if ((PortalUtils.isEmptyOrNullString(userDetails.getBody().getUserId()))) {
 				log.error("Bad request: UserId or EmailId is empty");
@@ -472,7 +472,7 @@ public class UserServiceController extends AbstractController {
 			// Need to first check if the account exists in DB
 			if (userDetails.getBody().getUserId() != null) {
 				MLPUser responseBody = userService.findUserByUserId(userDetails.getBody().getUserId());
-				responseVO.setResponseBody(responseBody);
+				responseVO.setResponseBody(PortalUtils.convertToMLPuser(responseBody));
 			}
 			responseVO.setStatus(true);
 			responseVO.setResponseDetail("Success");

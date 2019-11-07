@@ -201,8 +201,7 @@ public class UserServiceControllerTest {
 
 			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 			Assert.assertNotNull(mlpUser);
-			JsonResponse<MLPUser> value = new JsonResponse<>();
-			value.setResponseBody(mlpUser);
+			JsonResponse<User> value = new JsonResponse<>();
 
 			Mockito.when(userService.findUserByUserId(userReq.getBody().getUserId())).thenReturn(mlpUser);
 			value= userServiceController.getUserAccountDetails(userReq);
