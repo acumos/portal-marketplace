@@ -1972,6 +1972,11 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .opacityZero .md-text{opacity:0 !important;}
 
 .deploy-to-cloud[disabled], .deploy-to-cloud[disabled]:hover{opacity:0.3 !important; cursor: not-allowed; pointer-events:none;}
+.acu-compose .deploy-to-cloud[disabled], .deploy-to-cloud[disabled]:hover{opacity:1 !important;}
+.acu-compose .deploy-to-cloud[disabled]:after { content: ""; background: white; display: block; height: 100%; width: 100%; opacity: 0.6;}
+.acu-compose .deploy-to-cloud[disabled] {padding: 0;}
+
+
 .deploy-to-cloud-input input[disabled], .deploy-to-cloud-input input[disabled]:hover,
 .deploy-to-cloud-input input[disabled] + span 
 {opacity:0.3; cursor: not-allowed; }
