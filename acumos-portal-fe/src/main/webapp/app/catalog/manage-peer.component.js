@@ -51,21 +51,34 @@ angular
 						
 						 $scope.closePoup = function(){
 							 	$mdDialog.hide();
-							 	$('input:checkbox').removeAttr('checked');
 							 	$scope.searchPeer = "";
 							 	$scope.grantPeersSelected = [];
 							 	$scope.peersSelected = [];
+							 	$scope.resetAllAccessedPeers(false);
+							 	$scope.resetAllAvailablePeers(false);
+							 	$scope.selectAll = false;
+							 	$scope.selectAllPeer = false;
+	                        	
 						};
 						
-							$scope.grantAccessDialog = function(){
-							 
-							$mdDialog.show({
+						$scope.grantAccessDialog = function(){
+						$mdDialog.show({
 								  contentElement: '#dialogBox',
 								  parent: angular.element(document.body)
-								 
-								  
-							  });
+								});
 						 };
+						 
+						 $scope.resetAllAccessedPeers = function(selected){
+		                		for (var i = 0; i < $scope.accessedPeers.length; i++) {
+		                   	        $scope.accessedPeers[i].checked = selected;
+		                		}
+	                        };
+	                        
+	                     $scope.resetAllAvailablePeers = function(selected){
+		                		for (var i = 0; i < $scope.availablePeers.length; i++) {
+		                   	        $scope.availablePeers[i].checked = selected;
+		                		}
+	                        };
 		
 						 $scope.accessedPeerIds = [];
 						 $scope.getAccessedPeers = function(){
@@ -80,28 +93,20 @@ angular
 		                        	 });
 		                        	 $rootScope.setLoader = false;
 		                        	 $scope.grantAccess();
-		                        	 	  
-		                        	 
-		                         },
+		                        	},
 		                         function (error) { console.log(error); });
-							
-						}
+						 	}
 						
 						$scope.getAccessedPeers();
 						
 						$scope.removeSelected = function(selected){
-							if(selected.checked == false || selected.checked == undefined)
-	            			{
+							if(selected.checked == false || selected.checked == undefined){
 								$scope.peersSelected.push(selected.peerId);
-	            			
 	            			}else{
-	            				$scope.peersSelected.pop(selected.peerId);
-	            				
-	            			}
+	            				$scope.peersSelected.pop(selected.peerId);}
 							 if($scope.selectAllPeer == true){
 			            	   	   $scope.selectAllPeer = false;   
-	            	    	  
-	            	    	 }
+	            	    	  }
 				            }
 						
 						
@@ -152,15 +157,13 @@ angular
 			            		 apiService.addGrantAccess($scope.catalogId,$scope.reqBody)
 			                     .then(
 			                         function successCallback(response) {
-			                        	 $rootScope.setPeerLoader = false;
+			                        	$rootScope.setPeerLoader = false;
 			                        	$scope.availablePeers = $scope.availablePeers.filter(x =>!$scope.grantPeersSelected.includes(x.peerId));
 			                        	for(var i=0;i<$scope.grantPeersSelected.length;i++){
 			                        		$scope.accessedPeerIds.push($scope.grantPeersSelected[i]);
 			                        	}
 			                        	$scope.accessedPeers = $scope.peers1.filter(x =>$scope.accessedPeerIds.includes(x.peerId));
-			                        	for(var i=0;i<$scope.accessedPeers.length;i++){
-			                        		$scope.accessedPeers[i].checked=false;
-			                        	}
+			                        	 $scope.resetAllAccessedPeers(false);
 			                        	$scope.grantPeersSelected = [];
 			                        	$mdDialog.hide();
 			                        	$location.hash('managePeers');
@@ -179,15 +182,12 @@ angular
 			                         function errorCallback(response) {
 			                        	 console.log();
 			                         });
-
-			            		
-			            	}
+			            		}
 			            	
-			            	$scope.removeIndividualPeer = function(abc)
-			            	{
-			            		$scope.peersSelected.push(abc.peerId);
+			            	$scope.removeIndividualPeer = function(selectedPeer){
+			            		$scope.peersSelected=[];
+			            		$scope.peersSelected.push(selectedPeer.peerId);
 			            		$scope.removePeerDialog();
-			            		
 			            	}
 			            	
 			            	$scope.removeAccessToPeers = function(){
@@ -202,9 +202,8 @@ angular
 			                        	 	$scope.accessedPeerIds = $scope.accessedPeerIds.filter(x =>!$scope.peersSelected.includes(x));
 			                        	 	$scope.availablePeers = $scope.peers1.filter(x =>!$scope.accessedPeerIds.includes(x.peerId));
 				                        	$scope.accessedPeers = $scope.peers1.filter(x =>$scope.accessedPeerIds.includes(x.peerId));
-				                        	for(var i=0;i<$scope.availablePeers.length;i++){
-				                        		$scope.availablePeers[i].checked=false;
-				                        	}
+				                        	$scope.resetAllAvailablePeers(false);
+				                        	$scope.resetAllAccessedPeers(false);
 				                        	$scope.peersSelected = [];
 				                        	$mdDialog.hide();
 				                        	$location.hash('managePeers');
@@ -228,18 +227,14 @@ angular
 			            	}
 			            	
 			            	$scope.grantAccessToSelected = function(selected){
-			            		if(selected.checked == false || selected.checked == undefined)
-		            			{$scope.grantPeersSelected.push(selected.peerId);
-		            			
+			            		if(selected.checked == false || selected.checked == undefined){
+			            			$scope.grantPeersSelected.push(selected.peerId);
 		            			}else{
-		            				
 		            				$scope.grantPeersSelected.pop(selected.peerId);
 		            			}
-		            		
-				               if($scope.selectAll == true){
+			            		if($scope.selectAll == true){
 				            	   	   $scope.selectAll = false;   
-		            	    		 
-		            	    	 }
+		            	    	}
 				            }
 			            	
 						
