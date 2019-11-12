@@ -268,7 +268,7 @@ limitations under the License.
 							</div>
 						</div>
 						<table
-							class="mdl-data-table mdl-js-data-table mdl-shadow--2dp scroll-table">
+							class="mdl-data-table mdl-js-data-table mdl-shadow--2dp scroll-table checkbox_align">
 							<colgroup class="fullwidth">
 								<col width="7%">
 								<col>
@@ -320,7 +320,9 @@ limitations under the License.
 								ng-repeat="val in (filtertedUser = (userDetails | orderBy:orderByField:reverseSort | filter : searchData) )">
 								<tr>
 
-									<td><label
+									<td>
+									<md-checkbox  ng-click='roleCheckbox(!selectBox[$index],val)' ng-model='selectBox[$index]'></md-checkbox>
+									<!-- <label
 										class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
 										for="checkbox{{$index}}"> <input type="checkbox"
 											id="checkbox{{$index}}" class="mdl-checkbox__input"
@@ -328,7 +330,7 @@ limitations under the License.
 											ng-model='selectBox[$index]' ng-true-value="true"
 											ng-false-value="false"> <span
 											class="mdl-checkbox__label"></span>
-									</label></td>
+									</label> --></td>
 									<td class="mdl-data-table__cell--non-numeric">{{val.username}}
 									</td>
 									<td>{{val.emailId}}</td>
@@ -1061,7 +1063,7 @@ limitations under the License.
 										</div>
 										<hr />
 										<div>
-											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
+											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list checkbox_align">
 												<colgroup>
 													<col style="width:10%;">
 													<col style="width:90%;">
@@ -1246,7 +1248,7 @@ limitations under the License.
 										<hr />
 	 
 										<div>
-											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list">
+											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list checkbox_align">
 												<colgroup>
 													<col style="width:10%;">
 													<col style="width:90%;">
