@@ -811,7 +811,6 @@ angular
 												$location.hash('manage-models');
 												$anchorScroll();
 												$scope.loadData();
-												$scope.getSolCompanyDesc();
 												$scope.msg = $scope.detail;
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
