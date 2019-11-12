@@ -401,7 +401,7 @@ limitations under the License.
 																		      <md-radio-button value="selectLicProfile" ng-if="allTemplates"> Select License Profile </md-radio-button>
 																		    </md-radio-group>
 																		    <b>OR</b>
-																		    <button id="create-new-button" ng-click="createNewLicenseProfileTemplate($event, false)"					
+																		    <button id="create-new-button" ng-click="createNewLicenseProfileTemplate($event, false); selectedLicense = -2;"					
 																				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Create New License" title="Create New License">
 																				Create New</button>
 																		    </div>
@@ -682,7 +682,7 @@ limitations under the License.
 													</md-select>
 													</div>
 													<div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
-													 <button ng-click="modifyLicenseProfileTemplate($event, true)"					
+													 <button ng-click="modifyLicenseProfileTemplate($event, true)" ng-disabled="$parent.selectedLicense==-1"					
 														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Modify License" title="Modify License">
 													Modify</button>
 											    	</div>
