@@ -958,6 +958,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .license-detail-modal .progress-bar-div .pro-status{width:75px; margin-right:15px; text-align: center;}  
 a.mdl-tabs__tab.tab5-panel {height:1px;}
 .upload-error{ color:red;}
+.upload-error dl li{word-break:break-all;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {max-width: 350px; text-overflow: ellipsis; overflow: hidden;}
 
 .btn-comments-edit, .btn-comments-delete {border: 1px solid #b1b1b1; font-size: 10px;line-height: 18px;text-align:right; height: 20px; padding: 0 4px; min-width: 25px; }
@@ -1634,6 +1635,8 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 .addslide-select md-select {border-radius: 2px; height: 35px;}
 .addslide-select md-select .md-select-value {height: 32px;}
 .addslide-container1 .md-errors-spacer { min-height: 1px !important;}
+.checkbox_align md-checkbox{margin:10px 0 !important;}
+.checkbox_align md-checkbox.md-checked .md-icon:after{width: 6px; height: 11px; left: 5px;}
 /************** GRID STYLE ENDS************/
 
 /********* Error 404 page style Start ***************/
