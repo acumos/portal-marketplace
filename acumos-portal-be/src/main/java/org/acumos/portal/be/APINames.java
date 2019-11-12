@@ -311,9 +311,6 @@ public class APINames {
 
 	public static final String APITOKEN_COOKIE_VALIDATION = "/validateCookieToken";
 
-	public static final String RTU_SOLUTION_USER_DETAILS = "/rightToUse";
-	public static final String CREATE_RTU_USER = "/createRtuUser/{rtuRefId}/{solutionId}/{siteWideRtu}";
-
 	public static final String GET_MS_STATUS = "/getMSStatus/{solutionId}/{revisionId}/{userId}";
 	public static final String UPLOAD_LICENSE_MODEL = "/license/upload/{userId}/{solutionId}/{revisionId}/{versionId}";
 
