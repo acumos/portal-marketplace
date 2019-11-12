@@ -902,7 +902,7 @@ limitations under the License.
 										   	   <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 										   	   		<label>Select Model	</label>
 													<div class="search-select">
-														<input name="modelList" id="modelList" list="solutions" type="text" ng-class="{'disable-input':artifactUrl}" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker">
+														<input name="modelList" id="modelList" list="solutions" type="text" ng-class="{'disable-input':artifactUrl}" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker" ng-enter="checkModelName(searchModel, 'relatedSearch')" >
 														<span class="search-icon cursor-pointer" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
 													</div>
 													<datalist id="solutions">
