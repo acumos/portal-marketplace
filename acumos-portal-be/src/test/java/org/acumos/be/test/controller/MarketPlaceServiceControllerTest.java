@@ -19,9 +19,14 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,7 +35,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
@@ -43,19 +47,25 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLArtifact;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -70,6 +80,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class MarketPlaceServiceControllerTest {
@@ -86,15 +97,23 @@ public class MarketPlaceServiceControllerTest {
 	private MarketPlaceCatalogServiceImpl service;
 
 	@Mock
+	private MarketPlaceCatalogService marketPlaceCatalogService;
+	@Mock
 	private PushAndPullSolutionService pushAndPullSolutionService;
 
 	private MockMvc mockMvc;
 
 	@Mock
 	private Environment env;
+	
+	@Mock
+	private NotificationService notificationService;
 
 	@InjectMocks
 	private MarketPlaceCatalogServiceController marketPlaceController;
+	
+	@Rule
+    public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setUp() throws Exception {
@@ -190,9 +209,7 @@ public class MarketPlaceServiceControllerTest {
 	}
 
 	@Test
-	public void getPaginatedListTest() {
-
-		try {
+	public void getPaginatedListTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			MLPSolution solution = PortalUtils.convertToMLPSolution(mlsolution);
@@ -210,19 +227,16 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(responseBody);
 			JsonResponse<RestPageResponse<MLPSolution>> value = new JsonResponse<>();
 			value.setResponseBody(responseBody);
-			Mockito.when(service.getAllPaginatedSolutions(0, 9, "ASC")).thenReturn(responseBody);
+			Mockito.when(marketPlaceCatalogService.getAllPaginatedSolutions(Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(responseBody);
 			value = marketPlaceController.getPaginatedList(mlSolutionReq);
 			logger.info("Solutions are paginated : " + value.getResponseBody());
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getPaginatedList testcase", e);
-		}
-
+			Mockito.when(marketPlaceCatalogService.getAllPaginatedSolutions(Mockito.any(),Mockito.any(),Mockito.any())).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getPaginatedList(mlSolutionReq);
 	}
 
 	@Test
-	public void updateSolutionDetailsTest() {
-		try {
+	public void updateSolutionDetailsTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			String solutionId = mlsolution.getSolutionId();
@@ -233,44 +247,52 @@ public class MarketPlaceServiceControllerTest {
 			JsonResponse<MLSolution> solutionres = new JsonResponse<>();
 			solutionres.setResponseBody(mlsolution);
 			Assert.assertNotNull(solutionres);
-			Mockito.when(service.updateSolution(mlSolutionRes.getBody(), solutionId)).thenReturn(mlsolution);
+			Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenReturn(true);
+			Mockito.when(marketPlaceCatalogService.updateSolution(mlSolutionRes.getBody(), solutionId)).thenReturn(mlsolution);
 			solutionres = marketPlaceController.updateSolutionDetails(request, response, solutionId, mlSolutionRes);
 			logger.info("Succseefully updated solution details : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
-		} catch (Exception e) {
-			logger.error("Failed to execute updateSolutionDetails testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenReturn(false);
+			solutionres = marketPlaceController.updateSolutionDetails(request, response, solutionId, mlSolutionRes);
+			Mockito.when(marketPlaceCatalogService.updateSolution(mlSolutionRes.getBody(), solutionId)).thenThrow(AcumosServiceException.class);
+			//Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenThrow(AcumosServiceException.class);
+			Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenReturn(true);
+			solutionres = marketPlaceController.updateSolutionDetails(request, response, solutionId, mlSolutionRes);
 	}
 
 	@Test
-	public void deleteSolutionArtifactsTest() {
-		try {
+	public void deleteSolutionArtifactsTest() throws AcumosServiceException, URISyntaxException {
+		
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
-			String revisionId = mlsolution.getRevisions().get(0).getRevisionId();
-			Assert.assertNotNull(revisionId);
 			JsonRequest<MLSolution> mlSolutionRes = new JsonRequest<>();
 			mlSolutionRes.setBody(mlsolution);
 			Assert.assertNotNull(mlSolutionRes);
 			JsonResponse<MLSolution> solutionres = new JsonResponse<>();
 			solutionres.setResponseBody(mlsolution);
 			Assert.assertNotNull(solutionres);
-			Mockito.when(service.deleteSolutionArtifacts(mlSolutionRes.getBody(), solutionId, revisionId))
-					.thenReturn(mlsolution);
-			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, revisionId,
+			Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenReturn(true);
+			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, "somerevid",
 					mlSolutionRes);
 			logger.info("Succseefully delete Solution Artifacts : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
-		} catch (Exception e) {
-			logger.error("Failed to execute deleteSolutionArtifacts testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenReturn(false);
+			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, "somerevid",
+					mlSolutionRes);
+			Assert.assertNotNull(solutionres);
+			Mockito.when(marketPlaceCatalogService.checkUniqueSolName(Mockito.anyString(),Mockito.anyString())).thenReturn(true);
+			Mockito.when(marketPlaceCatalogService.deleteSolutionArtifacts(mlsolution, solutionId, "somerevid")).thenThrow(AcumosServiceException.class);
+			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, "somerevid",
+					mlSolutionRes);
+			mlSolutionRes.setBody(null);
+			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, "somerevid",
+					mlSolutionRes);
 	}
 
 	@Test
-	public void getSolutionsRevisionListTest() {
-		try {
+	public void getSolutionsRevisionListTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
@@ -291,14 +313,12 @@ public class MarketPlaceServiceControllerTest {
 			revisionRes = marketPlaceController.getSolutionsRevisionList(request, response, solutionId);
 			logger.info("RevisionList " + revisionRes.getResponseBody());
 			Assert.assertNotNull(revisionRes);
-		} catch (Exception e) {
-			logger.error("Failed to execute getSolutionsRevisionList testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.getSolutionRevision(solutionId)).thenThrow(AcumosServiceException.class);
+			revisionRes = marketPlaceController.getSolutionsRevisionList(request, response, solutionId);
 	}
 
 	@Test
-	public void getSolutionsRevisionArtifactListTest() {
-		try {
+	public void getSolutionsRevisionArtifactListTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
@@ -334,14 +354,13 @@ public class MarketPlaceServiceControllerTest {
 					revisionId);
 			logger.info("Artifact List : " + artifactRes.getResponseBody());
 			Assert.assertNotNull(artifactRes);
-		} catch (Exception e) {
-			logger.error("Failed to execute getSolutionsRevisionArtifactList testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.getSolutionArtifacts(solutionId, revisionId)).thenThrow(AcumosServiceException.class);
+			artifactRes = marketPlaceController.getSolutionsRevisionArtifactList(request, response, solutionId,
+					revisionId);
 	}
 
 	@Test
-	public void addSolutionTagTest() {
-		try {
+	public void addSolutionTagTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			MLPTag mlpTag = new MLPTag();
@@ -361,12 +380,11 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solRes);
 			String tag = mlpTag.getTag();
 			String solutionId = mlsolution.getSolutionId();
-			Mockito.when(marketPlaceController.addSolutionTag(request, solutionId, tag, response)).thenReturn(solRes);
+			solRes=marketPlaceController.addSolutionTag(request, solutionId, tag, response);
 			logger.info("Successfully added tags : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
-		} catch (Exception e) {
-			logger.error("Failed to execute addSolutionTag testcase", e);
-		}
+			//Mockito.when(marketPlaceCatalogService.addSolutionTag(solutionId, tag)).thenThrow(AcumosServiceException.class);
+			solRes=marketPlaceController.addSolutionTag(request, solutionId, tag, response);
 	}
 
 	@Test
@@ -445,8 +463,7 @@ public class MarketPlaceServiceControllerTest {
 	}
 
 	@Test
-	public void getTagsListTest() {
-		try {
+	public void getTagsListTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			MLPTag mlpTag = new MLPTag();
@@ -475,23 +492,34 @@ public class MarketPlaceServiceControllerTest {
 			restPageReq.setBody(body);
 
 			JsonResponse<RestPageResponseBE> value = new JsonResponse<>();
-			RestPageResponseBE responseBody = new RestPageResponseBE<>(tagList);
-			responseBody.setTags(tagList);
-			value.setResponseBody(responseBody);
 			List<String> mlTagsList = new ArrayList<String>();
 			mlTagsList.add(mlpTag.getTag());
 			Mockito.when(service.getTags(restPageReq)).thenReturn(mlTagsList);
 			value = marketPlaceController.getTagsList(restPageReq);
 			logger.info("Get Tag List : " + value.getResponseBody());
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getTagsList testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.getTags(restPageReq)).thenReturn(null);
+			value = marketPlaceController.getTagsList(restPageReq);
+			Mockito.when(marketPlaceCatalogService.getTags(restPageReq)).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getTagsList(restPageReq);
+	}
+	
+	@Test
+	public void createUserTagTest() {
+		JsonRequest<RestPageRequestBE> restPageReq = new JsonRequest<>();
+		RestPageRequestBE body = new RestPageRequestBE();
+		List<String> tagList=new ArrayList<>();
+		tagList.add("sometag");
+		List<String> dropTagList=new ArrayList<>();
+		dropTagList.add("dropsometag");
+		body.setTagList(tagList);
+		body.setDropTagList(dropTagList);
+		restPageReq.setBody(body);
+		marketPlaceController.createUserTag("someuserid", restPageReq);
 	}
 
 	@Test
-	public void getTagsSolutionsTest() {
-		try {
+	public void getTagsSolutionsTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			List<MLSolution> solutionList = new ArrayList<>();
@@ -529,18 +557,16 @@ public class MarketPlaceServiceControllerTest {
 			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
 			value.setResponseBody(responseBody);
 
-			Mockito.when(service.getTagBasedSolutions(tag, restPageReq)).thenReturn(responseBody);
+			Mockito.when(marketPlaceCatalogService.getTagBasedSolutions(tag, restPageReq)).thenReturn(responseBody);
 			value = marketPlaceController.getTagsSolutions(tag, restPageReq);
 			logger.info("Tag for solution  " + value.getResponseBody());
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getTagsSolutions testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.getTagBasedSolutions(tag, restPageReq)).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getTagsSolutions(tag, restPageReq);
 	}
 
 	@Test
-	public void dropSolutionUserAccessTest() {
-		try {
+	public void dropSolutionUserAccessTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			String solutionId = mlsolution.getSolutionId();
@@ -549,44 +575,35 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(userId);
 			JsonResponse<User> value = new JsonResponse<>();
 
-			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
+			Mockito.when(marketPlaceCatalogService.getSolution(solutionId)).thenReturn(mlsolution);
 			MLPUser user = getMLPUser();
 			Mockito.when(userService.findUserByUserId(userId)).thenReturn(user);
 			// userService.findUserByUserId(userId)
 			value = marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response);
-			// Mockito.when(marketPlaceController.dropSolutionUserAccess(request,
-			// solutionId, userId, response))
-			// .thenReturn(value);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute dropSolutionUserAccess testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getSolution(solutionId)).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response);
 	}
 
 	@Test
-	public void incrementSolutionViewCountTest() {
-		try {
+	public void incrementSolutionViewCountTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			mlsolution.setTookitType("DS");
+			mlsolution.setViewCount(20);
 			Assert.assertNotNull(mlsolution);
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
 			Assert.assertEquals(solutionId, mlsolution.getSolutionId());
 			JsonResponse<MLSolution> value = new JsonResponse<>();
-			value.setResponseBody(mlsolution);
-			Mockito.when(marketPlaceController.incrementSolutionViewCount(request, solutionId, response))
-					.thenReturn(value);
+			when(marketPlaceCatalogService.getSolution(solutionId)).thenReturn(mlsolution);
+			value=marketPlaceController.incrementSolutionViewCount(request, solutionId, response);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute incrementSolutionViewCount testcase", e);
-
-		}
+			when(marketPlaceCatalogService.getSolution(solutionId)).thenThrow(AcumosServiceException.class);
+			value=marketPlaceController.incrementSolutionViewCount(request, solutionId, response);
 	}
 
 	@Test
-	public void createRatingTest() {
-		try {
+	public void createRatingTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
 			Instant created = Instant.now();
@@ -602,19 +619,17 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolutionRatingREs.setBody(mlpSolutionRating);
 			Assert.assertNotNull(mlpSolutionRatingREs);
 			JsonResponse<MLSolution> value = new JsonResponse<>();
-			Mockito.when(service.getSolution(mlpSolutionRatingREs.getBody().getSolutionId())).thenReturn(mlsolution);
+			Mockito.when(marketPlaceCatalogService.getSolution(mlpSolutionRatingREs.getBody().getSolutionId())).thenReturn(mlsolution);
 			value = marketPlaceController.createSolutionRating(request, mlpSolutionRatingREs, response);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute createRating testcase", e);
-
-		}
-
+			Mockito.when(marketPlaceCatalogService.getSolution(mlpSolutionRatingREs.getBody().getSolutionId())).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.createSolutionRating(request, mlpSolutionRatingREs, response);
+			
 	}
 
 	@Test
-	public void updateRatingTest() {
-		try {
+	public void updateRatingTest() throws AcumosServiceException {
+			MLSolution mlsolution = getMLSolution();
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
 			Instant created = Instant.now();
 			mlpSolutionRating.setCreated(created);
@@ -628,23 +643,19 @@ public class MarketPlaceServiceControllerTest {
 			JsonRequest<MLPSolutionRating> mlpSolutionRatingREs = new JsonRequest<>();
 			mlpSolutionRatingREs.setBody(mlpSolutionRating);
 			Assert.assertNotNull(mlpSolutionRatingREs);
+			Mockito.when(marketPlaceCatalogService.getSolution(Mockito.any())).thenReturn(mlsolution);
 			JsonResponse<MLSolution> value = marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs,
 					response);
-			// Mockito.when(marketPlaceController.updateSolutionRating(request,
-			// mlpSolutionRatingREs, response))
-			// .thenReturn(value);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute updateRating testcase", e);
-
-		}
-
+			Mockito.when(marketPlaceCatalogService.getSolution(Mockito.any())).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs,
+					response);
+		
 	}
 
 	@Test
-	public void getsSolutionRatingsTest() {
-		try {
-			MLSolution mlsolution = getMLSolution();
+	public void getsSolutionRatingsTest() throws AcumosServiceException {
+			MLPSolution mlsolution = PortalUtils.convertToMLPSolution(getMLSolution());
 			Assert.assertNotNull(mlsolution);
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
@@ -653,21 +664,25 @@ public class MarketPlaceServiceControllerTest {
 			pageRequest.setSize(9);
 			JsonRequest<RestPageRequest> rest = new JsonRequest<>();
 			rest.setBody(pageRequest);
-			RestPageResponse<MLPSolutionRating> mlSolutionRating = new RestPageResponse<MLPSolutionRating>();
+			MLPSolutionRating mlpSolutionRating=new MLPSolutionRating();
+			mlpSolutionRating.setSolutionId("somesolid");
+			mlpSolutionRating.setUserId("someuserid");
+			List<MLPSolutionRating> mlpSolRatingList=new ArrayList<>();
+			mlpSolRatingList.add(mlpSolutionRating);
+			MLPUser user=getMLPUser();
+			RestPageResponse<MLPSolutionRating> mlSolutionRating = new RestPageResponse<MLPSolutionRating>(mlpSolRatingList,PageRequest.of(0, 1), 1);
 			JsonResponse<RestPageResponse<MLSolutionRating>> value = new JsonResponse<>();
-
-			Mockito.when(service.getSolutionRating(solutionId, pageRequest)).thenReturn(mlSolutionRating);
+			Mockito.when(userService.findUserByUserId(Mockito.any())).thenReturn(user);
+			Mockito.when(marketPlaceCatalogService.getSolutionRating(solutionId, pageRequest)).thenReturn(mlSolutionRating);
 			value = marketPlaceController.getSolutionRatings(solutionId, rest);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getsSolutionRatings testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getSolutionRating(solutionId, pageRequest)).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getSolutionRatings(solutionId, rest);
+			
 	}
 
 	@Test
-	public void getMysharedModelsTest() {
-		try {
+	public void getMysharedModelsTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			String userId = mlsolution.getOwnerId();
 			JsonResponse<List<MLSolution>> value = new JsonResponse<>();
@@ -677,18 +692,18 @@ public class MarketPlaceServiceControllerTest {
 			List<MLSolution> modelList = new ArrayList<>();
 			modelList.add(mlsolution);
 			value.setResponseBody(modelList);
-			Mockito.when(service.getMySharedModels(userId, restPageReq)).thenReturn(modelList);
+			Mockito.when(service.getMySharedModels(Mockito.any(),Mockito.any())).thenReturn(modelList);
 			value = marketPlaceController.getMySharedModels(request, userId, response);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getMysharedModels testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getMySharedModels(userId, restPageReq)).thenReturn(null);
+			value = marketPlaceController.getMySharedModels(request, userId, response);
+			Mockito.when(marketPlaceCatalogService.getMySharedModels(userId, restPageReq)).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getMySharedModels(request, userId, response);
+			
 	}
 
 	@Test
-	public void createSolutionFavoriteTest() {
-		try {
+	public void createSolutionFavoriteTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			MLPSolutionFavorite mlpSolutionFavorite = new MLPSolutionFavorite();
 			mlpSolutionFavorite.setSolutionId(mlsolution.getSolutionId());
@@ -698,18 +713,17 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolutionFavoriteRes.setBody(mlpSolutionFavorite);
 			Assert.assertNotNull(mlpSolutionFavoriteRes);
 			JsonResponse<MLSolution> value = new JsonResponse<>();
-			Mockito.when(service.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenReturn(mlsolution);
+			Mockito.when(marketPlaceCatalogService.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenReturn(mlsolution);
 			value = marketPlaceController.createSolutionFavorite(request, mlpSolutionFavoriteRes, response);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute createSolutionFavorite testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.createSolutionFavorite(request, mlpSolutionFavoriteRes, response);
+			
+		
 	}
 
 	@Test
-	public void deleteSolutionFavoriteTest() {
-		try {
+	public void deleteSolutionFavoriteTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			MLPSolutionFavorite mlpSolutionFavorite = new MLPSolutionFavorite();
 			mlpSolutionFavorite.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
@@ -719,23 +733,21 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolutionFavoriteRes.setBody(mlpSolutionFavorite);
 			Assert.assertNotNull(mlpSolutionFavoriteRes);
 			JsonResponse<MLSolution> value = new JsonResponse<>();
-			Mockito.when(service.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenReturn(mlsolution);
+			Mockito.when(marketPlaceCatalogService.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenReturn(mlsolution);
 			value = marketPlaceController.deleteSolutionFavorite(request, mlpSolutionFavoriteRes, response);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute deleteSolutionFavorite testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.deleteSolutionFavorite(request, mlpSolutionFavoriteRes, response);
+			
 	}
 
 	@Test
-	public void getFavoriteSolutionsTest() {
-		try {
+	public void getFavoriteSolutionsTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			MLPSolutionFavorite mlpSolutionFavorite = new MLPSolutionFavorite();
 			mlpSolutionFavorite.setSolutionId(mlsolution.getSolutionId());
 			mlpSolutionFavorite.setUserId(mlsolution.getOwnerId());
-			List<MLSolution> mlSolutionList = new ArrayList<MLSolution>();
+			List<MLSolution> mlSolutionList = new ArrayList<>();
 			mlSolutionList.add(mlsolution);
 			Assert.assertNotNull(mlpSolutionFavorite);
 			String userId = mlpSolutionFavorite.getUserId();
@@ -743,18 +755,20 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertEquals(userId, mlpSolutionFavorite.getUserId());
 			JsonResponse<List<MLSolution>> value = new JsonResponse<>();
 			RestPageRequest restPageReq = new RestPageRequest();
-			Mockito.when(service.getFavoriteSolutions(userId, restPageReq)).thenReturn(mlSolutionList);
+			restPageReq.setPage(0);
+			restPageReq.setSize(9);
+			Mockito.when(marketPlaceCatalogService.getFavoriteSolutions(Mockito.any(), Mockito.any())).thenReturn(mlSolutionList);
 			value = marketPlaceController.getFavoriteSolutions(request, userId, response);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getFavoriteSolutions testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getFavoriteSolutions(Mockito.any(), Mockito.any())).thenReturn(null);
+			value = marketPlaceController.getFavoriteSolutions(request, userId, response);
+			Mockito.when(marketPlaceCatalogService.getFavoriteSolutions(Mockito.any(), Mockito.any())).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getFavoriteSolutions(request, userId, response);
+			
 	}
 
 	@Test
-	public void getRelatedMySolutionsTest() {
-		try {
+	public void getRelatedMySolutionsTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			JsonRequest<RestPageRequestBE> restPageReqBe = new JsonRequest<>();
 			List<MLSolution> mlSolutionList = new ArrayList<MLSolution>();
@@ -766,33 +780,28 @@ public class MarketPlaceServiceControllerTest {
 			body.setSize(9);
 			restPageReqBe.setBody(body);
 			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
-			Mockito.when(service.getRelatedMySolutions(restPageReqBe)).thenReturn(mlSolutionsRest);
+			Mockito.when(marketPlaceCatalogService.getRelatedMySolutions(restPageReqBe)).thenReturn(mlSolutionsRest);
 			value = marketPlaceController.getRelatedMySolutions(restPageReqBe);
 			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.error("Failed to execute getRelatedMySolutions testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.getRelatedMySolutions(restPageReqBe)).thenThrow(AcumosServiceException.class);
+			value = marketPlaceController.getRelatedMySolutions(restPageReqBe);
+			
 	}
 
 	@Test
 	public void readArtifactSolutionsTest() {
-		try {
 			String artifactId = "4cbf491b-c687-459f-9d81-e150d1a0b972";
 			String value = "Artifact read successfully";
+			InputStream resource=new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
 			Mockito.when(pushAndPullSolutionService.getFileNameByArtifactId(artifactId)).thenReturn(value);
+			Mockito.when(pushAndPullSolutionService.downloadModelArtifact(artifactId)).thenReturn(resource);
 			marketPlaceController.readArtifactSolutions(artifactId, request, response);
 			Assert.assertNotNull(artifactId);
-		} catch (Exception e) {
-			logger.error("Failed to execute readArtifactSolutions testcase", e);
-
-		}
+	
 	}
 
 	@Test
-	public void getSolutionUserAccessTest() {
-		try {
-
+	public void getSolutionUserAccessTest() throws AcumosServiceException {
 			MLSolution mlsolution = getMLSolution();
 			User user = new User();
 			user.setActive("Y");
@@ -820,15 +829,15 @@ public class MarketPlaceServiceControllerTest {
 			JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 			List test = new ArrayList<>();
 			RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
-			responseBody.setUserList(userList);
-			data.setResponseBody(responseBody);
-			Mockito.when(service.getSolutionUserAccess(solutionId)).thenReturn(userList);
+			Mockito.when(marketPlaceCatalogService.getSolutionUserAccess(solutionId)).thenReturn(userList);
 			data = marketPlaceController.getSolutionUserAccess(request, solutionId, response);
 			logger.info("RevisionList " + data.getResponseBody());
 			Assert.assertNotNull(data);
-		} catch (Exception e) {
-			logger.error("Failed to execute getSolutionUserAccess testcase", e);
-		}
+			Mockito.when(marketPlaceCatalogService.getSolutionUserAccess(solutionId)).thenReturn(null);
+			data = marketPlaceController.getSolutionUserAccess(request, solutionId, response);
+			Mockito.when(marketPlaceCatalogService.getSolutionUserAccess(solutionId)).thenThrow(AcumosServiceException.class);
+			data = marketPlaceController.getSolutionUserAccess(request, solutionId, response);
+			
 	}
 
 	@Test
@@ -876,8 +885,7 @@ public class MarketPlaceServiceControllerTest {
 	}
 
 	@Test
-	public void createTagTest() {
-		try {
+	public void createTagTest() throws AcumosServiceException {
 			MLPTag mlpTag = new MLPTag();
 			mlpTag.setTag("abc");
 			JsonRequest<MLPTag> tags = new JsonRequest<MLPTag>();
@@ -887,15 +895,13 @@ public class MarketPlaceServiceControllerTest {
 			Mockito.when(service.createTag(tags.getBody())).thenReturn(mlpTag);
 			data = marketPlaceController.createTag(request, tags, response);
 			Assert.assertNotNull(data);
-		} catch (Exception e) {
-			logger.error("Failed to execute createTag testcase", e);
-
-		}
+			Mockito.when(marketPlaceCatalogService.createTag(tags.getBody())).thenThrow(AcumosServiceException.class);
+			data = marketPlaceController.createTag(request, tags, response);
+		
 	}
 
 	@Test
 	public void getUserRatingsTest() {
-		try {
 			JsonResponse<MLPSolutionRating> data = new JsonResponse<>();
 			MLPSolutionRating mlSolutionRating = new MLPSolutionRating();
 			mlSolutionRating.setRating(4);
@@ -907,10 +913,7 @@ public class MarketPlaceServiceControllerTest {
 			Mockito.when(service.getUserRatings(solutionId, userId)).thenReturn(mlSolutionRating);
 			data = marketPlaceController.getUserRatings(request, solutionId, userId, response);
 			Assert.assertNotNull(data);
-		} catch (Exception e) {
-			logger.error("Failed to execute getUserRatings testcase", e);
-
-		}
+			
 	}
 
 	@Test
@@ -936,6 +939,42 @@ public class MarketPlaceServiceControllerTest {
 		}
 	}
 
+	@Test
+	public void getAvgRatingsForSolTest() {
+		MLSolutionWeb mlSolutionWeb =new MLSolutionWeb();
+		mlSolutionWeb.setDownloadCount(20L);
+		mlSolutionWeb.setFeatured(true);
+		mlSolutionWeb.setSolutionId("somsolid");
+		mlSolutionWeb.setRatingCount(22L);
+		JsonRequest<MLSolutionWeb> request=new JsonRequest<>();
+		request.setBody(mlSolutionWeb);
+		when(marketPlaceCatalogService.getSolutionWebMetadata("somesolid")).thenReturn(mlSolutionWeb);
+		JsonResponse<MLSolutionWeb> res=marketPlaceController.getAvgRatingsForSol("somesolid");
+		Assert.assertNotNull(res);
+		when(marketPlaceCatalogService.getSolutionWebMetadata("somesolid")).thenReturn(null);
+		res=marketPlaceController.getAvgRatingsForSol("somesolid");
+		
+	}
+	
+	@Test
+	public void fetchProtoFileTest() throws AcumosServiceException {
+		when(marketPlaceCatalogService.getProtoUrl(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any())).thenReturn("someurl");
+		String res=marketPlaceController.fetchProtoFile("somsolid", "ver1.0");
+		Assert.assertNotNull(res);
+		when(marketPlaceCatalogService.getProtoUrl(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any())).thenThrow(AcumosServiceException.class);
+		res=marketPlaceController.fetchProtoFile("somsolid", "ver1.0");
+		
+	}
+	
+	@Test
+	public void fetchLicenseFileTest() throws AcumosServiceException {
+		when(marketPlaceCatalogService.getLicenseUrl(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any())).thenReturn("someurl");
+		String res=marketPlaceController.fetchLicenseFile("somsolid", "ver1.0");
+		Assert.assertNotNull(res);
+		when(marketPlaceCatalogService.getLicenseUrl(Mockito.any(),Mockito.any(),Mockito.any(),Mockito.any())).thenThrow(AcumosServiceException.class);
+		res=marketPlaceController.fetchLicenseFile("somsolid", "ver1.0");
+		
+	}
 	@Test
 	public void getUserAccessSolutions() {
 		MLSolution mlsolution = getMLSolution();
@@ -973,6 +1012,8 @@ public class MarketPlaceServiceControllerTest {
 		mlpUser.setFirstName("test-first-name");
 		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
 		mlpUser.setLoginName("test-User-Name");
+		mlpUser.setFirstName("firstname");
+		mlpUser.setLastName("lastName");
 		return mlpUser;
 	}
 
