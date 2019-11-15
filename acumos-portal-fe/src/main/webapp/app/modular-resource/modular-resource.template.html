@@ -782,7 +782,7 @@ limitations under the License.
 										On-board Model</button>
 										<button type="reset" 
 										 ng-disabled= "!(stepfailed == true || allSuccess == true) || (disableDockerRefreshButton == true)" 
-										 ng-click="resetDockerURLForm()"
+										 ng-click="resetDockerURLForm(); licenseOption = 'Upload'"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 											Upload New</button>
 								</div>
