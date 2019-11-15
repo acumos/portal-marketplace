@@ -1060,21 +1060,26 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			queryParameters.put("created", "DESC");
 			// Fetch latest step result for the solution to get the tracking id
 			RestPageResponse<MLPTask> taskResponse = dataServiceRestClient.searchTasks(stepResultCriteria, false,
-					new RestPageRequest(0, 1, queryParameters));
+					new RestPageRequest(0, 5, queryParameters));
 			if (!PortalUtils.isEmptyList(taskResponse.getContent())) {
-				MLPTask task = taskResponse.getContent().get(0);
-				List<MLPTaskStepResult> stepResultList = dataServiceRestClient.getTaskStepResults(task.getTaskId());
 				String errorStatusDetails = null;
-				if (!PortalUtils.isEmptyList(stepResultList)) {
-					// check if any of the step result is Failed
-					for (MLPTaskStepResult step : stepResultList) {
-						if (STEP_STATUS_FAILED.equals(step.getStatusCode())) {
-							onboardingStatusFailed = true;
-							errorStatusDetails = step.getResult();
-							break;
+				for(int i=0; i<taskResponse.getContent().size();i++) {
+					MLPTask task = taskResponse.getContent().get(i);
+					List<MLPTaskStepResult> stepResultList = dataServiceRestClient.getTaskStepResults(task.getTaskId());
+					if (!PortalUtils.isEmptyList(stepResultList)) {
+						// check if any of the step result is Failed
+						for (MLPTaskStepResult step : stepResultList) {
+							if (STEP_STATUS_FAILED.equals(step.getStatusCode())) {
+								onboardingStatusFailed = true;
+								errorStatusDetails = step.getResult();
+								break;
+							}
 						}
 					}
+					if(onboardingStatusFailed)
+						break;
 				}
+				
 				mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
 				if (errorStatusDetails != null) {
 					mlSolution.setErrorDetails(errorStatusDetails);
