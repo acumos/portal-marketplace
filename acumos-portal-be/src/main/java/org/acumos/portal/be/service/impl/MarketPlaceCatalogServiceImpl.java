@@ -88,6 +88,9 @@ import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1017,6 +1020,21 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId());
 			if (revision != null) {
 				mlSolution.setLatestRevisionId(revision.getRevisionId());
+				if (mlSolution.getmPeer() != null) {
+					try {
+						String license = getLicenseUrl(mlSolution.getSolutionId(), revision.getVersion(), "LI", "license");
+						JSONParser parser = new JSONParser();
+						JSONObject json = (JSONObject) parser.parse(license);
+						JSONObject copyright = (JSONObject) json.get("copyright");
+						mlSolution.setCompanyName(copyright.get("company").toString());
+					} catch (AcumosServiceException e) {
+						log.error("No found license profile for SolutionId={}", mlSolution.getSolutionId());
+					} catch (ParseException e) {
+						log.error("Error parsing license profile for SolutionId={}", mlSolution.getSolutionId());
+					} catch (NullPointerException e) {
+						log.error("Could not find company name in license profile for SolutionId={}", mlSolution.getSolutionId());
+					}
+				}
 				if (PortalUtils.isEmptyOrNullString(revision.getPublisher())) {
 					MLPSiteConfig siteConfig = adminService.getSiteConfig("site_config");
 					if (siteConfig != null && !PortalUtils.isEmptyOrNullString(siteConfig.getConfigValue())) {

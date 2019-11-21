@@ -84,6 +84,7 @@ public class MLSolution {
 	private String catalogId;
 	private String sourceId;
 	private MLPeer mPeer;
+	private String companyName;
 	
 	/**
 	 * @return the onboardingStatusFailed
@@ -614,6 +615,14 @@ public class MLSolution {
 
 		public void setCatalogId(String catalogId) {
 			this.catalogId = catalogId;
+		}
+
+		public String getCompanyName() {
+			return companyName;
+		}
+
+		public void setCompanyName(String companyName) {
+			this.companyName = companyName;
 		}
 
 }

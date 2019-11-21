@@ -199,9 +199,9 @@ limitations under the License.
 													<div class="mpdetailscontainer">
 													    <label class="griditem-title">{{mlsolution.name}}</label>
 													    
-													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl" ng-if="!mlsolution.sourceId"
-													    ng-bind=" ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span><span class="griditem-text2 grid-item-lbl" ng-if="mlsolution.sourceId"
-													    ng-bind="mlsolution.mPeer.name"></span> | <span class="griditem-text2">  {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
+													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl"
+													    ng-bind=" ((mlsolution.companyName) ? mlsolution.companyName : (mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)">
+													    </span> | <span class="griditem-text2">  {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
 													</div>
 													
 													<div class="tile-icons">
