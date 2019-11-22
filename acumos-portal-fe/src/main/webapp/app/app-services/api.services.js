@@ -132,12 +132,8 @@ angular.module('AcumosApp')
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
         var urlGatewaySolutions = "api/gateway/solutions";
-		    var urlMSStatus = "/api/onboardinghistory/getMSStatus";
-        var urlRightToUse="/api/rightToUse";
-
-        var urlCreateRTU = "api/createRtuUser"          //Create RTU User based on the RTU_ID, Solution_ID and list of Users of the local Acumos Instance 
-
-        var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
+		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
+		var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
         var urlNotificationPagination = 'api/notifications/pagination';	
 			
      	
@@ -545,11 +541,6 @@ angular.module('AcumosApp')
         this.insertAddAllSolutions = function(peeriId, addSolObj){
         	return $http.post(urladdAllSolutionsAdmin + '/' + peeriId , addSolObj);
         }
-
-        this.createRTU = function(rtuRefId, solutionId, siteWideRtu, reqBody){
-            return $http.post(urlCreateRTU + '/' + rtuRefId + '/' + solutionId + '/' + siteWideRtu, reqBody);
-        }
-        
         this.addGrantAccess = function (catalogId , reqBody) {
             return $http.post("/api/catalog/" + catalogId + "/addPeers" , reqBody);
         }
@@ -790,19 +781,7 @@ angular.module('AcumosApp')
         	return $http.post(urlcreateMicroservice, request);
         };
 
-        this.getRightToUse = function(RightToUse,SolutionName) {
-        	var rtuId = RightToUse;
-        	var solname = SolutionName;
-        	return $http.get(urlRightToUse, {
-        		headers: {
-        			  'rtuReferenceId': rtuId,
-        			  'solutionName' : solname
-        			}
-        	    }
-        	);
-        }; 
-		
-		this.searchCatalogs = function (request) {
+        this.searchCatalogs = function (request) {
         	return $http.post('api/catalogs/search', request );
         };
 
