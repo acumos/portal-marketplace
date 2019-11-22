@@ -94,7 +94,7 @@ function DSController($scope,$window,$rootScope,$mdDialog ,$state,$injector, bro
 			} else if (event.data === "navigateToDesignStudio") {
 				location.reload();
 				location.href = "/index.html#/designStudio";
-			} else if (event.data.message === "navigateToAcuCompose") {
+			} else if (event.data === "navigateToAcuCompose") {
 				location.href = "/index.html#/acuCompose";
 			} else if (event.data === "navigateToHome") {
 				location.href = "/index.html#/home";
