@@ -514,7 +514,7 @@ limitations under the License.
 										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (licenseOption=='Upload' && !(licensefile && fileSubmitLicense)) || (licenseOption=='selectLicProfile' && (!licensefile || selectedLicense == -1))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
-										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false;  $root.isMicroserviceEnabled = true;"
+										<button ng-click="clearExistingNotifications(); $root.isOnnxOrPFAModel = false;  $root.isMicroserviceEnabled = true;licenseOption = 'Upload'"
 										 ng-disabled= "!(stepfailed == true || allSuccess == true) || (disableRefreshButton == true)" 
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 											Upload New</button>
@@ -782,7 +782,7 @@ limitations under the License.
 										On-board Model</button>
 										<button type="reset" 
 										 ng-disabled= "!(stepfailed == true || allSuccess == true) || (disableDockerRefreshButton == true)" 
-										 ng-click="resetDockerURLForm()"
+										 ng-click="resetDockerURLForm(); licenseOption = 'Upload'"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 											Upload New</button>
 								</div>
