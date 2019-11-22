@@ -872,8 +872,8 @@ limitations under the License.
 										<div class="fed-row1">
 											<div class="fedrow-cell1">
 												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
-												<button class="mdl-button mdl-js-button btn-secondary btn-gap" 
-												ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>												
+												<button class="mdl-button mdl-js-button btn-secondary btn-gap"
+												ng-disabled="disableSnapshotButton" ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>												
 											</div>
 											<div class="fed-row2">
 												<div class="fed-srch-container">
@@ -914,7 +914,7 @@ limitations under the License.
 													<tr>
 														<td>
 															<md-checkbox
-																ng-model="snapshot.checked" ng-click="removeSelectAllSnapshot()">
+																ng-model="snapshot.checked" ng-change="removeSelectAllSnapshot(snapshot.checked)">
 															</md-checkbox>
 														</td>
 														<td>
@@ -1056,8 +1056,8 @@ limitations under the License.
 										</div>
 										<div class="fed-row1">
 												<div class="fedrow-cell1">
-														<button class="mdl-button mdl-js-button btn-primary"  ng-click="confirmCreateRestoreArchive('restore', allRepoArchives, true)">Restore</button>
-														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)">Delete</button>											
+														<button class="mdl-button mdl-js-button btn-primary"  ng-click="confirmCreateRestoreArchive('restore', allRepoArchives, true)" ng-disabled="disableArchiveButton">Restore</button>
+														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)" ng-disabled="disableArchiveButton">Delete</button>											
 												</div>
 												<div class="fed-row2">
 													<div class="fed-srch-container">
@@ -1081,7 +1081,7 @@ limitations under the License.
 												<thead>
 													<tr>
 														<th>
-														<md-checkbox ng-model="checkedArchive" ng-click="checkAllArchives(checkedArchive)"></md-checkbox>
+														<md-checkbox ng-model="checkedArchive" ng-change="checkAllArchives(checkedArchive)"></md-checkbox>
 														</th>
 														<!-- <th ng-click="orderArchives='backupName';reverseSortArchives = !reverseSortArchives">
 															Backup Name
@@ -1111,7 +1111,7 @@ limitations under the License.
 													<tr> 
 														<td>															
 															<md-checkbox
-																	ng-model="archive.checked" ng-click="removeSelectAllArchives()()">
+																	ng-model="archive.checked" ng-change="removeSelectAllArchives()()">
 																</md-checkbox>
 															</label>
 														</td>
