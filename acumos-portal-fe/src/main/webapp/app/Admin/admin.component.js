@@ -3328,11 +3328,15 @@ angular.module('admin').filter('abs', function () {
             //will call only when needed
             $scope.getMaintainedBackupLogs = function(){
             	$scope.getAllSnapshot();
-				$scope.getAllArchives();				 
+				$scope.getAllArchives();
+				
             }
             
             $scope.orderSnapshots='backupName';
             $scope.reverseSortbackup = true;
+            $scope.disableSnapshotButton = true;
+            $scope.disableArchiveButton = true;
+            
             $scope.getAllSnapshot = function () {
                 $scope.snapshots = [];
                 $scope.showContentLoader = true;
@@ -3372,17 +3376,22 @@ angular.module('admin').filter('abs', function () {
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
 				}
             }
+           
+           
             
             $scope.checkedSnapshot = false;
+            
             $scope.checkAllSnapshot = function(selected){
             	$scope.selectAllSnapshotStatus = true;
         		for (var i = 0; i < $scope.allRepoSnapshots.length; i++) {
            	        $scope.allRepoSnapshots[i].checked = selected;
+           	        $scope.disableSnapshotButton=!selected;
         		}
             };
             
-            $scope.removeSelectAllSnapshot = function(){
+            $scope.removeSelectAllSnapshot = function(selected){
       		   $scope.selectAllSnapshotStatus = false;
+      		   $scope.disableSnapshotButton = ($scope.allRepoSnapshots.filter(snapshot =>snapshot.checked).length) == 0;
             };
             
             //pagination
@@ -3468,13 +3477,14 @@ angular.module('admin').filter('abs', function () {
             $scope.checkAllArchives = function(selected){
             	$scope.selectAllArchiveStatus = true;
         		for (var i = 0; i < $scope.allRepoArchives.length; i++) {
-           	        $scope.allRepoArchives[i].checked = !selected;
+           	        $scope.allRepoArchives[i].checked = selected;
+           	        $scope.disableArchiveButton=!selected;
         		}
             };
             
             $scope.removeSelectAllArchives = function(){
-      		   $scope.selectAllArchiveStatus = false;
-      		   
+            	$scope.selectAllArchiveStatus = false;
+      			$scope.disableArchiveButton = ($scope.allRepoArchives.filter(archive =>archive.checked).length) == 0;   
             };
             
 			$scope.confirmCreateRestoreArchive = function (action, repositoryName, selectAll) {
@@ -3802,7 +3812,7 @@ angular.module('admin').filter('abs', function () {
                             });
                         }
 						
-                        $scope.deleteIndices = function(){
+                        $scope.deleteIndices = function(indiceName){
                         	var deleteIndiceName = indiceName;
                         	var reqBody = {
                           		  "request_body": {
