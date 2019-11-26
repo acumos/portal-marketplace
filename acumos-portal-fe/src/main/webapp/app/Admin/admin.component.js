@@ -3886,7 +3886,7 @@ angular.module('admin').filter('abs', function () {
                                        $timeout(function () {
                                             $scope.repositoryStatus = false;
                                         }, 3000);
-                                        createRepo.reset();
+                                        //createRepo.reset();
                                         $scope.fetchAllRepositories();
                                       },
                                       
@@ -3901,7 +3901,7 @@ angular.module('admin').filter('abs', function () {
                                         $timeout(function () {
                                             $scope.repositoryStatus = false;
                                         }, 3000);
-                                        createRepo.reset();
+                                        //createRepo.reset();
                                         $scope.fetchAllRepositories();
                                     });
                         	
