@@ -71,7 +71,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Creating Repository");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Creating Repository", e);
 		}
 		return data;
@@ -98,7 +98,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Fetching Repositories");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Fetching Repositories", e);
 			e.printStackTrace();
 		}
@@ -129,7 +129,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Deleting Repository");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Deleting Repository", e);
 		}
 		return data;
@@ -159,7 +159,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Creating Snapshots");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Creating Snapshots", e);
 		}
 		return data;
@@ -186,7 +186,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Fetching Snapshots");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Fetching Snapshots", e);
 		}
 		return data;
@@ -216,7 +216,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Deleting Snapshots");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Deleting Snapshots", e);
 		}
 		return data;
@@ -246,7 +246,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred restore Snapshots");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred restore Snapshots", e);
 		}
 		return data;		
@@ -274,7 +274,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Fetching Repositories");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Fetching Repositories", e);
 		}
 		return data;
@@ -302,7 +302,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Deleting Indices");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Deleting Indices", e);
 		}
 		return data;
@@ -329,7 +329,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Fetching Archive");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Fetching Archive", e);
 		}
 		return data;
@@ -358,7 +358,7 @@ public class ElkController/* extends AbstractController */ {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setResponseDetail("Exception Occurred Creating/restoring Archive");
+			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred Creating/restoring Archive", e);
 		}
 		return data;
