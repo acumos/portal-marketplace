@@ -21,6 +21,27 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.21 26th November 2019
+=================================
+* ACUMOS-3719 - <IST> Selection issue on on-boarding dockerized URI model / Web on-boarding
+* ACUMOS-3692 - IST | MLWB | Navigation to Acu-compose from home page of mlwb is failing
+* ACUMOS-3721 - <IST2><Marketplace/OA&M><Maintained Backup Logs>Backup Logs/Archived Logs: Proper validation message is not displayed on clicking Archive/Restore/Delete button
+* ACUMOS-3703 - <IST><Portal Marketplace> Added license not displayed for models onboarded through 'On-Boarding Dockerized model uri' and 'On-board dockerized model'
+* ACUMOS-3673 - <IST> Model description screen << Mouse-hover on Description rating stars ***** hand icon is displaying.
+* ACUMOS-3655 - Acu Compose: Deploy to Cloud: Text is overlapping on the cloud options
+* ACUMOS-3693 - Web-onboarding: After on-boarding process starts, the page doesn't go up automatically showing the on-boarding status
+* ACUMOS-3686 - <IST> While selecting check box in user management tab, the color of the box should be purple but it is in no color.
+* ACUMOS-3701 - License Profile: Error Message going out of screen for invalid license upload
+* ACUMOS-3607 - <IST> Manage Peer(s) Access Screen:-When search result is not found, and user is checking the check-box the both "Grant Peer Access" & "Remove" button should be disable.
+* ACUMOS-3685 - Delete Api token is not working in the account setting for newly signup user
+* ACUMOS-3698 - Manage My Model: Status change to Not started of Description when user update the model category and toolkit type 
+* ACUMOS-3706 - When selecting license option as "Select License Profile", without selecting any value from drop-down the 'Modify' button is getting enabled.
+* ACUMOS-3704 - <IST> At the time of on-boarding, when we are creating the license then it is not saving and on-board button is also not enabled.
+* ACUMOS-3702 - <IST> <Web Onboarding>On-board dockerized model : Model searching not working on hitting Enter key
+* ACUMOS-3694 - <IST2><Portal Marketplace><Maintained Backup Logs> Create Backup: Created repository is not displayed in repository drop down unless we refresh the page
+* ACUMOS-3671 - <IST><Portal Marketplace>Manage My Model > Export/Deploy to Cloud: Page title issues.
+* ACUMOS-3733 - License should be optional during web-on boarding
+
 Version 3.0.20 04th November 2019
 =================================
 * ACUMOS-3635 - IST2: Pending for approval is not displaying when user republished a already published model in a catalog with Self publish NO
