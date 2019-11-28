@@ -21,7 +21,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.0.21 26th November 2019
+Version 3.0.22 28th November 2019
 =================================
 * ACUMOS-3719 - <IST> Selection issue on on-boarding dockerized URI model / Web on-boarding
 * ACUMOS-3692 - IST | MLWB | Navigation to Acu-compose from home page of mlwb is failing
@@ -40,7 +40,6 @@ Version 3.0.21 26th November 2019
 * ACUMOS-3702 - <IST> <Web Onboarding>On-board dockerized model : Model searching not working on hitting Enter key
 * ACUMOS-3694 - <IST2><Portal Marketplace><Maintained Backup Logs> Create Backup: Created repository is not displayed in repository drop down unless we refresh the page
 * ACUMOS-3671 - <IST><Portal Marketplace>Manage My Model > Export/Deploy to Cloud: Page title issues.
-* ACUMOS-3733 - License should be optional during web-on boarding
 
 Version 3.0.20 04th November 2019
 =================================
