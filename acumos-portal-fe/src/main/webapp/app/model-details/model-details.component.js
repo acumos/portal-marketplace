@@ -570,6 +570,9 @@ angular
 						});
 				 	}
 					
+					$scope.isObject = function(value) {
+						return angular.isObject(value);
+					} 
 					$scope.getCatalogsList = function(){
 	                    apiService
 				        .getCatalogsForSolutions($scope.solutionId)

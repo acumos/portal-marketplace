@@ -484,7 +484,18 @@ limitations under the License.
 							</button>
 						</div>
 						<div ng-if="modelLicense">
-							<pre class="wrap" ng-if="modelLicense && changeLicense==false">{{modelLicense | json: 4}}</pre>
+							<div ng-repeat="(key, value) in modelLicense" ng-if="modelLicense && changeLicense==false">
+							     	<div ng-if="!isObject(value)">
+							     		<strong>{{key}}</strong>: <span>{{value}}</span>
+							     	</div>
+							     								     	
+							     	<div ng-show="isObject(value)">
+							     		<p class="sectiontitle3" ng-if="isObject(value)">{{key}}</p>
+							     		<div ng-repeat="(key1,val1) in value">
+							            	<strong>{{key1}}</strong>: <span>{{val1}}</span>
+							             </div>							     		
+							     	</div> 
+							     </div>
 						</div>
 						
 						<div ng-show="isLicenseFound===false && isLoadingLicense===true">Loading License...</div>
