@@ -880,6 +880,20 @@ angular
 											}
 										});
 									} else {
+										
+										if ($scope.downloadArtifactType == 'DI') {
+											$mdDialog.cancel();
+											$location.hash('md-model-detail-template');  
+											$anchorScroll(); 								
+											$scope.msg = "Docker image download has started in background. As the size of this Docker image is big, completion of the download task will depend of your network performance, please wait"; 
+											$scope.icon = 'info_outline';
+				 							$scope.styleclass = 'c-info';
+				 							$scope.showAlertMessage = true;
+				 							$timeout(function() {
+				 								$scope.showAlertMessage = false;
+				 								$scope.downloadArtifactType = "";
+				 							}, 6000);
+										}
 										successFunc();
 									}
 		                        },
@@ -898,7 +912,8 @@ angular
 		                        });
 						};
 						
-						$scope.downloadArtifact = function(artifactId) {
+						$scope.downloadArtifact = function(artifactId,downloadArtifactType) {
+							$scope.downloadArtifactType=downloadArtifactType;
 							$scope.performSVScan($scope.solution.solutionId, $scope.revisionId, "download", function() {
 								$window.location.assign("/api/downloads/" + $scope.solution.solutionId
 									+ "?artifactId=" + artifactId
@@ -1064,6 +1079,7 @@ angular
 						
 						
 						$scope.download = function(artifactId) {
+							
 							
 							$scope.loginUserID = "";
 							if (browserStorageService.getUserDetail()) {
