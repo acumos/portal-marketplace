@@ -551,7 +551,13 @@ angular.module('modelResource')
                 $scope.isDockerLicUploaded = false;
                 $scope.licenseDockerFilename = '';
                 $scope.licenseDocfile = false;
-				$scope.selectedLicense = -1;
+		$scope.selectedLicense = -1;
+		$scope.host = '';
+		$scope.port = '';
+		$scope.image = '';
+		$scope.modelDockerURLName = '';
+                $scope.dockerUrlForm.$setPristine();
+                $scope.dockerUrlForm.$setUntouched();
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
                 angular.element('.docker_onboarding .progress .progress-bar').css({ "width" : '0%'});               
