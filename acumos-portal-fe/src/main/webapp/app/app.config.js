@@ -72,7 +72,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			component: 'designStudio'
 		})
 		.state('marketSolutions', {
-			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId&parentUrl&requestStatusCode',
+			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId&parentUrl&requestStatusCode&catalogId&catalogName',
 			component: 'modelDetails',
 			params: {
 				solutionId : null,
@@ -80,7 +80,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 				parentUrl: null,
 				publishRequestId: null,
 				requestUserId: null,
-				requestStatusCode: null
+				requestStatusCode: null,
+				catalogId: null,
+				catalogName: null
 				}
          })
           .state('modelEdit', {

@@ -596,7 +596,7 @@ angular
 						
 					}
 						 
-					$scope.getCatalogsList();
+					
 					
 					$scope.totalCommentCount = 0;
 					$scope.postComment = function() {
@@ -1033,6 +1033,20 @@ angular
 													$scope.solutionDescription = "";
 												});
 						}
+						
+						$scope.solutionCatalogsList = [];
+						if($stateParams.catalogId == null && $stateParams.catalogName == null){
+							$scope.getCatalogsList();
+						}else{
+							$scope.solutionCatalogsList = [ {"name" : $stateParams.catalogName, 'catalogId' : $stateParams.catalogId } ];
+							$scope.selectedCatalogId = $scope.solutionCatalogsList[0].catalogId;
+		  					$scope.catalogName = $scope.solutionCatalogsList[0].name;
+		  					$scope.getSolutionDocuments();
+		  					$scope.getSolutionDescription();
+		  				}
+						
+						
+
 						
 							/**********************************END*****************************/
 						
