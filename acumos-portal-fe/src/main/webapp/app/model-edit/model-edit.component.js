@@ -519,6 +519,7 @@ angular
 												$scope.solutionCompanyDesc = "";
 												$scope.solutionCompanyDesc1 = "";
 												$scope.newDescriptionLength = $scope.solutionCompanyDesc;
+												$scope.ratingCheck($scope.newDescriptionLength);
 												$scope.solutionCompanyDescStatus = false;
 											});
 						}
