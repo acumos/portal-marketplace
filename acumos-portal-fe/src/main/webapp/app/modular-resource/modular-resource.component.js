@@ -490,6 +490,7 @@ angular.module('modelResource')
 										$scope.clearNotificationInterval();
 										
 										if($rootScope.dockerURIonboarding){
+											 $scope.disableUri = true;
 											$scope.disableDockerRefreshButton = false;
 											$rootScope.isMicroserviceEnabled = true;
 										} else {
@@ -552,6 +553,13 @@ angular.module('modelResource')
                 $scope.licenseDockerFilename = '';
                 $scope.licenseDocfile = false;
 				$scope.selectedLicense = -1;
+				$scope.host = '';
+				$scope.port = '';
+				$scope.image = '';
+				$scope.modelDockerURLName = '';
+                $scope.dockerUrlForm.$setPristine();
+                $scope.dockerUrlForm.$setUntouched();
+				 $scope.disableUri = false;
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
                 angular.element('.docker_onboarding .progress .progress-bar').css({ "width" : '0%'});               
