@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service;
 
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -31,5 +32,7 @@ public interface StorageService {
 	void deleteAll(String userId);
 
 	boolean createJsonFile(String json, String userId);
+	
+	void deleteLicenseFile(String userId) throws AcumosServiceException;
 
 }

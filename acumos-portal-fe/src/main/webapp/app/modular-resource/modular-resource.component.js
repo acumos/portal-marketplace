@@ -837,5 +837,29 @@ angular.module('modelResource')
 		             });
 				}
 		   }
+		   	   if (browserStorageService.getUserDetail()) {
+				$scope.loginUserID = JSON.parse(browserStorageService.getUserDetail())[1];
+			}
+		   $scope.deleteLicenseFile = function(){
+			   if( ($scope.isLicenseUploaded && $scope.fileSubmitLicense) ||($scope.isDockerLicUploaded && $scope.fileSubmitDocLicense) ){
+				   apiService
+				   		.deleteLicenseFile($scope.loginUserID) 
+				   		.then(function(response){
+				   		 $scope.licenseFilename = '';
+				   		 $scope.licensefile = "";
+				   		 $scope.fileSubmitLicense = false;
+				   		 $scope.fileSubmitDocLicense = false;
+				   		 $scope.licenseDockerFilename = '';
+				   		 $scope.licenseDocfile = false;
+						 $scope.selectedLicense = -1;
+				   		 
+				   		},
+				   		function(error) {
+				   			$scope.icon = 'info_outline';
+			        		$scope.styleclass = 'c-error';
+			        		$scope.msg = "Error in deleting license file.";
+				   		});
+			   }
+		   }
 		}
 });
