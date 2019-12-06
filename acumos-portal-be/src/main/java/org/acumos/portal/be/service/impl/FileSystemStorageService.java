@@ -245,4 +245,13 @@ public class FileSystemStorageService implements StorageService {
 		return responseFlag;
 	}
 
+	public void deleteLicenseFile(String userId) throws AcumosServiceException {
+		try {
+			File file=new File( env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE  );
+			file.delete();
+		}
+		catch (Exception e) {
+			throw new AcumosServiceException("Failed to delete file " + FileSystemStorageService.LICENSE_FILE, e);
+		}
+	}
 }
