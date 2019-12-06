@@ -129,7 +129,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, "/catalogs/public").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/getMenu").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/getDSMenu").permitAll()	
-        .antMatchers(HttpMethod.POST, "/createRtuUser/{rtuRefId}/{solutionId}").permitAll()
         .antMatchers(HttpMethod.POST, "/gateway/catalogs/{peerId}").permitAll()
         .antMatchers(HttpMethod.GET, "/properties/cliPushUrl").permitAll()
         .antMatchers(HttpMethod.GET, "/properties/cliAuthUrl").permitAll()
