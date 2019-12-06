@@ -349,4 +349,28 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		}
 		return responseVO;
 	}
+	
+	@ApiOperation(value = "API to delete license file")
+	@RequestMapping(value = {APINames.DELETE_LICENSE_FILE},method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<String> deleteLicenseFile(HttpServletRequest request,@PathVariable("userId") String userId, HttpServletResponse response)throws IOException {
+		JsonResponse<String> responseVO = new JsonResponse<>();
+		try {
+			storageService.deleteLicenseFile(userId);
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Success");
+			responseVO.setResponseBody("Success");
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			log.debug("File deleted successfully");
+		} catch (AcumosServiceException e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(e.getMessage());
+			log.error("Exception Occurred while deleting file", e);
+		}
+		return responseVO;
+	}
+		
 }
