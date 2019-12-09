@@ -21,6 +21,14 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.23 09th December 2019
+=================================
+* ACUMOS-3783 - <IST> Once we are creating new license, and clicking on save button, the 'Modify' button is getting enabled without selecting any value from drop-down.
+* ACUMOS-3588 - As a publisher of a model, display the model description before approval to allow description to be part of the approval criteria of the model
+* ACUMOS-3646 - <IST2> On-boarding through Docrized URI << Once on-boarded model successfully, only 'Upload New' button should be enabled not 'On-board model'.
+* ACUMOS-3794 - <Portal Marketplace>Manage My Model > Publish to Marketplace: On changing catalog, rating under description is not getting set to the default value.
+* ACUMOS-3733 - License should be optional during web-on boarding
+
 Version 3.0.22 28th November 2019
 =================================
 * ACUMOS-3719 - <IST> Selection issue on on-boarding dockerized URI model / Web on-boarding
