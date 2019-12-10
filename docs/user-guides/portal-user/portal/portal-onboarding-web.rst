@@ -80,9 +80,11 @@ and Create Tosca steps turn green. Click the **View Model** button to see your m
 see **Create Microservice** button  which is right side of ** Manage My Model** button to 
 create MicroService for your model.
 
-License file must be uploaded while On-boarding the model. There are two radio buttons **Upload** and 
-**Select License Profile** from where user can upload license file which must be with an extension of *.json* 
-which contains high level general terms and conditions for use of the model.
+License can be added optionally. **Add License Profile** check box allows the user to add license 
+file while On-boarding the model. There are two radio buttons **Upload** and **Select License Profile** 
+from where user can upload license file which must be with an extension of *.json* which contains 
+high level general terms and conditions for use of the model. Checkbox will be disabled till the model 
+is uploaded.
 
 .. image:: ../images/portal/model-onboarding-with-license.png
                  :width: 75%
