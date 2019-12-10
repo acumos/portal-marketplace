@@ -35,17 +35,13 @@ limitations under the License.
 					<li>Manage Notifications</li>
 				</ul>
 			</div>
-			<!-- <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--4-col-phone text-right lg-v-self-center">
-								<button class="mdl-button mdl-js-button mdl-button--colored hide-xs">add new model</button>
-								<button class="mdl-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect mob-add-button hide-sm hide-md hide-lg hide-xl"><i class="material-icons">add</i></button>
-							</div> -->
 		</div>
 	</section>
 	
 	<div class="tbl-notification-container">
 		<!-- copy from here (start) -->
-		<div class="notification-btn-container"
-			ng-if="filtertedNotification.length || search.length > 0">
+		<div class="notification-btn-container notification-btn-padding">
+			<!-- ng-if="filtertedNotification.length || search.length > 0" -->
 			<div class="note-btn-inner">
 				<button class="mdl-button mdl-js-button btn-secondary"
 					ng-click="refreshNotification()">
@@ -60,11 +56,11 @@ limitations under the License.
 					<i class="far fa-trash-alt"></i> Move to trash
 				</button>			
 			</div>
-			<div class="mdl-textfield mdl-js-textfield text-right">
+			<!-- <div class="mdl-textfield mdl-js-textfield text-right">
 					<input class="mdl-textfield__input notification-search" type="text"
 						placeholder="Filter" ng-model="$parent.search">
-					<!-- <label class="mdl-textfield__label" for="module-search"></label> -->
-				</div>
+					<label class="mdl-textfield__label" for="module-search"></label>
+				</div> -->
 			<!-- 							<div>
 								<div class="select-control">
 									<md-select ng-model="action.name" placeholder="Sort By - All">  md-on-open="loadUsers()"
@@ -73,8 +69,48 @@ limitations under the License.
 							</div> -->
 		</div>
 		
-		<div>
-			<table ng-if='notificationManageObj.length'
+		<div class="manage-notifications">
+		
+			<table datatable="ng" dt-options="dtOptions" dt-columns="dtColumns"
+				dt-column-defs="dtColumnDefs"
+				class="row-border hover note-table tbl-notification-list ">
+				<thead>
+					<tr>
+						<th><label
+							class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+							for="checkbox-1" id="checkbox-label"> <input
+								type="checkbox" id="checkbox-1" class="mdl-checkbox__input"
+								ng-model="selectAll" ng-click="setSelectAll(selectAll)"
+								ng-checked="selectAllStatus" /> <span
+								class="mdl-checkbox__label"></span>
+						</label></th>
+						<th>Subject</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="notification in notificationManageObj">
+						<td ng-class="{'read-notification': notification.viewed}"><label
+							class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
+							for="checkBox_{{$index}}" id="checkBox_{{$index}}"> <input
+								type="checkbox" class="mdl-checkbox__input"
+								ng-model="notification.Selected"
+								ng-checked="notification.Selected" ng-click="removeSelectAll()">
+								<span class="mdl-checkbox__label"></span>
+						</label></td>
+						<td ng-bind-html="notification.message" class="sub-container"
+							ng-class="{'read-notification': notification.viewed}" compile>
+							{{notification }}</td>
+						<td ng-class="{'read-notification': notification.viewed}" compile>
+							{{notification.start | date : "MM/dd/yyyy"}}</td>
+					</tr>
+				</tbody>
+			</table>
+		
+		
+		
+		
+			<!-- <table ng-if='notificationManageObj.length'
 				class="note-table tbl-notification-list">
 				<colgroup>
 					<col style="width: 5%;">
@@ -129,85 +165,8 @@ limitations under the License.
 						<strong>No Results found</strong>
 					</div>
 				</tbody>
-			</table>
-
+			</table> -->
 			
-
-			<!-- Pagination Starts-->
-			<div class="pagination-wrapper">
-				<div class="pagination-left-section">
-					<span>Showing </span>
-					<div class="select-control">
-						<md-select ng-model="defaultSize" name="defaultSize"
-							ng-change="filterChange(defaultSize, 'paginationSize')">
-						<md-option ng-value="10" class="pagination-list-item">10</md-option>
-						<md-option ng-value="25" class="pagination-list-item">25</md-option>
-						<md-option ng-value="50" class="pagination-list-item">50</md-option>
-						<md-option ng-value="100" class="pagination-list-item">100</md-option>
-						</md-select>
-					</div>
-					<span class="page-stats">Notifications</span>
-				</div>
-				<div class="pagination-right-section">
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary"
-							ng-disabled="selectedPage==0 || SetDataLoaded"
-							ng-click="setStartCount('pre');Navigation(selectedPage)">Previous</button>
-					</div>
-					<div class="count-btn-container" ng-hide="0 >(setPageStart - 5)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-click="setStartCount('preBunch');Navigation(setPageStart)"
-							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-					</div>
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart == selectedPage}"
-							ng-click="Navigation(setPageStart);">{{setPageStart+1}}
-						</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+1)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
-							ng-click="Navigation(setPageStart+1);">{{setPageStart+2}}
-						</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+2)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
-							ng-click="Navigation(setPageStart+2);">{{setPageStart+3}}
-						</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+3)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
-							ng-click="Navigation(setPageStart+3);">{{setPageStart+4}}
-						</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="(totalPages)<=(setPageStart+4)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
-							ng-click="Navigation(setPageStart+4); ">{{setPageStart+5}}
-						</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="(totalPages)<=(setPageStart + 5)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-click="setStartCount('nextBunch'); Navigation(setPageStart);"
-							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-					</div>
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary"
-							ng-click="setStartCount('next'); Navigation(selectedPage)"
-							ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
-					</div>
-				</div>
-			</div>
-			<br />
-			<!-- Pagination Ends -->
 		</div>
 		<!-- copy up to here (end) -->
 	</div>
