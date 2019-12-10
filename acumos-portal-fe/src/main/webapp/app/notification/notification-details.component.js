@@ -22,7 +22,8 @@ limitations under the License.
 
 app.component('notificationModule',{
 	templateUrl : '/app/notification/notification-details.template.html',
-	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, apiService, browserStorageService, $filter) {
+	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, 
+			apiService, browserStorageService, $filter, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder) {
 		$scope.loginUserID='';
 		$scope.totalCount = 0;
 		$scope.page = 0;
@@ -51,7 +52,7 @@ app.component('notificationModule',{
 		    	  "request_body": {
 						"fieldToDirectionMap": {'start': "DESC"},
 			    	    "page": page,
-			    	    "size": size
+			    	    "size": 10000
 			    	 } 
 			    	};
 				$scope.Loadcheck = true;
@@ -80,11 +81,17 @@ app.component('notificationModule',{
 							notificationId : value.notificationId
 						});
 					});
-					/*$scope.totalCount = response.data.response_body.length;
-					if($scope.totalCount == 20){
-						$scope.page = $scope.page + 1;
-						$scope.getNotificationMessage($scope.loginUserID,$scope.page);
-					} */
+					
+					//Data table code using $scope.notificationManageObj
+					this.notificationManageObj = $scope.notificationManageObj;
+					this.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withDisplayLength(2);
+					this.dtColumnDefs = [
+				        DTColumnDefBuilder.newColumnDef(0).notSortable(),
+				        DTColumnDefBuilder.newColumnDef(1).notSortable(),
+				        DTColumnDefBuilder.newColumnDef(2)
+				    ];
+					
+					
 				} else {
 					
 					/*$rootScope.notificationCount=0;

@@ -1,0 +1,129 @@
+/*!
+ * angular-datatables - v0.5.6
+ * https://github.com/l-lin/angular-datatables
+ * License: MIT
+ */
+/* ---------------------------------------- */
+/* DATATABLE */
+/* ---------------------------------------- */
+
+.dataTables_wrapper {
+    /*border: 1px solid #DDDDDD;*/
+    padding: 1rem 0;
+}
+table.dataTable,
+table.dataTable.no-footer{
+    margin: 1rem 0;
+    width: 100% !important;
+    border-top: 1px solid #DDDDDD;;
+    border-bottom: 1px solid #DDDDDD;
+}
+/* -- select box --*/
+.dataTables_length {
+    margin: 0.2rem 0 0.8rem 0;
+    float: left;
+}
+.dataTables_length select{
+    border: none;
+}
+.dataTables_length select:focus{
+    outline: none;
+}
+/* -- search box --*/
+.dataTables_filter {
+    text-align: right;
+    float: right;
+    position: relative;
+}
+.dataTables_filter input[type="search"] {
+    border: 1px solid #E4E4E4;
+    border-radius: 3px;
+    margin: 0 0 0 5px;
+}
+/* -- table --*/
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 1px solid #DDDDDD;;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 10px 18px;
+}
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: #585858;
+}
+.dataTables_wrapper .dataTables_info {
+    margin-left: 1rem;
+}
+
+.gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 3px;cursor:pointer; }
+.gridcell-sort.deactivate {background: url("../images/general-icons/sortby_deactivate.png") no-repeat center center; }
+.sorting_asc {background: url("../images/general-icons/sortby_active_up.png") no-repeat center center; }
+.sorting_asc {background: url("../images/general-icons/sortby_active_down.png") no-repeat center center; }
+
+/* ---------------------------------------- */
+/* PAGINATION */
+/* ---------------------------------------- */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: white !important;
+    border: none;
+    background: #671C9D;
+    /* margin: 0 3px; */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.3em 0.8em;
+    margin: 0 3px;
+        background: #fff;
+    color: #2B262D;
+    border: 1px solid #d5d5d5;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    transition: all 0.4s ease;
+    padding: 0.3em 0.8em;
+    background: rgba(158,158,158,.2);
+    border: 1px solid transparent;
+}
+
+.paging_simple_numbers {
+	float: right;
+	padding: 10px 0;
+}
+.dataTables_info{
+    float:left;
+    padding: 10px 0;
+}
+
+.disabled {
+    color: #B3B3B3;
+    border-color: #d3d1d1;
+    cursor: not-allowed;
+    background: #efefef;
+    border: 1px solid #d5d5d5;
+
+}
+.manage-notifications{position:relative;}
+
+.manage-notifications table{margin-top:51px !important;}
+.manage-notifications .dataTables_filter label{
+	width: 200px;
+    position: absolute;
+    right: 53px;
+    top: 0;
+}
+
+.manage-notifications .dataTables_filter input[type=search] {
+	border: 1px solid #d5d5d5;padding-right: 40px;width: 100%;border: 1px solid #d5d5d5;padding-left:5px; font-size: 14px;
+	border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/sidebar-icons/search_icon.png') no-repeat 98% center !important;
+}
+
+.manage-notifications .dataTables_length select{border: 1px solid #d5d5d5;
+    padding: 2px 10px;
+    margin: 0 5px 0 5px;}	
+	
+
+
+
