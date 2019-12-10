@@ -36,12 +36,12 @@ Solution** and **Add Artifacts**) and available in **MY MODELS** page, you can v
 	
 
 
-License file must be uploaded while On-boarding the model. There are two radio buttons **Upload** and **Select License Profile** from where user can upload license file which must be with an extension of *.json* which contains
-high level general terms and conditions for use of the model.
+License can be added optionally. **ADD LICENSE PROFILE** check box allows the user to add license file while On-boarding the model. There are two radio buttons **Upload** and **Select License Profile** 
+from where user can upload license file which must be with an extension of *.json* which contains high level general terms and conditions for use of the model.
+
 
 .. image:: ../images/portal/model-onboarding-docker-uri-license.png
                  :width: 75%
-
 
 
 If **Upload** radio button is selected it will allow user to browse a license.json file. Once the file is selected the **Upload** button is enabled clicking which file will be uploaded. 
