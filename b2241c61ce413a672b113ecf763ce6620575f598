@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac692a0a_26332371",
+        "filename": "acumos-portal-fe/src/main/webapp/app/notification/notification-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2019-12-12T14:56:27Z",
+      "side": 1,
+      "message": "Can we have page size configurable here rather than hard-coding ?",
+      "revId": "b2241c61ce413a672b113ecf763ce6620575f598",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
