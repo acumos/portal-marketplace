@@ -673,7 +673,7 @@ angular
 app
 .directive(
 		'imageHeightError',
-		function($rootScope) {
+		function($rootScope, $timeout) {
 			return {
 				restrict : 'A', 
 				link : function(scope, element, attrs) {
@@ -720,7 +720,9 @@ app
 	      							
 	      							imgpath.onload = function(){
 		      							scope['imgsrc'] = {'height' : this.height};	
-		      							$rootScope.setCobrandingLoader = false;
+		      							$timeout(function(){
+		      								$rootScope.setCobrandingLoader = false;		      								
+		      							},0)
 	      								if(scope['imgsrc'].height>54){
 		      								scope.isHeightError = true;
 		      								scope.validImageFile = false;
