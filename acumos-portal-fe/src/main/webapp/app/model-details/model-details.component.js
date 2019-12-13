@@ -1387,7 +1387,7 @@ angular
 										
 									});
 						}
-						$scope.clusterData();
+
 						
 						/*Deploy to Local method*/
 						$scope.deployLocalPackage = function(){
@@ -1847,7 +1847,10 @@ angular
 
 						   }
 						      
-						   $scope.getAllLicenseTemplates();
+						   if($scope.loginUserID) {
+							    $scope.getAllLicenseTemplates();
+								  $scope.clusterData();
+						   }
 						   
 						   $scope.createLicenseFile = function(licenseText) {
 							   
