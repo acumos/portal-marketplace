@@ -143,8 +143,8 @@ angular.module('myModal',[])
                     					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
                                         $scope.msg = "Username Already Exists"; 
-                                        $scope.icon = 'report_problem';
-                                        $scope.styleclass = 'c-error';
+                                        $scope.icon = 'info_outline';
+            			        		$scope.styleclass = 'c-error';
                                         $scope.showAlertMessage = true;
                                         $timeout(function() {
                                         	$scope.showAlertMessage = false;
@@ -156,8 +156,8 @@ angular.module('myModal',[])
                     					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
                                         $scope.msg = "Email Already Exists"; 
-                                        $scope.icon = 'report_problem';
-                                        $scope.styleclass = 'c-error';
+										$scope.icon = 'info_outline';
+            			        		$scope.styleclass = 'c-error';
                                         $scope.showAlertMessage = true;
                                         $timeout(function() {
                                         	$scope.showAlertMessage = false;
