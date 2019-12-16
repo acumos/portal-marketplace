@@ -21,6 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.24 16th December 2019
+=================================
+* ACUMOS-3699 - Co-Brand Logo: Please wait is showing for very long time.
+* ACUMOS-3837 - Portal marketplace public model viewing is blocked, requires login
+* ACUMOS-3836 - IST - Logging Debug message constantly filling up logs
+
 Version 3.0.23 09th December 2019
 =================================
 * ACUMOS-3783 - <IST> Once we are creating new license, and clicking on save button, the 'Modify' button is getting enabled without selecting any value from drop-down.
