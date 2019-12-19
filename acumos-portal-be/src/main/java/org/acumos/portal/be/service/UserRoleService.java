@@ -22,10 +22,11 @@ package org.acumos.portal.be.service;
 
 import java.util.List;
 
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
@@ -35,7 +36,7 @@ public interface UserRoleService {
 
 	List<MLRole> getAllRoles() throws UserServiceException;
 
-	MLRole getRole(String roleId) throws UserServiceException;
+	MLPRole getRole(String roleId) throws UserServiceException;
 
 	MLPRole createRole(MLRole role) throws UserServiceException;  
 
@@ -43,7 +44,7 @@ public interface UserRoleService {
 	
 	MLRole getRoleCountForUser(RestPageRequest pageRequest);
 	
-	void updateRole(JsonRequest<MLPRole> role) throws UserServiceException;
+	void updateRole(String roleId,String roleName) throws UserServiceException;
 
 	void deleteRole(String roleId) throws UserServiceException;
 
@@ -53,7 +54,7 @@ public interface UserRoleService {
 
 	void deleteRoleFunction(String roleId, String roleFunctionId) throws UserServiceException;
 
-	void updateRoleFunction(JsonRequest<MLPRoleFunction> mlpRoleFunction) throws UserServiceException;
+	void updateRoleFunction(MLPRoleFunction mlpRoleFunction) throws UserServiceException;
 
 	void addUserRole(String userId, String roleId);
 
@@ -65,5 +66,24 @@ public interface UserRoleService {
 
 	void updateUserRoles(User user);
 
-	List<MLRole> getRoleUsersCount(); 
+	List<MLRole> getRoleUsersCount();
+
+	void addCatalogsInRole(List<String> catalogIds, String roleId);
+
+	void dropCatalogsInRole(List<String> catalogIds, String roleId);
+
+	List<MLPRoleFunction> getRoleFunctions(String roleId);
+
+	List<MLPCatalog> getRoleCatalogs(String roleId);
+
+	void updateModulePermission(String roleId, List<String> modulePermissions);
+
+	void updateCatalogsInRole(List<String> catalogIds, String roleId);
+	
+	List<MLPUser> getRoleUsers(String roleId);
+	
+	void dropUsersInRole(List<String> userIds, String roleId);
+	
+	List<String> getUserAccessCatalogIds(String userId);
+
 }

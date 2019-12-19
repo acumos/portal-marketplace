@@ -19,267 +19,223 @@
  */
 package org.acumos.be.test.service.impl;
 
-import static org.mockito.Mockito.mock;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.delete;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.put;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
-import java.lang.invoke.MethodHandles;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.portal.be.common.JsonRequest;
+import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.exception.UserServiceException;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.UserRoleServiceImpl;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
-import org.junit.Assert;
+import org.acumos.portal.be.util.PortalUtils;
+import org.apache.http.HttpStatus;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(MockitoJUnitRunner.class)		
 public class UserRoleServiceImplTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
-
+	@Rule
+	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));
+	
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
+	@InjectMocks
+	UserRoleServiceImpl userRoleService;
 	@Mock
-	UserRoleServiceImpl impl = new UserRoleServiceImpl();
+	private UserService userService;
+	@Mock
+	Environment env;
+	
+	final HttpServletResponse response = new MockHttpServletResponse();
+	final HttpServletRequest request = new MockHttpServletRequest();
+	private final String url = "http://localhost:8000/ccds";
+	private final String user = "ccds_client";
+	private final String pass = "ccds_client";
+	private final String GET_ALL_ROLE="/ccds/role/search?active=true&_j=o&page=0&size=1000";
+	private final String GET_USER_ROLES="/ccds/user/testuser/role";
+	private final String GET_ROLE="/ccds/role/testroleid";
+	private final String CREATE_ROLE="/ccds/role";
+	private final String GET_FUNCTION="/function/testrolefunid";
 	
 	@Test
-	public void getAllRoles(){
-		try{			
-			
-			boolean active = true;
-			Instant created = Instant.now();
-			Instant modified = Instant.now();
-			List<String> permissionList = new ArrayList<String>();
-			permissionList.add("a");
-			permissionList.add("b");
-			int roleCount = 10;
-
-			MLRole mlRole = new  MLRole();
-			mlRole.setActive(active);
-			mlRole.setModified(modified);
-			mlRole.setCreated(created);
-			mlRole.setName("abc");
-			mlRole.setPermissionList(permissionList);
-			mlRole.setRoleCount(roleCount);
-			mlRole.setRoleId("sfs3r3gd");
-			List<MLRole> list = new ArrayList<MLRole>();
-			list.add(mlRole);
-			
-			Mockito.when(impl.getAllRoles()).thenReturn(list);
-			Assert.assertEquals(list, list);
-			logger.info("Successfully return AllRoles");
-		} catch (Exception e) {
-			logger.info("Exception occured while getAllRoles: " + e);			 
-		}
-	}
-	
-	@Test
-	public void getRolesForUser(){
-		try{
-			String userId = "1810f833-8698-4233-add4-091e34b8703c";
-			List<MLRole> list = new ArrayList<MLRole>();
-			boolean active = true;
-			Instant created = Instant.now();
-			Instant modified = Instant.now();
-			List<String> permissionList = new ArrayList<String>();
-			permissionList.add("a");
-			permissionList.add("b");
-			int roleCount = 10;
-
-			MLRole mlRole = new  MLRole();
-			mlRole.setActive(active);
-			mlRole.setModified(modified);
-			mlRole.setCreated(created);
-			mlRole.setName("abc");
-			mlRole.setPermissionList(permissionList);
-			mlRole.setRoleCount(roleCount);
-			mlRole.setRoleId("sfs3r3gd");
-			list.add(mlRole);
-			Mockito.when(impl.getRolesForUser(userId)).thenReturn(list);
-			Assert.assertEquals(list, list);
-			logger.info("Successfully return RolesForUser");
-			
-		} catch (Exception e) {
-			logger.info("Exception occured while getRolesForUser: " + e);			 
-		}
-	}
-	
-	@Test
-	public void getRole(){
-		try{
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			
-			MLRole mlRole = new  MLRole();
-			mlRole.setName("abc");
-			mlRole.setRoleId("sfs3r3gd");
-			mlRole.setRoleId(roleId);
-			Mockito.when(impl.getRole(roleId)).thenReturn(mlRole);
-			Assert.assertEquals(mlRole, mlRole);
-			logger.info("Successfully return Role");
-			
-		} catch (Exception e) {
-			logger.info("Exception occured while getRolesForUser: " + e);			 
-		}
-	}
-	
-	@Test
-	public void createRole(){
-		try{
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			Instant date = Instant.now();
-			MLRole role = new MLRole();
-			role.setActive(true);
-			role.setCreated(date);
-			role.setModified(date);
-			role.setName("Test");
-			MLPRole mlpRole = new MLPRole();
-			mlpRole.setCreated(date);
-			mlpRole.setModified(date);
-			mlpRole.setName("abc");
-			mlpRole.setRoleId(roleId);
-			Mockito.when(impl.createRole(role)).thenReturn(mlpRole);
-			Assert.assertEquals(mlpRole, mlpRole);
-			logger.info("Successfully create Role");
+	public void getAllRolesTest() throws JsonProcessingException, UserServiceException{
+		MLPRole mlpRole=getMLPRole();
+		List<MLPRole> roleList=new ArrayList<>();
+		roleList.add(mlpRole);
+		ObjectMapper Obj = new ObjectMapper();
+		setCdsProperty();
+		RestPageResponse<MLPRole> roleRes = new RestPageResponse<>(roleList, PageRequest.of(0, 1), 1);
+		String jsonStrRes = Obj.writeValueAsString(roleRes);
+		stubFor(get(urlEqualTo(GET_ALL_ROLE)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
 		
-		} catch (Exception e) {
-			logger.info("Exception occured while createRole: " + e);			 
-		}
+		List<MLRole> mlRoleList=userRoleService.getAllRoles();
+		assertNotNull(mlRoleList);
+	}
+	
+	@Test
+	public void getRolesForUserTest() throws JsonProcessingException{
+		MLPRole mlpRole=getMLPRole();
+		List<MLPRole> roleList=new ArrayList<>();
+		roleList.add(mlpRole);
+		ObjectMapper Obj = new ObjectMapper();
+		setCdsProperty();
+		String jsonStrRes = Obj.writeValueAsString(roleList);
+		stubFor(get(urlEqualTo(GET_USER_ROLES)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		List<MLRole> mlRoleList=userRoleService.getRolesForUser("testuser");
+		assertNotNull(mlRoleList);
+		
+	}
+	
+	@Test
+	public void getRoleTest() throws JsonProcessingException{
+		MLPRole mlpRole=getMLPRole();
+		ObjectMapper Obj = new ObjectMapper();
+		setCdsProperty();
+		String jsonStrRes = Obj.writeValueAsString(mlpRole);
+		stubFor(get(urlEqualTo(GET_ROLE)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		MLPRole role=userRoleService.getRole(mlpRole.getRoleId());
+		assertNotNull(role);
+	}
+	
+	@Test
+	public void createRole() throws JsonProcessingException{
+		MLPRole mlpRole=getMLPRole();
+		MLRole mlRole=PortalUtils.convertToMLRole(mlpRole);
+		ObjectMapper Obj = new ObjectMapper();
+		setCdsProperty();
+		String jsonStrRes = Obj.writeValueAsString(mlpRole);
+		stubFor(post(urlEqualTo(CREATE_ROLE)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		mlpRole = userRoleService.createRole(mlRole);
+		assertNotNull(mlpRole);
 	}
 	
 	@Test
 	public void updateRole(){
-		try{
-			JsonRequest<MLPRole> roleJson = new JsonRequest<>();
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			Instant date = Instant.now();
-			MLPRole mlpRole = new MLPRole();
-			mlpRole.setCreated(date);
-			mlpRole.setModified(date);
-			mlpRole.setName("abc");
-			mlpRole.setRoleId(roleId);
-			roleJson.setBody(mlpRole);
-			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
-            mockimpl.updateRole(roleJson);
-            Assert.assertEquals(roleJson, roleJson);
-            Assert.assertNotNull(mockimpl);
-			logger.info("Successfully update Role");
-		
-		} catch (Exception e) {
-			logger.info("Exception occured while updateRole: " + e);			 
-		}
+		setCdsProperty();
+		stubFor(put(urlEqualTo(GET_ROLE)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		userRoleService.updateRole("testroleid", "testrolename");
 	}
 	
 	@Test
 	public void deleteRole(){
-		try{
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
-			mockimpl.deleteRole(roleId);
-			Assert.assertEquals(roleId, roleId);
-			Assert.assertNotNull(mockimpl);
-			logger.info("Successfully delet Role");
-		} catch (Exception e) {
-			logger.info("Exception occured while deleteRole: " + e);			 
-		}
+		setCdsProperty();
+		stubFor(delete(urlEqualTo(GET_ROLE)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		userRoleService.deleteRole("testroleid");
 	}
 	
 	@Test
-	public void getRoleFunction(){
-		try{
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			String roleFunctionId = "7e978f26-7776-4738-a528-3a7f3f2d3c4f";
-			MLRoleFunction mlRoleFunction = new MLRoleFunction();
-			mlRoleFunction.setCreated(Instant.now());
-			MLRole mlRole = new MLRole();
-			mlRole.setCreated(Instant.now());
-			mlRole.setModified(Instant.now());
-			mlRole.setName("abc");
-			mlRole.setRoleId(roleId);
-			mlRoleFunction.setMlRole(mlRole);
-			mlRoleFunction.setName("abc");
-			Mockito.when(impl.getRoleFunction(roleId, roleFunctionId)).thenReturn(mlRoleFunction);
-			Assert.assertEquals(mlRoleFunction, mlRoleFunction);
-			logger.info("Successfully get RoleFunction");
-		} catch (Exception e) {
-			logger.info("Exception occured while getRoleFunction: " + e);			 
-		}
+	public void getRoleFunction() throws JsonProcessingException{
+		MLPRoleFunction roleFunction=getMLPRoleFunction();
+		ObjectMapper Obj = new ObjectMapper();
+		setCdsProperty();
+		String jsonStrRes = Obj.writeValueAsString(roleFunction);
+		stubFor(get(urlEqualTo(GET_ROLE + GET_FUNCTION )).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		MLRoleFunction mlroleFunction=userRoleService.getRoleFunction(roleFunction.getRoleId(), roleFunction.getRoleFunctionId());
+		assertNotNull(mlroleFunction);
 	}
 	
 	@Test
-	public void createRoleFunction(){
-		try{
-			Instant date = Instant.now();
-			MLPRoleFunction mlRoleFunction = new MLPRoleFunction();
-			mlRoleFunction.setCreated(date);
-			mlRoleFunction.setModified(date);
-			mlRoleFunction.setName("");
-			mlRoleFunction.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
-			Mockito.when(impl.createRoleFunction(mlRoleFunction)).thenReturn(mlRoleFunction);
-			Assert.assertEquals(mlRoleFunction, mlRoleFunction);
-			logger.info("Successfully create RoleFunction");
-		} catch (Exception e) {
-			logger.info("Exception occured while createRoleFunction: " + e);			 
-		}
+	public void createRoleFunction() throws JsonProcessingException{
+		MLPRoleFunction roleFunction=getMLPRoleFunction();
+		ObjectMapper Obj = new ObjectMapper();
+		setCdsProperty();
+		String jsonStrRes = Obj.writeValueAsString(roleFunction);
+		stubFor(post(urlEqualTo(GET_ROLE + "/function" )).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		MLPRoleFunction mlroleFunction=userRoleService.createRoleFunction(roleFunction);
+		assertNotNull(mlroleFunction);
 	}
 	
 	@Test
 	public void updateRoleFunction(){
-		try{
-			Instant date = Instant.now();
-			JsonRequest<MLPRoleFunction> mlpRoleFunction = new JsonRequest<>();
-			MLPRoleFunction body = new MLPRoleFunction();
-			body.setCreated(date);
-			body.setModified(date);
-			body.setName("Test Function");
-			body.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
-			body.setRoleFunctionId("7e978f26-7776-4738-a528-3a7f3f2d3c4f");		
-			mlpRoleFunction.setBody(body);
-			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
-			mockimpl.updateRoleFunction(mlpRoleFunction);
-			Assert.assertEquals(mlpRoleFunction, mlpRoleFunction);
-			logger.info("Successfully update RoleFunction");
-		} catch (Exception e) {
-			logger.info("Exception occured while updateRoleFunction: " + e);			 
-		}
+		MLPRoleFunction roleFunction=getMLPRoleFunction();
+		setCdsProperty();
+		stubFor(put(urlEqualTo(GET_ROLE + GET_FUNCTION)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		userRoleService.updateRoleFunction(roleFunction);
 	}
 	
 	@Test
 	public void deleteRoleFunction(){
-		try{
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			String roleFunctionId = "7e978f26-7776-4738-a528-3a7f3f2d3c4f";
-			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
-			mockimpl.deleteRoleFunction(roleId, roleFunctionId);
-			Assert.assertEquals(roleId, roleId);
-			Assert.assertEquals(roleFunctionId, roleFunctionId);
-			Assert.assertNotNull(mockimpl);
-			logger.info("Successfully delete RoleFunction");
-		} catch (Exception e) {
-			logger.info("Exception occured while deleteRoleFunction: " + e);			 
-		}
+		setCdsProperty();
+		stubFor(delete(urlEqualTo(GET_ROLE + GET_FUNCTION)).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		userRoleService.deleteRoleFunction("testroleid", "testrolefunid");
 	}
 	
 	@Test
 	public void addUserRole(){
-		try{
-			String userId = "1810f833-8698-4233-add4-091e34b8703c";
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-		
-			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
-			mockimpl.addUserRole(userId, roleId);
-			Assert.assertEquals(userId, userId);
-			Assert.assertEquals(roleId, roleId);
-			Assert.assertNotNull(mockimpl);
-			logger.info("Successfully add User Role");
-		} catch (Exception e) {
-			logger.info("Exception occured while addUserRole: " + e);			 
-		}
+		setCdsProperty();
+		stubFor(post(urlEqualTo(GET_USER_ROLES+"/testroleid")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		userRoleService.addUserRole("testuser", "testroleid");
+	}
+	
+	private void setCdsProperty() {
+		when(env.getProperty("cdms.client.url")).thenReturn(url);
+		when(env.getProperty("cdms.client.username")).thenReturn(user);
+		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+	}
+	
+	private MLPRole getMLPRole() {
+		MLPRole role=new MLPRole();
+		role.setRoleId("testroleid");
+		role.setName("testname");
+		role.setActive(true);
+		return role;
+	}
+	
+	private MLPRoleFunction getMLPRoleFunction() {
+		MLPRoleFunction roleFunction=new MLPRoleFunction();
+		roleFunction.setRoleFunctionId("testrolefunid");
+		roleFunction.setRoleId("testroleid");
+		roleFunction.setName("testrolefunname");
+		return roleFunction;
 	}
 }

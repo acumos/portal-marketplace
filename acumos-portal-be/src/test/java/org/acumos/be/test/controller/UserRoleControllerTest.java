@@ -39,6 +39,7 @@ import org.acumos.portal.be.service.impl.UserRoleServiceImpl;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -106,30 +107,18 @@ public class UserRoleControllerTest {
 
 	@Test
 	public void getRoleDetailsTest() throws UserServiceException {
-		try {
-			MLRole mlRole = new MLRole();
-			mlRole.setActive(true);
-			mlRole.setName("Admin");
+			MLPRole mlpRole = new MLPRole();
+			mlpRole.setActive(true);
+			mlpRole.setName("Admin");
 			Instant created = Instant.now();
-			mlRole.setCreated(created);
-			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
-			Assert.assertNotNull(mlRole);
-			String roleId = mlRole.getRoleId();
-			Assert.assertEquals(roleId, mlRole.getRoleId());
-			JsonResponse<MLRole> mlRoler = new JsonResponse<>();
-			mlRoler.setResponseBody(mlRole);
-			Mockito.when(userRoleService.getRole(roleId)).thenReturn(mlRole);
-			mlRoler = userRoleController.getRoleDetails(request, roleId, response);
-			Assert.assertNotNull(mlRoler);
-			Assert.assertEquals("Role fetched Successfully", mlRoler.getResponseDetail());
-			Mockito.when(userRoleService.getRole(roleId)).thenReturn(null);
-			mlRoler = userRoleController.getRoleDetails(request, roleId, response);
-			Assert.assertNotNull(mlRoler);
-			Assert.assertEquals("Error Occurred while getRoleDetails()", mlRoler.getResponseDetail());
-
-		} catch (Exception e) {
-			logger.info("Eception while fetching getRoleDetailsTest ", e);
-		}
+			mlpRole.setCreated(created);
+			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			Assert.assertNotNull(mlpRole);
+			String roleId = mlpRole.getRoleId();
+			Mockito.when(userRoleService.getRole(roleId)).thenReturn(mlpRole);
+			JsonResponse<MLRole> successData = userRoleController.getRoleDetails(request, roleId, response);
+			Assert.assertNotNull(successData.getResponseBody());
+			Assert.assertEquals("Role fetched Successfully", successData.getResponseDetail());
 	}
 
 	@Test
@@ -190,32 +179,23 @@ public class UserRoleControllerTest {
 	@Test
 	public void updateRoleTest() {
 		try {
-			MLPRole mlpRole = new MLPRole();
-			mlpRole.setName("Admin");
-			Instant created = Instant.now();
-			mlpRole.setCreated(created);
-			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			MLPRole mlpRole = getMLPRole();
 			Assert.assertNotNull(mlpRole);
-			MLRole mlRole = new MLRole();
-			mlRole.setActive(true);
-			mlRole.setName("Admin");
-			mlRole.setCreated(created);
-			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
 			Assert.assertNotNull(mlRole);
 			String roleId = mlpRole.getRoleId();
 			Assert.assertEquals(roleId, mlRole.getRoleId());
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlpRole);
-
-			JsonRequest<MLPRole> role = new JsonRequest<>();
-			role.setBody(mlpRole);
-			
-			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
-			Mockito.doNothing().when(userRoleService).updateRole(role);
-			value = userRoleController.updateRole(role);
-			
-			Assert.assertNotNull(value);
-			Assert.assertEquals("Role updated Successfuly", value.getResponseDetail());
+			JsonRequest<MLRole> role = new JsonRequest<>();
+			role.setBody(mlRole);
+			Mockito.doNothing().when(userRoleService).updateRole(roleId,mlpRole.getName());
+			JsonResponse<Object> successData = userRoleController.updateRole(roleId,role);
+			Assert.assertNotNull(successData);
+			role.setBody(null);
+			Mockito.doNothing().when(userRoleService).updateRole(roleId,mlpRole.getName());
+			JsonResponse<Object> failedData = userRoleController.updateRole(roleId,role);
+			Assert.assertNotNull(failedData);
 		} catch (Exception e) {
 			logger.info("Eception while fetching updateRoleTest ", e);
 		} catch (UserServiceException e) {
@@ -226,17 +206,9 @@ public class UserRoleControllerTest {
 	@Test
 	public void deleteRoleTest() {
 		try {
-			MLPRole mlpRole = new MLPRole();
-			mlpRole.setName("Admin");
-			Instant created = Instant.now();
-			mlpRole.setCreated(created);
-			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			MLPRole mlpRole = getMLPRole();
 			Assert.assertNotNull(mlpRole);
-			MLRole mlRole = new MLRole();
-			mlRole.setActive(true);
-			mlRole.setName("Admin");
-			mlRole.setCreated(created);
-			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
 			Assert.assertNotNull(mlRole);
 			String roleId = mlpRole.getRoleId();
 			Assert.assertEquals(roleId, mlRole.getRoleId());
@@ -246,15 +218,9 @@ public class UserRoleControllerTest {
 			JsonRequest<MLRole> role = new JsonRequest<>();
 			role.setBody(mlRole);
 			Assert.assertNotNull(role);
-			
-			
-			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
 			Mockito.doNothing().when(userRoleService).deleteRole(roleId);
-			value = userRoleController.deleteRole(role);
-			
+			value = userRoleController.deleteRole(roleId,role);
 			Assert.assertNotNull(value);
-			Assert.assertEquals("Role deleted Successfuly", value.getResponseDetail());
-					
 		} catch (Exception e) {
 			
 			logger.info("Eception while fetching deleteRoleTest ", e);
@@ -340,40 +306,21 @@ public class UserRoleControllerTest {
 	}
 
 	@Test
-	public void updateRoleFunctionTest() {
+	public void updateRoleFunctionTest() throws UserServiceException {
 		try {
-			MLRole mlRole = new MLRole();
-			mlRole.setActive(true);
-			mlRole.setName("Admin");
-			Instant created = Instant.now();
-			mlRole.setCreated(created);
-			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			MLRole mlRole = PortalUtils.convertToMLRole(getMLPRole());
 			Assert.assertNotNull(mlRole);
-			MLPRoleFunction mlpRoleFunction = new MLPRoleFunction();
-			mlpRoleFunction.setCreated(created);
-			mlpRoleFunction.setName("Role NAme");
-			mlpRoleFunction.setRoleFunctionId("123");
+			MLPRoleFunction mlpRoleFunction =getMLPRoleFunction();
 			Assert.assertNotNull(mlpRoleFunction);
-			MLPRoleFunction updateMlRoleFunction = new MLPRoleFunction();
-			updateMlRoleFunction.setCreated(created);
-			updateMlRoleFunction.setName("updated Role NAme");
-			updateMlRoleFunction.setRoleFunctionId(mlpRoleFunction.getRoleFunctionId());
-			Assert.assertNotNull(updateMlRoleFunction);
-			JsonResponse<Object> value = new JsonResponse<>();
-			value.setResponseBody(updateMlRoleFunction);
-
 			JsonRequest<MLPRoleFunction> mlpRoleFunctionReq = new JsonRequest<>();
-			mlpRoleFunctionReq.setBody(updateMlRoleFunction);
+			mlpRoleFunctionReq.setBody(mlpRoleFunction);
 			Assert.assertNotNull(mlpRoleFunctionReq);
-			userRoleService.updateRoleFunction(mlpRoleFunctionReq);
-			userRoleController.updateRoleFunction(mlpRoleFunctionReq);
+			//userRoleService.updateRoleFunction(mlpRoleFunctionReq);
+			JsonResponse<Object> response=userRoleController.updateRoleFunction(mlpRoleFunctionReq);
 			logger.info("Successfully updated the role function details ");
-			Assert.assertNotNull(value);
+			Assert.assertNotNull(response);
 		} catch (Exception e) {
 			logger.info("Eception while fetching updateRoleFunctionTest ", e);
-		} catch (UserServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -551,4 +498,21 @@ public class UserRoleControllerTest {
 		user.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 		return user;
 	}
+	
+	private MLPRole getMLPRole() {
+		MLPRole role=new MLPRole();
+		role.setRoleId("testroleid");
+		role.setName("testname");
+		role.setActive(true);
+		return role;
+	}
+	
+	private MLPRoleFunction getMLPRoleFunction() {
+		MLPRoleFunction roleFunction=new MLPRoleFunction();
+		roleFunction.setRoleFunctionId("testrolefunid");
+		roleFunction.setRoleId("testroleid");
+		roleFunction.setName("testrolefunname");
+		return roleFunction;
+	}
+	
 }
