@@ -37,8 +37,7 @@ also possible to on-board models pre-dockerized outside Acumos.
 
 All of the models that a user has on-boarded can be viewed from the :doc:`My
 Models <portal-my-models>` page. Depending on their history, the models may exist in one
-for four sections: MY UNPUBLISHED MODELS, MY MODELS: PUBLISHED TO COMPANY MARKETPLACE,
-MY MODELS: PUBLISHED TO PUBLIC MARKETPLACE, and MY DELETED MODELS    .
+for three sections: MY UNPUBLISHED MODELS,PUBLISHED TO MARKETPLACE, and MY DELETED MODELS    .
 
 Models published to Company are visible only to account holders on your local 
 Acumos instance. This can be thought of as “inside the instance firewall” 
