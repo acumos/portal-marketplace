@@ -27,11 +27,6 @@ angular
 				{
 					templateUrl : './app/marketplace-home/home.template.html',
 					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog, waitservice, browserStorageService) {
-							  /*if(localStorage.getItem("homeRefresh") == 'Yes'){
-								  localStorage.setItem("homeRefresh",'No');
-								  $state.go("home");
-								  location.reload();
-							  };*/
 							  $scope.myInterval = 3000;
 							  $scope.noWrapSlides = false;
 							  $scope.active = 0;
@@ -43,22 +38,14 @@ angular
 							  $scope.imageUrls = {};
 							  $scope.mlsolution = [];
 							  $scope.homeSolutions = [];
-							  //$scope.loginUserID = "";
-							  /*changes for demo - images shown according to the solution name*/
-							  /*$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
-								$scope.imgURLemotion ="images/emotion_classifier.png";
-								$scope.imgURLthreat ="images/threat_analytics.png";
-								$scope.imgURLvideo ="images/video_analytics.png";
-								$scope.imgURLdefault ="images/default-model.png";
-								$scope.imgURLChat = "images/ChatBot.png";
-								$scope.imgURLSensitive = "images/Sensitive.png";*/
-								
-							  //$scope.successStories = [];
 							  $scope.banner = [];
 							  var slides = $scope.slides = [];
 							  var currIndex = 0;
 							  var accessTypeFilter = ["PB"];
-							  if (JSON.parse(browserStorageService.getUserDetail())) {accessTypeFilter = ["OR", "PB"];}
+							  
+							  if (JSON.parse(browserStorageService.getUserDetail())) {
+								  accessTypeFilter = ["OR", "PB"];
+							  }
 							  var dataObj = {
                                       "request_body" : {
                                           "sortBy" : "MR",
@@ -70,7 +57,8 @@ angular
                                               "size" : 8
                                           }
                                       }
-                                  }							  							
+                                  }		
+							  
 							  
 							  /* IOT Changes start */	
 							 
@@ -90,6 +78,7 @@ angular
 								  $scope.loginUserID = "";
 								  
 							  }
+							  
 							  $scope.loadTopCarousel = function() {													 
 								 apiService
 									.getcaurosalDetails($scope.loginUserID)
@@ -260,59 +249,142 @@ angular
 		                            });
 		                         };
 		                         
-		                         /*$scope.go = function go( path ) {
-		                        	 $state.go(path);
-		                         };*/
 		                         
-		                         if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
-		                        	 apiService
-										.insertSolutionDetail(dataObj)
-										.then(
-												function(response) {
-													$scope.homeSolutions.slides = response.data.response_body.content;
+		                         $scope.loadCatalog = function () {
+		                        		$scope.allCatalogList = [];
+		                        		$scope.pageNumber = 0;
+		                        		$scope.requestResultSize = 1000;
 
-													angular.forEach($scope.homeSolutions.slides,function( value, key) {
-														if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
-														{
-															var starPercentage = (value.solutionRatingAvg / 5) * 100;
-															const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
-															$scope.startRatingWidth =   starPercentageRounded + "%"  	;
-															
-														}
-														 value.solutionRatingAvg = $scope.startRatingWidth;
-													});
-												},
-												function(error) {
-													$scope.status = 'Unable to load data: '
-															+ error.data.error;
-													
-												});
-		                         } else {
-		                        	 apiService
-										.insertPublicSolutionDetail(dataObj)
-										.then(
-												function(response) {
-													$scope.homeSolutions.slides = response.data.response_body.content;
+		                        		var reqObject = {
+		                        			"request_body": {
+		                        				"fieldToDirectionMap": {
+		                        					"created": "DESC"
+		                        				},
+		                        				"page": $scope.pageNumber,
+		                        				"size": $scope.requestResultSize
+		                        			},
+		                        			"request_from": "string",
+		                        			"request_id": "string"
+		                        		};
 
-													angular.forEach($scope.homeSolutions.slides,function( value, key) {
-														if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
-														{
-															var starPercentage = (value.solutionRatingAvg / 5) * 100;
-															const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
-															$scope.startRatingWidth =   starPercentageRounded + "%"  	;
-															
-														}
-														 value.solutionRatingAvg = $scope.startRatingWidth;
+		                        		$scope.response_body = [];
+
+		                        		if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
+		                        			apiService
+		                        				.getCatalogsbyUser(reqObject, $scope.loginUserID)
+		                        				.then(
+		                        					function successCallback(response) {
+		                        						$scope.CatalogList = response.data.response_body.content;
+		                        						$scope.allCatalogList = [];
+		                        						$scope.catalogIds = [];
+		                        						var favoriteCatalogs = $scope.CatalogList.filter(function (item) {
+		                        							return item.favorite;
+		                        						});
+		                        						var catalogsToMap = (favoriteCatalogs.length > 0) ? favoriteCatalogs : $scope.CatalogList;
+
+		                        						$scope.favCatalogIds = catalogsToMap.map(function (item) {
+		                        							return item.catalogId;
+		                        						});
+
+		                        						$scope.catalogIds = $scope.CatalogList.map(function (item) {
+		                        							return item.catalogId;
+		                        						});
+
+		                        						$scope.allCatalogList = $scope.CatalogList.map(function (item) {
+		                        							return {
+		                        								"name": item.name,
+		                        								"catalogId": item.catalogId
+		                        							};
+		                        						});
+
+		                        						$scope.allCatalogIds = $scope.catalogIds;
+		                        						$scope.getModelCarousel();
+		                        					});
+		                        		} else {
+		                        			apiService
+		                        				.getPublicCatalogs(reqObject)
+		                        				.then(
+		                        					function successCallback(response) {
+		                        						$scope.CatalogList = response.data.response_body.content;
+		                        						$scope.allCatalogList = [];
+		                        						$scope.catalogIds = [];
+		                        						for (var i = 0; i < $scope.CatalogList.length; i++) {
+		                        							$scope.catalogIds.push($scope.CatalogList[i].catalogId);
+		                        							$scope.allCatalogList.push({
+		                        								"name": $scope.CatalogList[i].name,
+		                        								"catalogId": $scope.CatalogList[i].catalogId
+		                        							});
+		                        						}
+		                        						$scope.allCatalogIds = $scope.catalogIds;
+		                        						$scope.getModelCarousel();
+		                        					});
+		                        		}
+		                        	}
+		                         $scope.loadCatalog();
+		                        	
+		                         $scope.getModelCarousel = function (){
+		                        	 $scope.allCatalogIdsStr = $scope.allCatalogIds.toString();
+		                        	 var catalogDataObj = {
+		                                      "request_body" : {
+		                                          "sortBy" : "MR",
+		                                          "active": true,
+		                                          "catalogIds": $scope.allCatalogIdsStr,
+		                                          "pageRequest" : {
+		                                              "fieldToDirectionMap": { "modified" : "DESC" },
+		                                              "page" : 0,
+		                                              "size" : 8
+		                                          }
+		                                      }
+		                                  }
+		                        	 
+		                        	 if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
+			                        	 apiService
+											.insertSolutionDetail(catalogDataObj)
+											.then(
+													function(response) {
+														$scope.homeSolutions.slides = response.data.response_body.content;
+
+														angular.forEach($scope.homeSolutions.slides,function( value, key) {
+															if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
+															{
+																var starPercentage = (value.solutionRatingAvg / 5) * 100;
+																const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+																$scope.startRatingWidth =   starPercentageRounded + "%"  	;
+																
+															}
+															 value.solutionRatingAvg = $scope.startRatingWidth;
+														});
+													},
+													function(error) {
+														$scope.status = 'Unable to load data: '
+																+ error.data.error;
+														
 													});
-												},
-												function(error) {
-													$scope.status = 'Unable to load data: '
-															+ error.data.error;
-													
-												});
+			                         } else {
+			                        	 apiService
+											.insertPublicSolutionDetail(dataObj)
+											.then(
+													function(response) {
+														$scope.homeSolutions.slides = response.data.response_body.content;
+
+														angular.forEach($scope.homeSolutions.slides,function( value, key) {
+															if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
+															{
+																var starPercentage = (value.solutionRatingAvg / 5) * 100;
+																const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+																$scope.startRatingWidth =   starPercentageRounded + "%"  	;
+																
+															}
+															 value.solutionRatingAvg = $scope.startRatingWidth;
+														});
+													},
+													function(error) {
+														$scope.status = 'Unable to load data: '
+																+ error.data.error;
+														
+													});
+			                         }
 		                         }
-		                         
-		                         
 			 						
 		                         $scope.onClickModel = function(id, ownerId){
 		 							/*if($scope.loginUserID == ownerId){
