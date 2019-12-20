@@ -23,6 +23,7 @@ package org.acumos.portal.be.service.impl;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCatalog;
@@ -30,36 +31,74 @@ import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.CatalogService;
+import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import io.jsonwebtoken.Claims;
 
 @Service
 public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogService {
 
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	@Autowired
+	UserRoleService userRoleService;
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	@Override
-	public RestPageResponse<MLCatalog> getCatalogs(String userId, RestPageRequest pageRequest) {
+	public RestPageResponse<MLCatalog> getCatalogs(String userId,String authorization,RestPageRequest pageRequest) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		boolean isAdmin=false; 
+		String apiToken = authorization;
+		apiToken = apiToken.replace("Bearer ", "");
+		final Claims claims = jwtTokenUtil.getClaimsFromToken(apiToken);
+		List<Map<String,String>> roles=(List<Map<String, String>>) claims.get("role");
+		for(Map<String,String> role:roles) {
+			if(role.get("name").equals(PortalConstants.ADMIN_USER)) {
+				isAdmin=true;
+				break;
+			}
+		}
 		RestPageResponse<MLPCatalog> response = dataServiceRestClient.getCatalogs(pageRequest);
-		if (response != null) {
+		if (response != null && !(PortalUtils.isEmptyOrNullString(apiToken))) {
 			List<MLPCatalog> mlpCatalogs = response.getContent();
 			ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
 			MLCatalog mlCatalog;
 			List<String> favorites = (PortalUtils.isEmptyOrNullString(userId)) ? new ArrayList<>()
 					: dataServiceRestClient.getUserFavoriteCatalogIds(userId);
-			for (MLPCatalog mlpCatalog : mlpCatalogs) {
-				mlCatalog = new MLCatalog(mlpCatalog);
-				mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
-				mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
-				mlCatalogs.add(mlCatalog);
+			if(isAdmin) {
+				for (MLPCatalog mlpCatalog : mlpCatalogs) {
+					mlCatalog = new MLCatalog(mlpCatalog);
+					mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+					mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
+					mlCatalogs.add(mlCatalog);
+				}
+			}else {
+				List<String> catalogIds=userRoleService.getUserAccessCatalogIds(userId);
+				for (MLPCatalog mlpCatalog : mlpCatalogs) {
+					for(String catalogId : catalogIds) {
+						if(catalogId.equals(mlpCatalog.getCatalogId())) {
+							mlCatalog = new MLCatalog(mlpCatalog);
+							mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+							mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
+							mlCatalogs.add(mlCatalog);
+						}
+					}
+				}
 			}
 			out = PortalUtils.convertRestPageResponse(response, mlCatalogs);
 		}

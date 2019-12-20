@@ -21,13 +21,17 @@
 package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -47,6 +51,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.ApiOperation;
@@ -75,7 +80,17 @@ public class UserRoleController extends AbstractController {
 		List<MLRole> mlRoles = null;
 		JsonResponse<List<MLRole>> data = new JsonResponse<>();
 		try {
-			mlRoles = userRoleService.getAllRoles();
+			List<MLRole> mlRoleList = userRoleService.getAllRoles();
+			if (!PortalUtils.isEmptyList(mlRoleList)) {
+				mlRoles = new ArrayList<>();
+				for (MLRole role : mlRoleList) {
+					List<MLPRoleFunction> mlpRoleFunctionList=userRoleService.getRoleFunctions(role.getRoleId());
+					List<String> roleFunctionName=mlpRoleFunctionList.stream().map(MLPRoleFunction::getName).collect(Collectors.toList());
+					MLRole mlRole = role;
+					mlRole.setPermissionList(roleFunctionName);
+					mlRoles.add(mlRole);
+				}
+			}
 			if (mlRoles != null) {
 				data.setResponseBody(mlRoles);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -113,31 +128,34 @@ public class UserRoleController extends AbstractController {
 			HttpServletResponse response) {
 		
 		roleId = SanitizeUtils.sanitize(roleId);
-		
-		MLRole roleDetail = null;
 		JsonResponse<MLRole> data = new JsonResponse<>();
 		try {
-			if (!PortalUtils.isEmptyOrNullString(roleId)) {
-				roleDetail = userRoleService.getRole(roleId);
-			}
-			if (roleDetail != null) {
-				data.setResponseBody(roleDetail);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Role fetched Successfully");
-				log.debug("getRoleDetails :  ", roleDetail);
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("Error Occurred while getRoleDetails()");
-			}
-		} catch (UserServiceException e) {
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-			data.setResponseDetail("Exception Occurred Fetching role details for Market Place user");
-			log.error("Error Occurred while getRoleDetails() :", e);
-		} catch (Exception e) {
+				MLRole mlRole = PortalUtils.convertToMLRole(userRoleService.getRole(roleId));
+				if(mlRole !=null) {
+					List<MLPRoleFunction> roleFunctions=userRoleService.getRoleFunctions(roleId);
+					List<MLPCatalog> catalogs=userRoleService.getRoleCatalogs(roleId);
+					List<String> roleFunctionList=roleFunctions.stream().map(MLPRoleFunction::getName).collect(Collectors.toList());
+					List<String> catalogList=catalogs.stream().map(MLPCatalog::getCatalogId).collect(Collectors.toList());
+					mlRole.setPermissionList(roleFunctionList);
+					mlRole.setCatalogIds(catalogList);
+					data.setResponseBody(mlRole);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Role fetched Successfully");
+					log.debug("getRoleDetails :  ", mlRole);
+				}
+				else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					data.setResponseDetail("Error Occurred while getRoleDetails()");
+				}
+			
+		}catch (UserServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while fetching role details");
-			log.error("Exception Occurred Fetching role Detail for roleId :" + "roleId",
-					e);
+			log.error("Exception Occurred Fetching role Detail for roleId :" + roleId ,e);
+		}catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception occured while fetching role details");
+			log.error("Exception Occurred Fetching role Detail for roleId :" + roleId ,e);
 		}
 		return data;
 	}
@@ -171,7 +189,10 @@ public class UserRoleController extends AbstractController {
 					mlpFunction = userRoleService.createRoleFunction(roleFunction);
 				}
 			}
-
+			if(!PortalUtils.isEmptyList(role.getBody().getCatalogIds())) {
+				userRoleService.addCatalogsInRole(role.getBody().getCatalogIds(),mlpRole.getRoleId());
+			}
+			
 			if (mlpFunction != null) {
 				data.setResponseBody(mlpRole);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -201,14 +222,24 @@ public class UserRoleController extends AbstractController {
 	@ApiOperation(value = "Update a role.", response = MLPRole.class)
 	@RequestMapping(value = { APINames.UPDATE_ROLE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<Object> updateRole(@RequestBody JsonRequest<MLPRole> role) {
+	public JsonResponse<Object> updateRole(@RequestParam(value = "roleId", required = true) String roleId,@RequestBody JsonRequest<MLRole> role) {
 		JsonResponse<Object> response = new JsonResponse<>();
 		try {
+			roleId=SanitizeUtils.sanitize(roleId);
 			if (role != null && role.getBody() != null) {
-				userRoleService.updateRole(role);
+				userRoleService.updateRole(roleId,role.getBody().getName());
+				if(!PortalUtils.isEmptyList(role.getBody().getPermissionList()))
+					userRoleService.updateModulePermission(roleId,role.getBody().getPermissionList());
+				if(!PortalUtils.isEmptyList(role.getBody().getCatalogIds()))
+					userRoleService.updateCatalogsInRole(role.getBody().getCatalogIds(), roleId);
 				response.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				response.setResponseDetail("Role updated Successfuly");
 				log.debug("updateRole :  ", role.getBody());
+			}
+			else {
+				response.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setResponseDetail("Role updation Failed");
+				log.debug("updateRole Failed :  ", role.getBody());
 			}
 		} catch (UserServiceException e) {
 			response.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
@@ -228,16 +259,27 @@ public class UserRoleController extends AbstractController {
 	 * @return Success or error message
 	 */
 	@ApiOperation(value = "Delete a role.", response = MLPRole.class)
-	@RequestMapping(value = { APINames.DELETE_ROLE }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.DELETE_ROLE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<Object> deleteRole(@RequestBody JsonRequest<MLRole> role) {
+	public JsonResponse<Object> deleteRole(@PathVariable("roleId") String roleId, @RequestBody JsonRequest<MLRole> role) {
 		JsonResponse<Object> response = new JsonResponse<>();
+		roleId=SanitizeUtils.sanitize(roleId);
 		try {
-			if (!PortalUtils.isEmptyOrNullString(role.getBody().getRoleId())) {
-				userRoleService.deleteRole(role.getBody().getRoleId());
+				List<MLPUser> userList=userRoleService.getRoleUsers(roleId);
+				List<String> roleUserList=userList.stream().map(MLPUser::getUserId).collect(Collectors.toList());
+				if(!PortalUtils.isEmptyList(roleUserList))
+					userRoleService.dropUsersInRole(roleUserList, roleId);
+				List<MLPRoleFunction> mlpRoleFunctionList=userRoleService.getRoleFunctions(roleId);
+				List<MLPCatalog> catalogs=userRoleService.getRoleCatalogs(roleId);
+				List<String> catalogList=catalogs.stream().map(MLPCatalog::getCatalogId).collect(Collectors.toList());
+				if(!PortalUtils.isEmptyList(catalogList))
+					userRoleService.dropCatalogsInRole(catalogList, roleId);
+				for(MLPRoleFunction roleFunction:mlpRoleFunctionList) {
+					userRoleService.deleteRoleFunction(roleId, roleFunction.getRoleFunctionId());
+				}
+				userRoleService.deleteRole(roleId);
 				response.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				response.setResponseDetail("Role deleted Successfuly");
-			}
 		} catch (UserServiceException e) {
 			response.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			response.setResponseDetail("Exception Occurred while deleteRole()");
@@ -330,7 +372,7 @@ public class UserRoleController extends AbstractController {
 		JsonResponse<Object> response = new JsonResponse<>();
 		try {
 			if (mlpRoleFunction != null && mlpRoleFunction.getBody() != null) {
-				userRoleService.updateRoleFunction(mlpRoleFunction);
+				userRoleService.updateRoleFunction(mlpRoleFunction.getBody());
 				response.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				response.setResponseDetail("RoleFunction updated Successfuly");
 				log.debug("updateRoleFunction() :");

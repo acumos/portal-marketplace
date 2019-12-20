@@ -111,6 +111,7 @@ public class APINames {
 
 	// Catalog APIs
 	public static final String GET_CATALOGS = "/catalogs";
+	public static final String GET_USER_CATALOGS = "/catalogs/{userId}";
 	public static final String GET_PUBLIC_CATALOGS = GET_CATALOGS + "/public";
 	public static final String SEARCH_CATALOGS = GET_CATALOGS + "/search";
 	public static final String CREATE_CATALOG = "/catalog";
@@ -179,7 +180,7 @@ public class APINames {
 
 	// Role APIs for MarketPlace user
 	public static final String ROLES = "/roles";
-	public static final String ROLES_DEATAILS = "/roles/{roleId}";
+	public static final String ROLES_DEATAILS = "/role/{roleId}";
 	public static final String CREATE_ROLE = "/createRole";
 	public static final String UPDATE_ROLE = "/updateRole/{roleId}";
 	public static final String DELETE_ROLE = "/deleteRole/{roleId}";
