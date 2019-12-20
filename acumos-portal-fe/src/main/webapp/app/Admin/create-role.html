@@ -1,0 +1,49 @@
+
+<md-dialog aria-label="Create New Role" class="cg-dialog-admin-role">
+		<!-- <form ng-cloak> --> <md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Create New Role</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click='closePopup()'>
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<div class="md-dialog-content">
+			<div class="admin-row3 admin-row1">
+				<div>
+					<md-input-container class="md-block"> <label
+						class='md-required'>Role Name</label> <input type="text"
+						ng-model='roleName' /> </md-input-container>
+				</div>
+			</div>
+			<div class="font600 admin-button-row1">User Permission</div>	
+		 			
+			<div class="admin-row1 select-control">
+				<span class='md-required'></span>
+				<md-select ng-model="permissions" placeholder="select" class="md-no-underline admin-ddl admin-change-role-ddl" multiple="">
+					<div>
+						<div class="custom-dropdown-all"> 
+						<md-checkbox ng-model="allPermisions" ng-true="true" ng-click="allPermissionsSelected(allPermisions)"> All</md-checkbox>
+						</div>
+					<md-option value="{{val.value}}" ng-repeat='val in permissionList' ng-selected="val.selected">{{val.permission}}</md-option>
+					</div>
+				</md-select>				
+			</div>
+			<br/> 
+			<div class="admin-button-row1"><span>Catalog Permission <sup class="reqfield">*</sup></span></div>
+				<div class="user-detail-container">
+					<md-checkbox class="catalog-item" ng-value="true" ng-model="selectAllCatalogs" ng-click="checkAllRoles(!selectAllCatalogs)"><strong> Select All </strong></md-checkbox>
+					<div class="catalogs-list-container"  ng-repeat="(key,catalogGroup) in allCatalogList">
+						<div class="sectiontitle6 fullwidth"><label ><span class="md-subhead ">{{key}}</span></label></div>
+						<md-checkbox class="catalog-item" ng-model="catalog.checked" ng-click="toggleCatalogSelection(catalog.catalogId)" ng-repeat="catalog in catalogGroup" ng-value="true" title="{{catalog.name}}"> {{catalog.name}}</md-checkbox>
+					</div>
+				</div>
+			</div>
+
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<button ng-click='closePopup()'
+				class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+			<button ng-click='addRole(roleName, permissions)' ng-disabled="!selectedCatalogList.length || !roleName || !permissions.length" class="mdl-button mdl-js-button btn-primary"><span ng-if="roleId">Update</span><span ng-if="!roleId">Create</span></button>
+		</div>
+		</md-dialog-actions></md-dialog>
