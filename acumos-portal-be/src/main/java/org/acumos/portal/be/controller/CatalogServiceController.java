@@ -43,10 +43,10 @@ import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,15 +64,16 @@ public class CatalogServiceController extends AbstractController {
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@ApiOperation(value = "Fetches catalogs, optionally sorted", response = MLPCatalog.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.GET_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.GET_USER_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,
-			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, @RequestParam(required = false) String userId, HttpServletResponse response) {
+	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,@RequestHeader("Authorization") String authorization,
+			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, @PathVariable String userId, HttpServletResponse response) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> catalogs = null;
 		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
+		userId = SanitizeUtils.sanitize(userId);
 		try {
-			catalogs = catalogService.getCatalogs(userId, pageRequestJson.getBody());
+			catalogs = catalogService.getCatalogs(userId,authorization,pageRequestJson.getBody());
 			if (catalogs != null) {
 				data.setResponseBody(catalogs);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
