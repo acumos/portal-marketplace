@@ -47,16 +47,7 @@ public class MLRole {
 	private Instant modified;
 	private List<String> permissionList;
 	private int roleCount;
-	private List<String> catalogIds;
 	
-	public List<String> getCatalogIds() {
-		return catalogIds;
-	}
-
-	public void setCatalogIds(List<String> catalogIds) {
-		this.catalogIds = catalogIds;
-	}
-
 	public String getRoleId() {
 		return roleId;
 	}
@@ -110,5 +101,6 @@ public class MLRole {
 	public void setRoleCount(int roleCount) {
 		this.roleCount = roleCount;
 	}
+	
 
 }
