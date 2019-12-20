@@ -424,6 +424,71 @@ limitations under the License.
 						</table>
 						</div>
 					</div>
+					
+					<div class="mdl-tabs__panel" id="tab10-panel">
+					
+						<div class="admin-box1 admin-tab-heading">
+							<span class="admin-title2">Role Management</span> <span>
+
+								<button class="mdl-button mdl-js-button btn-secondary"
+									ng-click='addNewRole()'>
+									<span class="admin-btn-add"></span> Create New Role
+								</button>
+							</span>
+						</div>
+						<div class="posrel"><content-loader ng-show="showRoleLoader"></content-loader>
+						<div class="admin-button-row1 pull-right">
+							<div>								
+								<div
+									class="mdl-textfield mdl-js-textfield">
+									<input class="mdl-textfield__input adminsearchicon" type="text"
+										ng-model='searchRole' placeholder="Search By Role Name">
+								</div>
+							</div>
+						</div>
+						  
+						<table
+							class="mdl-data-table mdl-js-data-table mdl-shadow--2dp scroll-table clear_both">
+							<colgroup class="fullwidth">
+								<col>
+								<col>
+								<col>
+							</colgroup>
+							<thead>
+								<tr>
+									<th width="15%">Role Name</th>
+									<th width="50%">Module Permission</th>
+									<th width="25%">Action</th>									
+								</tr>
+							</thead>
+
+							<tbody ng-repeat="val in ( filteredRole = allRoles | filter : searchRole )">
+								<tr>
+									<td class="mdl-data-table__cell--non-numeric">{{val.name}}</td>
+									<td  class="mdl-data-table__cell--non-numeric">{{val.moduleList}}</td>
+									<td  class="mdl-data-table__cell--non-numeric">
+										<button  class="mdl-button mdl-js-button mdl-button--icon" ng-click="addNewRole(val);">
+											<span class="gridicon-edit"></span>
+										</button>
+										<button class="md-icon-button md-primary md-button md-ink-ripple" type="button"  aria-label="Delete" title="Delete" ng-click="confirmDeleteRole()">
+											<span class="gridicon-delete"></span>															  
+										</button>
+									</td>
+								</tr>
+								
+							</tbody>
+							<tbody ng-if="filteredRole.length == 0">
+								<tr class="alert c-info text-center">
+									<td class="text-center" colspan="5"><strong>No
+											Results Found</strong></td>
+								</tr>
+								
+								
+							</tbody>
+						
+						</table>
+						</div>
+					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
 						<div class="admin-tab-heading">
 							<span class="admin-title2">Site Content</span>
@@ -938,8 +1003,8 @@ limitations under the License.
 										<div class="fed-row1">
 											<div class="fedrow-cell1">
 												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
-												<button class="mdl-button mdl-js-button btn-secondary btn-gap"
-												ng-disabled="disableSnapshotButton" ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>												
+												<button class="mdl-button mdl-js-button btn-secondary btn-gap" 
+												ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>												
 											</div>
 											<div class="fed-row2">
 												<div class="fed-srch-container">
@@ -980,7 +1045,7 @@ limitations under the License.
 													<tr>
 														<td>
 															<md-checkbox
-																ng-model="snapshot.checked" ng-change="removeSelectAllSnapshot()">
+																ng-model="snapshot.checked" ng-click="removeSelectAllSnapshot()">
 															</md-checkbox>
 														</td>
 														<td>
@@ -1122,8 +1187,8 @@ limitations under the License.
 										</div>
 										<div class="fed-row1">
 												<div class="fedrow-cell1">
-														<button class="mdl-button mdl-js-button btn-primary"  ng-click="confirmCreateRestoreArchive('restore', allRepoArchives, true)" ng-disabled="disableArchiveButton">Restore</button>
-														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)" ng-disabled="disableArchiveButton">Delete</button>											
+														<button class="mdl-button mdl-js-button btn-primary"  ng-click="confirmCreateRestoreArchive('restore', allRepoArchives, true)">Restore</button>
+														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)">Delete</button>											
 												</div>
 												<div class="fed-row2">
 													<div class="fed-srch-container">
@@ -1147,7 +1212,7 @@ limitations under the License.
 												<thead>
 													<tr>
 														<th>
-														<md-checkbox ng-model="checkedArchive" ng-change="checkAllArchives(checkedArchive)"></md-checkbox>
+														<md-checkbox ng-model="checkedArchive" ng-click="checkAllArchives(checkedArchive)"></md-checkbox>
 														</th>
 														<!-- <th ng-click="orderArchives='backupName';reverseSortArchives = !reverseSortArchives">
 															Backup Name
@@ -1177,7 +1242,7 @@ limitations under the License.
 													<tr> 
 														<td>															
 															<md-checkbox
-																	ng-model="archive.checked" ng-change="removeSelectAllArchives()">
+																	ng-model="archive.checked" ng-click="removeSelectAllArchives()()">
 																</md-checkbox>
 															</label>
 														</td>

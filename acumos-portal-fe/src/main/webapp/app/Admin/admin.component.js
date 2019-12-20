@@ -243,6 +243,7 @@ angular.module('admin').filter('abs', function () {
                             for(var i=0; i< $scope.allRoles.length; i++){
                             	var permissionList = $scope.allRoles[i].permissionList;
                             	$scope.moduleList = '';
+<<<<<<< Updated upstream
                             	if(permissionList[0] && permissionList[0].length >= 4){
                             		var permissions = [];
                             		(permissionList[0]).replace(/"/g, "").split(",").forEach(function(element){ switch(element) { case 'DS': $scope.moduleList += 'Design Studio,'; permissions.push('DS'); break; case 'MP': permissions.push('MP'); $scope.moduleList+=' Marketplace,'; break; case 'OB' :  permissions.push('OB'); $scope.moduleList+=' Onboarding,';   } } );
@@ -250,6 +251,15 @@ angular.module('admin').filter('abs', function () {
                             		$scope.allRoles[i]['permissionList'] = permissions;
                             	} else {
                             		(permissionList).forEach(function(element){ switch(element) { case 'DS': $scope.moduleList+= 'Design Studio,'; break; case 'MP': $scope.moduleList+=' Marketplace,'; break; case 'OB' : $scope.moduleList+=' Onboarding,';   } } );
+=======
+                            	if(permissionList[0] && permissionList[0].length > 0){
+                            		var permissions = [];
+                            		(permissionList[0]).replace(/"/g, "").split(",").forEach(function(element){ switch(element) { case 'DS': $scope.moduleList = 'Design Studio,'; permissions.push('DS'); break; case 'MP': permissions.push('MP'); $scope.moduleList+=' Marketplace,'; break; case 'OB' :  permissions.push('OB'); $scope.moduleList+=' Onboarding,';   } } );
+                            		$scope.allRoles[i]["moduleList"] = ($scope.moduleList).substring(0, $scope.moduleList.length - 1);
+                            		$scope.allRoles[i]['permissionList'] = permissions;
+                            	} else {
+                            		(permissionList).forEach(function(element){ switch(element) { case 'DS': $scope. $scope.moduleList = 'Design Studio,'; break; case 'MP': $scope.moduleList+=' Marketplace,'; break; case 'OB' : $scope.moduleList+=' Onboarding,';   } } );
+>>>>>>> Stashed changes
                             		$scope.allRoles[i]["moduleList"] = ($scope.moduleList).substring(0, $scope.moduleList.length - 1);
                             	}
                             }
@@ -258,6 +268,25 @@ angular.module('admin').filter('abs', function () {
             }
             
            
+<<<<<<< Updated upstream
+=======
+            
+/*            $scope.getpermissionList = function(list){
+            	if(list.length) {
+            		$scope.moduleList = "";
+            		if(angular.isString(list)){
+                		(list[0]).replace(/"/g, "").split(",").forEach(function(element){ switch(element) { case 'DS': $scope.moduleList = 'Design Studio,'; break; case 'MP': $scope.moduleList+=' Marketplace,'; break; case 'OB' : $scope.moduleList+=' Onboarding,';   } } );
+                		return ($scope.moduleList).substring(0, $scope.moduleList.length - 1);
+            		} else {
+            			
+            		}
+
+            	}
+            	else 
+            		return " ";
+            }*/
+            
+>>>>>>> Stashed changes
             getAllRole();
             //API for user count
             function userDetailsFetch() {
@@ -353,7 +382,10 @@ angular.module('admin').filter('abs', function () {
 
                 $scope.permissionList = [{ permission: 'Design Studio', value: 'DS' }, { permission: 'Market Place', value: 'MP' }, { permission: 'On Boarding', value: 'OB' }]
                 $scope.selectedCatalogList = [];
+<<<<<<< Updated upstream
                 $scope.allCatalogList = angular.copy($scope.catList);
+=======
+>>>>>>> Stashed changes
             	if(role){
             		 $scope.roleName = role.name;
                      for (var count = 0; count < $scope.permissionList.length ; count++) {
@@ -362,6 +394,7 @@ angular.module('admin').filter('abs', function () {
                     	 if(role.permissionList.length == 3)
                     		 $scope.allPermisions = true;
                      }
+<<<<<<< Updated upstream
                      
                      apiService.getCatalogsOfRole(role.roleId)
                      .then(
@@ -387,10 +420,23 @@ angular.module('admin').filter('abs', function () {
                          });
 
     				 
+=======
+                     var allcatalogs = Object.keys($scope.allCatalogList);
+    				 for (var i = 0; i < allcatalogs.length ; i++) {
+    	        		for (var j = 0; j < $scope.allCatalogList[allcatalogs[i]].length; j++) {
+    	        			if((role.catalogIds).indexOf($scope.allCatalogList[allcatalogs[i]][j].catalogId) > -1){
+    	        				$scope.allCatalogList[allcatalogs[i]][j].checked = true;
+    	        				$scope.selectedCatalogList.push($scope.allCatalogList[allcatalogs[i]][j].catalogId);
+    	        			}
+    	        			
+    	        		}
+    	        	}
+>>>>>>> Stashed changes
                     $scope.roleId = role.roleId; 
             	} else {
                     $scope.roleName = ''; 
                     $scope.roleId = ''; 
+<<<<<<< Updated upstream
                     $scope.selectedCatalogList = [];
                     $mdDialog.show({
                         templateUrl: '../app/Admin/create-role.html',
@@ -400,6 +446,15 @@ angular.module('admin').filter('abs', function () {
                     });
             	} 
                 
+=======
+            	} 
+                $mdDialog.show({
+                    templateUrl: '../app/Admin/create-role.html',
+                    parent: angular.element(document.body),
+                    scope: $scope.$new(),
+                    clickOutsideToClose: true
+                });
+>>>>>>> Stashed changes
             }
             //Open popup Add Peer
             $scope.showPopupPeer = function (ev) {
@@ -1419,10 +1474,13 @@ angular.module('admin').filter('abs', function () {
                             function(error){console.log('Error :' +error);});*/
             }
             
+<<<<<<< Updated upstream
             $scope.closePopup = function(){
             	$mdDialog.hide();
             }
             
+=======
+>>>>>>> Stashed changes
             //Add Role
             $scope.addRole = function (roleName, permissions) {
                 var roleDetails = {
@@ -1432,12 +1490,19 @@ angular.module('admin').filter('abs', function () {
                         "catalogIds": $scope.selectedCatalogList
                     }
                 }
+<<<<<<< Updated upstream
                 $scope.closePopup();
+=======
+>>>>>>> Stashed changes
                 if(!$scope.roleId){
                     apiService
                     .urlCreateRole(roleDetails)
                     .then(
                         function (response) {
+<<<<<<< Updated upstream
+=======
+                        	$scope.closePoup();
+>>>>>>> Stashed changes
                         	getAllRole();
                         	$scope.selectedCatalogList = [];                           
                             $scope.msg = "Role created successfully.";
@@ -1453,6 +1518,10 @@ angular.module('admin').filter('abs', function () {
                     .updateUserRole($scope.roleId,roleDetails)
                     .then(
                         function (response) {
+<<<<<<< Updated upstream
+=======
+                        	$scope.closePoup();
+>>>>>>> Stashed changes
                         	getAllRole();
                         	$scope.selectedCatalogList = [];                           
                             $scope.msg = "Role updated successfully.";
@@ -1479,7 +1548,11 @@ angular.module('admin').filter('abs', function () {
                     .urlCreateRole(roleDetails)
                     .then(
                         function (response) {
+<<<<<<< Updated upstream
                         	$scope.closePopup();
+=======
+                        	$scope.closePoup();
+>>>>>>> Stashed changes
                         	getAllRole();
                         	$scope.selectedCatalogList = [];                           
                             $scope.msg = "Role created successfully.";
@@ -3493,15 +3566,11 @@ angular.module('admin').filter('abs', function () {
             //will call only when needed
             $scope.getMaintainedBackupLogs = function(){
             	$scope.getAllSnapshot();
-				$scope.getAllArchives();
-				
+				$scope.getAllArchives();				 
             }
             
             $scope.orderSnapshots='backupName';
             $scope.reverseSortbackup = true;
-            $scope.disableSnapshotButton = true;
-            $scope.disableArchiveButton = true;
-            
             $scope.getAllSnapshot = function () {
                 $scope.snapshots = [];
                 $scope.showContentLoader = true;
@@ -3541,22 +3610,17 @@ angular.module('admin').filter('abs', function () {
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
 				}
             }
-           
-           
             
             $scope.checkedSnapshot = false;
-            
             $scope.checkAllSnapshot = function(selected){
             	$scope.selectAllSnapshotStatus = true;
         		for (var i = 0; i < $scope.allRepoSnapshots.length; i++) {
            	        $scope.allRepoSnapshots[i].checked = selected;
-           	        $scope.disableSnapshotButton=!selected;
         		}
             };
             
-            $scope.removeSelectAllSnapshot = function(selected){
+            $scope.removeSelectAllSnapshot = function(){
       		   $scope.selectAllSnapshotStatus = false;
-      		   $scope.disableSnapshotButton = ($scope.allRepoSnapshots.filter(snapshot =>snapshot.checked).length) == 0;
             };
             
             //pagination
@@ -3642,14 +3706,13 @@ angular.module('admin').filter('abs', function () {
             $scope.checkAllArchives = function(selected){
             	$scope.selectAllArchiveStatus = true;
         		for (var i = 0; i < $scope.allRepoArchives.length; i++) {
-           	        $scope.allRepoArchives[i].checked = selected;
-           	        $scope.disableArchiveButton=!selected;
+           	        $scope.allRepoArchives[i].checked = !selected;
         		}
             };
             
             $scope.removeSelectAllArchives = function(){
-            	$scope.selectAllArchiveStatus = false;
-      			$scope.disableArchiveButton = ($scope.allRepoArchives.filter(archive =>archive.checked).length) == 0;   
+      		   $scope.selectAllArchiveStatus = false;
+      		   
             };
             
 			$scope.confirmCreateRestoreArchive = function (action, repositoryName, selectAll) {
@@ -3977,7 +4040,7 @@ angular.module('admin').filter('abs', function () {
                             });
                         }
 						
-                        $scope.deleteIndices = function(indiceName){
+                        $scope.deleteIndices = function(){
                         	var deleteIndiceName = indiceName;
                         	var reqBody = {
                           		  "request_body": {
@@ -4030,7 +4093,49 @@ angular.module('admin').filter('abs', function () {
 			
 			/*** Role management**/
 			
+<<<<<<< Updated upstream
 			
+=======
+			$scope.getAllCatalogs = function(){
+				
+				var reqObject = {											  							
+						"request_body": {
+							"fieldToDirectionMap": {"created":"ASC"},
+					        "page": 0,
+					        "size": 1000
+						  }
+					};
+				$scope.catalogIdsList = [];
+				$scope.showRoleLoader = true;
+				apiService.getCatalogs(reqObject)
+				.then(
+					function successCallback(response) {
+						var resp = response.data.response_body.content;
+						$scope.allCatalogList = {};
+						$scope.showRoleLoader = false;
+						for(var i=0; i<resp.length; i++ ){
+							if(!resp[i].origin){
+								if($scope.allCatalogList['My Company'] === undefined ) {
+									$scope.allCatalogList['My Company'] = [];
+								} else {
+									$scope.allCatalogList['My Company'].push(resp[i]); 
+									$scope.catalogIdsList.push(resp[i].catalogId);
+								}								
+							} else {
+								if($scope.allCatalogList[resp[i].origin] === undefined ) {
+									$scope.allCatalogList[resp[i].origin] = [];
+								} else {
+									$scope.allCatalogList[resp[i].origin].push(resp[i]);
+									$scope.catalogIdsList.push(resp[i].catalogId);
+								}	
+							}
+							
+						}
+						
+					});
+			}
+			$scope.getAllCatalogs();
+>>>>>>> Stashed changes
 			$scope.selectedCatalogList = [];
 			$scope.toggleCatalogSelection = function(catalogid){				
 
@@ -4054,7 +4159,10 @@ angular.module('admin').filter('abs', function () {
 	        		}
 	        	}
 			 }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         }
     })
     .service('fileUploadService', function ($http, $q) {

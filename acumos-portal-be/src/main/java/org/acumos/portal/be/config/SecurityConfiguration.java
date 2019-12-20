@@ -105,9 +105,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/users/userProfileImage/{userId}").permitAll()  
         .antMatchers(HttpMethod.GET, "/admin/version").permitAll()
         .antMatchers("/users/forgetPassword").permitAll()
-        
+        .antMatchers("/role/{roleId}").permitAll()
+        .antMatchers("/updateRole/{roleId}").permitAll()
         .antMatchers(HttpMethod.GET, "/site/content/global/discoverAcumos").permitAll()
-        
+        .antMatchers("/roles").permitAll()
         .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/user/carouseConfig").permitAll()	
         .antMatchers(HttpMethod.GET, "/admin/signup/enabled").permitAll()

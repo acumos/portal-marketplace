@@ -194,7 +194,8 @@ public class APINames {
 	public static final String CREATE_ROLE_FUNCTION = "/createRoleFunction";
 	public static final String UPDATE_ROLE_FUNCTION = "/updateRoleFunction";
 	public static final String DELETE_ROLE_FUNCTION = "/deleteRoleFunction/{roleId}/{roleFunctionId}";
-
+	public static final String GET_ROLE_FUNCTION ="/roleFunction/{roleId}";
+	
 	// Peer APIs for Admin
 	public static final String ADMIN = "/admin";
 	public static final String PEERS_PAGINATED = "/paginatedPeers";

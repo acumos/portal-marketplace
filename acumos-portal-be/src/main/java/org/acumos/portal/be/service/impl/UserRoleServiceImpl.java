@@ -345,9 +345,16 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 		pageRequest.setSize(1000);
 		List<MLPCatalog> catalogs=dataServiceRestClient.getRoleCatalogs(roleId,pageRequest).getContent();
 		List<String> catalogList=catalogs.stream().map(MLPCatalog::getCatalogId).collect(Collectors.toList());
+<<<<<<< Updated upstream
 		if(!PortalUtils.isEmptyList(catalogList)) 
 			dataServiceRestClient.dropCatalogsInRole(catalogList, roleId);
 		dataServiceRestClient.addCatalogsInRole(catalogIds, roleId);
+=======
+		if(!PortalUtils.isEmptyList(catalogIds)) 
+			dataServiceRestClient.dropCatalogsInRole(catalogList, roleId);
+		dataServiceRestClient.addCatalogsInRole(catalogIds, roleId);
+		
+>>>>>>> Stashed changes
 	}
 
 	@Override
