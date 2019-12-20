@@ -21,10 +21,10 @@
 package org.acumos.be.test.service.impl;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.delete;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.put;
-import static com.github.tomakehurst.wiremock.client.WireMock.delete;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
@@ -42,13 +42,17 @@ import java.util.Map;
 
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.ConfigConstants;
+import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.impl.CatalogServiceImpl;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
+import org.acumos.portal.be.transport.MLRole;
 import org.apache.http.HttpStatus;
 import org.junit.Rule;
 import org.junit.Test;
@@ -61,6 +65,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(SpringRunner.class)
@@ -76,6 +82,9 @@ public class CatalogServiceImplTest {
 
 	@Autowired
 	private CatalogServiceImpl catalogService;
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 
 	private static final String VARIABLE = "/%s";
 	private static final String CCDS_PATH = "/ccds";
@@ -97,36 +106,9 @@ public class CatalogServiceImplTest {
 	private static final String ADD_DROP_FAVORITES_PATH = CATALOG_ID_PATH + USER_FAVORITE_PATH;
 	private static final String PEER_PATH = "/peer";
 	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
-
+	private static final String CATALOG_USER_ACCESS_PATH = CCDS_PATH + "/access/user/%s/catalog";
 	@Test
-	public void getCatalogsTest() {
-		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"content\":" + "[{\"created\": \"2019-04-05T20:47:03Z\","
-						+ "\"modified\": \"2019-04-05T20:47:03Z\","
-						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
-						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
-						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}],"
-						+ "\"last\":true," + "\"totalPages\":1," + "\"totalElements\":1," + "\"size\":9,"
-						+ "\"number\":0," + "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
-						+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
-						+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
-
-		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
-
-		RestPageResponse<MLCatalog> response = catalogService.getCatalogs(null, getTestRestPageRequest());
-		assertValidRestPageResponse(response);
-		List<MLCatalog> catalogs = response.getContent();
-		assertEquals(catalogs.size(), 1);
-		MLCatalog catalog = catalogs.get(0);
-		assertNotNull(catalog);
-		assertFalse(catalog.isFavorite());
-	}
-	
-	@Test
-	public void getCatalogsWithUserIdTest() {
+	public void getCatalogsWithUserIdTest() throws JsonProcessingException {
 		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.withBody("{\"content\":" + "[{\"created\": \"2019-04-05T20:47:03Z\","
@@ -146,14 +128,51 @@ public class CatalogServiceImplTest {
 		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, "testUser")))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
+		stubFor(get(urlEqualTo(String.format(CATALOG_USER_ACCESS_PATH,"testUser")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
 
-		RestPageResponse<MLCatalog> response = catalogService.getCatalogs("testUser", getTestRestPageRequest());
+		MLPUser userDetails = new MLPUser();
+		userDetails.setFirstName("testuser");
+		userDetails.setLastName("Poll");
+		userDetails.setLoginName("testuser");
+		userDetails.setLoginHash("!Acumos@73825");
+		userDetails.setEmail("testuser@techmahindra.com");
+		userDetails.setUserId("testuser");
+		userDetails.setActive(true);
+		userDetails.setCreated(Instant.now());
+		userDetails.setModified(Instant.now());
+		
+		MLPRole role=new MLPRole();
+		role.setRoleId("testroleid");
+		role.setName("Admin");
+		role.setActive(true);
+		List<MLPRole> roleList=new ArrayList<>();
+		roleList.add(role);
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStrRes = Obj.writeValueAsString(roleList);
+		stubFor(get(urlEqualTo("/ccds/user/testuser/role")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		String authorization=jwtTokenUtil.generateToken(userDetails, null);
+		RestPageResponse<MLCatalog> response = catalogService.getCatalogs("testUser",authorization, getTestRestPageRequest());
 		assertValidRestPageResponse(response);
 		List<MLCatalog> catalogs = response.getContent();
 		assertEquals(catalogs.size(), 1);
 		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
 		assertTrue(catalog.isFavorite());
+		
+		role.setName("MLPSystemUser");
+		jsonStrRes = Obj.writeValueAsString(roleList);
+		stubFor(get(urlEqualTo("/ccds/user/testuser/role")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		authorization=jwtTokenUtil.generateToken(userDetails, null);
+		response = catalogService.getCatalogs("testUser",authorization, getTestRestPageRequest());
+		assertValidRestPageResponse(response);
+		catalogs = response.getContent();
+		assertEquals(catalogs.size(), 1);
 	}
 
 	@Test
