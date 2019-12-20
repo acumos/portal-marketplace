@@ -2724,7 +2724,7 @@ angular
 							}
 						
 				        apiService
-				        .getCatalogs(solutionObj)
+				        .getCatalogsbyUser(solutionObj, $scope.loginUserId)
 				        .then(
 				                function(response) {
 				                    if(response.status == 200){				                    	
