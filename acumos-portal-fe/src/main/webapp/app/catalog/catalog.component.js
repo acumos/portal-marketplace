@@ -78,7 +78,8 @@ angular.module('catalog')
 					$scope.SetDataLoaded = true;
 					$rootScope.setLoader = true;
 					$scope.pageNumber = pageNumber;
-					$scope.selectedPage = pageNumber;							
+					$scope.selectedPage = pageNumber;	
+					
 					var reqObject = {											  							
 						"request_body": {
 							"fieldToDirectionMap": {"created":"ASC"},
@@ -86,7 +87,7 @@ angular.module('catalog')
 					        "size": $scope.requestResultSize
 						  }
 					};
-					apiService.getCatalogs(reqObject)
+					apiService.getCatalogsbyUser(reqObject, $scope.loginUserID)
 						.then(
 							function successCallback(response) {
 								var resp = response.data.response_body;

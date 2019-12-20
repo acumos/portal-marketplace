@@ -51,7 +51,7 @@ angular.module('AcumosApp')
         
         var urlPostGlobalLogin = '/globalLogin';
         var updateUser = '/api/users/updateUser';
-        var updateUserRole = '/api/roles/updateRole';
+        var updateUserRole = '/api/updateRole';
         var updateUserRoleNew = '/api/roles/user/change';
         var urlShareWithTeam = 'api/solution/userAccess';
         var urlUserRoles = 'api/users/userRole';
@@ -286,10 +286,6 @@ angular.module('AcumosApp')
         
         this.getTermsConditions = function(){
         	return $http.get(urlTermsConditions);
-        }
-        
-        this.updateUserRole = function(userDetails){
-        	return $http.post(updateUserRole, userDetails);
         }
         
         this.updateUserRoleNew = function(userDetails){
@@ -743,7 +739,7 @@ angular.module('AcumosApp')
         };
         
         this.getCatalogsbyUser = function(request, loginID) {
-        	return $http.post(urlAllCatalogsList + '?userId=' + loginID, request);
+        	return $http.post(urlAllCatalogsList + '/' + loginID, request);
         };
         
         this.deleteFav = function (catalogId, userId) {
@@ -862,4 +858,20 @@ angular.module('AcumosApp')
         this.uploadLicenseFile = function(loginUserID, solutionId, revisionId, versionId, request) {        	
         	 return $http.post(urlTemplateUploadUrl+'/'+loginUserID+'/'+solutionId+'/'+revisionId+'/'+versionId, request);
         }
+        
+        /***role management apis **/
+        
+        this.updateUserRole = function(roleId,userDetails){
+        	return $http.put(updateUserRole + "/{roleId}?roleId=" + roleId, userDetails);
+        }
+        
+        this.getCatalogsOfRole = function(userId){
+        	return $http.get("/api/role/" + userId);
+        }
+        
+        this.deleteRole = function(roleId){
+        	return $http.post('/api/deleteRole/' + roleId);
+        }
+
+        /***role management apis **/
     }]);

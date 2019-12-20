@@ -2480,6 +2480,26 @@ label.model-name{color:#0366d6;}
 /*license details*/
 .licence-closebtn{/* margin-right: 15px; */ margin-top: 4px;}
 
+/* role management */
+.md-checkbox-enabled.md-default-theme[selected] .md-icon, .md-checkbox-enabled[selected] .md-icon {background-color:#6822a1;}
+.catalogs-list-container {display: flex;flex-direction: row;flex-wrap: wrap;}
+.catalog-item{width: 215px;margin-right: 10px;margin-bottom:10px;} 
+.custom-dropdown-all{border-bottom: 1px solid #d5d5d5; padding: 10px 11px 0px;}
+.cg-dialog-admin-role {width: 780px;max-height: 80%;}
+.profile-editor .mat-toolbar.mat-primary{
+	background:red !important;
+}  
+.adminrow {
+	background: gainsboro !important;
+    cursor: not-allowed !important;
+}
+.catalog-item span {
+	text-overflow: ellipsis;
+    max-width: 170px;
+    overflow: hidden;
+    display: block;
+    white-space:nowrap;
+} 
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
