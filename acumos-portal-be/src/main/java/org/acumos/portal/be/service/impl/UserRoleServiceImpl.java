@@ -21,13 +21,21 @@
 package org.acumos.portal.be.service.impl;
 
 import java.lang.invoke.MethodHandles;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
-import org.acumos.portal.be.common.JsonRequest;
+import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUser;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
@@ -38,13 +46,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
 
 @Service
 public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRoleService{
@@ -63,23 +64,19 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 		log.debug("getAllRoles");
 		List<MLRole> mlRoles = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-
 		Map<String, Object> queryParameters = new HashMap<>();
 		queryParameters.put("active", true);
 		RestPageRequest pageRequest = new RestPageRequest();
 		pageRequest.setPage(0);
-		pageRequest.setSize(100);
-		RestPageResponse<MLPRole> roleList = dataServiceRestClient.searchRoles(queryParameters, true, pageRequest);
-		List<MLPRole> mlpRoles = roleList.getContent();
-
-		if (!PortalUtils.isEmptyList(mlpRoles)) {
+		pageRequest.setSize(1000);
+		List<MLPRole> roleList = dataServiceRestClient.searchRoles(queryParameters, true, pageRequest).getContent();
+		if (!PortalUtils.isEmptyList(roleList)) {
 			mlRoles = new ArrayList<>();
-			for (MLPRole mlpRole : mlpRoles) {
+			for (MLPRole mlpRole : roleList) {
 				MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
 				mlRoles.add(mlRole);
 			}
 		}
-
 		return mlRoles;
 	}
 	
@@ -95,7 +92,6 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
             for (MLPRole mlpRole : mlpRoles) {
                 MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
                 mlRoles.add(mlRole);
-                break;
             }
         }
         return mlRoles; 
@@ -103,15 +99,10 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	
 
 	@Override
-	public MLRole getRole(String roleId) {
-		log.debug("getRole");
+	public MLPRole getRole(String roleId) {
+		log.debug("getRole :{}" +roleId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLRole mlRole = null;
-		MLPRole mlpRole = dataServiceRestClient.getRole(roleId);
-		if (mlpRole != null) {
-			mlRole = PortalUtils.convertToMLRole(mlpRole);
-		}
-		return mlRole;
+		return dataServiceRestClient.getRole(roleId);		
 	}
 
 	@Override
@@ -126,10 +117,15 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	}
 
 	@Override
-	public void updateRole(JsonRequest<MLPRole> role) {
+	public void updateRole(String roleId,String roleName) {
 		log.debug("updateRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		dataServiceRestClient.updateRole(role.getBody());
+		MLPRole mlpRole=new MLPRole();
+		mlpRole.setRoleId(roleId);
+		mlpRole.setName(roleName);
+		mlpRole.setActive(true);
+		mlpRole.setModified(Instant.now());
+		dataServiceRestClient.updateRole(mlpRole);
 	}
 
 	@Override
@@ -161,10 +157,10 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	}
 
 	@Override
-	public void updateRoleFunction(JsonRequest<MLPRoleFunction> mlpRoleFunction) {
-		log.debug("deleteRole");
+	public void updateRoleFunction(MLPRoleFunction mlpRoleFunction) {
+		log.debug("updateRoleFunction : "+mlpRoleFunction.getRoleId());
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		dataServiceRestClient.updateRoleFunction(mlpRoleFunction.getBody());		
+		dataServiceRestClient.updateRoleFunction(mlpRoleFunction);		
 	}
 	
 	@Override
@@ -222,12 +218,10 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
         MLRole roleUserMap = new MLRole();
         ICommonDataServiceRestClient dataServiceRestClient = getClient();        
 		RestPageResponse<MLPUser> userList = dataServiceRestClient.getUsers(pageRequest);
-		RestPageResponse<MLPRole> roleList = dataServiceRestClient.getRoles(pageRequest);
 		 
 		Map<String, Map<String, String>> roleIdUserCount = new HashMap<>();
 		int i=0;
 		for (MLPUser mlpUser : userList) {
-			
 			String userId = mlpUser.getUserId();
 			Map<String, String> roleDetails = new HashMap<>();
 			List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
@@ -237,15 +231,10 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 			roleDetails.put("roleName",roleName);
 			String userCount = mlpRoles.size()+"";
 			roleDetails.put("userCount",userCount);
-			 
-			
 			roleIdUserCount.put(roleId, roleDetails);
-		//	roleUserMap.setRoleIdUserCount(roleIdUserCount);
 			i++;
 		}
-		
-        
-        return roleUserMap; 
+		return roleUserMap; 
     }
 
 	@Override
@@ -297,5 +286,92 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 			}
 		}
 		return mlRoleList;
+	}
+
+	
+	@Override
+	public void addCatalogsInRole(List<String> catalogIds, String roleId) {
+		log.debug("addCatalogsInRole for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.addCatalogsInRole(catalogIds, roleId);
+	}
+
+	@Override
+	public void dropCatalogsInRole(List<String> catalogIds, String roleId) {
+		log.debug("dropCatalogsInRole for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.dropCatalogsInRole(catalogIds, roleId);
+	}
+
+	@Override
+	public List<MLPRoleFunction> getRoleFunctions(String roleId) {
+		log.debug("getRoleFunctions for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		return dataServiceRestClient.getRoleFunctions(roleId);
+	}
+
+	@Override
+	public List<MLPCatalog> getRoleCatalogs(String roleId) {
+		log.debug("getRoleCatalogs for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setPage(0);
+		pageRequest.setSize(1000);
+		return dataServiceRestClient.getRoleCatalogs(roleId,pageRequest).getContent();
+	}
+
+	@Override
+	public void updateModulePermission(String roleId,List<String> modulePermissions) {
+		log.debug("updateModulePermission for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLPRoleFunction> roleFunctions=dataServiceRestClient.getRoleFunctions(roleId);
+		for(MLPRoleFunction roleFunction:roleFunctions){
+			dataServiceRestClient.deleteRoleFunction(roleId, roleFunction.getRoleFunctionId());
+		}
+		for (String permission : modulePermissions) {
+			MLPRoleFunction roleFunction = new MLPRoleFunction();
+			roleFunction.setRoleId(roleId);
+			roleFunction.setName(permission);
+			dataServiceRestClient.createRoleFunction(roleFunction);
+		}
+	}
+
+	@Override
+	public void updateCatalogsInRole(List<String> catalogIds, String roleId) {
+		log.debug("updateModulePermission for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setPage(0);
+		pageRequest.setSize(1000);
+		List<MLPCatalog> catalogs=dataServiceRestClient.getRoleCatalogs(roleId,pageRequest).getContent();
+		List<String> catalogList=catalogs.stream().map(MLPCatalog::getCatalogId).collect(Collectors.toList());
+		if(!PortalUtils.isEmptyList(catalogList)) 
+			dataServiceRestClient.dropCatalogsInRole(catalogList, roleId);
+		dataServiceRestClient.addCatalogsInRole(catalogIds, roleId);
+	}
+
+	@Override
+	public List<MLPUser> getRoleUsers(String roleId) {
+		log.debug("getRoleCatalogs for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setPage(0);
+		pageRequest.setSize(1000);
+		return dataServiceRestClient.getRoleUsers(roleId,pageRequest).getContent();
+	
+	}
+
+	@Override
+	public void dropUsersInRole(List<String> userIds, String roleId) {
+		log.debug("addUsersInRole for role : "+roleId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.dropUsersInRole(userIds, roleId);
+	}
+
+	@Override
+	public List<String> getUserAccessCatalogIds(String userId) {
+		log.debug("getUserAccessCatalogIds for user : "+userId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		return dataServiceRestClient.getUserAccessCatalogIds(userId);
 	}
 }
