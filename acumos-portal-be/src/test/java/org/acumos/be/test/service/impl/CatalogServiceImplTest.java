@@ -99,6 +99,33 @@ public class CatalogServiceImplTest {
 	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
 
 	@Test
+	public void getCatalogsTest() {
+		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("{\"content\":" + "[{\"created\": \"2019-04-05T20:47:03Z\","
+						+ "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}],"
+						+ "\"last\":true," + "\"totalPages\":1," + "\"totalElements\":1," + "\"size\":9,"
+						+ "\"number\":0," + "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+						+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+						+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+
+		RestPageResponse<MLCatalog> response = catalogService.getCatalogs(null, getTestRestPageRequest());
+		assertValidRestPageResponse(response);
+		List<MLCatalog> catalogs = response.getContent();
+		assertEquals(catalogs.size(), 1);
+		MLCatalog catalog = catalogs.get(0);
+		assertNotNull(catalog);
+		assertFalse(catalog.isFavorite());
+	}
+	
+	@Test
 	public void getCatalogsWithUserIdTest() {
 		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -120,16 +147,7 @@ public class CatalogServiceImplTest {
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
 
-		String authorization="Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlQ291bnQiOjAsInJvbGVJZCI6IjhjODUwZjA"
-				+"3LTQzNTItNGFmZC05OGIxLTAwY2JjZWNhNTY5ZiIsIm5hbWUiOiJBZG1pbiIsImFjdGl2ZSI6dHJ1ZSwiY3JlYXRlZCI6eyJlcG9jaFNlY29uZCI6MTU0NTQwNDM2MiwibmFubyI6MH0sIm1"
-				+"vZGlmaWVkIjpudWxsfV0sImNyZWF0ZWQiOjE1NzY3NDYxMDU0MzksImV4cCI6MTU3NjgyNjEwNSwibWxwdXNlciI6eyJjcmVhdGVkIjp7ImVwb2NoU2Vjb25kIjoxNTQ1NDA0MzYyLCJuYW5"
-				+"vIjowfSwibW9kaWZpZWQiOnsiZXBvY2hTZWNvbmQiOjE1NzY3NDYxMDUsIm5hbm8iOjM2NzAwMDB9LCJ1c2VySWQiOiIxMjM0NTY3OC1hYmNkLTkwYWItY2RlZi0xMjM0NTY3ODkwYWIiLCJ"
-				+"maXJzdE5hbWUiOiJBY3Vtb3MiLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IkFkbWluIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJub3JlcGx5QGFjdW1vcy5vcmciLCJsb2dpbk5"
-				+"hbWUiOiJhZG1pbiIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjp7ImVwb2NoU2Vjb25"
-				+"kIjoxNTc2NzQ2MTA1LCJuYW5vIjoyMzc2MDAwfSwibG9naW5GYWlsQ291bnQiOm51bGwsImxvZ2luRmFpbERhdGUiOm51bGwsInBpY3R1cmUiOm51bGwsImFwaVRva2VuIjoiOTQ3ZDg1NmRl"
-				+"ZTNhNGE2ZjhkMWNjNTIyNDg2OTU2MjkiLCJ2ZXJpZnlUb2tlbkhhc2giOm51bGwsInZlcmlmeUV4cGlyYXRpb24iOm51bGwsInRhZ3MiOltdfX0.GoXTX5c4rNsDreq70yQAeJPDJe4Nuqew2R"
-				+"iYaGAt3lXeU3lXd0WCh04qwYoKahFw43PacBaqsBSaJhK1retSUA";
-		RestPageResponse<MLCatalog> response = catalogService.getCatalogs("testUser",authorization, getTestRestPageRequest());
+		RestPageResponse<MLCatalog> response = catalogService.getCatalogs("testUser", getTestRestPageRequest());
 		assertValidRestPageResponse(response);
 		List<MLCatalog> catalogs = response.getContent();
 		assertEquals(catalogs.size(), 1);

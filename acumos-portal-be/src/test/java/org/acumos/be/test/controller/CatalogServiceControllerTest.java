@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.acumos.be.test.security.WithMLMockUser;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
@@ -73,8 +74,6 @@ import org.springframework.test.web.client.MockMvcClientHttpRequestFactory;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(SpringRunner.class)
 
@@ -120,8 +119,8 @@ public class CatalogServiceControllerTest {
 	private static final String ADD_DROP_FAVORITES_PATH = CATALOG_ID_PATH + USER_FAVORITE_PATH;
 	private static final String PEER_PATH = "/peer";
 	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
-	private static final String CATALOG_USER_ACCESS_PATH = CCDS_PATH + "/access/user/%s/catalog";
-	private static final String GET_USER="/ccds/user/search?loginName=admin&_j=a&page=0&size=10";
+	
+
 	@Before
 	public void setup(){
 		MockMvcClientHttpRequestFactory requestFactory = new MockMvcClientHttpRequestFactory(mvc);
@@ -129,23 +128,9 @@ public class CatalogServiceControllerTest {
 	}
 
 	@Test
-	public void getCatalogsWithUserIdTest() {
+	public void getCatalogsTest() {
 		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
 		requestJson.setBody(getTestRestPageRequest());
-
-		stubFor(get(urlEqualTo(GET_USER)).willReturn(
-				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
-								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
-								+ "\"created\": \"2018-12-16T12:34:56.789Z\","
-								+ "\"description\": \"A catalog of test models\","
-								+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
-								+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
-								+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
-								+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
-								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
-								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
-								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
 
 		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -164,29 +149,58 @@ public class CatalogServiceControllerTest {
 		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
-	
-		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, "testUser")))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
-		stubFor(get(urlEqualTo(String.format(CATALOG_USER_ACCESS_PATH,"testUser")))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
-
-		String authorization="Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlQ291bnQiOjAsInJvbGVJZCI6IjhjODUwZjA"
-				+"3LTQzNTItNGFmZC05OGIxLTAwY2JjZWNhNTY5ZiIsIm5hbWUiOiJBZG1pbiIsImFjdGl2ZSI6dHJ1ZSwiY3JlYXRlZCI6eyJlcG9jaFNlY29uZCI6MTU0NTQwNDM2MiwibmFubyI6MH0sIm1"
-				+"vZGlmaWVkIjpudWxsfV0sImNyZWF0ZWQiOjE1NzY3NDYxMDU0MzksImV4cCI6MTU3NjgyNjEwNSwibWxwdXNlciI6eyJjcmVhdGVkIjp7ImVwb2NoU2Vjb25kIjoxNTQ1NDA0MzYyLCJuYW5"
-				+"vIjowfSwibW9kaWZpZWQiOnsiZXBvY2hTZWNvbmQiOjE1NzY3NDYxMDUsIm5hbm8iOjM2NzAwMDB9LCJ1c2VySWQiOiIxMjM0NTY3OC1hYmNkLTkwYWItY2RlZi0xMjM0NTY3ODkwYWIiLCJ"
-				+"maXJzdE5hbWUiOiJBY3Vtb3MiLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IkFkbWluIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJub3JlcGx5QGFjdW1vcy5vcmciLCJsb2dpbk5"
-				+"hbWUiOiJhZG1pbiIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjp7ImVwb2NoU2Vjb25"
-				+"kIjoxNTc2NzQ2MTA1LCJuYW5vIjoyMzc2MDAwfSwibG9naW5GYWlsQ291bnQiOm51bGwsImxvZ2luRmFpbERhdGUiOm51bGwsInBpY3R1cmUiOm51bGwsImFwaVRva2VuIjoiOTQ3ZDg1NmRl"
-				+"ZTNhNGE2ZjhkMWNjNTIyNDg2OTU2MjkiLCJ2ZXJpZnlUb2tlbkhhc2giOm51bGwsInZlcmlmeUV4cGlyYXRpb24iOm51bGwsInRhZ3MiOltdfX0.GoXTX5c4rNsDreq70yQAeJPDJe4Nuqew2R"
-				+"iYaGAt3lXeU3lXd0WCh04qwYoKahFw43PacBaqsBSaJhK1retSUA";
+		
 		HttpHeaders headers = new HttpHeaders();
-		headers.setBearerAuth(authorization);
 		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
 
 		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS + "/testUser", HttpMethod.POST, requestEntity,
+				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
+				});
+
+		assertNotNull(respEntity);
+		assertEquals(HttpServletResponse.SC_OK, respEntity.getStatusCode().value());
+		RestPageResponse<MLCatalog> restPageResponse = respEntity.getBody().getResponseBody();
+		assertValidRestPageResponse(restPageResponse);
+		List<MLCatalog> catalogs = restPageResponse.getContent();
+		assertEquals(catalogs.size(), 1);
+		MLCatalog catalog = catalogs.get(0);
+		assertNotNull(catalog);
+		assertFalse(catalog.isFavorite());
+	}
+	
+	@Test
+	public void getCatalogsWithUserIdTest() {
+		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
+		requestJson.setBody(getTestRestPageRequest());
+
+		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
+								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
+								+ "\"created\": \"2018-12-16T12:34:56.789Z\","
+								+ "\"description\": \"A catalog of test models\","
+								+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
+								+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
+								+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
+								+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
+								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+		
+		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, "testUser")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
+
+		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS + "?userId=testUser", HttpMethod.POST, requestEntity,
 				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
 				});
 

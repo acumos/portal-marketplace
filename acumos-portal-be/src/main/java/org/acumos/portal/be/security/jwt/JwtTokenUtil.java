@@ -124,7 +124,7 @@ public class JwtTokenUtil {
 		return expiration;
 	}
 
-	public Claims getClaimsFromToken(String token) {
+	 Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
 			String secret = env.getProperty("jwt.auth.secret.key");			
