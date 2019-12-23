@@ -254,14 +254,14 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param role
-	 *            Role
+	 * @param roleId
+	 *            role ID
 	 * @return Success or error message
 	 */
-	@ApiOperation(value = "Delete a role.", response = MLPRole.class)
+	@ApiOperation(value = "Delete a role.")
 	@RequestMapping(value = { APINames.DELETE_ROLE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<Object> deleteRole(@PathVariable("roleId") String roleId, @RequestBody JsonRequest<MLRole> role) {
+	public JsonResponse<Object> deleteRole(@PathVariable("roleId") String roleId) {
 		JsonResponse<Object> response = new JsonResponse<>();
 		roleId=SanitizeUtils.sanitize(roleId);
 		try {
