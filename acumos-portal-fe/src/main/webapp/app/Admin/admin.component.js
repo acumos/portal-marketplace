@@ -357,18 +357,7 @@ angular.module('admin').filter('abs', function () {
                 }
            }
             
-            $scope.selectAllCatalogs = false;
-            $scope.checkAllCatalogsSelection = function (selectedCatalogList) {
-            	$timeout(function(){
-            		if($scope.catalogIdsList.length == selectedCatalogList.length){
-                    	$scope.selectAllCatalogs = true;
-                    } else {
-                    	$scope.selectAllCatalogs = false;
-                    }
-            	}, 0);
-                
-           }
-            
+            $scope.selectAllCatalogs = {"checked":false};          
             
             $scope.addNewRole = function (role) {
 
@@ -4056,21 +4045,20 @@ angular.module('admin').filter('abs', function () {
 			
 			$scope.selectedCatalogList = [];
 			$scope.toggleCatalogSelection = function(catalogid){				
-
-				
+			
 				var index = $scope.selectedCatalogList.indexOf(catalogid);
 			    if (index > -1) {
 			      $scope.selectedCatalogList.splice(index, 1);
 			    } else {
 			      $scope.selectedCatalogList.push(catalogid);
 			    }
-			    $timeout(function(){
-					if($scope.catalogIdsList.length == $scope.selectedCatalogList.length){
-						$scope.selectAllCatalogs = true;
-	                } else {
-	                	$scope.selectAllCatalogs = false;
-	                }
-			    })
+
+				if($scope.catalogIdsList.length == $scope.selectedCatalogList.length){
+					$scope.selectAllCatalogs = {"checked":true};
+                } else {
+                	$scope.selectAllCatalogs = {"checked":false};
+                }
+
 
 			}
 			
