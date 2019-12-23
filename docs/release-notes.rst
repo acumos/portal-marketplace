@@ -21,6 +21,13 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.25 23th December 2019
+=================================
+* ACUMOS-3680 - New Portal screen to allow admin to assign access role to each catalog.
+* ACUMOS-3682 - Portal update the "Select Favorite Catalogs" screen by using above CDS role based catalogs query to show the accessible catalogs to logged-in user
+* ACUMOS-3751 - Show role based catalogs to select in drop down while publishing model
+* ACUMOS-3683 - Portal update the "Marketplace" screen to filter the list of models by using the above CDS role based models query to retrieve models based on accessible catalogs and user's role
+
 Version 3.0.24 16th December 2019
 =================================
 * ACUMOS-3699 - Co-Brand Logo: Please wait is showing for very long time.
