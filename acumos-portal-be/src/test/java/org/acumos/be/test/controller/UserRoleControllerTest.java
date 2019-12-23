@@ -219,7 +219,7 @@ public class UserRoleControllerTest {
 			role.setBody(mlRole);
 			Assert.assertNotNull(role);
 			Mockito.doNothing().when(userRoleService).deleteRole(roleId);
-			value = userRoleController.deleteRole(roleId,role);
+			value = userRoleController.deleteRole(roleId);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			
