@@ -32,7 +32,7 @@
 			<br/> 
 			<div class="admin-button-row1"><span>Catalog Permission <sup class="reqfield">*</sup></span></div>
 				<div class="user-detail-container">
-					<md-checkbox class="catalog-item" ng-model="selectAllCatalogs" ng-click="checkAllRoles(!selectAllCatalogs)"><strong> Select All </strong></md-checkbox>
+					<md-checkbox class="catalog-item" ng-model="selectAllCatalogs.checked" ng-click="checkAllRoles(!selectAllCatalogs.checked)"><strong> Select All </strong></md-checkbox>
 					<div class="catalogs-list-container"  ng-repeat="(key,catalogGroup) in allCatalogList">
 						<div class="sectiontitle6 fullwidth"><label ><span class="md-subhead ">{{key}}</span></label></div>
 						<md-checkbox class="catalog-item" ng-model="catalog.checked"  ng-click="toggleCatalogSelection(catalog.catalogId)" ng-repeat="catalog in catalogGroup" ng-value="true" title="{{catalog.name}}"> {{catalog.name}}</md-checkbox>
