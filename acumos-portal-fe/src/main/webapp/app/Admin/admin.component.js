@@ -349,6 +349,27 @@ angular.module('admin').filter('abs', function () {
                  }
             }
             
+            $scope.checkAllPermission = function (permissions) {
+                if(permissions.length == 3){
+                	$scope.allPermisions = true;
+                } else {
+                	$scope.allPermisions = false;
+                }
+           }
+            
+            $scope.selectAllCatalogs = false;
+            $scope.checkAllCatalogsSelection = function (selectedCatalogList) {
+            	$timeout(function(){
+            		if($scope.catalogIdsList.length == selectedCatalogList.length){
+                    	$scope.selectAllCatalogs = true;
+                    } else {
+                    	$scope.selectAllCatalogs = false;
+                    }
+            	}, 0);
+                
+           }
+            
+            
             $scope.addNewRole = function (role) {
 
                 $scope.permissionList = [{ permission: 'Design Studio', value: 'DS' }, { permission: 'Market Place', value: 'MP' }, { permission: 'On Boarding', value: 'OB' }]
@@ -361,6 +382,8 @@ angular.module('admin').filter('abs', function () {
     	           	         $scope.permissionList[count].selected = true;
                     	 if(role.permissionList.length == 3)
                     		 $scope.allPermisions = true;
+                    	 else 
+                    		 $scope.allPermisions = false;
                      }
                      
                      apiService.getCatalogsOfRole(role.roleId)
@@ -1524,7 +1547,7 @@ angular.module('admin').filter('abs', function () {
                       },
                       function (error) {
                           $scope.status = error.data;
-                          $scope.msg = 'Error Occurred while deleting Indices.';
+                          $scope.msg = 'Error Occurred while deleting role.';
                           $scope.icon = 'info_outline';
                           $scope.styleclass = 'c-error';
                           $scope.showAlertMessage = true;
@@ -4034,18 +4057,27 @@ angular.module('admin').filter('abs', function () {
 			$scope.selectedCatalogList = [];
 			$scope.toggleCatalogSelection = function(catalogid){				
 
+				
 				var index = $scope.selectedCatalogList.indexOf(catalogid);
 			    if (index > -1) {
 			      $scope.selectedCatalogList.splice(index, 1);
 			    } else {
 			      $scope.selectedCatalogList.push(catalogid);
 			    }
+			    $timeout(function(){
+					if($scope.catalogIdsList.length == $scope.selectedCatalogList.length){
+						$scope.selectAllCatalogs = true;
+	                } else {
+	                	$scope.selectAllCatalogs = false;
+	                }
+			    })
+
 			}
 			
 			 $scope.checkAllRoles = function(selected){
 				 var allcatalogs = Object.keys($scope.allCatalogList);
         	        if(selected)
-	           	        $scope.selectedCatalogList = $scope.catalogIdsList;
+	           	        $scope.selectedCatalogList = angular.copy($scope.catalogIdsList);
         	        else  
         	        	 $scope.selectedCatalogList = [];
 				 for (var i = 0; i < allcatalogs.length ; i++) {
