@@ -756,12 +756,15 @@ angular
                       	var user= JSON.parse(browserStorageService.getUserDetail());
                       	if(user) $scope.loginUserID = user[1];
 
-                      	$scope.loadCatalog = function(pageNumber) {
+                      	$scope.loadCatalog = function(pageNumber, pageSize) {
   							$scope.allCatalogList = [];
   							$scope.SetDataLoaded = true;
   							$rootScope.setLoader = true;
   							$scope.pageNumber = pageNumber;
   							$scope.selectedPage = pageNumber;
+  							if(pageSize){
+  								$scope.requestResultSize = pageSize;
+  							}
   							
   							var reqObject = {
   								"request_body" : {
@@ -778,14 +781,18 @@ angular
   							apiService
   									.getCatalogsbyUser(reqObject, $scope.loginUserID)
   									.then(
-  											function successCallback(response) {
+  											function successCallback(response){
   												var resp = response.data.response_body;
-  												$scope.allCatalogList = resp.content;											
-  												$scope.totalPages = resp.totalPages;
-  												$scope.totalElements = resp.totalElements;
-  												$scope.allCatalogListLength = resp.totalElements;
-  												$scope.SetDataLoaded = false;
-  												$rootScope.setLoader = false;
+  												if(resp.content.lenght < 10 && resp.totalPages > 1){
+  													$scope.loadCatalog(0, 20);
+  												}else{
+  													$scope.allCatalogList = resp.content;											
+  	  												$scope.totalPages = resp.totalPages;
+  	  												$scope.totalElements = resp.totalElements;
+  	  												$scope.allCatalogListLength = resp.totalElements;
+  	  												$scope.SetDataLoaded = false;
+  	  												$rootScope.setLoader = false;
+  												}
   											},
   											function errorCallback(response) {
   												$scope.SetDataLoaded = false;
