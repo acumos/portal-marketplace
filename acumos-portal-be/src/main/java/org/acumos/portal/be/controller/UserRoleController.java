@@ -36,6 +36,7 @@ import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.transport.MLRole;
@@ -267,8 +268,10 @@ public class UserRoleController extends AbstractController {
 		try {
 				List<MLPUser> userList=userRoleService.getRoleUsers(roleId);
 				List<String> roleUserList=userList.stream().map(MLPUser::getUserId).collect(Collectors.toList());
-				if(!PortalUtils.isEmptyList(roleUserList))
-					userRoleService.dropUsersInRole(roleUserList, roleId);
+				if(!PortalUtils.isEmptyList(roleUserList)) {
+					throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
+							"Role can't be deleted,Already assigned to some user");
+				}
 				List<MLPRoleFunction> mlpRoleFunctionList=userRoleService.getRoleFunctions(roleId);
 				List<MLPCatalog> catalogs=userRoleService.getRoleCatalogs(roleId);
 				List<String> catalogList=catalogs.stream().map(MLPCatalog::getCatalogId).collect(Collectors.toList());
@@ -280,7 +283,11 @@ public class UserRoleController extends AbstractController {
 				userRoleService.deleteRole(roleId);
 				response.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				response.setResponseDetail("Role deleted Successfuly");
-		} catch (UserServiceException e) {
+		}catch (AcumosServiceException ae) {
+			response.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			response.setResponseDetail(ae.getMessage());
+			log.error("Error Occurred while deleteRole() :", ae);
+		}catch (UserServiceException e) {
 			response.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			response.setResponseDetail("Exception Occurred while deleteRole()");
 			log.error("Error Occurred while deleteRole() :", e);
