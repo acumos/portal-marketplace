@@ -135,7 +135,7 @@ angular
 						$scope.pageNumber = 0;
 						$scope.totalPages = 0;
 						$scope.allCatalogListLength = 0;
-						$scope.requestResultSize = 10;
+						$scope.requestResultSize = 1000;
 
 						$scope.setPageStart = 0;
 		                $scope.selectedPage = 0;
