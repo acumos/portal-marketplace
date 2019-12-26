@@ -383,30 +383,43 @@ limitations under the License.
 						</div>
 						  
 						<table
-							class="mdl-data-table fullwidth scroll-table clear_both">
-							<colgroup >
-								<col style="width:30%">
-								<col style="width:35%">
-								<col style="width:15%">
+							class="mdl-data-table fullwidth scroll-table clear_both mdl-js-data-table">
+							<colgroup class="fullwidth">
+								<col style="width:40%">
+								<col style="width:50%">
+								<col style="width:10%">
 							</colgroup>
-							<thead>
+							<thead ng-hide="hideLabel">
 								<tr>
-									<th>Role Name</th>
-									<th>Module Permission</th>
+									<th
+										ng-click="orderByField='name'; reverseSortRole = !reverseSortRole">Role
+										Name<span ng-if='orderByField!="name"'
+										class="gridcell-sort deactivate"></span><span
+										ng-if='orderByField=="name"'
+										ng-class="reverseSortRole?'ascending':'descending'"
+										class="gridcell-sort"></span>
+									</th>
+									<th
+										ng-click="orderByField='moduleList'; reverseSortRole = !reverseSortRole">Module Permission<span
+										ng-if='orderByField!="moduleList"'
+										class="gridcell-sort deactivate"></span><span
+										ng-if='orderByField=="moduleList"'
+										ng-class="reverseSortRole?'ascending':'descending'"
+										class="gridcell-sort"></span></th>
 									<th>Action</th>									
 								</tr>
 							</thead>
 
-							<tbody ng-repeat="val in ( filteredRole = (allRoles | filter : searchRole : strict))">
+							<tbody ng-repeat="val in ( filteredRole = (allRoles | orderBy:orderByField:!reverseSortRole  | filter : searchRole : strict))">
 								<tr ng-class="{adminrow: (val.name=='Admin')}">
 									<td>{{val.name}}</td>
 									<td>{{val.moduleList}}</td>
 									<td>
 										<button  class="mdl-button mdl-button--icon" ng-click="addNewRole(val);" ng-disabled="val.name=='Admin'" ng-class="{disabledClick: (val.name=='Admin')}">
-											<span class="gridicon-edit"></span>
+											<span class="gridicon-edit" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>
 										</button>
 										<button class="mdl-button mdl-button--icon" type="button"  aria-label="Delete" title="Delete"  ng-class="{disabledClick: (val.name=='Admin')}" ng-disabled="val.name=='Admin'" ng-click="confirmDeleteRole(val)">
-											<span class="gridicon-delete"></span>															  
+											<span class="gridicon-delete" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>															  
 										</button>
 									</td>
 								</tr>
