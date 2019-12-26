@@ -377,7 +377,7 @@ limitations under the License.
 								<div
 									class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input adminsearchicon" type="text"
-										ng-model='searchRole' placeholder="Search By Role Name">
+										ng-model='searchRole.name' placeholder="Search By Role Name">
 								</div>
 							</div>
 						</div>
@@ -397,7 +397,7 @@ limitations under the License.
 								</tr>
 							</thead>
 
-							<tbody ng-repeat="val in ( filteredRole = (allRoles | filter : searchRole ))">
+							<tbody ng-repeat="val in ( filteredRole = (allRoles | filter : searchRole : strict))">
 								<tr ng-class="{adminrow: (val.name=='Admin')}">
 									<td>{{val.name}}</td>
 									<td>{{val.moduleList}}</td>

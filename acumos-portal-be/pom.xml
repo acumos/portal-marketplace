@@ -133,7 +133,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.security-verification</groupId>
 			<artifactId>security-verification-client</artifactId>
-			<version>1.2.1</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -290,13 +290,14 @@ limitations under the License.
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<release>11</release>
-					<forceJavacCompilerUse>true</forceJavacCompilerUse>
-				</configuration>
+                           <groupId>org.apache.maven.plugins</groupId>
+                           <artifactId>maven-compiler-plugin</artifactId>
+                           <configuration>
+                                  <source>1.8</source>
+                    <target>1.8</target>      
+
+                           </configuration>
+
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
