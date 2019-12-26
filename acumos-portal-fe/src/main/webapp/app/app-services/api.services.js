@@ -579,6 +579,10 @@ angular.module('AcumosApp')
         this.deleteSubscription = function (dataObj) {
             return $http.delete(urlDeleteSub +'/'+ dataObj);
         };
+		
+		this.deleteLicenseFile = function (userId) {
+            return $http.post( "/api/deleteLicenseFile/" + userId);
+        };
         /**************** Google API ******************/
         this.getGoogleUserProfile = function(accessToken) {
         	return $http.get("https://www.googleapis.com/plus/v1/people/me",{
