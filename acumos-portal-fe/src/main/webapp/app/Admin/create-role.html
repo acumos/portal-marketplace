@@ -24,7 +24,7 @@
 				<md-select ng-model="permissions" placeholder="select" class="md-no-underline admin-ddl admin-change-role-ddl" multiple="" ng-change="checkAllPermission(permissions)">
 					<div>
 						<div class="custom-dropdown-all"> 
-						<md-checkbox ng-model="allPermisions" ng-true="true" ng-click="allPermissionsSelected(allPermisions)"> All</md-checkbox>
+						<md-checkbox ng-model="allPermisions.checked" ng-true="true" ng-click="allPermissionsSelected(allPermisions.checked)"> All</md-checkbox>
 						</div>
 					<md-option value="{{val.value}}" ng-repeat='val in permissionList' ng-selected="val.selected"  >{{val.permission}}</md-option>
 					</div>

@@ -342,18 +342,22 @@ angular.module('admin').filter('abs', function () {
                     clickOutsideToClose: true
                 });
             }
-            
+			
+             $scope.allPermisions = {"checked":false};
             $scope.allPermissionsSelected = function (allPermisions) {
                  for (var count = 0; count < $scope.permissionList.length ; count++) {                    	
 	           	     $scope.permissionList[count].selected = !allPermisions;
                  }
+				 $timeout(function(){
+                        $scope.allPermisions.checked = !allPermisions;
+                });
             }
             
             $scope.checkAllPermission = function (permissions) {
                 if(permissions.length == 3){
-                	$scope.allPermisions = true;
+                	$scope.allPermisions.checked = true;
                 } else {
-                	$scope.allPermisions = false;
+                	$scope.allPermisions.checked = false;
                 }
            }
             
@@ -370,9 +374,9 @@ angular.module('admin').filter('abs', function () {
                     	 if((role.permissionList).indexOf($scope.permissionList[count].value) > -1)
     	           	         $scope.permissionList[count].selected = true;
                     	 if(role.permissionList.length == 3)
-                    		 $scope.allPermisions = true;
+                    		 $scope.allPermisions.checked = true;
                     	 else 
-                    		 $scope.allPermisions = false;
+                    		 $scope.allPermisions.checked = false;
                      }
                      
                      apiService.getCatalogsOfRole(role.roleId)
