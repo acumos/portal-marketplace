@@ -270,7 +270,7 @@ public class UserRoleController extends AbstractController {
 				List<String> roleUserList=userList.stream().map(MLPUser::getUserId).collect(Collectors.toList());
 				if(!PortalUtils.isEmptyList(roleUserList)) {
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
-							"Role can't be deleted,Already assigned to some user");
+							"Role can't be deleted. It's already assigned to some user");
 				}
 				List<MLPRoleFunction> mlpRoleFunctionList=userRoleService.getRoleFunctions(roleId);
 				List<MLPCatalog> catalogs=userRoleService.getRoleCatalogs(roleId);
