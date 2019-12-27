@@ -1541,7 +1541,7 @@ angular.module('admin').filter('abs', function () {
                       },
                       function (error) {
                           $scope.status = error.data;
-                          $scope.msg = 'Error Occurred while deleting role.';
+                          $scope.msg = response.data.response_detail;
                           $scope.icon = 'info_outline';
                           $scope.styleclass = 'c-error';
                           $scope.showAlertMessage = true;
