@@ -21,6 +21,20 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.26 30th December 2019
+=================================
+* ACUMOS-3864 - IST: Role Management: White Spaces should remove from table
+* ACUMOS-3868 - IST: Role Management: Error Message is not displaying if user delete a role which is assigned to a user
+* ACUMOS-3869 - IST: Role Management: Sorting Icons are not displaying on the column headers
+* ACUMOS-3867 - IST: Role Management: Module Permission is not displaying as per VD
+* ACUMOS-3874 - IST: Role Management: My Catalog should display instead of My Company
+* ACUMOS-3870 - IST: Role Management: Select All should be display selected if I close the popup after selecting it all
+* ACUMOS-3876 - IST: Role Management: Catalog dropdown is not displaying on manage  my model screen when user have created role assigned
+* ACUMOS-3866 - IST: Role Management: Search is not working for valid data
+* ACUMOS-3871 - ISt: Role Management: All dropdown values should display in same color
+* ACUMOS-3873 - IST: Role Management: Edit and Delete option for Admin role should display in grey out color
+* ACUMOS-3865 - IST: Role Management: Create New Role: User Permission: Select All checkbox is not selected when user use it first time
+
 Version 3.0.25 23th December 2019
 =================================
 * ACUMOS-3680 - New Portal screen to allow admin to assign access role to each catalog.
