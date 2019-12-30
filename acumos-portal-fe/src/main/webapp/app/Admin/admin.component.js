@@ -344,68 +344,76 @@ angular.module('admin').filter('abs', function () {
             }
 			
              $scope.allPermisions = {"checked":false};
-            $scope.allPermissionsSelected = function (allPermisions) {
-                 for (var count = 0; count < $scope.permissionList.length ; count++) {                    	
-	           	     $scope.permissionList[count].selected = !allPermisions;
+         $scope.allPermissionsSelected = function () {
+                 for (var count = 0; count < $scope.permissionList.length ; count++) {                           
+                          $scope.permissionList[count].selected = !($scope.allPermisions.checked);
                  }
-				 $timeout(function(){
-                        $scope.allPermisions.checked = !allPermisions;
-                });
+                
             }
+
             
-            $scope.checkAllPermission = function (permissions) {
-                if(permissions.length == 3){
-                	$scope.allPermisions.checked = true;
-                } else {
-                	$scope.allPermisions.checked = false;
-                }
+           
+			$scope.checkAllPermission = function (permissions) {
+              $timeout( function(){
+                    if(permissions.length == 3){
+                    $scope.allPermisions.checked = true;
+                    } else {
+                    $scope.allPermisions.checked = false;
+                    }
+              });
            }
+
             
             $scope.selectAllCatalogs = {"checked":false};          
             
-            $scope.addNewRole = function (role) {
+     $scope.addNewRole = function (role) {
 
                 $scope.permissionList = [{ permission: 'Design Studio', value: 'DS' }, { permission: 'Market Place', value: 'MP' }, { permission: 'On Boarding', value: 'OB' }]
                 $scope.selectedCatalogList = [];
+                $scope.selectAllCatalogs.checked = false;
                 $scope.allCatalogList = angular.copy($scope.catList);
-            	if(role){
-            		 $scope.roleName = role.name;
+              if(role){
+                      $scope.roleName = role.name;
                      for (var count = 0; count < $scope.permissionList.length ; count++) {
-                    	 if((role.permissionList).indexOf($scope.permissionList[count].value) > -1)
-    	           	         $scope.permissionList[count].selected = true;
-                    	 if(role.permissionList.length == 3)
-                    		 $scope.allPermisions.checked = true;
-                    	 else 
-                    		 $scope.allPermisions.checked = false;
+                     if((role.permissionList).indexOf($scope.permissionList[count].value) > -1)
+                              $scope.permissionList[count].selected = true;
+                     if(role.permissionList.length == 3)
+                            $scope.allPermisions.checked = true;
+                     else 
+                            $scope.allPermisions.checked = false;
                      }
                      
                      apiService.getCatalogsOfRole(role.roleId)
                      .then(
                          function (response) {
-                        	 var role = response.data.response_body;
-                        	 if(role && role.catalogIds){
-                        		 angular.forEach($scope.allCatalogList,function (value, key) {
-                 	        		for (var j = 0; j < $scope.allCatalogList[key].length; j++) {
-                 	        			if((role.catalogIds).indexOf($scope.allCatalogList[key][j].catalogId) > -1){
-                 	        				$scope.allCatalogList[key][j].checked = true;
-                 	        				$scope.selectedCatalogList.push($scope.allCatalogList[key][j].catalogId);
-                 	        			}
-                 	        			
-                 	        		}
-                 	        	});
-                        	 }
-                        	 $mdDialog.show({
+                            var role = response.data.response_body;
+                            if(role && role.catalogIds){
+                                   angular.forEach($scope.allCatalogList,function (value, key) {
+                                          for (var j = 0; j < $scope.allCatalogList[key].length; j++) {
+                                                 if((role.catalogIds).indexOf($scope.allCatalogList[key][j].catalogId) > -1){
+                                                       $scope.allCatalogList[key][j].checked = true;
+                                                       $scope.selectedCatalogList.push($scope.allCatalogList[key][j].catalogId);
+                                                }
+                                                
+                                          }
+                                   });
+                                   if($scope.catalogIdsList.length == $scope.selectedCatalogList.length){
+                                                $scope.selectAllCatalogs = {"checked":true};
+                                 } else {
+                                 $scope.selectAllCatalogs = {"checked":false};
+                                 }
+                            }
+                            $mdDialog.show({
                                  templateUrl: '../app/Admin/create-role.html',
                                  parent: angular.element(document.body),
                                  scope: $scope.$new(),
                                  clickOutsideToClose: true
                              });
-                         });
+                        });
 
-    				 
+                            
                     $scope.roleId = role.roleId; 
-            	} else {
-					$scope.selectAllCatalogs.checked = false;
+              } else {
                     $scope.roleName = ''; 
                     $scope.roleId = ''; 
                     $scope.selectedCatalogList = [];
@@ -415,9 +423,10 @@ angular.module('admin').filter('abs', function () {
                         scope: $scope.$new(),
                         clickOutsideToClose: true
                     });
-            	} 
+              } 
                 
             }
+
             //Open popup Add Peer
             $scope.showPopupPeer = function (ev) {
                 $mdDialog.show({

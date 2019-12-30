@@ -415,7 +415,7 @@ limitations under the License.
 									<td>{{val.name}}</td>
 									<td>{{val.moduleList}}</td>
 									<td>
-										<button  class="mdl-button mdl-button--icon" ng-click="addNewRole(val);" ng-disabled="val.name=='Admin'" ng-class="{disabledClick: (val.name=='Admin')}">
+										<button  class="mdl-button mdl-button--icon" ng-click="addNewRole(val);" ng-disabled="val.name=='Admin'">
 											<span class="gridicon-edit" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>
 										</button>
 										<button class="mdl-button mdl-button--icon" type="button"  aria-label="Delete" title="Delete"  ng-class="{disabledClick: (val.name=='Admin')}" ng-disabled="val.name=='Admin'" ng-click="confirmDeleteRole(val)">
