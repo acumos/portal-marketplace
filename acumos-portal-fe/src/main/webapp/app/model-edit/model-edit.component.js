@@ -663,7 +663,7 @@ angular
 						    	},
 						    	function errorCallback(response) {						    		
 						    		$scope.msg = "Error while adding Author :  " + response.data.response_detail;
-									$scope.icon = 'report_problem';
+									$scope.icon = 'info_outline';
 									$scope.styleclass = 'c-error';
 									$scope.showAlertMessage = true;
 									$timeout(function() {$scope.showAlertMessage = false;}, 8000);
