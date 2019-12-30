@@ -2,7 +2,7 @@
 <md-dialog aria-label="Create New Role" class="cg-dialog-admin-role">
 		<!-- <form ng-cloak> --> <md-toolbar>
 		<div class="md-toolbar-tools">
-			<h2>Create New Role</h2>
+			<h2><span ng-if="roleId">Update</span><span ng-if="!roleId">Create New</span> Role</h2>
 			<span flex></span>
 			<md-button class="md-icon-button" ng-click='closePopup()'>
 			<i class="material-icons">close</i> </md-button>
@@ -24,7 +24,7 @@
 				<md-select ng-model="permissions" placeholder="select" class="md-no-underline admin-ddl admin-change-role-ddl" multiple="" ng-change="checkAllPermission(permissions)">
 					<div>
 						<div class="custom-dropdown-all"> 
-						<md-checkbox ng-model="allPermisions.checked" ng-true="true" ng-click="allPermissionsSelected(allPermisions.checked)"> All</md-checkbox>
+						<md-checkbox ng-model="allPermisions.checked" ng-true="true" ng-click="allPermissionsSelected()"> All</md-checkbox>
 						</div>
 					<md-option value="{{val.value}}" ng-repeat='val in permissionList' ng-selected="val.selected"  >{{val.permission}}</md-option>
 					</div>
