@@ -1,4 +1,4 @@
-.. ===============LICENSE_START=======================================================
+﻿.. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
 .. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
@@ -31,15 +31,17 @@ The Admin Interface is a web-based tool for a site admin to:
 
 1. Monitor the site activity
 
-2. Manage users and change their roles.
+2. Manage the roles.
 
-3. Update and edit the site content.
+3. Manage users and change their roles.
 
-4. Configure the site.
+4. Update and edit the site content.
 
-5. Manatained Backup Logs.
+5. Configure the site.
 
-6. Manage Federation relationships: configure peer gateways and set up
+6. Manatained Backup Logs.
+
+7. Manage Federation relationships: configure peer gateways and set up
    subscriptions to that peer’s public marketplace.
 
 Admin Access to the Acumos Portal
