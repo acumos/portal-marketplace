@@ -1,4 +1,4 @@
-.. ===============LICENSE_START=======================================================
+﻿.. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
 .. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
@@ -79,25 +79,3 @@ The email will be sent from the defined email address of the admin user
 that added the new user.
 
 .. image:: images/admin-user-add.png
-
-Add New Role
-============
-
-Selecting the “Add New Role” button will present a dialog in which roles
-can be defined, with the options:
-
--  Role Name (mandatory): must be unique, i.e. not already used as a
-   role name
-
--  Role Name (mandatory): Assignment of one or more of the following
-   permissions:
-
-   -  Access to the Design Studio
-
-   -  Access to the Marketplace
-
-   -  Access to Onboarding
-
-***TODO: provide further description of these permissions***
-
-.. image:: images/admin-role-add.png
