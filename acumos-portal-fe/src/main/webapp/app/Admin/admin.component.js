@@ -1541,24 +1541,19 @@ angular.module('admin').filter('abs', function () {
                       function (response) {
                     	  getAllRole();
                           $scope.msg = response.data.response_detail;
-                          $scope.icon = '';
-                          $scope.styleclass = 'c-success';
+                          $scope.icon = 'info_outline';
                           $scope.showAlertMessage = true;
+                          if(response.error_code == '100'){
+				  $scope.styleclass = 'c-success';
+                          }
+                          else{
+                        	  $scope.styleclass = 'c-error';
+                          }
                           $timeout(function () {
                               $scope.showAlertMessage = false;
                           }, 3000);
                       },
-                      function (error) {
-                          $scope.status = error.data;
-                          $scope.msg = response.data.response_detail;
-                          $scope.icon = 'info_outline';
-                          $scope.styleclass = 'c-error';
-                          $scope.showAlertMessage = true;
-                          $timeout(function () {
-                              $scope.showAlertMessage = false;
-                          }, 3000);
-                          
-                      });
+                 );
             
 			}
             //Change role by admin
