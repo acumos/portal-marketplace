@@ -26,6 +26,7 @@ Portal and Marketplace Admin Guide
 
    intro.rst
    monitoring.rst
+   role_management.rst
    user_management.rst
    site_content.rst
    site_configuration.rst
