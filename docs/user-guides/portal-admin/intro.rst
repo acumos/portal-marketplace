@@ -31,7 +31,7 @@ The Admin Interface is a web-based tool for a site admin to:
 
 1. Monitor the site activity
 
-2. Manage the roles.
+2. Manage the roles that restrict use of various portal features and assign catalogs to roles.
 
 3. Manage users and change their roles.
 
