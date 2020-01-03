@@ -32,7 +32,6 @@ This tab lists all user accounts on the portal and enables:
 
 -  Changing the role of a user to one or more of the system roles
 
--  Creation of new roles that restrict use of various portal features
 
 .. note::
     A user may be **deactivated** but not **deleted**
