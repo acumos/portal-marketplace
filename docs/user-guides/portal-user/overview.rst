@@ -33,7 +33,7 @@ tools for people wishing to find, learn about and use (deploy or
 download) models in their own computing environments; and (2) the
 Modeler sections for people wishing to share, describe and market their
 models. Modeler tools are available in several areas of the site, including
-Onboarding, the Design Studio, My Models, and Manage My Model.
+On-boarding, the Design Studio, My Models, and Manage My Model.
 
 The Marketplace and Modeler communities may communicate and interact via the
 commenting and rating tools for users.
@@ -45,7 +45,7 @@ It has the following key features:
        easily onboard their AI models, document them, and package them into
        reusable microservices. Newly onboarded models are located in the
        PRIVATE/UNPUBLISHED catalog, viewable only by the user. The Modeler
-       may publish them to either their Company marketplace (viewable by
+       may publish them to either their Restricted marketplace (viewable by
        others with logins on their local Acumos instance) or to the PUBLIC
        Marketplace, where they may be distributed to a wider community.
 
