@@ -1951,6 +1951,9 @@ div[id^="select_container_"] md-content {padding-top: 0; padding-bottom:0;}
 div[id^="select_container_"] md-option {border-bottom: 1px solid #d5d5d5;}
 div[id^="select_container_"] md-option .md-text {/* opacity: 0; */}
 
+md-select-menu md-content md-option:not([disabled]):focus {background: rgb(255,255,255);}
+md-select-menu md-content md-option:not([disabled]):focus[selected]{background: rgb(238,238,238);}
+
 .md-select-menu-container .dc-microsoft-azure .md-ripple-container {display: none;}
 .dcl-list md-option:hover {background-color: none;}
 
