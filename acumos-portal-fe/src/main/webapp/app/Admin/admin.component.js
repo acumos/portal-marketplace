@@ -1541,13 +1541,15 @@ angular.module('admin').filter('abs', function () {
                       function (response) {
                     	  getAllRole();
                           $scope.msg = response.data.response_detail;
-                          $scope.icon = 'info_outline';
+                          
                           $scope.showAlertMessage = true;
-                          if(response.error_code == '100'){
-				  $scope.styleclass = 'c-success';
+                          if(response.data.error_code == '100'){
+                        	  $scope.icon = '';
+                        	  $scope.styleclass = 'c-success';
                           }
                           else{
-                        	  $scope.styleclass = 'c-error';
+                        	  $scope.icon = 'info_outline';
+                        	  $scope.styleclass = 'c-info';
                           }
                           $timeout(function () {
                               $scope.showAlertMessage = false;
