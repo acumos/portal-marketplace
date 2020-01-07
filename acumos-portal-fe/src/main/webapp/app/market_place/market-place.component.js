@@ -62,6 +62,7 @@ angular
 							$scope.loginUserID = $scope.userDetails[1];
 						}
 						
+						var catalogIds = [];
 						/* Catalog Changes start */						
 	                       $scope.loadCatalog = function() {
 	  							$scope.allCatalogList = [];  							
@@ -93,7 +94,7 @@ angular
 		  												var favoriteCatalogs = $scope.CatalogList.filter(function(item) {
 		  													return item.favorite;
 		  												});
-		  												var catalogsToMap = (favoriteCatalogs.length > 0) ? favoriteCatalogs : $scope.CatalogList;
+		  												var catalogsToMap = (favoriteCatalogs.length > 0) ? favoriteCatalogs : ["null"];
 		  												
 		  												$scope.favCatalogIds = catalogsToMap.map(function(item) {
 	  														return item.catalogId;
@@ -107,7 +108,7 @@ angular
 	  														return {"name": item.name, "catalogId": item.catalogId};
 	  													});
 	  													
-		  												$scope.allCatalogIds = $scope.catalogIds;
+		  												catalogIds = $scope.catalogIds;
 		  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 		  											});
 	  							} else {
@@ -122,7 +123,7 @@ angular
 		  													$scope.catalogIds.push($scope.CatalogList[i].catalogId);	  															
 		  													$scope.allCatalogList.push({"name": $scope.CatalogList[i].name, "catalogId": $scope.CatalogList[i].catalogId});
 		  												}
-		  												$scope.allCatalogIds = $scope.catalogIds;
+		  												catalogIds = $scope.catalogIds;
 		  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 		  											});
 	  							}
@@ -332,7 +333,7 @@ angular
 								"request_body" : {
 									"modelTypeCodes" : $scope.categoryFilter,
 									"active" : true,
-									"catalogIds" : $scope.catalogIds,
+									"catalogIds" : catalogIds,
 									"accessTypeCodes": ["PB"],
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
@@ -562,14 +563,10 @@ angular
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;	
 							else if(type == 'SearchbyCatalog'){
-								$scope.catalogIds = [];
-								if(checkbox != undefined){
-									angular.forEach(checkbox, function(item) {
-										$scope.catalogIds.push(item);
-									});
-								}
+								if(angular.isArray(checkbox))
+									catalogIds = $scope.favCatalogIds;
 								else
-									$scope.catalogIds = $scope.allCatalogIds;
+									catalogIds = $scope.catalogIds;
 							}
 							$scope.loadMore(0);
 						}
