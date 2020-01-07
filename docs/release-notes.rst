@@ -21,6 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.27 7th Jan 2020
+=================================
+* ACUMOS-3884 - IST- Model in Role based restricted catalog is visible in public view
+* ACUMOS-3871 - ISt: Role Management: All dropdown values should display in same color
+* ACUMOS-3868 - IST: Role Management: Error Message is not displaying if user delete a role which is assigned to a user
+
 Version 3.0.26 30th December 2019
 =================================
 * ACUMOS-3864 - IST: Role Management: White Spaces should remove from table
