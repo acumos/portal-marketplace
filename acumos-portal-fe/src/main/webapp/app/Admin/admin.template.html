@@ -383,13 +383,13 @@ limitations under the License.
 						</div>
 						  
 						<table
-							class="mdl-data-table fullwidth scroll-table clear_both mdl-js-data-table">
-							<colgroup class="fullwidth">
-								<col style="width:40%">
-								<col style="width:50%">
-								<col style="width:10%">
+							class="mdl-data-table scroll-table clear_both">
+
+							<colgroup>
+								<col style="width:15%;">
+								<col style="width:20%;">
 							</colgroup>
-							<thead ng-hide="hideLabel">
+							<thead ng-hide="hideLabel" class="">
 								<tr>
 									<th
 										ng-click="orderByField='name'; reverseSortRole = !reverseSortRole">Role
@@ -399,13 +399,7 @@ limitations under the License.
 										ng-class="reverseSortRole?'ascending':'descending'"
 										class="gridcell-sort"></span>
 									</th>
-									<th
-										ng-click="orderByField='moduleList'; reverseSortRole = !reverseSortRole">Module Permission<span
-										ng-if='orderByField!="moduleList"'
-										class="gridcell-sort deactivate"></span><span
-										ng-if='orderByField=="moduleList"'
-										ng-class="reverseSortRole?'ascending':'descending'"
-										class="gridcell-sort"></span></th>
+
 									<th>Action</th>									
 								</tr>
 							</thead>
@@ -413,7 +407,7 @@ limitations under the License.
 							<tbody ng-repeat="val in ( filteredRole = (allRoles | orderBy:orderByField:!reverseSortRole  | filter : searchRole : strict))">
 								<tr ng-class="{adminrow: (val.name=='Admin')}">
 									<td>{{val.name}}</td>
-									<td>{{val.moduleList}}</td>
+									
 									<td>
 										<button  class="mdl-button mdl-button--icon" ng-click="addNewRole(val);" ng-disabled="val.name=='Admin'">
 											<span class="gridicon-edit" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>
@@ -427,7 +421,7 @@ limitations under the License.
 							</tbody>
 							<tbody ng-if="filteredRole.length == 0">
 								<tr class="alert c-info text-center">
-									<td class="text-center" colspan="3"><strong>No
+									<td class="text-center" colspan="2"><strong>No
 											Results Found</strong></td>
 								</tr>
 								

@@ -16,21 +16,7 @@
 						ng-model='roleName' /> </md-input-container>
 				</div>
 			</div>
-			<div class="font600 admin-button-row1">User Permission</div>	
-			<div class="admin-button-row1"><span>Module Permissions <sup class="reqfield">*</sup></span></div>
-		 			
-			<div class="admin-row1 select-control">
-				<span class='md-required'></span>
-				<md-select ng-model="permissions" placeholder="select" class="md-no-underline admin-ddl admin-change-role-ddl" multiple="" ng-change="checkAllPermission(permissions)">
-					<div>
-						<div class="custom-dropdown-all"> 
-						<md-checkbox ng-model="allPermisions.checked" ng-true="true" ng-click="allPermissionsSelected()"> All</md-checkbox>
-						</div>
-					<md-option value="{{val.value}}" ng-repeat='val in permissionList' ng-selected="val.selected"  >{{val.permission}}</md-option>
-					</div>
-				</md-select>				
-			</div>
-			<br/> 
+			
 			<div class="admin-button-row1"><span>Catalog Permission <sup class="reqfield">*</sup></span></div>
 				<div class="user-detail-container">
 					<md-checkbox class="catalog-item" ng-model="selectAllCatalogs.checked" ng-click="checkAllRoles(!selectAllCatalogs.checked)"><strong> Select All </strong></md-checkbox>
@@ -45,6 +31,6 @@
 		<div class="dialog-footer-container1">
 			<button ng-click='closePopup()'
 				class="mdl-button mdl-js-button btn-secondary">Cancel</button>
-			<button ng-click='addRole(roleName, permissions)' ng-disabled="!selectedCatalogList.length || !roleName || !permissions.length" class="mdl-button mdl-js-button btn-primary"><span ng-if="roleId">Update</span><span ng-if="!roleId">Create</span></button>
+			<button ng-click='addRole(roleName)' ng-disabled="!selectedCatalogList.length || !roleName " class="mdl-button mdl-js-button btn-primary"><span ng-if="roleId">Update</span><span ng-if="!roleId">Create</span></button>
 		</div>
 		</md-dialog-actions></md-dialog>
