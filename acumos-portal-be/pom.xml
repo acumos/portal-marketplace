@@ -24,7 +24,7 @@ limitations under the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-be</artifactId>
-	<version>3.0.27-SNAPSHOT</version>
+	<version>3.0.28-SNAPSHOT</version>
 	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
 	<parent>
@@ -461,7 +461,7 @@ limitations under the License.
 					<pushRegistry>${docker.push.registry}</pushRegistry>
 					<images>
 						<image>
-							<name>acumos-portal-be:${project.version}</name>
+							<name>acumos/acumos-portal-be:${project.version}</name>
 							<build>
 								<from>adoptopenjdk/openjdk11-openj9:alpine-jre</from>
 								<tags>

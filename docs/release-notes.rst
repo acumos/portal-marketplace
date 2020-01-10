@@ -21,6 +21,13 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.28 10th Jan 2020
+=================================
+* ACUMOS-3894 - Hide Module/Component permission while creating/editing Role
+* ACUMOS-3871 - ISt: Role Management: All dropdown values should display in same color
+* ACUMOS-3875 - IST: Role Management: User Permission is not working
+* ACUMOS-3883 - <Automation> Create New Role> Module Permissions> Select dropdown is not visible after selecting the modules.
+
 Version 3.0.27 7th Jan 2020
 =================================
 * ACUMOS-3884 - IST- Model in Role based restricted catalog is visible in public view
