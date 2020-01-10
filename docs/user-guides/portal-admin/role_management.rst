@@ -22,7 +22,7 @@
 Role Management
 ================
 
-Admin can create the roles and provide corresponding permissions required to that role.
+Admin can create the roles and provide corresponding catalogs required to that role.
 
 				.. image:: images/role_management.PNG
 	               			  :width: 75%
@@ -31,37 +31,30 @@ Selecting the Create New Role button will present a dialog in which roles ca
 
 -  Role Name (mandatory): must be unique, i.e. not already used as a role name
 
--  Module Permission (mandatory): Assignment of one or more of the following
-   permissions:
 
-   -  Access to the Design Studio
-
-   -  Access to the Marketplace
-
-   -  Access to Onboarding
 
 
 				.. image:: images/create_role.PNG
 	               			  :width: 75%
 
-Admin can give **catalog permissions** too. Allowing the user with a particular role to access particular set of catalogs.
+Admin can give **catalog permissions**. Allowing the user with a particular role to access particular set of catalogs.
 The **Select All** check-box allows the admin to assign the permissions of all catalogs to a particular role.
 
 				.. image:: images/select_all.PNG
 	                 		:width: 75%
 
-**Create** button creates the role once all the mandatory fields like Role Name, Module Permission etc.. are filled.
+**Create** button creates the role once all the mandatory fields like Role Name, Catalog selection are filled.
  
 				.. image:: images/create_button.PNG
 	                		 :width: 75%
 
-Once a role is created, it is displayed in a tabular format stating its permissions along with its actions.
+Once a role is created, it is displayed in a tabular format along with its actions.
 	
 				.. image:: images/role_table.PNG
 	            			    :width: 75%
 
 
-**Edit** Icon under the Action tab allows to edit the already assigned module permissions, catalog permissions and role name too.
+**Edit** Icon under the Action tab allows to edit the already assigned catalog permissions and role name too.
 
 				.. image:: images/edit_role.PNG
 	                 		:width: 75%
