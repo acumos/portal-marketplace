@@ -2334,7 +2334,7 @@ angular.module('admin').filter('abs', function () {
             $scope.addCarouselSlide = function () {
                 var validImages = true;
                 if ((!$scope.carouselSlide.backGround
-                    || !$scope.validateImageSize($scope.carouselSlide.backGround, 524, 2560))
+                    || !$scope.validateImageSize($scope.carouselSlide.backGround, 2560, 524))
                     && (!$scope.carouselSlide.infoGraphic
                         || !$scope.validateImageSize($scope.carouselSlide.infoGraphic, 494, 867))) {
                     //create json
@@ -2675,7 +2675,7 @@ angular.module('admin').filter('abs', function () {
                 if (file.height > height || file.width > width) {
                     $scope.imageSizeError = true;
                     $scope.msg = "Image size should be less than " + height + "px X " + width + "px.";
-                    $scope.icon = 'report_problem';
+                    $scope.icon = 'info_outline';
                     $scope.styleclass = "c-error";
                     $scope.invalidImage = true;
                     $timeout(function () {

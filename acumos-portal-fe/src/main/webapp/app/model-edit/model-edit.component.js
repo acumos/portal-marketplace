@@ -1991,7 +1991,7 @@ angular
 			                         	$location.hash('tab1-panel'); 
 			 							$anchorScroll(); 				
 			 							$scope.msg = response.data.response_detail; 
-			 							$scope.icon = 'report_problem';
+			 							$scope.icon = 'info_outline';
 										$scope.styleclass = 'c-error';
 			 							$scope.showAlertMessage = true;
 			 							$timeout(function() {
