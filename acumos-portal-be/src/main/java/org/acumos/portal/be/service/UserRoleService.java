@@ -84,6 +84,6 @@ public interface UserRoleService {
 	
 	void dropUsersInRole(List<String> userIds, String roleId);
 	
-	List<String> getUserAccessCatalogIds(String userId);
+	RestPageResponse<MLPCatalog> getUserAccessCatalogs(String userId,RestPageRequest pageRequest);
 
 }
