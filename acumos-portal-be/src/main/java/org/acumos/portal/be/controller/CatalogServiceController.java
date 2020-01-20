@@ -66,14 +66,14 @@ public class CatalogServiceController extends AbstractController {
 	@ApiOperation(value = "Fetches catalogs, optionally sorted", response = MLPCatalog.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.GET_USER_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,@RequestHeader("Authorization") String authorization,
-			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, @PathVariable String userId, HttpServletResponse response) {
+	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,@RequestBody JsonRequest<RestPageRequest> pageRequestJson, 
+			@PathVariable String userId, HttpServletResponse response) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> catalogs = null;
 		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		userId = SanitizeUtils.sanitize(userId);
 		try {
-			catalogs = catalogService.getCatalogs(userId,authorization,pageRequestJson.getBody());
+			catalogs = catalogService.getCatalogs(userId,pageRequestJson.getBody());
 			if (catalogs != null) {
 				data.setResponseBody(catalogs);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
