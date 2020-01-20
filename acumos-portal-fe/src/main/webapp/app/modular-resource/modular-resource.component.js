@@ -522,9 +522,11 @@ angular.module('modelResource')
 			$scope.clearNotificationInterval = function(){
 				$scope.disableOnboardingButton = false;
 				$scope.file = '';
+				 $scope.isLicenseUploaded = false;
 				$scope.licensefile = "";
 				$scope.licenseDocfile = '';
 				$scope.fileSubmitDocLicense = "";
+				
 				$interval.cancel($scope.clearInterval);
 			}
 			
@@ -533,8 +535,10 @@ angular.module('modelResource')
                 $scope.fileSubmit = false;
                 $scope.fileSubmitLicense = false;
                 $rootScope.trackId = false;
+               
                 $scope.filename = '';
                 $scope.licenseFilename = '';
+               
                 $scope.devEnv = '1';
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
