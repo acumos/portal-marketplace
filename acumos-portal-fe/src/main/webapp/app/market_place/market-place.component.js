@@ -32,7 +32,8 @@ angular
 
 						$scope.setPageStart = 0;
                         $scope.selectedPage = 0;
-                        $scope.SelectedCatalog = 0;                        
+                        $scope.SelectedCatalog = 0; 
+                        $scope.showListExpanded = true;
                         $scope.setStartCount = function(val){
                               if(val == "preBunch"){$scope.setPageStart = $scope.setPageStart-5}
                               if(val == "nextBunch"){$scope.setPageStart = $scope.setPageStart+5}
@@ -714,11 +715,13 @@ angular
 							
 						$scope.Tag = false;
 						$scope.slnID = null;
-						$scope.showListTag = function(solutionID) {
-							if($scope.slnID != solutionID )
+						$scope.showListTag = function(solutionID, index) {
+							
+							if($scope.slnID != solutionID && $scope.slnID != null){
 								$scope.Tag = false;
-						  $scope.Tag = !$scope.Tag;
-						  $scope.slnID = solutionID;
+							}
+							$scope.Tag = !$scope.Tag;
+							$scope.slnID = solutionID;
 						}
 
 						$scope.updateFavorite = function(solutionId, key) {
