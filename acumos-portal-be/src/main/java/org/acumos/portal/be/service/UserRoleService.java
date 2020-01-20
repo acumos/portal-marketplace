@@ -27,6 +27,7 @@ import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
@@ -84,6 +85,6 @@ public interface UserRoleService {
 	
 	void dropUsersInRole(List<String> userIds, String roleId);
 	
-	List<String> getUserAccessCatalogIds(String userId);
+	RestPageResponse<MLPCatalog> getUserAccessCatalogs(String userId,RestPageRequest pageRequest);
 
 }
