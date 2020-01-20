@@ -586,7 +586,7 @@ z-index:2000;
 
 /*CSS code for Manage Taglist:*/
 .a-mp-container1 {display:flex; justify-content: space-between;align-items: center;clear: both;}
-.manage-taglist {border: 1px solid #e1e1e1; margin-right: 5px; border-left: none;position:relative; padding-right: 5px;height: 16px;max-width: 110px;display: flex;
+.manage-taglist {border: 1px solid #e1e1e1; margin-right: 5px; border-left: none;position:relative; padding-right: 10px;height: 16px;max-width: 110px;display: flex;
     align-items: center;top: 5px;}
 .manage-taglist:before {content:""; border: 1px solid #e1e1e1; display:inline-block; position:absolute; 
 left: -5px; transform: rotate(45deg); width: 12px; height: 11px;border-top: none;border-right: none;top:2px; }
@@ -605,7 +605,8 @@ left: -7px; transform: rotate(45deg); width: 14px; height: 14px;top: 2px; border
 .manage-tag-list-container {border: 1px solid #e1e1e1;position:absolute; z-index: 5000; background: #fff; margin-top: 5px;}
 .manage-tag-list {list-style-type: none; padding-left: 14px; margin: 5px 0;}
 .manage-tag-list li { margin-bottom: 5px;}
-
+.tag-icon::after {background: url(../images/general-icons/remove_black.png) no-repeat center center !important; width: 7px !important; height: 7px !important; top: 8px !important;}
+.tag-icon1::after {content: ''; background: url(../images/general-icons/add_black.png) no-repeat center center; display: block; width: 9px; height: 9px; position: absolute; top: 6px; background-size: 13px; right: -8px; opacity:0.7;}
 
 /* Rating */
 .stars-outer {display: inline-block; position: relative;font-family: Font Awesome\ 5 Free; font-weight: 900;margin: 10px 0 0 0;}
