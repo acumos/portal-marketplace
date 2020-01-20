@@ -369,9 +369,9 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	}
 
 	@Override
-	public List<String> getUserAccessCatalogIds(String userId) {
+	public RestPageResponse<MLPCatalog> getUserAccessCatalogs(String userId,RestPageRequest pageRequest) {
 		log.debug("getUserAccessCatalogIds for user : "+userId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		return dataServiceRestClient.getUserAccessCatalogIds(userId);
+		return dataServiceRestClient.getUserAccessCatalogs(userId,pageRequest);
 	}
 }
