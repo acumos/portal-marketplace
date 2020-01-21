@@ -73,7 +73,7 @@ app.component('notificationModule',{
 					angular.forEach(response.data.response_body.content,function( value, key) {
 						$scope.notificationManageObj
 						.push({
-							message : $sce.trustAsHtml(value.message),
+							message : $sce.trustAsHtml($filter('link')(value.message)),
 							start : value.start,
 							startdateForSorting : $filter('date')(value.start, "MM/dd/yyyy"),
 							viewed : value.viewed,
