@@ -2385,8 +2385,10 @@ angular
 						}
 						if($scope.supportingDocs.length > 0){
 							count++;
+						}						
+						if($scope.isLicensePresent){
+							count++;
 						}
-						
 						if($scope.tags1.length > 0){
 							count++;
 						}else if($scope.tags1.length < 1){
@@ -2408,7 +2410,7 @@ angular
 						if($scope.solutionCompanyDesc) count++;
 						$scope.statusCount = count;
 						$scope.activePublishBtn = false;
-						if($scope.statusCount > 5){
+						if($scope.statusCount > 6){
 							$scope.activePublishBtn = true;
 							$scope.modelDocumentation = true;
 						}
@@ -2818,9 +2820,8 @@ angular
 					}
 				    
 				    $scope.getLicenseFile = function() {
-						$scope.modelLicense = "";
-						$scope.modelLicenseError = "";
-						$scope.isLicenseJson = false;
+				    	
+				    	$scope.modelLicense = "";
 						var url = 'api/getLicenseFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
 						$http({
 								method : 'GET',
@@ -2829,9 +2830,10 @@ angular
 							console.log(response);
 							if (response.data) {
 								$scope.modelLicense = response.data;
-								$scope.isLicenseJson = angular.isObject($scope.modelLicense);
+								$scope.isLicensePresent = true;
+								$scope.licenseName = "license-"+$scope.versionId+".json";
 							} else {
-								$scope.modelLicenseError = "No license found";
+								$scope.isLicensePresent = false;
 							}		
 						});
 				 	}
@@ -2847,6 +2849,225 @@ angular
 
 				    } 
 				    
-					}
+				  //Model license profile step
+				    $scope.licenseOption = 'Upload';
+				    var selLicProfileTplMsg;
+				    $scope.createNewLicenseProfileTemplate = function(event, isDockerLicense) {
+						selLicProfileTplMsg = undefined;
+						$scope.isDockerLicense = isDockerLicense;
+						showLicenseProfileEditorDialog(event);
+					};					
+					
+					var bindEvent = function(element, eventName, eventHandler) {
+						if (element.addEventListener) {
+							element.addEventListener(eventName, eventHandler, false);
+						} else if (element.attachEvent) {
+							element.attachEvent('on' + eventName, eventHandler);
+						}
+					},
+					unbindEvent = function(element, eventName, eventHandler) {
+						if (element.removeEventListener) {
+							element.removeEventListener(eventName, eventHandler, false);
+						} else if (element.detachEvent) {
+							element.detachEvent('on' + eventName, eventHandler);
+						}
+					},
+					winMsgHandler = function(event) {
+						// message listener
+						if (event.data.key === 'output') {
+							var licenseText = JSON.stringify(event.data.value);	
+							$scope.licenseOption = 'selectLicProfile';
+							$scope.createLicenseFile(licenseText);
+							$mdDialog.hide();
+						} else if (event.data.key === 'action') {
+							if (event.data.value === 'cancel') {
+								$mdDialog.hide();
+							}
+						} else if (event.data.key === 'init_iframe') {
+							// if licenseProfileEditorInitMsg then send me
+							var iframe = document.getElementById('iframe-license-profile-editor');
 
+							if (selLicProfileTplMsg && iframe) {
+								// send message to License Profile Editor iframe
+								iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+							}
+						}
+					},			
+					showLicenseProfileEditorDialog = function(event) {
+
+						var onCompleteLicProfileTplDialog = function(scope, element, options) {
+							var iframe = document.getElementById('iframe-license-profile-editor');
+
+							if (selLicProfileTplMsg && iframe) {
+								// send message to License Profile Editor iframe
+								iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+							}
+						};
+
+						// open the license profile modal
+						$mdDialog.show({
+							controller: function DialogController($scope, $mdDialog) {
+								$scope.closeDialog = function() {
+									$mdDialog.hide();
+								};
+							},
+							templateUrl:'./app/modular-resource/license-profile-editor-dialog.template.html',
+							parent: angular.element(document.body),
+							targetEvent: event,
+							clickOutsideToClose:false,
+							onComplete: onCompleteLicProfileTplDialog
+						});
+					};
+					if (window.licProfEdMsgHandlerRef) {
+						unbindEvent(window, 'message', window.licProfEdMsgHandlerRef);
+					}
+					bindEvent(window, 'message', winMsgHandler);
+					window.licProfEdMsgHandlerRef = winMsgHandler;
+
+				    //$scope.allTemplates = [];
+				    $scope.modifyLicenseProfileTemplate = function(event, isUpdateLicense) {
+				    	
+				    	if(isUpdateLicense){									
+							var template = $scope.modelLicense;
+							var selectedLic = JSON.stringify($scope.modelLicense);
+						} else {
+							var selectedLic = $scope.allTemplates[$scope.selectedLicense];
+							var template = JSON.parse(selectedLic.template);
+						}
+						if (selectedLic) {
+							try {
+								var msgObj = {
+									"key": "input",
+									"value": template
+								};
+								selLicProfileTplMsg = msgObj;
+							} catch (e) {
+								console.error("failed parsing license profile template input", e);
+							}
+						}
+						showLicenseProfileEditorDialog(event);
+				    };
+					
+					$scope.getAllLicenseTemplates = function() {
+					   apiService.getAllLicenseProfile()
+		               .then(
+		                       function(response) {                   	  
+		                           if(response.data.response_body.length) {
+		                        	  $scope.allTemplates = response.data.response_body;
+		                        	  $scope.selectedLicense = -1;
+		                           } 
+		                });
+					 };					      
+					 $scope.getAllLicenseTemplates();
+					 
+					 
+					 $scope.createLicenseFile = function(licenseText) {
+						   
+						   var request = licenseText; 
+							if(licenseText){
+								 apiService.uploadLicenseFile($scope.loginUserID, $scope.solutionId, $scope.revisionId, $scope.versionId, request)
+					               .then(function(response){ 
+
+					            	    $scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully"; 
+										$scope.icon = '';
+										$scope.styleclass = 'c-success';
+										$scope.showAlertMessage = true;
+										$timeout(function() {
+											$scope.showAlertMessage = false;
+										}, 2500);
+					            	   $scope.getLicenseFile();
+					            	   $scope.changeLicense = false;
+					             });
+							}
+					   }
+					   
+					 
+					 $scope.uploadLicenseFile = function(){
+							$scope.modelLicUploadError = false;
+
+							var uploadUrl = "api/license/upload/" + $scope.loginUserID + "/" + $scope.solutionId + "/" + $scope.revisionId + "/" + $scope.versionId;
+							var promise = modelUploadService.uploadFileToUrl($scope.licensefile, uploadUrl);
+							
+							$scope.uploadingFile = true;
+							promise.then(
+								function(response) {
+									$scope.modelUploadError = false;
+									$rootScope.progressBar = 100;
+									$mdDialog.hide();
+									$scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully";
+									$scope.icon = '';
+									$scope.styleclass = 'c-success';
+									$scope.showAlertMessage = true;
+									$timeout(function() {
+										$scope.showAlertMessage = false;
+									}, 5000);
+									$scope.isLicensePresent = true;
+									// update license content after upload
+									$scope.modelLicense = response.response_body;
+									$scope.changeLicense = false;
+								  $scope.getLicenseFile();
+								},
+								function(error) {
+									if (error.error_code == "sv_info" || error.error_code == "sv_error") {
+										$mdDialog.show({
+											templateUrl : '../app/error-page/sv-modal.template.html',
+											clickOutsideToClose : true,
+											locals: {
+												reasons: error.response_detail,
+												isError: error.error_code == "sv_error"
+											},
+											controller : function DialogController($scope, reasons, isError) {
+												$scope.reasons = reasons;
+												$scope.isError = isError;
+												$scope.closePoup = function(){
+													$mdDialog.hide();
+												}
+											}
+										});
+									} else {
+										$scope.modelUploadError = true;
+									  if(error){
+										  		$scope.modelUploadErrorMsg = [error];
+												if(error['response_detail'] && (error.response_detail).indexOf('$') != -1){
+													$scope.modelUploadErrorMsg = (error.response_detail).substring(1,(error.response_detail).length-1).split('$.');
+													$scope.modelUploadErrorMsg.shift();
+												}
+											}
+										$scope.file = '';
+										$rootScope.progressBar = 0;
+									}
+								});
+						};
+						
+						$scope.closePoup = function(licUploadFlag, dockerURL){
+							if ($scope.uploadingFile && $rootScope.progressBar < 100){
+								modelUploadService.cancelUpload("Upload cancelled by user");
+							}
+							
+							$scope.uploadModel = !$scope.uploadModel;
+							if(licUploadFlag) {
+								if(dockerURL){
+									$scope.licenseDocfile = "";
+									$scope.licenseDockerFilename = "";
+									$scope.fileSubmitDocLicense = false;						
+									$scope.modelDocLicUploadError = false;
+								} else {
+									$scope.licenseFilename = "";
+									$scope.licensefile = "";
+									$scope.fileSubmitLicense = false;
+									$scope.modelLicUploadError = false;
+								}
+							} else {
+								$scope.filename = "";
+								$scope.file = "";
+								$scope.fileSubmit = false;
+								$scope.modelUploadError = false;
+							}
+				           	angular.element('#file').val('');			
+				           	
+				        }
+					
+				    //Model license profile step end    
+					
+					}				    
 				});

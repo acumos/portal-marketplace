@@ -783,7 +783,7 @@ limitations under the License.
 									<h6>
 										Steps To Submit Publication
 										<!-- company -->
-										<span>( {{statusCount}}/6 Completed )</span>
+										<span>( {{statusCount}}/7 Completed )</span>
 										<div class="pull-right">
 											<button ng-click="publishConfirmation(false)" ng-disabled="!existingCatalogId"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Unpublish" title="Unpublish">
@@ -1055,11 +1055,155 @@ limitations under the License.
 													</div>
 												</div>
 											</article>
+																					
+											<!--License model start-->
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon"
+														ng-if="!isLicensePresent">
+														<span class="entypo-suitcase">3</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="isLicensePresent">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															<a ng-click="modifyLicenseProfileTemplate($event, true);">Model License Profile</a>| 
+															<span class="green" ng-if="isLicensePresent">Completed on {{solution.modified | date:'MM/dd/yyyy' }}</span> 
+															<span class="red" ng-if="!isLicensePresent">Not Started</span>
+														</h2>
+														<div id="modelName"
+															class="upload-model-bundle-left single-upload"
+															ng-show="!isLicensePresent || changeLicense == true">
+															<div id="modelName">
+																<md-radio-group ng-model="licenseOption"
+																	id="licenseOption"
+																	ng-change="modelLicUploadError=false; licensefile=false; selectedLicense=-1; modelUploadErrorMsg=''; ">
+																<md-radio-button value="Upload" checked="true">Upload</md-radio-button>
+																<md-radio-button value="selectLicProfile"
+																	ng-if="allTemplates"> Select License
+																Profile</md-radio-button> </md-radio-group>
+																<b>OR</b>
+																<button id="create-new-button"
+																	ng-click="createNewLicenseProfileTemplate($event, false);"
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	alt="Create New License" title="Create New License">Create
+																	New</button>
+															</div>
+															<div
+																ng-if="licenseOption=='selectLicProfile' && allTemplates"
+																class="license-detail-form dc-row">
+																<div
+																	class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+																	<md-select ng-model="$parent.selectedLicense"
+																		placeholder="Select"> <md-option
+																		value="{{$index}}"
+																		ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
+																	</md-select>
+																</div>
+																<div
+																	class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+																	<button
+																		ng-click="modifyLicenseProfileTemplate($event, false)"
+																		ng-if="selectedLicense>=0"
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																		alt="Modify License" title="Modify License">Modify</button>
+																</div>
+															</div>
+
+															<div ng-show="licenseOption=='Upload'">
+																<div
+																	class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input">
+																	<div class="upload-file-container">
+																		<div
+																			ng-class="{'disabledButton': disableOnboardingButton==true}"
+																			class="input-div">
+																			<div file-upload file="licensefile"
+																				uploadid="licenseuploadid" id="uploadFile"
+																				filename="licenseFilename" fileinput="licensefile"
+																				ng-model="licensefile" accept="" alt="Browse"
+																				title="Browse" ng-click="resetLicenseUpload()"
+																				readonly></div>
+																			<div class="upload-image-input files-uploaded">
+																				<input class="mdl-textfield__input disabledClick"
+																					placeholder="Upload license profile" type="text"
+																					ng-model="licenseFilename" readonly />
+																			</div>
+																		</div>
+																		<div class="input-upload-button">
+																			<button
+																				class="mdl-button mdl-js-button btn-primary md-ink-ripple"
+																				type="button"
+																				ng-disabled="!licensefile"
+																				ng-click="uploadLicenseFile();" title="Upload"
+																				alt="Upload" data-upgraded=",MaterialButton">
+																				<span>Upload</span>
+																			</button>
+																		</div>
+																	</div>
+
+																	<div class="progress-bar-div"
+																		ng-show="licensefile.name">
+																		<div>
+																			<span class="namelength">{{licensefile.name}}</span>
+																		</div>
+																		<div ng-if="file.size/1024/1024 < 1">
+																			{{Math.ceil(licensefile.size/1024)}}KB</div>
+																		<div ng-if="file.size/1024/1024 > 1">
+																			{{Math.ceil(licensefile.size/1024/1024)}}MB</div>
+																		<div
+																			ng-show="$root.progressBar > 0 && licUploadFlag == true"
+																			style="width: 80%">
+																			<!-- ng-show="progressVisible" -->
+																			<div class="progress-bar"
+																				ng-style="{'width': $root.progressBar+'%'}"></div>
+																			<div class="" style="text-align: center;">
+																				<span> {{$root.progressBar| number : 0}}% </span>
+
+																			</div>
+																		</div>
+																		<div class="pro-status"
+																			ng-show="$root.progressBar > 0 && licUploadFlag == true">
+																			<span
+																				ng-show="$root.progressBar != 100 && $root.progressBar != 0">Uploading</span>
+																			<span ng-show="$root.progressBar == 100">Done</span>
+																		</div>
+																		<div class="fileclose" ng-click="closePoup(true)">
+																			<i class="material-icons">close</i>
+																		</div>
+																	</div>
+																	<small>Maximum file size: 1mb | Supported files
+																		type: .json</small>
+																</div>
+															</div>
+															<div class="upload-error">
+																<small ng-show="modelUploadErrorMsg"> 
+																	<strong>Please update the license profile to correct the following validation errors:</strong>
+																	<dl>
+																		<li ng-repeat="error in modelUploadErrorMsg">{{error}}</li>
+																	</dl>
+																</small>
+															</div>
+
+														</div>
+
+														<div ng-show="isLicensePresent">
+															<input type="text" value="{{licenseName}}"
+																class="isLicensePresentTextBox" ng-disabled="true" /> <a
+																ng-click="changeLicense=true; modelUploadErrorMsg=''; file = ''; filename = ''; isLicensePresent=false; !licensefile || fileSubmitLicense;" class="link-blue">Change</a>
+														</div>
+
+													</div>
+												</div>
+											</article>
+											<!--License model end-->
+											
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
 														ng-if="(!solution.modelTypeName || !solution.tookitTypeName) || showSolCat">
-														<span class="entypo-suitcase">3</span>
+														<span class="entypo-suitcase">4</span>
 													</div>
 													<div class="timeline-icon bg-success"
 														ng-if="( solution.modelTypeName && solution.tookitTypeName ) && !showSolCat">
@@ -1173,7 +1317,7 @@ limitations under the License.
 													<div class="timeline-icon">
 														<div class="timeline-icon"
 															ng-if="!showSolutionDocs && !company.step4 || showFileUpload">
-															<span class="entypo-suitcase">4</span>
+															<span class="entypo-suitcase">5</span>
 														</div>
 														<div class="timeline-icon bg-success"
 															ng-if="showSolutionDocs && !showFileUpload  || company.step4">
@@ -1367,7 +1511,7 @@ limitations under the License.
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon" ng-if="tags1.length<1">
-														<span class="entypo-suitcase">5</span>
+														<span class="entypo-suitcase">6</span>
 													</div>
 													<div class="timeline-icon bg-success"
 														ng-if="!tags1.length<1">
@@ -1508,7 +1652,7 @@ limitations under the License.
 													<div class="timeline-icon">
 														<div class="timeline-icon"
 															ng-if="!showSolutionImage || showImageUpload">
-															<span class="entypo-suitcase">6</span>
+															<span class="entypo-suitcase">7</span>
 														</div>
 														<div class="timeline-icon bg-success"
 															ng-if="showSolutionImage && !showImageUpload">

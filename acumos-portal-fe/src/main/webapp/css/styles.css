@@ -2506,6 +2506,44 @@ label.model-name{color:#0366d6;}
 } 
 	
 md-select-menu md-content md-option[selected], md-select-menu md-content md-option[selected]:focus{color:#2f2f2f;}
+
+/* Model License Profile newly added step */
+.single-upload .mdl-textfield {width:70%;}
+.single-upload .input-upload-button{position:absolute; right:-85px; top:0px;}
+.single-upload .upload-image-input{border:none !Important; padding:0 4px !important; margin-top:0 !important;}
+.single-upload .upload-file-container{border:1px solid rgba(0,0,0,.12); padding:3px 10px 0 0; height:34px;}
+.single-upload .upload-model-bundle .mdl-grid{padding:0;}
+.single-upload .upload-model-bundle-left {/*border-right:1px solid #ccc; padding:0 16px 16px 0px;*/ }
+.single-upload .upload-model-bundle .timeline-label-cont{padding-left:0px;}
+.single-upload .upload-model-bundle .timeline-label-cont h3{margin-top:0; padding-bottom:0px;}
+.single-upload .upload-file-container{float:left; width:100%;}
+.single-upload .upload-file-container .input-div{float:left; width: calc(100% - 0px); }
+.single-upload .input-upload-button{float:left;}
+.single-upload .input-upload-button .mdl-button{position:relative; bottom:0;  margin-left:4px; }
+.single-upload .input-upload-button button.btn-secondary{margin-right:0; margin-top:5px; background: #671C9D; color: #fff; height: 34px; border-radius: 0;  border: 1px solid rgba(0,0,0,.12);}
+.single-upload .input-div .upload-field{font-size:15px; font-weight:600;}
+.single-upload .progress-bar-div{display: flex; flex-direction: row; flex-wrap: nowrap;position:relative; border: 1px solid rgba(0,0,0,.12); font-size:11px; margin-top: 5px; float: left;  width: 100%; padding-bottom: 5px;}
+.single-upload .progress-bar-div div{padding: 1px 2px; margin-top:5px; line-height: 14px;}   
+.single-upload .fileclose{float:right; padding: 2px 5px 0; margin: 0;   position: absolute; right: 0; cursor:pointer;}
+.single-upload .fileclose i{font-size:12px;}
+.single-upload .onboardbtn{padding-left:8px;}
+.single-upload .timeline h6.onboard-heading{padding-bottom:5px; margin-bottom:0;}
+.single-upload .upload-model-bundle-right{background-color:#F3F3F3; padding:0px;}
+.single-upload .upload-model-bundle-right h5{font-size:14px; color:#671c9d; font-weight:400px; line-height: 19px; margin: 0 -16px 16px; padding: 0px 16px 16px;}
+.single-upload .upload-model-bundle-right-content{padding:16px;}
+.single-upload .upload-model-bundle-right.mdl-cell, .upload-model-bundle-left.mdl-cell{margin-top:0px;}
+.single-upload .upload-model-bundle-left h5{font-size:14px; border-bottom:0px; padding: 15px 10px 12px 0; margin-bottom: 0; font-weight:normal;}
+.single-upload .upload-model-bundle-right-content p{margin-bottom: 10px; line-height: 18px;}
+.single-upload .progress-bar-div .pro-status{width:75px; margin-right:15px; text-align: center;}
+.single-upload .namelength{white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:150px; float:left;}
+.single-upload .progress-bar-div .fileclose{padding-top:3px;}
+.single-upload .license-detail-form.dc-row{display:flex;}
+.single-upload .select-control{padding:0px;}
+.single-upload .select-control md-select md-select-value{padding:0px;}
+.single-upload md-select:not([disabled]):focus .md-select-value{border-width:0; margin-top:0px !Important; padding:0 !important;}
+.isLicensePresentTextBox{width: 50%; color: #B3B3B3; cursor: not-allowed; background: #efefef; border: 1px solid #d3d1d1; padding: 5px 5px 5px 10px; margin-right: 10px;}
+/* Model license new added step ends */
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
