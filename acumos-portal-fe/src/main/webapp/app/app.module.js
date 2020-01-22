@@ -77,6 +77,17 @@ app.filter('customdate',function(){
     }
 });
 
+app.filter('link',function(){
+    return function(input)
+    {
+    	var httpindex = input.search("http");
+    	if(httpindex != -1){
+    	return  input.substr(input.charAt(0), httpindex).concat( input.substr(httpindex, ).link(input.substr(httpindex)));
+    	}
+    	return input;
+    }
+});
+
 angular
 .module('AcumosApp').directive('resizer', function($document) {
 
