@@ -21,7 +21,69 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 3.1.0 26th November 2019
+Version 4.0.0 24th Jan 2020
+=================================
+* ACUMOS-3916 - IST: Expand(-) symbol is not displaying on model tiles after click on Expand(+)on marketplace if model have multiple tag 
+* ACUMOS-3901 - Error message is displaying the warning icon in the k8s deployment failed message
+* ACUMOS-3899 - <IST> While on-boarding a model with license, after successfully on-boarded when user clicks on 'upload new' the * pre-selected 'add license' check box is displaying as disabled.
+* ACUMOS-3872 - IST: Role Management: Select Favorite Catalog is not displaying the updated catalog list
+* ACUMOS-3850 - <Portal Marketplace>Model Details: Page headers/ Menu names display format should be consistent
+* ACUMOS-3849 - <IST>Error message info shows inverted symbol if adding already existing author
+* ACUMOS-3838 - Wrong Icon is displaying for Username/ Email ID already exist in sign up process
+* ACUMOS-3790 - <IST><Portal Marketplace> Model Details: Deploy to Local window tile is not consistent.
+* ACUMOS-3768 - enhance UX when downloading the docker image (tar file)
+* ACUMOS-3638 - [Portal] As a publisher not able to approve publication requests for Models in a restricted catalog
+* ACUMOS-3180 - From Portal deploy to cloud button should not be enable for non-valid composite solution 
+
+Version 3.0.28 10th Jan 2020
+=================================
+* ACUMOS-3894 - Hide Module/Component permission while creating/editing Role
+* ACUMOS-3871 - ISt: Role Management: All dropdown values should display in same color
+* ACUMOS-3875 - IST: Role Management: User Permission is not working
+* ACUMOS-3883 - <Automation> Create New Role> Module Permissions> Select dropdown is not visible after selecting the modules.
+
+Version 3.0.27 7th Jan 2020
+=================================
+* ACUMOS-3884 - IST- Model in Role based restricted catalog is visible in public view
+* ACUMOS-3871 - ISt: Role Management: All dropdown values should display in same color
+* ACUMOS-3868 - IST: Role Management: Error Message is not displaying if user delete a role which is assigned to a user
+
+Version 3.0.26 30th December 2019
+=================================
+* ACUMOS-3864 - IST: Role Management: White Spaces should remove from table
+* ACUMOS-3868 - IST: Role Management: Error Message is not displaying if user delete a role which is assigned to a user
+* ACUMOS-3869 - IST: Role Management: Sorting Icons are not displaying on the column headers
+* ACUMOS-3867 - IST: Role Management: Module Permission is not displaying as per VD
+* ACUMOS-3874 - IST: Role Management: My Catalog should display instead of My Company
+* ACUMOS-3870 - IST: Role Management: Select All should be display selected if I close the popup after selecting it all
+* ACUMOS-3876 - IST: Role Management: Catalog dropdown is not displaying on manage  my model screen when user have created role assigned
+* ACUMOS-3866 - IST: Role Management: Search is not working for valid data
+* ACUMOS-3871 - ISt: Role Management: All dropdown values should display in same color
+* ACUMOS-3873 - IST: Role Management: Edit and Delete option for Admin role should display in grey out color
+* ACUMOS-3865 - IST: Role Management: Create New Role: User Permission: Select All checkbox is not selected when user use it first time
+
+Version 3.0.25 23th December 2019
+=================================
+* ACUMOS-3680 - New Portal screen to allow admin to assign access role to each catalog.
+* ACUMOS-3682 - Portal update the "Select Favorite Catalogs" screen by using above CDS role based catalogs query to show the accessible catalogs to logged-in user
+* ACUMOS-3751 - Show role based catalogs to select in drop down while publishing model
+* ACUMOS-3683 - Portal update the "Marketplace" screen to filter the list of models by using the above CDS role based models query to retrieve models based on accessible catalogs and user's role
+
+Version 3.0.24 16th December 2019
+=================================
+* ACUMOS-3699 - Co-Brand Logo: Please wait is showing for very long time.
+* ACUMOS-3837 - Portal marketplace public model viewing is blocked, requires login
+* ACUMOS-3836 - IST - Logging Debug message constantly filling up logs
+
+Version 3.0.23 09th December 2019
+=================================
+* ACUMOS-3783 - <IST> Once we are creating new license, and clicking on save button, the 'Modify' button is getting enabled without selecting any value from drop-down.
+* ACUMOS-3588 - As a publisher of a model, display the model description before approval to allow description to be part of the approval criteria of the model
+* ACUMOS-3646 - <IST2> On-boarding through Docrized URI << Once on-boarded model successfully, only 'Upload New' button should be enabled not 'On-board model'.
+* ACUMOS-3794 - <Portal Marketplace>Manage My Model > Publish to Marketplace: On changing catalog, rating under description is not getting set to the default value.
+* ACUMOS-3733 - License should be optional during web-on boarding
+
+Version 3.0.22 28th November 2019
 =================================
 * ACUMOS-3719 - <IST> Selection issue on on-boarding dockerized URI model / Web on-boarding
 * ACUMOS-3692 - IST | MLWB | Navigation to Acu-compose from home page of mlwb is failing
