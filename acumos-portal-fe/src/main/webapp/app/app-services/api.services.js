@@ -148,14 +148,15 @@ angular.module('AcumosApp')
         var urlRestoreSnapshot = "api/elk/restore/snapshot";			    //Restore elasticstack snapshot.
         var urlCreateRepositories = "api/elk/repository/create";	        //Create elk repository.
         var urlDeleteIndices = "api/elk/delete/indices";				    //Delete elasticstack Indices.
-		    var urlAllArchives = "api/elk/all/archive";				        	//get all archives.
+		var urlAllArchives = "api/elk/all/archive";				        	//get all archives.
         var urlRestoreArchive = "api/elk/archive/action";				    //restore archives.
 		
-		    var urlGetAllLicenseProfile = "api/getAllLicenseProfile";
+		var urlGetAllLicenseProfile = "api/getAllLicenseProfile";
         var urlGetLicenseTemplate = "api/templateId";
         var urlCreateLicenseFile = "api/writeJsonToFile";
         var urlLicenseProfileUrl = "api/licenseProfileUrl";
         var urlTemplateUploadUrl = "api/licenseTemplate/upload";
+        var urlGetPublishRequest = "api/publish/request";
 	
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -552,7 +553,10 @@ angular.module('AcumosApp')
         this.getData = function(userId){
         	return $http.post("/api/deployCloud/getDeployToK8Config" + '?userId=' + userId);
         }
-
+        
+        this.getPublishRequest = function(reqObj){
+        	return $http.post(urlGetPublishRequest, reqObj);
+        }
         
                 
         /**************** ALL DELETE ******************/
