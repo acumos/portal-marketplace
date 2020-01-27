@@ -79,18 +79,21 @@ and safely composes them together.
 Architecture
 ============
 
-High-level architecture Design for Boreas :
+High-level architecture Design :
 
 .. image:: ../images/onboarding/HighLevelFlow.png
 
-Low-level architecture Design for Boreas (R, Python, Java, ONNX, PFA models) :
+Low-level architecture Design (R, Python, Java, ONNX, PFA models) :
 
-.. image:: ../images/onboarding/Architecture_Diagram.png
+.. image:: ../images/onboarding/Architecture_Diagram_demeter.png
 
-Low-level architecture Design for Boreas (Dockerized model and dockerized model URI) :
+Low-level architecture Design (Dockerized model and dockerized model URI) :
 
-.. image:: ../images/onboarding/Architecture_Diagram2.png
+.. image:: ../images/onboarding/Architecture_Diagram_docker_demeter.png
 
+Low-level architecture Design (C++) :
+
+.. image:: ../images/onboarding/Architecture_Diagram_C_demeter.png
 
 
 .. Methods and Semantics (it is rather for developper guide)
@@ -123,7 +126,8 @@ provide a common description of the model data inputs and outputs.
 
 It exists three client libraries that supports the onboarding of Python, Java and R models. They are
 mainly composed of a function to create the model bundle in wich artifacts are embeded and a push
-function to push the model bundle in Acumos.
+function to push (onboard) the model bundle in Acumos. Once the model bundle is onboarded successfully
+in Acumos, if you have chosen a message respons is dysplayed with  the Acumos doc
 
 The appropriate client library does the first step of the on-boarding process. This includes:
 
@@ -140,6 +144,10 @@ users can change this value to "FALSE" if needed. The creation of the micro-serv
 later, after the on-boarding, in the details model page (when you click on the model in the my model
 page). User can also on-board a licence (that must be named "licence.txt") with his model by putting
 the path to the licence file in the corresponding parameter of push function of the client libraries.
+
+Once the model bundle is onboarded successfully in Acumos, if you have chosen to create the micro service
+at the end of onboarding process, Acumos Docker image URI is dysplayed in a message response. Then you can 
+used this URI to load the Docker model image in your own Docker repository.
 
 On-Boarding By Web
 ==================
