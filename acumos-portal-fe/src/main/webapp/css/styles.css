@@ -148,7 +148,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .tbl-notification-list tbody tr td i {margin-left: 15px;}
 .tbl-notification-list tbody tr td.read-notification {background: #f5f2f8; font-weight: 400;color:#91819d}
 .tbl-notification-list tbody tr td.sub-container span {white-space: normal !important;}
-.notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center;}
+.notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center; padding: 20px 0 0 0;}
 .notification-btn-container button { margin-right: 15px}
 .notification-btn-container button i { font-size: 13px; margin-right: 4px;}
 .scroll-table{height:250px; overflow-x:auto; display:block;} 
@@ -2544,6 +2544,13 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 .single-upload md-select:not([disabled]):focus .md-select-value{border-width:0; margin-top:0px !Important; padding:0 !important;}
 .isLicensePresentTextBox{width: 50%; color: #B3B3B3; cursor: not-allowed; background: #efefef; border: 1px solid #d3d1d1; padding: 5px 5px 5px 10px; margin-right: 10px;}
 /* Model license new added step ends */
+
+/* Publish request table */
+.pub-req .mdl-data-table td:first-of-type label.small,.pub-req .mdl-data-table td:nth-child(2) label.small {max-width:130px;}
+.pub-req table.admin-tbl1 thead tr th:nth-child(4), .pub-req table.admin-tbl1 thead tr th:nth-child(5), .pub-req table.admin-tbl1 thead tr th:nth-child(6),.pub-req table.admin-tbl1 thead tr th:nth-child(7){min-width:130px;}
+.pub-req table.admin-tbl1 thead tr th:nth-child(8){min-width:120px;}
+.pub-req table.dataTable tbody td{padding:5px 18px;}
+.pub-req table.admin-tbl1 thead tr th{padding-top:0; padding-bottom:0;}
 
 /*********** MEDIA QUERIES SECTION START************/
 
