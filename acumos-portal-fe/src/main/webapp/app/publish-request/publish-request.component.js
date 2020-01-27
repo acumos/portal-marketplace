@@ -27,8 +27,9 @@ angular
 
 					templateUrl : './app/publish-request/md-publish-request.template.html',
 					controller : function($scope, $location, $http, $rootScope,
-							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $filter, $sce, browserStorageService) {
+							$stateParams, $sessionStorage, $localStorage, $mdDialog, $state, $window, apiService, 
+							$anchorScroll, $timeout, $document, $filter, $sce, browserStorageService,
+							DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder){
 						
 						var user= JSON.parse(browserStorageService.getUserDetail());
 						
@@ -101,6 +102,31 @@ angular
 			            	$scope.requestResultSize = size;
 			            	$scope.loadPublishRequest(0)
 			            }
+			            
+			            $scope.loadPublishRequestTotalPages = function(){
+			            	var reqObject = {
+									  "request_body": {
+									    "pageRequest": {
+									      "fieldToDirectionMap": {"created" : "DESC"},
+									      "page": 0,
+									      "size": 1
+									    }
+									  }
+									}
+			            	
+			            	apiService
+			            	.getPublishRequest(reqObject)
+			            	.then(function(response) {
+								$scope.publishRequestTotalPages = response.data.totalElements;
+								$scope.loadPublishRequest(0);
+							},
+							function(error){
+								console.warn("Error fetching Publish Request");
+							});
+			            	
+			            };
+			            
+			            
 						$scope.loadPublishRequest = function(pageNumber) {
 							$scope.allPublishRequest = [];
 							$scope.SetDataLoaded = true;
@@ -108,22 +134,19 @@ angular
 							$scope.pageNumber = pageNumber;
 							$scope.selectedPage = pageNumber;
 							var getPublishRequestUrl = 'api/publish/request/';
+							$scope.publishRequestTotalPages;
 							var reqObject = {
 											  "request_body": {
 											    "pageRequest": {
 											      "fieldToDirectionMap": {"created" : "DESC"},
 											      "page": $scope.pageNumber,
-											      "size": $scope.requestResultSize
+											      "size":  12 //$scope.publishRequestTotalPages
 											    }
 											  }
 											}
 							
-							$http(
-									{
-										method : 'POST',
-										url : getPublishRequestUrl,
-										data: reqObject
-									})
+							apiService
+			            	.getPublishRequest(reqObject)
 									.then(
 											function successCallback(response) {
 												$scope.allPublishRequest = response.data.response_body;
@@ -142,15 +165,14 @@ angular
 							
 							
 							apiService.isPublishOwnRequestsEnabled().then(function(response) {
-								
 								$scope.publishOwnRequestsEnabled = response.data.response_body;
-								
 							});
 						}
+						
 						if($scope.loginUserID)
-							$scope.loadPublishRequest(0);
+			            $scope.loadPublishRequestTotalPages();
 						$scope.showAlertMessage = false;
-
+						
 						$scope.publishReqeuest = function(index, publishVal){
 							$scope.publishVal = publishVal;
 							var publishRequestCode = 'DC';
