@@ -20,5 +20,5 @@ limitations under the License.
 
 'use strict';
 
-angular.module('publishRequest',['ngMaterial'])
+angular.module('publishRequest',['ngMaterial', 'datatables'])
 
