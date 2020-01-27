@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d5ad444_40e62761",
+        "filename": "docs/user-guides/portal-user/portal/portal-onboarding-intro.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2020-01-27T15:27:17Z",
+      "side": 1,
+      "message": "this should be .png rt?",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 50
+      },
+      "revId": "6995d181ff8a824708b2cc8a07c95b0c0e30990b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
