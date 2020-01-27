@@ -49,17 +49,123 @@ limitations under the License.
 					active/Inactive requests)</span>
 			</div>
 			<div class="fed-row2">
-				<div class="fed-srch-container">
+				<!-- <div class="fed-srch-container">
 					<label class="fed-lbl1">Filter</label>
 					<div class="mdl-textfield mdl-js-textfield admin-search-container">
 						<input class="mdl-textfield__input admin-search-control"
 							type="text" placeholder="" ng-model="searchPublishRequest">
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
-		<div class="admin-grid-container fedtbl tbl-overflowscroll">
-			<table
+		<div class="admin-grid-container fedtbl pub-req" id="dataTab">
+	 
+			<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl tbl-overflowscroll"
+				datatable="ng" dt-options="dtOptions" dt-columns="dtColumns" dt-column-defs="dtColumnDefs">
+				
+				<colgroup>
+					<col >
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+				</colgroup>
+				
+				<thead ng-hide="hideLabel">
+					<tr>
+						<th>Model Name</th>
+						<th>Version</th>
+						<th>Requester</th>
+						<th>Created Date</th>
+						<th>Catalog</th>
+						<th>Access Level</th>
+						<th>Request Status</th>
+						<th>Comments</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq ">
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+							<a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId,requestUserId:publishReq.requestUserId,requestStatusCode:publishReq.requestStatusCode,catalogId:publishReq.catalogId,catalogName:publishReq.catalogName})">
+								<label class="model-name">{{publishReq.solutionName}}</label>
+							</a>
+							<label class="small">{{publishReq.solutionId}}</label></td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label
+							class="small">Revision ID: {{publishReq.revisionId}}</label></td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.requestorName}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}" >{{publishReq.creationDate | date : "MM/dd/yyyy"}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.catalogName}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.accessType == 'PB' ? 'Public' : 'Restricted'}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
+							ng-class="{'text-green': publishReq.requestStatusName == 'Approved' , 
+							'text-red': publishReq.requestStatusName == 'Declined',
+							'text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
+						</td>
+						<td>
+							<div ng-if="publishReq.comment">
+							<a ng-click="setActiveComment(publishReq.publishRequestId)"
+								ng-bind="(isActiveComment(publishReq.publishRequestId)) ? 'Hide' : 'View'"></a>
+					 		
+					 		<!-- Popover Starts -->
+					 		<div ng-show="isActiveComment(publishReq.publishRequestId)" class="custom_popover">
+								<div class="popovers">
+									<md-toolbar>
+									<div class="md-toolbar-tools">
+										<h2>Publisher's Comments </h2>
+										<span flex></span>
+										<md-button class="md-icon-button"
+											ng-click="setActiveComment(publishReq.publishRequestId)"> <i
+											class="material-icons" alt="Close" title="Close">close</i> </md-button>
+									</div>
+									</md-toolbar>
+									<md-dialog-content>
+									<div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+											<p> {{publishReq.comment}}</p>
+	
+										</div>
+										<div layout="row" class="popovers-cloud-modalfooter">
+											<md-button ng-click="showComments = !showComments"
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
+											Cancel </md-button>
+										
+										</div>
+									</div>
+									</md-dialog-content>
+								</div>
+							</div>
+					 		<!-- Popover Ends -->
+							</div>
+						<div ng-hide="publishReq.comment" class="custom_popover"><label
+								class="a-tooltipval">N/A</label>
+						</div></td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'">
+							<div class="admin-action-container">
+								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )" name="approvePublishRequestModal"
+									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)','cursor':'not-allowed'}"
+									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
+									class="mdl-button mdl-js-button mdl-button--icon">
+									<span class="gridicon-approve"></span>
+								</button>
+								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )"  name="declinePublishRequestModal"
+									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)','cursor':'not-allowed'}"
+									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
+									class="mdl-button mdl-js-button mdl-button--icon">
+									<span class="gridicon-deny"></span>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!-- <table
 				class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl">
 				<colgroup>
 					<col width="15%">
@@ -138,7 +244,7 @@ limitations under the License.
 						<th>Action</th>
 					</tr>
 				</thead>
-				<tbody><!-- (filtertedUser = (allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : search) ) -->
+				<tbody>(filtertedUser = (allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : search) )
 
 					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : searchPublishRequest as allPublishRequestFiltered">
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId,requestUserId:publishReq.requestUserId,requestStatusCode:publishReq.requestStatusCode,catalogId:publishReq.catalogId,catalogName:publishReq.catalogName})"><label class="model-name">{{publishReq.solutionName}}</label></a>
@@ -159,7 +265,7 @@ limitations under the License.
 							<a ng-click="setActiveComment(publishReq.publishRequestId)"
 								ng-bind="(isActiveComment(publishReq.publishRequestId)) ? 'Hide' : 'View'"></a>
 					 		
-					 		<!-- Popover Starts -->
+					 		Popover Starts
 					 		<div ng-show="isActiveComment(publishReq.publishRequestId)" class="custom_popover">
 								<div class="popovers">
 									<md-toolbar>
@@ -187,7 +293,7 @@ limitations under the License.
 									</md-dialog-content>
 								</div>
 							</div>
-					 		<!-- Popover Ends -->
+					 		Popover Ends
 							</div>
 						<div ng-hide="publishReq.comment" class="custom_popover"><label
 								class="a-tooltipval">N/A</label>
@@ -210,11 +316,14 @@ limitations under the License.
 						</td>
 					</tr>
 				</tbody>
-			</table>
-			<div class="alert c-info text-center"
+			</table> -->
+			
+			<!-- <div class="alert c-info text-center"
 				ng-if="allPublishRequestFiltered.length == 0 || allPublishRequest == '' ">
 				<strong>No Results Found</strong>
-			</div>
+			</div> -->
+			
+			
 			<!-- Modal box for approve and reject publish request -->
 			<div class="md-dialog-container" id="publishRequestModal"
 				style="height: 0;">
@@ -281,7 +390,11 @@ limitations under the License.
 			</div>
 			<!-- Modal box end -->
 		</div>
-		<div class="pagination-wrapper" ng-if="allPublishRequestLength > 0">
+		
+		
+		
+		
+		<!-- <div class="pagination-wrapper" ng-if="allPublishRequestLength > 0">
 			<div class="pagination-left-section">
 				<span>Showing </span>
 				<div class="select-control">
@@ -350,7 +463,7 @@ limitations under the License.
 						ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<!--  publish request end -->
 	</div>
 </div>
