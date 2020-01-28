@@ -554,9 +554,11 @@ angular
 								url : url
 						}).then(function successCallback(response) {
 							if (response.data) {
+								delete response.data["$schema"]; //to remove $schema key
 								$scope.isLoadingLicense = false;
 								$scope.isLicenseFound = true;
 								$scope.modelLicense = response.data;
+								$scope.yaml = json2yaml($scope.modelLicense);
 								// avoid license json checks during digest cycle
 								$scope.isLicenseJson = angular.isObject($scope.modelLicense);
 							} else {

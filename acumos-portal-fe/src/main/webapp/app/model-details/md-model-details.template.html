@@ -483,9 +483,8 @@ limitations under the License.
 	                              Close
 							</button>
 						</div>
-						<div ng-if="modelLicense">
-							<pre class="wrap" ng-if="modelLicense && changeLicense==false">{{modelLicense | json: 4}}</pre>
-						</div>
+
+						<pre ng-if="modelLicense && changeLicense==false" class="licensedisplay" ng-bind-html="yaml"></pre>
 						
 						<div ng-show="isLicenseFound===false && isLoadingLicense===true">Loading License...</div>
 						<div class="noresult" ng-show="isLicenseFound===false && isLoadingLicense===false">No license profile attached, please attach a license profile. </div>
