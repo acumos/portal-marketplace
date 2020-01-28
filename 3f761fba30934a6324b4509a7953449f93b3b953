@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "274eb226_e9191aab",
+        "filename": "acumos-portal-fe/src/main/webapp/app/resources/json2yaml.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2020-01-28T09:49:14Z",
+      "side": 1,
+      "message": "If this is new file, please add license",
+      "revId": "3f761fba30934a6324b4509a7953449f93b3b953",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
