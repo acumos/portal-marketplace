@@ -1,3 +1,7 @@
+																																										
+
+
+
 /*
 ===============LICENSE_START=======================================================
 Acumos  Apache-2.0
@@ -21,6 +25,9 @@ limitations under the License.
 body.md-default-theme, body, html.md-default-theme, html {background:#fff;}
 html,body, button,input, select, textarea,.mdl-button {font-family: 'Open Sans', sans-serif;} 
 p {font-size: 1em;}
+
+	  
+  
 
 h1, h2, h3{font-family: 'Open Sans', sans-serif !important; background:none !important;}
 body{color: rgba(0,0,0,0.87) !important; font-family: 'Open Sans', sans-serif !important;}
@@ -148,7 +155,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .tbl-notification-list tbody tr td i {margin-left: 15px;}
 .tbl-notification-list tbody tr td.read-notification {background: #f5f2f8; font-weight: 400;color:#91819d}
 .tbl-notification-list tbody tr td.sub-container span {white-space: normal !important;}
-.notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center;}
+.notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center; padding: 20px 0 0 0;}
 .notification-btn-container button { margin-right: 15px}
 .notification-btn-container button i { font-size: 13px; margin-right: 4px;}
 .scroll-table{height:250px; overflow-x:auto; display:block;} 
@@ -1319,6 +1326,13 @@ md-content{ background:#fff ;}
 	margin-bottom: 16px;
 }
 
+																																												  
+	  
+																							  
+																																					
+																																																																											  
+																																																																												   
+
 .mdl-textfield.admin-search-container, .fed-row2 .mdl-textfield.admin-search-container input.admin-search-control{ width: 200px !important; margin:0 15px 0 0; padding:0 25px 0 5px; height:30px; font-size: 14px; }
 
 .admin-search-control {border: 1px solid #d5d5d5;padding-right: 40px;width: 75%;border: 1px solid #d5d5d5;padding-left:5px; 
@@ -1823,6 +1837,8 @@ box-sizing: border-box;}
 .validation-container .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-danger {background-color: #cc2424;color: #fff;}
 .validation-container .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label {position: relative; /* padding: 0 0 5px 0; */ margin-left: 30px;-webkit-background-clip: padding-box;
 -moz-background-clip: padding;background-clip: padding-box; /* border-bottom:1px solid #DBCBE8;  margin-bottom:5px;*/
+	   
+																																																																																  
 }
 .validation-container .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label.last{border-bottom:0;}
 .validation-container .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p {
@@ -2550,6 +2566,16 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 .licensedisplay span { line-height: 1.9em; }
 .licensedisplay span strong { color: #4f147a;font-weight:600; }
 /* License Profile in human readable format start */
+
+/* Publish request table */
+.pub-req .mdl-data-table td:first-of-type label.small,.pub-req .mdl-data-table td:nth-child(2) label.small {max-width:130px;}
+.pub-req table.admin-tbl1 thead tr th:nth-child(4), .pub-req table.admin-tbl1 thead tr th:nth-child(5), .pub-req table.admin-tbl1 thead tr th:nth-child(6),.pub-req table.admin-tbl1 thead tr th:nth-child(7){min-width:130px;}
+.pub-req table.admin-tbl1 thead tr th:nth-child(8){min-width:120px;}
+.pub-req table.dataTable tbody td{padding:5px 18px;}
+.pub-req table.admin-tbl1 thead tr th{padding-top:0; padding-bottom:0;}
+.pub-req table.admin-tbl1 thead tr th:last-child {text-align: right; min-width:70px;}
+																					 
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
@@ -2774,7 +2800,11 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 	.confirm-control {margin-bottom: 20px;}
 	.mdl-textfield--expandable .mdl-button--icon {top: 20px;}
 	
+																				  
+	  
 }
+
+																																										  
 
 @media (min-width: 600px) and (max-width: 699px) {	 
 	.signup-container2 {padding-top: 22px;}
@@ -2891,7 +2921,15 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 @media (min-width: 700px) {
 	.gridlistview-btn {width: 36px !important;}
 	.btn-browseby {max-width: 100px !important;}
+																				 
+																	 
+																							  
+																							  
+																							  
+	  
 }	
+
+																																												  
 
 @media (max-width: 960px) {	
 	.product-image {padding-top:15px;}
@@ -2917,6 +2955,8 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 	
 	.acu-mob-header-container2 {display: flex; align-items: center;}
 }
+
+																																										  
 
 @media (min-width: 960px) {
 	.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {margin-left: 227px; width: calc(100% - 227px);}
@@ -2957,7 +2997,17 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 @media (min-width: 1030px) {
 	.cg-grid-left-container {width:240px !important;}
 	.cg-grid-right-container {width: calc(100% - 240px) !important}		
+																				 
+																	 
+																							  
+																							  
+																				  
+																	 
+																	 
+	  
 	}
+
+
 
 
 
@@ -3007,6 +3057,8 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
   .mdl-textfield__input.loggedin-header-search {width: 90% !important;} 
 }
 													 
+
+	
 
 /* IE10+ */
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {     
