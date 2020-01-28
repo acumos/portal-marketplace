@@ -2545,6 +2545,11 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 .isLicensePresentTextBox{width: 50%; color: #B3B3B3; cursor: not-allowed; background: #efefef; border: 1px solid #d3d1d1; padding: 5px 5px 5px 10px; margin-right: 10px;}
 /* Model license new added step ends */
 
+/* License Profile in human readable format start */
+.licensedisplay {background: #fff; padding: 10px 5px 10px 10px;font-family: 'Open Sans', sans-serif;}
+.licensedisplay span { line-height: 1.9em; }
+.licensedisplay span strong { color: #4f147a;font-weight:600; }
+/* License Profile in human readable format start */
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
