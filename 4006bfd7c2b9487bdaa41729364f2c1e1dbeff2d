@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9564219c_b6e82ce0",
+        "filename": "acumos-portal-fe/src/main/webapp/app/resources/angular-datatables.min.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2020-01-28T15:12:05Z",
+      "side": 1,
+      "message": "license ?",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "4006bfd7c2b9487bdaa41729364f2c1e1dbeff2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f87e21d7_cc5ed510",
+        "filename": "acumos-portal-fe/src/main/webapp/css/angular-datatables.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2020-01-28T15:12:05Z",
+      "side": 1,
+      "message": "License ?",
+      "revId": "4006bfd7c2b9487bdaa41729364f2c1e1dbeff2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
