@@ -20,5 +20,5 @@ limitations under the License.
 
 'use strict';
 
-angular.module('onboardingHistory',['ngMaterial'])
+angular.module('onboardingHistory',['ngMaterial', 'datatables'])
 
