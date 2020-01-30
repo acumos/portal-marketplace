@@ -120,7 +120,7 @@ public class PublishRequestController extends AbstractController {
     public PagableResponse<List<MLPublishRequest>> getAllPublishRequest(HttpServletRequest request, @RequestBody JsonRequest<RestPageRequestPortal> restPageReq, HttpServletResponse response) {
 		PagableResponse<List<MLPublishRequest>> mlPublishRequestList = new PagableResponse<>();
 		try {
-			mlPublishRequestList = publishRequestService.getAllPublishRequest(restPageReq.getBody().getPageRequest());
+			mlPublishRequestList = publishRequestService.getAllPublishRequest(restPageReq.getBody().getUserId(),restPageReq.getBody().getPageRequest());
 			
 			log.debug("getAllPublishRequest: size is {} ", mlPublishRequestList.getSize());
 		} catch (Exception e) {
