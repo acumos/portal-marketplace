@@ -28,7 +28,8 @@ angular
 					templateUrl : './app/onboarding-history/onboarding-history.template.html',
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $filter, $sce, browserStorageService) {
+							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $filter, $sce, 
+							browserStorageService, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder) {
 						
 						var user= JSON.parse(browserStorageService.getUserDetail());
 						
@@ -91,8 +92,54 @@ angular
 			            	$scope.allOnBoardingHistoryTaskList = [];
 			            	$scope.allOnboardingListLength = 0;
 			            	$scope.requestResultSize = size;
-			            	$scope.loadOnBoardingHistoryTaskList(0)
+			            	//$scope.loadOnBoardingHistoryTaskList(0)
+			            	$scope.totalElementsOnboardingTasks(0);
 			            } 
+			            
+			            $scope.dtOptions = DTOptionsBuilder.newOptions()
+		                .withPaginationType('full_numbers')
+		                .withDisplayLength(10)
+		                /*.withDOM('pitrfl');*/
+			            $scope.dtColumnDefs = [
+			                DTColumnDefBuilder.newColumnDef(0),
+			                DTColumnDefBuilder.newColumnDef(6).notSortable()
+			            ];
+			            
+			            $scope.totalElementsOnboardingTasks = function(pageNumber, filterValue) {							
+							$scope.SetDataLoaded = true;
+							$rootScope.setLoader = true;
+							$scope.pageNumber = pageNumber;
+							$scope.selectedPage = pageNumber;
+							$scope.filterValue = filterValue;
+							var reqObject = {
+											  "request_body": {																							
+												    "pageRequest": {
+												        "fieldToDirectionMap": {"created":"DESC"},
+												        "page": pageNumber,
+												        "size": 1
+												      },
+												      "taskStatus" : filterValue == "undefined" ? null : filterValue
+											  }
+											}							
+							apiService
+							    .onBoardingHistoryTaskList($scope.loginUserID, reqObject)
+									.then(
+											function successCallback(response) {
+												if(response.data.response_body.length > 0){
+													$scope.totalOnboardingElements = response.data.totalElements;
+													$scope.loadOnBoardingHistoryTaskList(0, $scope.filterValue);
+											}
+												else{
+													$scope.SetDataLoaded = false;
+													$rootScope.setLoader = false;
+												}
+											},function errorCallback(response) {
+												$scope.SetDataLoaded = false;
+												$rootScope.setLoader = false;
+											});																			
+						};
+			            
+			            
 						$scope.loadOnBoardingHistoryTaskList = function(pageNumber, filterValue) {							
 							$scope.allOnBoardingHistoryTaskList = [];
 							$scope.onboardingListsFirst = [];
@@ -106,7 +153,7 @@ angular
 												    "pageRequest": {
 												        "fieldToDirectionMap": {"created":"DESC"},
 												        "page": pageNumber,
-												        "size": $scope.requestResultSize
+												        "size": $scope.totalOnboardingElements
 												      },
 												      "taskStatus" : filterValue == "undefined" ? null : filterValue
 											  }
@@ -130,7 +177,7 @@ angular
 												$rootScope.setLoader = false;
 											}
 												else{
-                                                                                                  $scope.CheckallOnBoardingHistoryTaskList = 0;
+													$scope.CheckallOnBoardingHistoryTaskList = 0;
 													$scope.SetDataLoaded = false;
 													$rootScope.setLoader = false;
 												}
@@ -139,8 +186,11 @@ angular
 												$rootScope.setLoader = false;
 											});																			
 						}
-						if($scope.loginUserID)
-							$scope.loadOnBoardingHistoryTaskList(0);
+						
+						if($scope.loginUserID){
+							//$scope.loadOnBoardingHistoryTaskList(0);
+							$scope.totalElementsOnboardingTasks(0);
+						}
 						
 						//Search Data 
   						$scope.searchData = function (searchValue) {  							  							
