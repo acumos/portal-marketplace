@@ -31,7 +31,7 @@ public interface PublishRequestService {
 
 	MLPublishRequest getPublishRequestById(Long publishRequestId);
 
-	PagableResponse<List<MLPublishRequest>> getAllPublishRequest(RestPageRequest requestobj);
+	PagableResponse<List<MLPublishRequest>> getAllPublishRequest(String userId,RestPageRequest requestobj);
 
 	MLPublishRequest updatePublishRequest(MLPublishRequest publishRequest) throws AcumosServiceException;
 

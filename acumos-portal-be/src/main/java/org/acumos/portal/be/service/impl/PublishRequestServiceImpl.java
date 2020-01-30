@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.acumos.cds.CodeNameType;
@@ -173,18 +174,66 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 	}
 
 	@Override
-	public PagableResponse<List<MLPublishRequest>> getAllPublishRequest(RestPageRequest requestObj) {
+	public PagableResponse<List<MLPublishRequest>> getAllPublishRequest(String userId,RestPageRequest requestObj) {
 		log.debug("getAllPublishRequest");
 		PagableResponse<List<MLPublishRequest>> response = new PagableResponse<>();
-
+		List<MLPublishRequest> publishrequestList = new ArrayList<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		Map<String, String> queryParameters = new HashMap<>();
+		queryParameters.put("created", "DESC");
 		RestPageResponse<MLPPublishRequest> mlpPublishRequestResponse = dataServiceRestClient
 				.getPublishRequests(requestObj);
-		List<MLPublishRequest> publishrequestList = new ArrayList<>();
+		RestPageResponse<MLPUser> mlpUserRestResponse=dataServiceRestClient.getUsers(new RestPageRequest(0,1000,queryParameters));
+		int totalUserCount=(int)mlpUserRestResponse.getTotalElements();
+		List<MLPUser> requestorUserList = new ArrayList<>();
+		requestorUserList=mlpUserRestResponse.getContent();
+		if(totalUserCount>1000) {
+			int iterationCount=(totalUserCount/1000)-1;
+			for(int i=0;i<=iterationCount;i++) {
+				requestorUserList.addAll(dataServiceRestClient.getUsers(new RestPageRequest(i+1,1000,queryParameters)).getContent());
+			}
+		}
+		int solutionCount=(int)dataServiceRestClient.getSolutionCount();
+		List<MLPSolution> mlpSolutions= new ArrayList<>(dataServiceRestClient.getSolutions(new RestPageRequest(0, solutionCount, queryParameters)).getContent());
+		//mlpSolutions=dataServiceRestClient.getSolutions(new RestPageRequest(0, solutionCount, queryParameters)).getContent();
+		if(solutionCount>1000) {
+			int iterationCount=(solutionCount/1000)-1;
+			for(int i=0;i<=iterationCount;i++) {
+				List<MLPSolution> mlpSolutionList=dataServiceRestClient.getSolutions(new RestPageRequest(i+1, solutionCount, queryParameters)).getContent();
+				mlpSolutions.addAll(mlpSolutionList);
+			}
+		}
+		List<MLPCodeNamePair> publishStatusList = dataServiceRestClient
+				.getCodeNamePairs(CodeNameType.PUBLISH_REQUEST_STATUS);
+		RestPageResponse<MLPCatalog> mlpCatalogRestResposne=dataServiceRestClient.getUserAccessCatalogs(userId, new RestPageRequest(0, 1000, queryParameters));
+		int totalCatalogCount=mlpCatalogRestResposne.getNumberOfElements();
+		List<MLPCatalog> catalogList= new ArrayList<>();
+		catalogList=mlpCatalogRestResposne.getContent();
+		if(totalCatalogCount>1000) {
+			int iterationCount=(totalCatalogCount/1000)-1;
+			for(int i=0;i<=iterationCount;i++) {
+				catalogList.addAll(dataServiceRestClient.getUserAccessCatalogs(userId, new RestPageRequest(i+1, 1000, queryParameters)).getContent());
+			}
+		}
 		if (mlpPublishRequestResponse != null) {
 			List<MLPPublishRequest> mlpPublishRequestList = mlpPublishRequestResponse.getContent();
 			for (MLPPublishRequest mlpPublishRequest : mlpPublishRequestList) {
-				MLPublishRequest mlPublishRequest = getPublishRequestDetails(mlpPublishRequest);
+				MLPublishRequest mlPublishRequest = PortalUtils.convertToMLPublishRequest(mlpPublishRequest);
+				Optional<MLPUser> mlpUser=requestorUserList.stream().filter(requestUser->requestUser.getUserId().equalsIgnoreCase(mlpPublishRequest.getRequestUserId())).findFirst();
+				mlPublishRequest.setRequestorName(mlpUser.get().getFirstName()+" "+mlpUser.get().getLastName());
+				Optional<MLPSolution> mlpSolution=mlpSolutions.stream().filter(solution->solution.getSolutionId().equalsIgnoreCase(mlpPublishRequest.getSolutionId())).findFirst();
+				mlPublishRequest.setSolutionName(mlpSolution.get().getName());
+				if (!PortalUtils.isEmptyOrNullString(mlpPublishRequest.getRevisionId())) {
+					MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(mlpPublishRequest.getSolutionId(),
+							mlpPublishRequest.getRevisionId());
+					mlPublishRequest.setRevisionName(revision.getVersion());
+				}
+				Optional<MLPCodeNamePair> mlpCodeNamePair=publishStatusList.stream().filter(publishStatus->publishStatus.getCode().equalsIgnoreCase(mlpPublishRequest.getStatusCode())).findFirst();
+				mlPublishRequest.setRequestStatusName(mlpCodeNamePair.get().getName());
+				Optional<MLPCatalog> mlpCatalog=catalogList.stream().filter(catalog->catalog.getCatalogId().equalsIgnoreCase(mlpPublishRequest.getCatalogId())).findFirst();
+				mlPublishRequest.setCatalogId(mlpCatalog.get().getCatalogId());
+				mlPublishRequest.setCatalogName(mlpCatalog.get().getName());
+				mlPublishRequest.setAccessType(mlpCatalog.get().getAccessTypeCode());
 				publishrequestList.add(mlPublishRequest);
 			}
 		}

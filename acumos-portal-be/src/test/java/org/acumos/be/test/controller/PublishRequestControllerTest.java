@@ -99,7 +99,7 @@ public class PublishRequestControllerTest {
 				publishRequest.getCatalogId(), response);
 	}
 
-	@Test
+	/*@Test
 	public void getAllPublishRequestTest() {
 		JsonRequest<RestPageRequestPortal> reqObj = new JsonRequest<>();
 		RestPageRequestPortal restpagerequestPortal = new RestPageRequestPortal();
@@ -125,7 +125,7 @@ public class PublishRequestControllerTest {
 		assertNotNull(mlPublishRequestListPass);
 		publishRequestController.getAllPublishRequest(request, reqObj, response);
 
-	}
+	}*/
 
 	@Test
 	public void getPublishRequestTest() {
