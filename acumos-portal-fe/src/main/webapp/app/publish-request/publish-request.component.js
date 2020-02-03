@@ -106,6 +106,7 @@ angular
 			            $scope.loadPublishRequestTotalPages = function(){
 			            	var reqObject = {
 									  "request_body": {
+										"userId": $scope.loginUserID,
 									    "pageRequest": {
 									      "fieldToDirectionMap": {"created" : "DESC"},
 									      "page": 0,
@@ -146,6 +147,7 @@ angular
 							$scope.publishRequestTotalPages;
 							var reqObject = {
 											  "request_body": {
+												"userId": $scope.loginUserID,
 											    "pageRequest": {
 											      "fieldToDirectionMap": {"created" : "DESC"},
 											      "page": $scope.pageNumber,

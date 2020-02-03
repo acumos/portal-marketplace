@@ -55,7 +55,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>3.1.1</version>
+			<version>3.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acumos.acumos-nexus-client</groupId>
@@ -133,7 +133,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.security-verification</groupId>
 			<artifactId>security-verification-client</artifactId>
-			<version>1.2.1</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
