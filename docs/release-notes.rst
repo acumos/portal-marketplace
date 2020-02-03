@@ -21,6 +21,13 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.1 3rd Feb 2020
+=================================
+* ACUMOS-3749 - As a model user, I would like to view the license profile in a human readable format
+* ACUMOS-3426 - IST: Publish Request/Notifications/On-boarding History/ Catalog/SELECT FAVORITE CATALOGS: Pagination Fails in case of search data
+* ACUMOS-3889 - Search across pagination
+* ACUMOS-3955 - Unable to publish model based on weekly build CDS version/cache issue/new not backward compatible api created for /catalogs
+
 Version 4.0.0 24th Jan 2020
 =================================
 * ACUMOS-3916 - IST: Expand(-) symbol is not displaying on model tiles after click on Expand(+)on marketplace if model have multiple tag 
