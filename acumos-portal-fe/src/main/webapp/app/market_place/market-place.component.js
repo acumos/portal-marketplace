@@ -86,7 +86,7 @@ angular
 	  							
 	  							if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
 	  								apiService
-		  							.getCatalogsbyUser(reqObject, $scope.loginUserID)
+		  							.getCatalogs(reqObject)
 		  									.then(
 		  											function successCallback(response) {
 		  												$scope.CatalogList = response.data.response_body.content;
