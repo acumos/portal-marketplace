@@ -39,11 +39,12 @@ limitations under the License.
 <section class="onboardpeerinner">
 	<div class="admin-button-row1">
 		<div class="admin-container-row1-inner3">
-			<a ng-click='loadOnBoardingHistoryTaskList(0);select("0")' ng-class="{'admin-selected-link': 0 == selected}">All</a> <span>|</span> <a 
-			ng-click="loadOnBoardingHistoryTaskList(0,'ST');select(1)" ng-class="{'admin-selected-link': 1 == selected}">In Progress</a> <span>|</span> <a ng-click="loadOnBoardingHistoryTaskList(0,'FA');select(2)" ng-class="{'admin-selected-link': 2 == selected}">Failed</a> <span>|</span>
-			<a ng-click="loadOnBoardingHistoryTaskList(0,'SU');select(3)" ng-class="{'admin-selected-link': 3 == selected}">Successful</a>
+			<a ng-click='totalElementsOnboardingTasks(0);select("0")' ng-class="{'admin-selected-link': 0 == selected}">All</a> <span>|</span> 
+			<a ng-click="totalElementsOnboardingTasks(0,'ST');select(1)" ng-class="{'admin-selected-link': 1 == selected}">In Progress</a> <span>|</span> 
+			<a ng-click="totalElementsOnboardingTasks(0,'FA');select(2)" ng-class="{'admin-selected-link': 2 == selected}">Failed</a> <span>|</span>
+			<a ng-click="totalElementsOnboardingTasks(0,'SU');select(3)" ng-class="{'admin-selected-link': 3 == selected}">Successful</a>
 		</div>
-		<div>
+		<!-- <div>
 			<span class="admin-search-lbl">Search</span>
 			<div
 				class="mdl-textfield mdl-js-textfield user-mgmt-search-container is-upgraded"
@@ -52,13 +53,60 @@ limitations under the License.
 					class="mdl-textfield__input adminsearchicon ng-pristine ng-untouched ng-valid ng-empty"
 					type="text" ng-model="searchOnHistoryList" aria-invalid="false">
 			</div>
-		</div>
+		</div> -->
 	</div>
 </section>
+
 <div class="onboard-history">
 	<!-- table start -->
-	<div class="admin-grid-container tbl-overflowscroll">
-		<table
+	<div class="admin-grid-container pub-req">
+		<table datatable="ng" dt-options="dtOptions" dt-columns="dtColumns" dt-column-defs="dtColumnDefs"
+			class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl tbl-overflowscroll">
+			<colgroup>
+				<col width="15%">
+				<col width="11%">
+				<col width="20%">
+				<col width="20%">
+				<col width="15%">
+				<col width="10%">
+				<col width="9%">
+			</colgroup>
+			<thead >
+				<tr>
+					<th>MODEL NAME</th>
+					<th>STATUS CODE</th>	
+					<th>SOLUTION ID</th>
+					<th>REVISION ID</th>
+					<th>DATE & TIME</th>	
+					<th>STATUS</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody> 
+				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | orderBy:orderByField:reverseSort | filter : searchOnHistoryList as filteredHistory" >						
+					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
+					<td>{{Task.taskCode}}</td>			
+					<td><span class="md-breadcrumb-item"> {{Task.solutionId}}</span></td>
+					<td><span class="md-breadcrumb-item"> {{Task.revisionId}}</span></td>
+					<td>{{Task.textDate}}</td>
+					<td class="status-color"
+						ng-class="{'history-error': Task.statusCode == 'FA', 
+						'history-progress': Task.statusCode == 'ST', 
+						'history-success': Task.statusCode == 'SU' }" >{{Task.status}}</td>
+					<td>					
+						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA" || Task.statusCode == "SU"' 
+							ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode, Task.modelName)">View
+							Results</button>
+						<span ng-if='Task.statusCode == "ST" '> -- </span>											
+					</td>
+					
+				</tr>				
+			</tbody>
+		</table>
+				
+		
+		
+		<!-- <table
 			class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
 			<colgroup>
 				<col width="15%">
@@ -140,11 +188,11 @@ limitations under the License.
 		<div class="alert c-info text-center"
 			ng-show="CheckallOnBoardingHistoryTaskList == 0 || filteredHistory.length < 1">
 			<strong>No Results Found</strong>
-		</div>
+		</div> -->
 	</div>
 	<!-- table end -->
 	
-	<div class="pagination-wrapper" ng-if="allOnboardingListLength > 0">
+	<!-- <div class="pagination-wrapper" ng-if="allOnboardingListLength > 0">
 			<div class="pagination-left-section">
 				<span>Showing </span>
 				<div class="select-control">
@@ -213,7 +261,7 @@ limitations under the License.
 						ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
 				</div>
 			</div>
-		</div> 
+		</div> --> 
 
 </div>
 

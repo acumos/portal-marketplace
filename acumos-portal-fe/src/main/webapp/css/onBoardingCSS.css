@@ -416,7 +416,7 @@ md-tabs-content-wrapper {
 .mrgTpNon {margin-top:0px;}
 .timeline-label-steps.cont {padding-left: 0px;}
 .onboardpeer{font-size: 14px; padding: 20px 20px 0; min-height: auto;}
-.onboardpeerinner{font-size:14px; margin:0px 20px 0;  min-height: auto; border-bottom:1px solid #DDDDDD;}
+.onboardpeerinner{font-size:14px; margin:10px 20px 0;  min-height: auto;}
 .onboardpeerinner .mdl-textfield{padding:10px 0;}
 .onboardpeerinner .admin-button-row1{padding-bottom:0px;}
 .historypopup ~ .md-dialog-content > .timeline .timeline-centered{margin-bottom:0px;}
