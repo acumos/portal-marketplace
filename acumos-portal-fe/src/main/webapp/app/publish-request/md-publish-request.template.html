@@ -105,7 +105,7 @@ limitations under the License.
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
 							ng-class="{'text-green': publishReq.requestStatusName == 'Approved','text-red': publishReq.requestStatusName == 'Declined','text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
 						</td>
-						<td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
 							<div ng-if="publishReq.comment">
 							<a ng-click="setActiveComment(publishReq.publishRequestId)"
 								ng-bind="(isActiveComment(publishReq.publishRequestId)) ? 'Hide' : 'View'"></a>
@@ -142,7 +142,8 @@ limitations under the License.
 							</div>
 						<div ng-hide="publishReq.comment" class="custom_popover"><label
 								class="a-tooltipval">N/A</label>
-						</div></td>
+						</div>
+						</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
 							<div class="admin-action-container">
 								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )" name="approvePublishRequestModal"

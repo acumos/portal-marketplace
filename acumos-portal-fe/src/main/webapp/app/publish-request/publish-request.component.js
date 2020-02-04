@@ -129,7 +129,7 @@ angular
 			            
 			            
 			            $scope.dtOptions = DTOptionsBuilder.newOptions()
-			                .withPaginationType('full_numbers')
+			                .withPaginationType('simple_numbers')
 			                .withDisplayLength(10)
 			                /*.withDOM('pitrfl');*/
 			            $scope.dtColumnDefs = [
