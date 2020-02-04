@@ -1340,40 +1340,37 @@ angular
 						}
 						
 /*Deploy to k8s*/
-						
 						$scope.deployToK8s = function(){
-						
-							$scope.userId = $scope.loginUserID;
-							$scope.envId = $scope.ClusterData;
-							apiService.deployToK8s($scope.userId , $scope.solution.solutionId , $scope.revisionId , $scope.envId)
-		                     .then(
-		                         function successCallback(response) {
-		                        	$mdDialog.hide();
-		                         	$location.hash('tab1-panel'); 
-		 							$anchorScroll(); 				
-		 							$scope.msg = "The deployment process has been started, will take some time to complete. Notification will be sent on completion."; 
-		 							$scope.icon = 'info_outline';
-		 							$scope.styleclass = 'c-info';
-		 							$scope.showAlertMessage = true;
-		 							$timeout(function() {
-		 								$scope.showAlertMessage = false;
-		 							}, 6000);
-		                        
-		                         },
-		                         function errorCallback(response) {
-		                        		$mdDialog.hide();
-			                         	$location.hash('tab1-panel'); 
-			 							$anchorScroll(); 				
-			 							$scope.msg = response.data.response_detail; 
-			 							$scope.icon = 'info_outline';
-										$scope.styleclass = 'c-error';
-			 							$scope.showAlertMessage = true;
-			 							$timeout(function() {
-			 								$scope.showAlertMessage = false;
-			 							}, 6000);
-		                         });
-							
-							
+							$scope.performSVScan($scope.solutionId, $scope.revisionId, "deploy", function() {
+								$scope.userId = $scope.loginUserID;
+								$scope.envId = $scope.ClusterData;
+								apiService.deployToK8s($scope.userId, $scope.solution.solutionId, $scope.revisionId, $scope.envId)
+									.then(
+										function successCallback(response) {
+											$mdDialog.hide();
+											$location.hash('tab1-panel');
+											$anchorScroll();
+											$scope.msg = "The deployment process has been started, will take some time to complete. Notification will be sent on completion.";
+											$scope.icon = 'info_outline';
+											$scope.styleclass = 'c-info';
+											$scope.showAlertMessage = true;
+											$timeout(function () {
+												$scope.showAlertMessage = false;
+											}, 6000);
+										},
+										function errorCallback(response) {
+											$mdDialog.hide();
+											$location.hash('tab1-panel');
+											$anchorScroll();
+											$scope.msg = response.data.response_detail;
+											$scope.icon = 'info_outline';
+											$scope.styleclass = 'c-error';
+											$scope.showAlertMessage = true;
+											$timeout(function () {
+												$scope.showAlertMessage = false;
+											}, 6000);
+										});
+							});
 						}
 						$scope.Clusters = [];
 						$scope.clusterData = function(){
