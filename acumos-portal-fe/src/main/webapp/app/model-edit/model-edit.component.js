@@ -87,6 +87,8 @@ angular
 							$scope.workflowTitle='On-Boarding';
 							$scope.tab='onboard';
 						}
+						
+
 						if($stateParams.deployValue !== null)
 							$scope.checkboxExport = $stateParams.deployValue;
 						$scope.revisionId = $stateParams.revisionId;
@@ -3039,7 +3041,7 @@ angular
 								});
 						};
 						
-						$scope.closePoup = function(licUploadFlag, dockerURL){
+						$scope.closeLicensePoup = function(licUploadFlag, dockerURL){
 							if ($scope.uploadingFile && $rootScope.progressBar < 100){
 								modelUploadService.cancelUpload("Upload cancelled by user");
 							}
