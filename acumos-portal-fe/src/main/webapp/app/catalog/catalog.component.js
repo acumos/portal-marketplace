@@ -87,7 +87,7 @@ angular.module('catalog')
 					        "size": $scope.requestResultSize
 						  }
 					};
-					apiService.getCatalogs(reqObject)
+					apiService.getCatalogsbyUser(reqObject, $scope.loginUserID)
 						.then(
 							function successCallback(response) {
 								var resp = response.data.response_body;

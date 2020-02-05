@@ -202,7 +202,7 @@ angular.module('admin').filter('abs', function () {
 								
 				$scope.catalogIdsList = [];
 				$scope.showRoleLoader = true;
-				apiService.getCatalogs(reqObject)
+				apiService.getCatalogsbyUser(reqObject, userId)
 				.then(
 					function successCallback(response) {
 						var resp = response.data.response_body.content;

@@ -43,7 +43,6 @@ public class WithMockCustomUserSecurityContextFactory
 		MLPUser mockUser = new MLPUser();
 		mockUser.setLoginName(customUser.username());
 		mockUser.setFirstName(customUser.name());
-		mockUser.setUserId(customUser.id());
 		AuthenticatedUserDetails principal = new AuthenticatedUserDetails(mockUser);
 		Authentication auth = new UsernamePasswordAuthenticationToken(principal,
 				principal.getPassword(), principal.getAuthorities());

@@ -34,7 +34,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +42,13 @@ import org.acumos.be.test.security.WithMLMockUser;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.ConfigConstants;
-import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
 import org.apache.http.HttpStatus;
@@ -82,11 +80,9 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(SpringRunner.class)
 
-@SpringBootTest(classes = org.acumos.portal.be.Application.class,
-		webEnvironment = WebEnvironment.RANDOM_PORT,
-		properties = {ConfigConstants.cdms_client_url + "=http://localhost:8000/ccds",
-				ConfigConstants.cdms_client_username + "=ccds_test",
-				ConfigConstants.cdms_client_password + "=ccds_test"})
+@SpringBootTest(classes = org.acumos.portal.be.Application.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = {
+		ConfigConstants.cdms_client_url + "=http://localhost:8000/ccds",
+		ConfigConstants.cdms_client_username + "=ccds_test", ConfigConstants.cdms_client_password + "=ccds_test" })
 @AutoConfigureMockMvc
 @EnableAutoConfiguration()
 @ContextConfiguration
@@ -103,12 +99,6 @@ public class CatalogServiceControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
-
-	@Autowired
-	private CredentialsService credentialService;
-
-	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
 	
 	private static final String VARIABLE = "/%s";
 	private static final String CCDS_PATH = "/ccds";
@@ -142,40 +132,17 @@ public class CatalogServiceControllerTest {
 
 	@Test
 	public void getCatalogsWithUserIdTest() throws JsonProcessingException {
-
-		String userId = credentialService.getLoggedInUserId();
-		Date date = new Date();
-	String userObj = "{" + "  \"created\": 1536464516651," + "  \"modified\": 1536464516651,"
-	+ "  \"userId\": \"c50e75c6-85c1-4b0f-8617-cc1035a3d430\"," + "  \"firstName\": \"Test\","
-	+ "  \"middleName\": null," + "  \"lastName\": \"User\"," + "  \"orgName\": null,"
-	+ "  \"email\": \"test@gmail.com\"," + "  \"loginName\": \"admin\"," + "  \"loginHash\": null,"
-	+ "  \"loginPassExpire\": null," + "  \"authToken\": null," + "  \"active\": true,"
-	+ "  \"lastLogin\": null," + "  \"loginFailCount\": null," + "  \"loginFailDate\": null,"
-	+ "  \"picture\": null," + "  \"apiToken\": null," + "  \"verifyTokenHash\": null,"
-	+ "  \"verifyExpiration\": " + date.getTime() + 150 + "," + "  \"tags\": []" + "}";
-
-    String restUserResponse = "{\"content\":[" + userObj
-	+ "],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"sort\":null,\"numberOfElements\":1,\"first\":true,\"size\":100,\"number\":0}";
-
-		stubFor(get(urlEqualTo("/ccds/user/search?loginName=admin&_j=a&page=0&size=10"))
-		.willReturn(aResponse().withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody(restUserResponse).withStatus(HttpStatus.SC_OK)));
-
 		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
 		requestJson.setBody(getTestRestPageRequest());
+
 		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
 		
-		stubFor(get(urlEqualTo(String.format("/ccds/user/%s/role", userId)))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("Admin")));
-		
-				
-		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, userId)))
+		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, "testUser")))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
-		stubFor(get(urlEqualTo(String.format(CATALOG_USER_ACCESS_PATH + "?" + PAGE_REQUEST_PARAMS,userId)))
+		stubFor(get(urlEqualTo(String.format(CATALOG_USER_ACCESS_PATH + "?" + PAGE_REQUEST_PARAMS,"testUser")))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("{\"content\":" + "[{\"created\": \"2019-04-05T20:47:03Z\","
 								+ "\"modified\": \"2019-04-05T20:47:03Z\","
@@ -187,15 +154,22 @@ public class CatalogServiceControllerTest {
 								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
 								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
 
+		MLPUser userDetails = new MLPUser();
+		userDetails.setFirstName("testuser");
+		userDetails.setLastName("Poll");
+		userDetails.setLoginName("testuser");
+		userDetails.setLoginHash("!Acumos@73825");
+		userDetails.setEmail("testuser@techmahindra.com");
+		userDetails.setUserId("testuser");
+		userDetails.setActive(true);
+		userDetails.setCreated(Instant.now());
+		userDetails.setModified(Instant.now());
 		
-
 		HttpHeaders headers = new HttpHeaders();
-		String authorization=jwtTokenUtil.generateToken(credentialService.getUserDetails(), null);
-		headers.setBearerAuth(authorization);
 		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
 
 		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS, HttpMethod.POST, requestEntity,
+				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS + "/testUser", HttpMethod.POST, requestEntity,
 				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
 				});
 
