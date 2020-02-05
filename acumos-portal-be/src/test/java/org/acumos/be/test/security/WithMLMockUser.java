@@ -38,6 +38,4 @@ public @interface WithMLMockUser {
 	String username() default "admin";
 
 	String name() default "Admin User";
-
-	String id() default "e336fd27-388e-4a89-bf31-f15cd46c8df5";
 }

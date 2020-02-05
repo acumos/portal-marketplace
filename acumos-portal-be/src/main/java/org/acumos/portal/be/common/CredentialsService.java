@@ -20,7 +20,6 @@
 
 package org.acumos.portal.be.common;
 
-import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.security.AuthenticatedUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,10 +51,6 @@ public class CredentialsService {
 	 */
 	public String getLoggedInUserId() {
 		return getAuth().getUserId();
-	}
-
-	public MLPUser getUserDetails(){
-		return getAuth().getMLPUser();
 	}
 
 	private AuthenticatedUserDetails getAuth() {

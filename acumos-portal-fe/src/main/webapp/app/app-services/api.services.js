@@ -746,6 +746,10 @@ angular.module('AcumosApp')
         	return $http.post(urlGatewaySolutions, reqObj);
         };
         
+        this.getCatalogsbyUser = function(request, loginID) {
+        	return $http.post(urlAllCatalogsList + '/' + loginID, request);
+        };
+        
         this.deleteFav = function (catalogId, userId) {
             return $http.delete(urlCatalogPath  + '/' + catalogId +'/'+ 'user/' + userId + '/favorite');
         };
