@@ -2004,8 +2004,8 @@ limitations under the License.
 																			<div class="mdl-tabs__panel" id="tab7-panel">
 																				<h6 class="sectiontitle6">LICENSE PROFILE</h6>
 																				<div ng-show= "modelLicense">
-																					<pre class="wrap" ng-if="!isLicenseJson && modelLicense">{{modelLicense}}</pre>
-																					<pre class="wrap" ng-if="isLicenseJson && modelLicense">{{modelLicense | json: 4}}</pre>
+																					<pre class="licensedisplay" ng-if="!isLicenseJson && modelLicense" ng-bind-html="yaml"></pre>
+																					<pre class="licensedisplay" ng-if="isLicenseJson && modelLicense" ng-bind-html="yaml"></pre>
 																				</div>
 																				<pre ng-show="modelLicenseError">{{modelLicenseError}}</pre>
 																			</div>
