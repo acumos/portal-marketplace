@@ -2831,7 +2831,9 @@ angular
 						}).then(function successCallback(response) {
 							console.log(response);
 							if (response.data) {
+								delete response.data["$schema"]; //to remove $schema key
 								$scope.modelLicense = response.data;
+								$scope.yaml = json2yaml($scope.modelLicense);
 								$scope.isLicensePresent = true;
 								$scope.licenseName = "license-"+$scope.versionId+".json";
 							} else {
