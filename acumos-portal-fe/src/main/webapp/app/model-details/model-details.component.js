@@ -553,12 +553,13 @@ angular
 								method : 'GET',
 								url : url
 						}).then(function successCallback(response) {
-							if (response.data) {
-								delete response.data["$schema"]; //to remove $schema key
+							if (response.data) {								
 								$scope.isLoadingLicense = false;
 								$scope.isLicenseFound = true;
-								$scope.modelLicense = response.data;
-								$scope.yaml = json2yaml($scope.modelLicense);
+								$scope.modelLicense = response.data;								
+								$scope.humanReadableModelLicense = angular.copy($scope.modelLicense);
+								delete $scope.humanReadableModelLicense["$schema"]; //to remove $schema key
+								$scope.yaml = json2yaml($scope.humanReadableModelLicense);
 								// avoid license json checks during digest cycle
 								$scope.isLicenseJson = angular.isObject($scope.modelLicense);
 							} else {
