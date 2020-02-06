@@ -2830,10 +2830,11 @@ angular
 								url : url
 						}).then(function successCallback(response) {
 							console.log(response);
-							if (response.data) {
-								delete response.data["$schema"]; //to remove $schema key
+							if (response.data) {							
 								$scope.modelLicense = response.data;
-								$scope.yaml = json2yaml($scope.modelLicense);
+								$scope.humanReadableModelLicense = angular.copy($scope.modelLicense);
+								delete $scope.humanReadableModelLicense["$schema"]; //to remove $schema key
+								$scope.yaml = json2yaml($scope.humanReadableModelLicense);
 								$scope.isLicensePresent = true;
 								$scope.licenseName = "license-"+$scope.versionId+".json";
 							} else {
