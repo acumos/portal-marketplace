@@ -622,11 +622,18 @@ limitations under the License.
 													<div class="manage-taglist">
 														<span class="mg-tag-circle"></span><span
 															class="mg-tag-text">{{publicSolution.solutionTagList.length
-															> 0 ? publicSolution.solutionTagList[0].tag : ""}}</span><span
+															> 0 ? publicSolution.solutionTagList[0].tag : ""}}</span>
+															
+															<!-- <span
 															class="icon-showmore"
 															ng-show="publicSolution.solutionTagList.length > 1"
 															ng-click="showListTag(publicSolution.solutionId)"><i
-															class="material-icons">add</i></span>
+															class="material-icons">add</i></span> -->
+															
+															<span class="icon-showmore" ng-show="publicSolution.solutionTagList.length > 1"
+																	ng-click="showListTag(publicSolution.solutionId);" >
+																	<span class="tag-icon1" ng-class="{'tag-icon' : publicSolution.solutionId == slnID && Tag}"> &nbsp; </span>
+																</span>
 													</div>
 													<div class="manage-tag-list-container"
 														ng-show="publicSolution.solutionId === slnID && Tag ">
@@ -720,11 +727,19 @@ limitations under the License.
 													<div class="manage-taglist">
 														<span class="mg-tag-circle"></span><span
 															class="mg-tag-text">{{mlsolution.solutionTagList.length
-															> 0 ? mlsolution.solutionTagList[0].tag : ""}}</span><span
+															> 0 ? mlsolution.solutionTagList[0].tag : ""}}</span>
+															
+															<!-- <span
 															class="icon-showmore"
 															ng-show="mlsolution.solutionTagList.length > 1"
 															ng-click="showListTag(mlsolution.solutionId)"><i
-															class="material-icons">add</i></span>
+															class="material-icons">add</i></span> -->
+															
+															<span class="icon-showmore" ng-show="mlsolution.solutionTagList.length > 1"
+																	ng-click="showListTag(mlsolution.solutionId);" >
+																<span class="tag-icon1" ng-class="{'tag-icon' : mlsolution.solutionId == slnID && Tag}"> &nbsp; </span>
+															</span>
+															
 													</div>
 													<div class="manage-tag-list-container"
 														ng-show="mlsolution.solutionId === slnID && Tag ">
@@ -885,11 +900,19 @@ limitations under the License.
 														<div class="manage-taglist">
 															<span class="mg-tag-circle"></span><span
 																class="mg-tag-text">{{deletedSolution.solutionTagList.length
-																> 0 ? deletedSolution.solutionTagList[0].tag : ""}}</span><span
+																> 0 ? deletedSolution.solutionTagList[0].tag : ""}}</span>
+																
+																<!-- <span
 																class="icon-showmore"
 																ng-show="deletedSolution.solutionTagList.length > 1"
 																ng-click="showListTag(deletedSolution.solutionId)"><i
-																class="material-icons">add</i></span>
+																class="material-icons">add</i></span> -->
+																
+																<span class="icon-showmore" ng-show="deletedSolution.solutionTagList.length > 1"
+																	ng-click="showListTag(deletedSolution.solutionId);" >
+																<span class="tag-icon1" ng-class="{'tag-icon' : deletedSolution.solutionId == slnID && Tag}"> &nbsp; </span>
+															</span>
+															
 														</div>
 														<div class="manage-tag-list-container"
 															ng-show="deletedSolution.solutionId === slnID && Tag ">
@@ -987,11 +1010,18 @@ limitations under the License.
 													<div class="manage-taglist">
 														<span class="mg-tag-circle"></span><span
 															class="mg-tag-text">{{deletedSolution.solutionTagList.length
-															> 0 ? deletedSolution.solutionTagList[0].tag : ""}}</span><span
+															> 0 ? deletedSolution.solutionTagList[0].tag : ""}}</span>
+															<!-- 
+															<span
 															class="icon-showmore"
 															ng-show="deletedSolution.solutionTagList.length > 1"
 															ng-click="showListTag(deletedSolution.solutionId)"><i
-															class="material-icons">add</i></span>
+															class="material-icons">add</i></span> -->
+															
+															<span class="icon-showmore" ng-show="deletedSolution.solutionTagList.length > 1"
+																	ng-click="showListTag(deletedSolution.solutionId);" >
+																<span class="tag-icon1" ng-class="{'tag-icon' : deletedSolution.solutionId == slnID && Tag}"> &nbsp; </span>
+															</span>
 													</div>
 													<div class="manage-tag-list-container"
 														ng-show="deletedSolution.solutionId === slnID && Tag ">

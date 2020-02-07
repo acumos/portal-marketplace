@@ -302,10 +302,14 @@ limitations under the License.
 													<div class="posrel"
 														ng-if="mlsolution.solutionTagList.length > 0">
 														<div class="manage-taglist">
-															<span class="mg-tag-circle"></span><span class="mg-tag-text">{{mlsolution.solutionTagList.length > 0 ? mlsolution.solutionTagList[0].tag : ""}}</span><span
-																class="icon-showmore" ng-show="mlsolution.solutionTagList.length > 1"
-																ng-click="showListTag(mlsolution.solutionId)"><i
-																class="material-icons">add</i></span>
+															<span class="mg-tag-circle"></span>
+															<span class="mg-tag-text">{{mlsolution.solutionTagList.length > 0 ? mlsolution.solutionTagList[0].tag : ""}}</span>
+															
+															<span class="icon-showmore" ng-show="mlsolution.solutionTagList.length > 1"
+																	ng-click="showListTag(mlsolution.solutionId, $index);" >
+																	<span class="tag-icon1" ng-class="{'tag-icon' : mlsolution.solutionId == slnID && Tag}"> &nbsp; </span>
+																</span>
+																
 														</div>
 														<div class="manage-tag-list-container"
 															ng-show="mlsolution.solutionId === slnID && Tag ">
