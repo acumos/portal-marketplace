@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "553a277d_4e14c71d",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/CatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-02-07T17:38:33Z",
+      "side": 1,
+      "message": "We should get the logged in user id from credential service... if we require userId here then any user can get catalogs for any user this api should be limited to get allowed catalogs for logged in user. An admin api should be created which checks that user is an admin and then allows for any user id access.",
+      "revId": "b4a810514e8f23f11cea5d808874cb7f273856d5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
