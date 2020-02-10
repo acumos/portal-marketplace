@@ -2832,7 +2832,7 @@ angular
 							console.log(response);
 							if (response.data) {								
 								$scope.modelLicense = response.data;
-                                                          	$scope.humanReadableModelLicense = angular.copy($scope.modelLicense);
+								$scope.humanReadableModelLicense = angular.copy($scope.modelLicense);
 								delete $scope.humanReadableModelLicense["$schema"]; //to remove $schema key
 								$scope.yaml = json2yaml($scope.humanReadableModelLicense);
 								$scope.isLicensePresent = true;
@@ -2996,6 +2996,8 @@ angular
 							$scope.uploadingFile = true;
 							promise.then(
 								function(response) {
+									$location.hash('manage-models');
+									$anchorScroll();
 									$scope.modelUploadError = false;
 									$rootScope.progressBar = 100;
 									$mdDialog.hide();
@@ -3044,33 +3046,20 @@ angular
 								});
 						};
 						
-						$scope.closeLicensePoup = function(licUploadFlag, dockerURL){
+						$scope.closeLicense = function() {
+							
 							if ($scope.uploadingFile && $rootScope.progressBar < 100){
 								modelUploadService.cancelUpload("Upload cancelled by user");
 							}
 							
-							$scope.uploadModel = !$scope.uploadModel;
-							if(licUploadFlag) {
-								if(dockerURL){
-									$scope.licenseDocfile = "";
-									$scope.licenseDockerFilename = "";
-									$scope.fileSubmitDocLicense = false;						
-									$scope.modelDocLicUploadError = false;
-								} else {
-									$scope.licenseFilename = "";
-									$scope.licensefile = "";
-									$scope.fileSubmitLicense = false;
-									$scope.modelLicUploadError = false;
-								}
-							} else {
-								$scope.filename = "";
-								$scope.file = "";
-								$scope.fileSubmit = false;
-								$scope.modelUploadError = false;
-							}
-				           	angular.element('#file').val('');			
-				           	
-				        }
+							$scope.licenseFilename = "";
+							$scope.licensefile = "";
+							$scope.fileSubmit = false;
+							$scope.modelUploadErrorMsg = false;
+
+				           	angular.element('#file').val('');	
+							
+						};					
 					
 				    //Model license profile step end    
 					
