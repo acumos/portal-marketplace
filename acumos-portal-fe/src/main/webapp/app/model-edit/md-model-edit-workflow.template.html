@@ -1056,7 +1056,7 @@ limitations under the License.
 												</div>
 											</article>
 																					
-											<!--License model start-->
+											<!--Model license profile step start-->
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
@@ -1069,8 +1069,8 @@ limitations under the License.
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="modifyLicenseProfileTemplate($event, true);">Model License Profile</a>| 
-															<span class="green" ng-if="isLicensePresent">Completed on {{solution.modified | date:'MM/dd/yyyy' }}</span> 
+															<a ng-click="modifyLicenseProfileTemplate($event, true);">Model License Profile</a> | 
+															<span class="green" ng-if="isLicensePresent"> Completed on {{solution.modified | date:'MM/dd/yyyy' }}</span> 
 															<span class="red" ng-if="!isLicensePresent">Not Started</span>
 														</h2>
 														<div id="modelName"
@@ -1117,13 +1117,12 @@ limitations under the License.
 																	class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input">
 																	<div class="upload-file-container">
 																		<div
-																			ng-class="{'disabledButton': disableOnboardingButton==true}"
 																			class="input-div">
 																			<div file-upload file="licensefile"
 																				uploadid="licenseuploadid" id="uploadFile"
 																				filename="licenseFilename" fileinput="licensefile"
 																				ng-model="licensefile" accept="" alt="Browse"
-																				title="Browse" ng-click="resetLicenseUpload()"
+																				title="Browse"
 																				readonly></div>
 																			<div class="upload-image-input files-uploaded">
 																				<input class="mdl-textfield__input disabledClick"
@@ -1143,8 +1142,7 @@ limitations under the License.
 																		</div>
 																	</div>
 
-																	<div class="progress-bar-div"
-																		ng-show="licensefile.name">
+																	<div class="progress-bar-div" ng-show="licensefile.name">
 																		<div>
 																			<span class="namelength">{{licensefile.name}}</span>
 																		</div>
@@ -1163,18 +1161,15 @@ limitations under the License.
 
 																			</div>
 																		</div>
-																		<div class="pro-status"
-																			ng-show="$root.progressBar > 0 && licUploadFlag == true">
-																			<span
-																				ng-show="$root.progressBar != 100 && $root.progressBar != 0">Uploading</span>
+																		<div class="pro-status" ng-show="$root.progressBar > 0 && licUploadFlag == true">
+																			<span ng-show="$root.progressBar != 100 && $root.progressBar != 0">Uploading</span>
 																			<span ng-show="$root.progressBar == 100">Done</span>
 																		</div>
-																		<div class="fileclose" ng-click="closeLicensePoup(true)">
+																		<div class="fileclose" ng-click="closeLicense()">
 																			<i class="material-icons">close</i>
 																		</div>
 																	</div>
-																	<small>Maximum file size: 1mb | Supported files
-																		type: .json</small>
+																	<small>Maximum file size: 1mb | Supported files type: .json</small>
 																</div>
 															</div>
 															<div class="upload-error">
@@ -1188,16 +1183,15 @@ limitations under the License.
 
 														</div>
 
-														<div ng-show="isLicensePresent">
-															<input type="text" value="{{licenseName}}"
-																class="isLicensePresentTextBox" ng-disabled="true" /> <a
-																ng-click="changeLicense=true; modelUploadErrorMsg=''; file = ''; filename = ''; isLicensePresent=false; !licensefile || fileSubmitLicense;" class="link-blue">Change</a>
+														<div ng-show="isLicensePresent" class="model-license-profile">
+															<input type="text" value="{{licenseName}}" class="isLicensePresentTextBox" ng-disabled="true" /> 
+															<a ng-click="changeLicense=true; modelUploadErrorMsg=''; file = ''; filename = ''; isLicensePresent=false; !licensefile || fileSubmitLicense;" class="link-blue">Change</a>
 														</div>
 
 													</div>
 												</div>
 											</article>
-											<!--License model end-->
+											<!--Model license profile step end-->
 											
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
