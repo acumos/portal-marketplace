@@ -103,7 +103,19 @@ angular
 			            	$scope.loadPublishRequest(0)
 			            }
 			            
+			            $scope.dtOptions = DTOptionsBuilder.newOptions()
+		                .withPaginationType('simple_numbers')
+		                .withDisplayLength(10)
+		                /*.withDOM('pitrfl');*/
+			            $scope.dtColumnDefs = [
+			                DTColumnDefBuilder.newColumnDef(0),
+			                DTColumnDefBuilder.newColumnDef(8).notSortable()
+			            ];
+			            
+			            
 			            $scope.loadPublishRequestTotalPages = function(){
+			            	$scope.SetDataLoaded = true;
+							$rootScope.setLoader = true;
 			            	var reqObject = {
 									  "request_body": {
 									    "userId": $scope.loginUserID,
@@ -123,19 +135,12 @@ angular
 							},
 							function(error){
 								console.warn("Error fetching Publish Request");
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
 							});
 			            	
 			            };
 			            
-			            
-			            $scope.dtOptions = DTOptionsBuilder.newOptions()
-			                .withPaginationType('simple_numbers')
-			                .withDisplayLength(10)
-			                /*.withDOM('pitrfl');*/
-			            $scope.dtColumnDefs = [
-			                DTColumnDefBuilder.newColumnDef(0),
-			                DTColumnDefBuilder.newColumnDef(8).notSortable()
-			            ];
 			            
 						$scope.loadPublishRequest = function(pageNumber) {
 							$scope.allPublishRequest = [];
