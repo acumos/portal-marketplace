@@ -2382,7 +2382,8 @@ label.model-name{color:#0366d6;}
 .request-tbl label{margin-bottom:0;}
 .request-tbl .disabled td > a,
 .request-tbl .disabled td > label,
-.request-tbl .disabled td > .admin-action-container {border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
+.request-tbl .disabled td,
+.request-tbl .disabled td > .admin-action-container{border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
 .publish-request{padding:20px 20px 15px}
 .publishheading{border-bottom: 1px solid #E5E5E5; padding:0 0 10px 0;}
 /*for Manage My Model page*/
