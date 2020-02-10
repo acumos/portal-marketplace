@@ -90,22 +90,23 @@ limitations under the License.
 				</thead>
 				<tbody>
 
-					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq ">
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq "
+						ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+						<td>
 							<a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId,requestUserId:publishReq.requestUserId,requestStatusCode:publishReq.requestStatusCode,catalogId:publishReq.catalogId,catalogName:publishReq.catalogName})">
 								<label class="model-name">{{publishReq.solutionName}}</label>
 							</a>
-							<label class="small">{{publishReq.solutionId}}</label></td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label
-							class="small">Revision ID: {{publishReq.revisionId}}</label></td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.requestorName}}</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}" >{{publishReq.creationDate | date : "MM/dd/yyyy"}}</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.catalogName}}</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.accessType == 'PB' ? 'Public' : 'Restricted'}}</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
+							<label class="small" title="{{publishReq.solutionId}}">{{publishReq.solutionId}}</label></td>
+						<td><label>{{publishReq.revisionName}}</label> <label
+							class="small" title="{{publishReq.revisionId}}">Revision ID: {{publishReq.revisionId}}</label></td>
+						<td>{{publishReq.requestorName}}</td>
+						<td>{{publishReq.creationDate | date : "MM/dd/yyyy"}}</td>
+						<td>{{publishReq.catalogName}}</td>
+						<td>{{publishReq.accessType == 'PB' ? 'Public' : 'Restricted'}}</td>
+						<td><label
 							ng-class="{'text-green': publishReq.requestStatusName == 'Approved','text-red': publishReq.requestStatusName == 'Declined','text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
 						</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+						<td>
 							<div ng-if="publishReq.comment">
 							<a ng-click="setActiveComment(publishReq.publishRequestId)"
 								ng-bind="(isActiveComment(publishReq.publishRequestId)) ? 'Hide' : 'View'"></a>
@@ -144,16 +145,16 @@ limitations under the License.
 								class="a-tooltipval">N/A</label>
 						</div>
 						</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+						<td>
 							<div class="admin-action-container">
 								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )" name="approvePublishRequestModal"
-									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)','cursor':'not-allowed'}"
+									ng-style="publishReq.requestStatusName !== 'Pending'&&{'cursor':'not-allowed'}"
 									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-approve"></span>
 								</button>
 								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )"  name="declinePublishRequestModal"
-									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)','cursor':'not-allowed'}"
+									ng-style="publishReq.requestStatusName !== 'Pending'&&{'cursor':'not-allowed'}"
 									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-deny"></span>

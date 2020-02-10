@@ -24,7 +24,9 @@ table.dataTable.no-footer{
     float: left;
 }
 .dataTables_length select{
-    border: none;
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    padding: 2px;
 }
 .dataTables_length select:focus{
     outline: none;
@@ -98,14 +100,14 @@ table.dataTable tbody th, table.dataTable tbody td {
     padding: 10px 0;
 }
 
-.disabled {
+/* .disabled {
     color: #B3B3B3;
     border-color: #d3d1d1;
     cursor: not-allowed;
     background: #efefef;
     border: 1px solid #d5d5d5;
 
-}
+} */
 .manage-notifications{position:relative;}
 
 .manage-notifications table{margin-top:51px !important;}
