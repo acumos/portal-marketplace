@@ -98,14 +98,14 @@ table.dataTable tbody th, table.dataTable tbody td {
     padding: 10px 0;
 }
 
-.disabled {
+/* .disabled {
     color: #B3B3B3;
     border-color: #d3d1d1;
     cursor: not-allowed;
     background: #efefef;
     border: 1px solid #d5d5d5;
 
-}
+} */
 .manage-notifications{position:relative;}
 
 .manage-notifications table{margin-top:51px !important;}
