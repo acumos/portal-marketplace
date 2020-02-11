@@ -126,6 +126,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 			RegisterAssetResponse response = licenseAsset.register(registerAssetRequest).get();
 			if(response != null ) {
 				log.info("LicenseAsset registration Success Response : "+response.isSuccess());
+				log.info("Response : "+response.getMessage() +" :: "+response.getUserId() +"::"+response.getRequest());
 				return response.isSuccess();
 			}else {
 				log.info("LicenseAsset registration called sucessfully but response is null from LicenseAsset");
