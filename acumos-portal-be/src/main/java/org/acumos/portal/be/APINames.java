@@ -111,7 +111,6 @@ public class APINames {
 
 	// Catalog APIs
 	public static final String GET_CATALOGS = "/catalogs";
-	public static final String GET_USER_CATALOGS = "/catalogs/{userId}";
 	public static final String GET_PUBLIC_CATALOGS = GET_CATALOGS + "/public";
 	public static final String SEARCH_CATALOGS = GET_CATALOGS + "/search";
 	public static final String CREATE_CATALOG = "/catalog";
