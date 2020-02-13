@@ -39,6 +39,7 @@ import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
 import org.acumos.portal.be.util.PortalConstants;
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,15 +62,22 @@ public class CatalogServiceController extends AbstractController {
 	@Autowired
 	CatalogService catalogService;
 
+	@Autowired
+	private CredentialsService credentialService;
+
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@ApiOperation(value = "Fetches catalogs, optionally sorted", response = MLPCatalog.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.GET_USER_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.GET_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,@RequestBody JsonRequest<RestPageRequest> pageRequestJson, 
-			@PathVariable String userId, HttpServletResponse response) {
+	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,
+	@RequestHeader("Authorization") String authorization,
+	@RequestBody JsonRequest<RestPageRequest> pageRequestJson, 
+			HttpServletResponse response) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> catalogs = null;
+		String userId = credentialService.getLoggedInUserId();
+
 		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		userId = SanitizeUtils.sanitize(userId);
 		try {

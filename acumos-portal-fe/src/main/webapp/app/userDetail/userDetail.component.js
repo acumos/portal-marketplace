@@ -776,7 +776,7 @@ angular
   							};
   							$scope.response_body = [];
   							apiService
-  									.getCatalogsbyUser(reqObject, $scope.loginUserID)
+  									.getCatalogs(reqObject)
   									.then(
   											function successCallback(response) {
   												var resp = response.data.response_body;

@@ -88,4 +88,8 @@ public class AuthenticatedUserDetails implements UserDetails {
 		return user.isActive();
 	}
 
+	public MLPUser getMLPUser(){
+		return this.user;
+	}
+
 }
