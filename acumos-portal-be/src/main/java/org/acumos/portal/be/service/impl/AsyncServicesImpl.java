@@ -169,6 +169,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			File onnxFile = null;
 			File pfaFile = null;
 			File licenseFile = null;
+			File rdataFile=null;
 			MLPNotification notification = new MLPNotification();
 			if (StringUtils.isEmpty(dockerfileURI) || ("null".equalsIgnoreCase(dockerfileURI))) {
 				dockerfileURI = null;
@@ -196,6 +197,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					}
 					if (file.isFile() && file.getName().contains("license.json")) {
 						licenseFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains(".rdata") || file.isFile() && file.getName().contains(".r")) {
+						rdataFile=new File(file.getAbsolutePath());
 					}
 
 				}
@@ -270,6 +274,10 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 							ContentType.MULTIPART_FORM_DATA, metadataFile.getName());
 					builder.addBinaryBody("schema", new FileInputStream(schemaFile), ContentType.MULTIPART_FORM_DATA,
 							schemaFile.getName());
+					if(rdataFile != null) {
+						builder.addBinaryBody("rdata", new FileInputStream(rdataFile), ContentType.MULTIPART_FORM_DATA,
+								rdataFile.getName());
+					}
 
 				}
 				if (licenseFile != null) {

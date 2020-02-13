@@ -135,6 +135,7 @@ public class FileSystemStorageService implements StorageService {
 		Boolean schemaFilePresent = false;
 		Boolean metadataFilePresent = false;
 		Boolean onnxPfaFilePresent = false;
+		Boolean rdataFilePresent=false;
 		String blacklist = PortalUtils.getEnvProperty(env, ENV_BLACKLIST);
 		String pattern = "(?!^.*(" + blacklist + ")\\/.*$)^.*$";
 		Predicate<ZipEntry> filter = entry -> 
@@ -153,7 +154,10 @@ public class FileSystemStorageService implements StorageService {
 						schemaFilePresent = true;
 		
 					if (zipEntry.getName().endsWith(".json"))
-						metadataFilePresent = true;					
+						metadataFilePresent = true;	
+					
+					if(zipEntry.getName().endsWith(".rdata") || zipEntry.getName().endsWith(".r"))
+						rdataFilePresent=true;
 				}
 				zis.closeEntry();
 				zipEntry = zis.getNextEntry();
@@ -163,7 +167,7 @@ public class FileSystemStorageService implements StorageService {
 				onnxPfaFilePresent = true;
 		}		
 
-		if (zipFilePresent && schemaFilePresent && metadataFilePresent)
+		if (zipFilePresent && schemaFilePresent && metadataFilePresent || rdataFilePresent)
 			return true;
 		else if(onnxPfaFilePresent)
 			return true;
@@ -175,6 +179,7 @@ public class FileSystemStorageService implements StorageService {
 		Boolean zipFilePresent = false;
 		Boolean schemaFilePresent = false;
 		Boolean metadataFilePresent = false;
+		Boolean rdataFilePresent=false;
 		String blacklist = PortalUtils.getEnvProperty(env, ENV_BLACKLIST);
 		String pattern = "(?!^.*(" + blacklist + ")\\/.*$)^.*$";
 		Predicate<ZipEntry> filter = entry -> 
@@ -191,6 +196,9 @@ public class FileSystemStorageService implements StorageService {
 	
 				if (zipEntry.getName().endsWith(".json"))
 					metadataFilePresent = true;
+				
+				if(zipEntry.getName().endsWith(".rdata") || zipEntry.getName().endsWith(".rda"))
+					rdataFilePresent=true;
 			}
 			zis.closeEntry();
 			zipEntry = zis.getNextEntry();
@@ -206,6 +214,9 @@ public class FileSystemStorageService implements StorageService {
 		}
 		if (!metadataFilePresent) {
 			files.add("metadata json");
+		}
+		if(!rdataFilePresent) {
+			files.add("rdata file(Specific to R model)");
 		}
 		return String.join(", ", files);
 	}
