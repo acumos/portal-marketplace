@@ -2576,7 +2576,7 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 .pub-req .mdl-data-table td:first-of-type label.small,.pub-req .mdl-data-table td:nth-child(2) label.small {max-width:130px;}
 .pub-req table.admin-tbl1 thead tr th:nth-child(4), .pub-req table.admin-tbl1 thead tr th:nth-child(5), .pub-req table.admin-tbl1 thead tr th:nth-child(6),.pub-req table.admin-tbl1 thead tr th:nth-child(7){min-width:130px;}
 .pub-req table.admin-tbl1 thead tr th:nth-child(8){min-width:120px;}
-.pub-req table.dataTable tbody td{padding:5px 18px;}
+.pub-req table.dataTable tbody td{padding:1px 18px;}
 .pub-req table.admin-tbl1 thead tr th{padding-top:0; padding-bottom:0;}
 .pub-req table.admin-tbl1 thead tr th:last-child {text-align: center; min-width:70px;}
 																					 

@@ -20,4 +20,4 @@ limitations under the License.
 
 'use strict';
 
-angular.module('notificationModule',['signInModal'])
+angular.module('notificationModule',['signInModal', 'datatables'])
