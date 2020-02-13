@@ -48,7 +48,7 @@ table.dataTable thead th, table.dataTable thead td {
     border-bottom: 1px solid #DDDDDD;;
 }
 table.dataTable tbody th, table.dataTable tbody td {
-    padding: 10px 18px;
+    padding: 0px 0px;
 }
 .dataTables_wrapper .dataTables_length,
 .dataTables_wrapper .dataTables_filter,

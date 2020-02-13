@@ -20,5 +20,5 @@ limitations under the License.
 
 'use strict';
 
-angular.module('catalog',['ngMaterial'])
+angular.module('catalog',['ngMaterial','datatables'])
 

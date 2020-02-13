@@ -57,19 +57,18 @@ limitations under the License.
 				Publisher</md-option> <md-option value="Public">Public</md-option> <md-option
 					value="Restricted Peer">Restricted Peer</md-option> </md-select>
 			</div>
-			<div>
+			<!-- <div>
 				<input class="catalog-search-txtbox notification-search" type="text" ng-model="searchtxt.name"
 					placeholder="Search Catalog by name" />
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<div>
 		<div class="onboard-history">
 			<!-- table start -->
 			<div class="admin-grid-container">
-				<table
-					class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1"
-					style="table-layout: fixed;">
+				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 mdl-js-data-table"
+					datatable="ng" dt-options="dtOptions" dt-columns="dtColumns" dt-column-defs="dtColumnDefs">
 					<colgroup>
 						<col width="24%">
 						<col width="20%">
@@ -81,59 +80,17 @@ limitations under the License.
 					</colgroup>
 					<thead>
 						<tr>
-							<th
-								ng-click="orderByField='name'; reverseSortcatalog = !reverseSortcatalog">CATALOG
-								NAME <span ng-if='orderByField!="name"'
-								class="gridcell-sort deactivate"></span><span
-								ng-if='orderByField=="name"'
-								ng-class="reverseSortcatalog?'ascending':'descending'"
-								class="gridcell-sort"></span>
-							</th>																							
-							<th
-								ng-click="orderByField='publisher'; reverseSortcatalog = !reverseSortcatalog">PUBLISHER
-								NAME <span ng-if='orderByField!="publisher"'
-								class="gridcell-sort deactivate"></span><span
-								ng-if='orderByField=="publisher"'
-								ng-class="reverseSortcatalog?'ascending':'descending'"
-								class="gridcell-sort"></span>
-							</th>	
-							<th
-								ng-click="orderByField='selfPublish'; reverseSortcatalog = !reverseSortcatalog">SELF-PUB <span 
-								ng-if='orderByField!="selfPublish"'
-								class="gridcell-sort deactivate"></span><span
-								ng-if='orderByField=="selfPublish"'
-								ng-class="reverseSortcatalog?'ascending':'descending'"
-								class="gridcell-sort"></span>
-							</th>
-							<th
-								ng-click="orderByField='accessTypeCode'; reverseSortcatalog = !reverseSortcatalog">ACCESS
-								TYPE <span ng-if='orderByField!="accessTypeCode"'
-								class="gridcell-sort deactivate"></span><span
-								ng-if='orderByField=="accessTypeCode"'
-								ng-class="reverseSortcatalog?'ascending':'descending'"
-								class="gridcell-sort"></span>
-							</th>
-							<th
-								ng-click="orderByField='solutionCount'; reverseSortcatalog = !reverseSortcatalog">TOTAL
-								MODELS <span ng-if='orderByField!="solutionCount"'
-								class="gridcell-sort deactivate"></span><span
-								ng-if='orderByField=="solutionCount"'
-								ng-class="reverseSortcatalog?'ascending':'descending'"
-								class="gridcell-sort"></span>
-							</th>
-							<th
-								ng-click="orderByField='created'; reverseSortcatalog = !reverseSortcatalog">CREATED
-								DATE <span ng-if='orderByField!="created"'
-								class="gridcell-sort deactivate"></span><span
-								ng-if='orderByField=="created"'
-								ng-class="reverseSortcatalog?'ascending':'descending'"
-								class="gridcell-sort"></span>
-							</th>
-							<th class="text-center">ACTION</th>
+							<th>CATALOG NAME </th>																							
+							<th>PUBLISHER NAME </th>	
+							<th>SELF-PUB </th>
+							<th>ACCESS TYPE </th>
+							<th>TOTAL MODELS </th>
+							<th>CREATED DATE </th>
+							<th>ACTION </th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="catalog in (SearchData = (allCatalogList | orderBy:orderByField:reverseSortcatalog | filter : searchtxt))">							
+						<tr ng-repeat="catalog in allCatalogList ">							
 							<td><span class="md-breadcrumb-item"> <a ng-click="showViewDetailsPopup(this,catalog)"> {{catalog.name}}</a> </span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>							
 							<td><span class="md-breadcrumb-item">{{(catalog.selfPublish) ? "Yes" : "No"}}</span></td>
@@ -159,86 +116,9 @@ limitations under the License.
 
 						</tr>											
 					</tbody>
-					<tbody ng-if="SearchData.length == 0">
-								<tr class="alert c-info text-center">
-									<td class="text-center" colspan="7"><strong>No
-											Results Found</strong></td>
-								</tr>
-				   </tbody>
 				</table>
 			</div>
 			<!-- table end -->
-
-			<div class="pagination-wrapper" ng-if="allCatalogListLength > 0">
-				<div class="pagination-left-section">
-					<span>Showing </span>
-					<div class="select-control">
-						<md-select ng-model="requestResultSize" name="requestResultSize"
-							ng-change="filterChange('paginationSize',requestResultSize)">
-						<md-option ng-value="10" class="pagination-list-item">10</md-option>
-						<md-option ng-value="25" class="pagination-list-item">25</md-option>
-						<md-option ng-value="50" class="pagination-list-item">50</md-option>
-						<md-option ng-value="100" class="pagination-list-item">100</md-option>
-						</md-select>
-
-					</div>
-
-					<span class="page-stats"> Catalogs</span>
-
-				</div>
-				<div class="pagination-right-section">
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary"
-							ng-disabled="selectedPage==0 || SetDataLoaded"
-							ng-click="setStartCount('pre');loadCatalog(selectedPage)">Previous</button>
-					</div>
-					<div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-click="setStartCount('preBunch');loadCatalog(setPageStart)"
-							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-					</div>
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart == selectedPage}"
-							ng-click="loadCatalog(setPageStart);">{{setPageStart+1}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+1)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+1);">{{setPageStart+2}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+2)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+2);">{{setPageStart+3}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+3)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+3);">{{setPageStart+4}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="(totalPages)<=(setPageStart+4)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+4);">{{setPageStart+5}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="(totalPages)<=(setPageStart + 5)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-click="setStartCount('nextBunch');loadCatalog(setPageStart);"
-							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-					</div>
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary"
-							ng-click="setStartCount('next');loadCatalog(selectedPage);"
-							ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
-					</div>
-				</div>
-			</div>
 
 		</div>
 	</div>

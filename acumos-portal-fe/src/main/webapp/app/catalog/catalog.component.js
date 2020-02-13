@@ -24,7 +24,8 @@ angular.module('catalog')
 			templateUrl : './app/catalog/catalog.template.html',
 			controller : function($scope, $location, $http, $rootScope,
 					$stateParams, $sessionStorage, $localStorage,
-					$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $filter, $sce, browserStorageService) {									
+					$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $filter, 
+					$sce, browserStorageService, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder) {									
 				
 				var user= JSON.parse(browserStorageService.getUserDetail());
 				
@@ -60,31 +61,62 @@ angular.module('catalog')
 						}
 				};
 	            
-	            $scope.filterChange = function(pagination, size) {
+	            /*$scope.filterChange = function(pagination, size) {
 	            	$scope.allCatalogList = [];
 	            	$scope.allCatalogListLength = 0;
 	            	$scope.requestResultSize = size;
-	            	$scope.loadCatalog(0);
-	            }	            
+	            	//$scope.loadCatalog(0);
+	            	$scope.loadTotalCatalog(0);
+	            }	*/      
+				
 	            // Access Type
 				$scope.accessType = [{'name':'Public','value':'PB'},{'name':'Restricted','value':'RS'}]
 				$scope.CatalogType = [{'name':'All Catalog','value':'all'},{'name':'My Catalog','value':'self'}]				
 				$scope.orderByField = 'created'; $scope.reverseSortcatalog = true;
 				
 				
+				 $scope.dtOptions = DTOptionsBuilder.newOptions()
+	                .withPaginationType('simple_numbers')
+	                .withDisplayLength(10)
+	                /*.withDOM('pitrfl');*/
+		            $scope.dtColumnDefs = [
+		                DTColumnDefBuilder.newColumnDef(0),
+		                DTColumnDefBuilder.newColumnDef(6).notSortable()
+		            ];
+				 
+				$scope.loadTotalCatalog = function(pageNumber) {					
+					$scope.SetDataLoaded = true;
+					$rootScope.setLoader = true;
+					
+					var reqObject = {											  							
+						"request_body": {
+							"fieldToDirectionMap": {"created":"ASC"},
+					        "page": 0,
+					        "size": 1
+						  }
+					};
+					apiService.getCatalogsbyUser(reqObject, $scope.loginUserID)
+						.then(
+							function successCallback(response) {
+								$scope.totalCatalogElements = response.data.response_body.totalElements;
+								$scope.loadCatalog(0, $scope.totalCatalogElements);
+							}, function errorCallback(response) {
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							});
+				};
 				
-				$scope.loadCatalog = function(pageNumber, filterValue) {							
+				
+				$scope.loadCatalog = function(pageNumber, totalCatalogElements) {							
 					$scope.allCatalogList = [];													
 					$scope.SetDataLoaded = true;
 					$rootScope.setLoader = true;
-					$scope.pageNumber = pageNumber;
-					$scope.selectedPage = pageNumber;	
 					
 					var reqObject = {											  							
 						"request_body": {
 							"fieldToDirectionMap": {"created":"ASC"},
 					        "page": pageNumber,
-					        "size": $scope.requestResultSize
+					        "size": totalCatalogElements
 						  }
 					};
 					apiService.getCatalogsbyUser(reqObject, $scope.loginUserID)
@@ -103,8 +135,10 @@ angular.module('catalog')
 							});
 				};
 				
-				if($scope.loginUserID)
-					$scope.loadCatalog(0);	
+				if($scope.loginUserID){
+					//$scope.loadCatalog(0);
+					$scope.loadTotalCatalog(0);
+				}
 				
 				// styleclass ------ icons
 				// c-success ------- 
@@ -143,7 +177,8 @@ angular.module('catalog')
 						function successCallback(response) {
 							$scope.setAlertMessage("Catalog \"" + reqObject.request_body.name + "\" created successfully.", 'c-success');
 							$mdDialog.hide();
-							$scope.loadCatalog(0);
+							//$scope.loadCatalog(0);
+							$scope.loadTotalCatalog(0);
 						}, function errorCallback(response) {
 							$scope.setAlertMessage("Error occurred while creating catalog \"" + reqObject.request_body.name + "\": " + response.data.response_detail, 'c-error', 'info_outline');
 							console.error(response);
@@ -204,7 +239,8 @@ angular.module('catalog')
 							function successCallback(response) {
 								$scope.setAlertMessage("Catalog \"" + reqObject.request_body.name + "\" updated successfully.", 'c-success');
 								$mdDialog.hide();
-								$scope.loadCatalog(0);
+								//$scope.loadCatalog(0);
+								$scope.loadTotalCatalog(0);
 							}, function errorCallback(response) {
 								$scope.setAlertMessage("Error occurred while updating catalog \"" + reqObject.request_body.name + "\".", 'c-error', 'info_outline');
 								console.error(response);
@@ -219,7 +255,8 @@ angular.module('catalog')
 							function successCallback(response) {
 								$scope.setAlertMessage("Catalog \"" + catalog.name + "\" successfully deleted.", 'c-success');
 								$mdDialog.hide();
-								$scope.loadCatalog(0);
+								//$scope.loadCatalog(0);
+								$scope.loadTotalCatalog(0);
 							}, function errorCallback(response) {
 								$mdDialog.show({
 									  contentElement: '#errorDialog',
