@@ -22,7 +22,8 @@ limitations under the License.
 
 app.component('notificationModule',{
 	templateUrl : '/app/notification/notification-details.template.html',
-	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, apiService, browserStorageService, $filter) {
+	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, 
+			$sce, apiService, browserStorageService, $filter, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder) {
 		$scope.loginUserID='';
 		$scope.totalCount = 0;
 		$scope.page = 0;
@@ -44,6 +45,48 @@ app.component('notificationModule',{
 			$scope.auth = browserStorageService
 					.getAuthToken();
 		}
+		
+		$scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withDisplayLength(10)
+        $scope.dtColumnDefs = [
+        	 DTColumnDefBuilder.newColumnDef(0).notVisible(),
+        	 DTColumnDefBuilder.newColumnDef(1).notSortable(),
+        	 DTColumnDefBuilder.newColumnDef(2)
+        ];
+		
+		$scope.dtInstance = {};
+		$scope.reloadData = reloadData;
+		
+		 function reloadData() {
+			 $scope.dtInstance.reloadData(null, true);
+	     };  
+		
+		$scope.totalNotificationMessages=function (userId){
+			
+			$scope.SetDataLoaded = true;
+			$rootScope.setLoader = true;
+			
+			var req = {
+		    	  "request_body": {
+						"fieldToDirectionMap": {'start': "DESC"},
+			    	    "page": 0,
+			    	    "size": 1
+			    	 } 
+			    	};
+				$scope.Loadcheck = true;
+				apiService.getNotificationPagination(userId,req)
+				.then(
+						function successCallback(response) {
+							$scope.totalCatalogElements = response.data.response_body.totalElements;
+							$scope.getNotificationMessage($scope.loginUserID, 0, $scope.totalCatalogElements);
+						}, function errorCallback(response) {
+							$scope.Loadcheck = false;
+							$scope.SetDataLoaded = false;
+							$rootScope.setLoader = false;
+						});
+		}
+
 
 		$scope.getNotificationMessage=function (userId,page,size){
 			
@@ -56,6 +99,8 @@ app.component('notificationModule',{
 			    	};
 				$scope.Loadcheck = true;
 				apiService.getNotificationPagination(userId,req).then(function(response) {
+					$scope.SetDataLoaded = false;
+					$rootScope.setLoader = false;
 					var totalElements = response.data.response_body.totalElements;
 					$scope.totalPages = response.data.response_body.totalPages;
 					// var totalPages = (totalElements / page ) + 1;
@@ -96,7 +141,8 @@ app.component('notificationModule',{
 		
 		// Change pagination Size starts
 		$scope.defaultSize = 10;
-		$scope.getNotificationMessage($scope.loginUserID,$scope.page, $scope.defaultSize);
+		//$scope.getNotificationMessage($scope.loginUserID,$scope.page, $scope.defaultSize);
+		$scope.totalNotificationMessages($scope.loginUserID);
 
 		$scope.filterChange = function(checkbox, type) {
 			$rootScope.setLoader = true;
@@ -105,7 +151,8 @@ app.component('notificationModule',{
 			$scope.selectedPage = 0;
 			if (type == 'paginationSize') {
 				$scope.defaultSize = checkbox;
-				$scope.getNotificationMessage($scope.loginUserID, $scope.selectedPage, $scope.defaultSize);
+				//$scope.getNotificationMessage($scope.loginUserID, $scope.selectedPage, $scope.defaultSize);
+				$scope.totalNotificationMessages($scope.loginUserID)
 			}
 		}
 		$scope.setPageStart = 0;
@@ -149,7 +196,8 @@ app.component('notificationModule',{
 			$scope.notificationManageObj = [];
 			$scope.pageNumber = selectedPage;
 			$scope.selectedPage = selectedPage;
-			$scope.getNotificationMessage($scope.loginUserID,$scope.selectedPage,$scope.defaultSize);
+			//$scope.getNotificationMessage($scope.loginUserID,$scope.selectedPage,$scope.defaultSize);
+			$scope.totalNotificationMessages($scope.loginUserID)
 		}
 		
 		$scope.refreshNotification=function(){
@@ -157,7 +205,9 @@ app.component('notificationModule',{
 			$scope.Navigation($scope.selectedPage)
 			$scope.notificationManageObj=[];
 			$scope.selectAllStatus = false;
-			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
+			//$scope.getNotificationMessage($scope.loginUserID, $scope.page);
+			$scope.totalNotificationMessages($scope.loginUserID);
+			reloadData();
 		}
 		
         $scope.viewNotification=function (notificationId){
@@ -171,7 +221,8 @@ app.component('notificationModule',{
 					//$scope.page = 0;
 					$scope.selectedPage = 0;
 					$scope.defaultSize = 10;
-					$scope.getNotificationMessage($scope.loginUserID,$scope.selectedPage,$scope.defaultSize);
+					//$scope.getNotificationMessage($scope.loginUserID,$scope.selectedPage,$scope.defaultSize);
+					$scope.totalNotificationMessages($scope.loginUserID);
 				 }
 			}).error(function(data, status, headers, config) {
 				
@@ -215,6 +266,7 @@ app.component('notificationModule',{
 			$scope.removeSelectAll();
 			$scope.selectAll= false;
 			angular.element(document.querySelector("#checkbox-label")).removeClass("is-checked");
+			reloadData();
 		
        };
 		
@@ -242,6 +294,7 @@ app.component('notificationModule',{
 			$scope.removeSelectAll();
 			$scope.selectAll= false;
 			angular.element(document.querySelector("#checkbox-label")).removeClass("is-checked");
+			reloadData();
 			
        };
        
