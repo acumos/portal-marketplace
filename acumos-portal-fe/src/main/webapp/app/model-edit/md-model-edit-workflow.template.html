@@ -1919,9 +1919,10 @@ limitations under the License.
 																class="md-padding"> <!-- Model Detail Preview -->
 															<md-content> <span
 																class="md-headline2 mob-disblock"> <img
-																class="solutions-img" ng-src="/api/solutions/{{solution.solutionId}}/picture" />{{solution.name}}
+																class="solutions-img" ng-src="/api/solutions/{{solution.solutionId}}/picture" onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name}}
 															
 															</span>
+															
 															<div class="clearfix" style="margin: 10px 0pxR"></div>
 															</md-content>
 															<div class="page-wrapper3">
