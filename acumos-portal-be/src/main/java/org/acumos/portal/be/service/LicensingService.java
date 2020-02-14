@@ -26,6 +26,7 @@ package org.acumos.portal.be.service;
 import java.util.List;
 
 import org.acumos.cds.domain.MLPLicenseProfileTemplate;
+import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 
@@ -37,6 +38,6 @@ public interface LicensingService {
 
 	String validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
 	
-	boolean licenseAssetRegister(String solutionId, String revisionId, String userId);
+	void licenseAssetRegister(String solutionId, String revisionId, String userId) throws LicenseAssetRegistrationException, AcumosServiceException;
 
 }
