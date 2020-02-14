@@ -32,6 +32,7 @@ import org.acumos.licensemanager.client.LicenseProfile;
 import org.acumos.licensemanager.client.model.RegisterAssetRequest;
 import org.acumos.licensemanager.client.model.RegisterAssetResponse;
 import org.acumos.licensemanager.client.rtu.LicenseAsset;
+import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
@@ -113,7 +114,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	}
 	
 	@Override
-	public boolean licenseAssetRegister(String solutionId, String revisionId, String userId) {
+	public void licenseAssetRegister(String solutionId, String revisionId, String userId) throws LicenseAssetRegistrationException, AcumosServiceException {
 		log.debug("Enter in register() ..."+" solutionId>>" +solutionId + "revisionId >>"+ revisionId + "userId >>"+  userId);
 		
 		try {
@@ -124,19 +125,29 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
 			registerAssetRequest.setLoggedIdUser(userId);
 			RegisterAssetResponse response = licenseAsset.register(registerAssetRequest).get();
-			if(response != null ) {
-				log.info("LicenseAsset registration Success Response : "+response.isSuccess());
-				log.info("Response : "+response.getMessage() +" :: "+response.getUserId() +"::"+response.getRequest());
-				return response.isSuccess();
-			}else {
+			if(response != null && ! response.isSuccess() ) {
+				log.info("LicenseAsset registration response message : "+response.getMessage() + " | " +response.getException().getMessage());
+				throw new LicenseAssetRegistrationException("unable to register license asset",response.getMessage(),response.getException().getMessage());
+				
+			}if(response != null && response.isSuccess() ) {
+				log.info("LicenseAsset registration successfull for solutionId: "+response.getSolutionId()+ " revisionId: " +response.getRevisionId());
+				log.info("LicenseAsset registration successfull "+response.getMessage());
+			}
+			else {
 				log.info("LicenseAsset registration called sucessfully but response is null from LicenseAsset");
 			}
 			
-		}catch(Exception e) {
+		} 
+		catch(LicenseAssetRegistrationException lare) {
+			log.error("Excetion in registering licence : "+lare.getMessage());
+			throw lare;
+		}		
+		catch(Exception e) {
 			log.error("Excetion in registering licence : "+e.getMessage());
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 		}
 		log.debug("Exit from register() ...");
-		return false;
+		
 	}
 
 }	  

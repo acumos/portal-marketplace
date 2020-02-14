@@ -24,6 +24,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPPublishRequest;
+import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -178,7 +179,13 @@ public class PublishRequestController extends AbstractController {
 				data.setResponseDetail(workflow.getReason());
 				log.error("SV failure occurred while Updating the request : ", workflow.getReason());
 			}
-		} catch (Exception e) {
+		} catch(LicenseAssetRegistrationException lare) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Solution is published but "+lare.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error("Exception occurred while registering license asset : ", lare.getMessage());
+		}
+		catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while Updating the request");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -34,6 +34,7 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.service.PublishSolutionService;
@@ -96,7 +97,11 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 					publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 				}
 			}
-		} catch (Exception e) {
+		} catch(LicenseAssetRegistrationException lare) {
+			publishStatus = "Published the solution but "+lare.getMessage();
+			log.error(publishStatus);
+		}		
+		catch (Exception e) {
 			publishStatus = "Failed to publish the solution";
 			log.error("Exception Occurred while Publishing Solution ={}", e);
 		}
