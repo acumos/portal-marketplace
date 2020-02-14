@@ -95,7 +95,7 @@ angular.module('catalog')
 					        "size": 1
 						  }
 					};
-					apiService.getCatalogsbyUser(reqObject, $scope.loginUserID)
+					apiService.getCatalogs(reqObject)
 						.then(
 							function successCallback(response) {
 								$scope.totalCatalogElements = response.data.response_body.totalElements;
