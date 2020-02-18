@@ -289,7 +289,7 @@ angular
 							
 							if (value === "deactivate") {
 								var json = {};
-								$scope.userActive.emailId = $scope.userActive.email;
+								$scope.userActive.emailId = $scope.userActive.emailId;
 								$scope.userActive.username = $scope.userActive.loginName;
 								$scope.userActive.active = "N";
 								json = {
@@ -332,7 +332,7 @@ angular
 													alert('fail')
 												});
 							} else if (value === "update") {
-								$scope.user.emailId = $scope.user.email;
+								$scope.user.emailId = $scope.user.emailId;
 								$scope.user.username = $scope.user.loginName;
 								if(!$scope.showAltImage){
 									//var picFile = new Blob([$scope.userImage], {type: 'image/PNG'});
@@ -392,7 +392,7 @@ angular
 						}
 						
 					 $scope.saveEmail = function() {	
-						$scope.userCopy.emailId = $scope.user.email;
+						$scope.userCopy.emailId = $scope.user.emailId;
 						$scope.userCopy.username = $scope.user.loginName;
 						
 						if ($scope.userCopy.active == false)
@@ -704,7 +704,7 @@ angular
                           }
                           
                           $scope.deleteApiToken = function() {                                                             
-                              $scope.userCopy.emailId = $scope.user.email;
+                              $scope.userCopy.emailId = $scope.user.emailId;
                                     $scope.userCopy.username = $scope.user.loginName;
                                     $scope.userCopy.apiToken = null;
                                     if ($scope.userCopy.active == false)
