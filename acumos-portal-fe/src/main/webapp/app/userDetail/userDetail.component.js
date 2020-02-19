@@ -111,7 +111,7 @@ angular
 				'userDetail',
 				{
 					templateUrl : './app/userDetail/userDetail.template.html',
-					controller : function($scope, $http, $location, $rootScope, $timeout, $stateParams,
+					controller : function($scope, $http, $location, $rootScope, $timeout, $stateParams, filterFilter,
 							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll, browserStorageService) {
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
@@ -753,6 +753,35 @@ angular
                           
                           /**** Notification Preference End****/
                           /*** catalog Management start**/
+                          
+                          /***Catalog FE Pagination*/
+                          $scope.fePagination = function(){
+                        	  $scope.viewby = 10;
+                              $scope.currentPage = 1;
+                              $scope.itemsPerPage = $scope.viewby;
+                              $scope.maxSize = 5; //Number of pager buttons to show
+                              $scope.totalItems = $scope.totalElements;
+    	                      $scope.orgAllCatalogList = $scope.allCatalogList;
+                          };
+                          
+                          $scope.setItemsPerPage = function(num) {
+	                    	  $scope.itemsPerPage = num;
+	                    	  $scope.currentPage = 1; //reset to first page
+	                      }
+                          
+                        //$watch search to update pagination
+	                      $scope.$watch('selectedCatalog', function(newVal, oldVal) {
+	                    	  if(newVal != oldVal){
+	                    		  $scope.allCatalogList = $scope.orgAllCatalogList;  
+	                    	  }
+	                    	  $scope.allCatalogList = filterFilter($scope.allCatalogList, newVal);
+	                    	  $scope.totalItems = $scope.allCatalogList.length;
+	                    	  $scope.totalPages = Math.ceil($scope.totalItems / $scope.pageSize);
+	                    	  $scope.currentPage = 1;
+	                      }, true);
+                                                  
+                          /***Catalog FE Pagination*Ends*/
+                        
                       	var user= JSON.parse(browserStorageService.getUserDetail());
                       	if(user) $scope.loginUserID = user[1];
 
@@ -769,7 +798,7 @@ angular
   										"created" : "DESC"
   									},
   									"page" : pageNumber,
-  									"size" : $scope.requestResultSize
+  									"size" : 10000
   								},
   								"request_from" : "string",
   								"request_id" : "string"
@@ -780,10 +809,11 @@ angular
   									.then(
   											function successCallback(response) {
   												var resp = response.data.response_body;
-  												$scope.allCatalogList = resp.content;											
+  												$scope.allCatalogList = resp.content;
   												$scope.totalPages = resp.totalPages;
   												$scope.totalElements = resp.totalElements;
   												$scope.allCatalogListLength = resp.totalElements;
+  												$scope.fePagination();
   												$scope.SetDataLoaded = false;
   												$rootScope.setLoader = false;
   											},
