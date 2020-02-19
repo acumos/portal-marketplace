@@ -142,6 +142,10 @@ public class PortalUtils {
 			user.setApiToken(null);
 		}
 		user.setTags(mlpUser.getTags());
+		if(user.getLoginPassExpireDate() != null) {
+			mlpUser.setLoginPassExpire(user.getLoginPassExpireDate());
+		}
+		user.setLoginName(mlpUser.getLoginName());
 		return user;
 	}
 	
