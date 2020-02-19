@@ -80,7 +80,8 @@ table.dataTable tbody th, table.dataTable tbody td {
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0.3em 0.8em;
     margin: 0 3px;
-        background: #fff;
+    background: #fff;
+    font-weight: 600 !important;
     color: #2B262D;
     border: 1px solid #d5d5d5;
 }
@@ -126,7 +127,47 @@ table.dataTable tbody th, table.dataTable tbody td {
 .manage-notifications .dataTables_length select{border: 1px solid #d5d5d5;
     padding: 2px 10px;
     margin: 0 5px 0 5px;}	
-	
 
+/* ---------------------------------------- */
+/* Select Fav Catalog Pagination Styles */
+/* ---------------------------------------- */	
 
+.fe-pagination {
+    display: flex;
+    align-content: space-between;
+    list-style: none;
+}
+.fe-pagination li {
+     
+    border: 1px solid #e1e1e1;
+    margin: 3px 3px;
+    padding: 0 5px;
+    min-width: 34px;
+    text-align: center;
+    cursor:pointer;
+    border-radius: 3px;
+    line-height: 30px;
+}
+ .fe-pagination li a {
+    text-decoration: none;
+    color: #2B262D;
+    text-align:center;
+    font-weight:600;
+}
+.fe-pagination li.active{background-color:#671C9D;}
+.fe-pagination li.active a{ color:#fff !important;}
+.fe-pagination li:hover {
+    background: rgba(158,158,158,.2);
+    cursor: pointer;
+}
+.fe-pagination li.disabled {
+    color: #B3B3B3;
+    border-color: #d3d1d1;
+    cursor: not-allowed;
+    background: #efefef;
+}
+.fe-pagination li.disabled a{cursor:not-allowed; opacity:.4;}
+.fe-pagination li.active:hover{background-color:#671C9D;}
+.fe-pagination li.active:hover a{color:#2B262D;}
+.fe-pagination li:first-child, .fe-pagination li:last-child{padding:0 16px;}
 
