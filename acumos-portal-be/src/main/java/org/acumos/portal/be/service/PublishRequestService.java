@@ -23,6 +23,7 @@ package org.acumos.portal.be.service;
 import java.util.List;
 
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.portal.be.common.PagableResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.MLPublishRequest;

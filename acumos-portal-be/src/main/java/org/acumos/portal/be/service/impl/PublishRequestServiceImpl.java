@@ -40,6 +40,7 @@ import org.acumos.cds.domain.MLPUser;
 
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.PagableResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
@@ -278,9 +279,18 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		// If request is approved then change the status of solution revision
 		if (isRequestApproved) {
 			dataServiceRestClient.addSolutionToCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
-			licensingService.licenseAssetRegister(updatedRequest.getSolutionId(), updatedRequest.getRevisionId(), updatedRequest.getRequestUserId());
-			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully",
-					updatedPublishRequest.getRequestUserId());
+			boolean isLicenseAssetRegisterd = false;
+			isLicenseAssetRegisterd = licensingService.licenseAssetRegister(updatedRequest.getSolutionId(), updatedRequest.getRevisionId(), updatedRequest.getRequestUserId());
+			if(isLicenseAssetRegisterd) {
+				generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully",
+						updatedPublishRequest.getRequestUserId());
+			}
+			else {
+				dataServiceRestClient.dropSolutionFromCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
+						"Error occured while registering license asset");
+			}
+			
 		} else {
 			generateNotification(
 					"Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Publisher",
