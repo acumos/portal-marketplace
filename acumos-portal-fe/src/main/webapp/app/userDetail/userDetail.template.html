@@ -292,8 +292,7 @@ limitations under the License.
 	<div
 		class="mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-datalist-icon">
 		<label>Select Catalog </label> <input list="solutions" type="text"
-			ng-model="selectedCatalog"
-			class="mdl-textfield__input notification-search">
+			ng-model="selectedCatalog.name" class="mdl-textfield__input notification-search">
 		<datalist id="solutions">
 			<select class="select-control">
 				<option ng-repeat="catalog in allCatalogList">{{catalog.name}}</option>
@@ -303,8 +302,10 @@ limitations under the License.
 	<br/>
 	<div class="catalog-grid-wrapper">
 		<div class="catalog-grid-container">
+			
 			<!-- Catalog grid item code -->
-			<div class="catalog-grid-item" ng-repeat="Catalog in allCatalogList | filter : selectedCatalog">
+			<div class="catalog-grid-item" ng-repeat="Catalog in allCatalogList.slice(((currentPage-1)*itemsPerPage), 
+				((currentPage)*itemsPerPage)) | filter : selectedCatalog ">
 				<div class="catalog-grid-top-section">
 					<img class="ct-img1" ng-src='/images/catalog.jpg'>
 				</div>
@@ -314,15 +315,10 @@ limitations under the License.
 							<label class="ct-lbl2" style="overflow: hidden; text-overflow: ellipsis; line-height: 1.3em;">{{Catalog.name}}</label>
 							 <label class="ct-lbl3">Published by: {{Catalog.publisher}}</label> 
 							 <label class="ct-lbl3">{{Catalog.created | date :"MM/dd/yyyy" }}</label>
-							  
 						</div>
-							  <span class="ct-lbl1" ng-show ="{{$index == 0 && selectedPage==0}}">New</span>							  							 															
- 							  <span class="ct-info-container a-tooltip" ><span class="catalog-icon-info a-tooltipval" ></span><span class="a-tooltiptext">{{Catalog.description}}</span></span>
-							  
+						  <span class="ct-lbl1" ng-show ="{{$index == 0 && selectedPage==0}}">New</span>							  							 															
+						  <span class="ct-info-container a-tooltip" ><span class="catalog-icon-info a-tooltipval" ></span><span class="a-tooltiptext">{{Catalog.description}}</span></span>
 						</div>	
-						
-						  
-															
 					</div>
 					<div class="ct-item-row">
 						<div>
@@ -340,7 +336,32 @@ limitations under the License.
 				</div>
 			</div>
 			<!-- Catalog grid item code -->
-			<div class="pagination-wrapper" ng-if="allCatalogListLength > 0">
+			<!-- FE pagination starts -->
+			<div class="pagination-wrapper">
+				<div class="pagination-left-section">
+					<span>Showing </span>
+					<div class="select-control">
+						<md-select ng-model="viewby" name="requestResultSize"
+							ng-change="setItemsPerPage(viewby)">
+						<md-option ng-value="10" class="pagination-list-item">10</md-option>
+						<md-option ng-value="25" class="pagination-list-item">25</md-option>
+						<md-option ng-value="50" class="pagination-list-item">50</md-option>
+						<md-option ng-value="100" class="pagination-list-item">100</md-option>
+						</md-select>
+					</div>
+					<span class="page-stats"> Catalogs</span>
+				</div>
+				<div class="pagination-right-section">
+				    <ul uib-pagination total-items="totalItems" ng-model="currentPage" class="pagination-sm fe-pagination" 
+				    boundary-links="true" rotate="false" max-size="maxSize" num-pages="numPages"
+				    items-per-page="itemsPerPage" ></ul>
+			    </div>
+			</div>
+			
+			<!-- FE pagination ends -->
+			
+			<!-- BE Pagination Start -->
+			<!-- <div class="pagination-wrapper" ng-if="allCatalogListLength > 0">
 				<div class="pagination-left-section">
 					<span>Showing </span>
 					<div class="select-control">
@@ -409,7 +430,8 @@ limitations under the License.
 							ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
 					</div>
 				</div>
-			</div>		
+			</div>	 -->
+			<!-- BE Pagination Ends -->	
 		</div>
 	</div>
 	</md-content> </md-tab>
