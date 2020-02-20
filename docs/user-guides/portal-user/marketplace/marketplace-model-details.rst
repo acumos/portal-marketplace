@@ -33,4 +33,6 @@ Much more information about a model is available on a Model Details page. From t
 - Model Artifacts
 - Author/Publisher Details
 
+ .. image:: ../images/portal/Model_Detail.PNG
+
 Most of the information on the detail page is contributed by the creator of the model to showcase the model and tell potential users about its capabilities and use. Ratings and Comments are contributed by other users of this model.
