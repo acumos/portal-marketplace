@@ -250,16 +250,17 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		log.debug("updatePublishRequest");
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPPublishRequest oldRequest = dataServiceRestClient.getPublishRequest(publishRequest.getPublishRequestId());
+		MLPPublishRequest publishRequestToUpdate = dataServiceRestClient.getPublishRequest(publishRequest.getPublishRequestId());
+		MLPPublishRequest existingPubRequest = new MLPPublishRequest(publishRequestToUpdate);
 		boolean isRequestApproved = false;
 
-		oldRequest.setComment(publishRequest.getComment());
-		oldRequest.setReviewUserId(publishRequest.getApproverId());
-		oldRequest.setStatusCode(publishRequest.getRequestStatusCode());
+		publishRequestToUpdate.setComment(publishRequest.getComment());
+		publishRequestToUpdate.setReviewUserId(publishRequest.getApproverId());
+		publishRequestToUpdate.setStatusCode(publishRequest.getRequestStatusCode());
 		MLPPublishRequest updatedRequest = null;
 
 		try {
-			dataServiceRestClient.updatePublishRequest(oldRequest);
+			dataServiceRestClient.updatePublishRequest(publishRequestToUpdate);
 			// Update Request returns VOID hence again fetch the publish request
 			// to check the status
 			updatedRequest = dataServiceRestClient.getPublishRequest(publishRequest.getPublishRequestId());
@@ -287,6 +288,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 			}
 			else {
 				dataServiceRestClient.dropSolutionFromCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
+				dataServiceRestClient.updatePublishRequest(existingPubRequest);
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
 						"Error occured while registering license asset");
 			}
