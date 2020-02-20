@@ -38,6 +38,6 @@ public interface LicensingService {
 
 	String validate(String jsonString) throws LicenseProfileException, AcumosServiceException;
 	
-	void licenseAssetRegister(String solutionId, String revisionId, String userId) throws LicenseAssetRegistrationException, AcumosServiceException;
+	boolean licenseAssetRegister(String solutionId, String revisionId, String userId);
 
 }

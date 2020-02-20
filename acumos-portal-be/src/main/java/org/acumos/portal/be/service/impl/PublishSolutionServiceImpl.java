@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCatalog;
+import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
@@ -36,7 +37,9 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.portal.be.common.CommonConstants;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.LicensingService;
+import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
@@ -55,6 +58,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	@Autowired
 	private LicensingService licensingService;
+
 	
 	public PublishSolutionServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -87,22 +91,33 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							
 						} else {
 							dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
-							licensingService.licenseAssetRegister(solutionId, revisionId, userId);
-							publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
+							boolean isLicenseAssetRegisterd = false;
+							isLicenseAssetRegisterd = licensingService.licenseAssetRegister(solutionId, revisionId, userId);
+							if(isLicenseAssetRegisterd) {
+								publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
+							}
+							else {
+								dataServiceRestClient.dropSolutionFromCatalog(solutionId, revisionId);
+								publishStatus = "Failed to publish the solution, please try again later";
+							}
 						}
 					}
 				} else {
 					dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
-					licensingService.licenseAssetRegister(solutionId, revisionId, userId);
-					publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
+					boolean isLicenseAssetRegisterd = false;
+					isLicenseAssetRegisterd = licensingService.licenseAssetRegister(solutionId, revisionId, userId);
+					if(isLicenseAssetRegisterd) {
+						publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
+					}
+					else {
+						dataServiceRestClient.dropSolutionFromCatalog(solutionId, revisionId);
+						publishStatus = "Failed to publish the solution, please try again later";
+					}
 				}
 			}
-		} catch(LicenseAssetRegistrationException lare) {
-			publishStatus = "Published the solution but "+lare.getMessage();
-			log.error(publishStatus);
 		}		
 		catch (Exception e) {
-			publishStatus = "Failed to publish the solution";
+			publishStatus = "Failed to publish the solution, please try again later";
 			log.error("Exception Occurred while Publishing Solution ={}", e);
 		}
 		return publishStatus;
@@ -193,5 +208,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 
 		return true;
 	}
+	
 
 }

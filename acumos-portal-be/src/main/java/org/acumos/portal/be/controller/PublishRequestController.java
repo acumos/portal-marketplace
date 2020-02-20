@@ -179,15 +179,16 @@ public class PublishRequestController extends AbstractController {
 				data.setResponseDetail(workflow.getReason());
 				log.error("SV failure occurred while Updating the request : ", workflow.getReason());
 			}
-		} catch(LicenseAssetRegistrationException lare) {
+		}
+		catch (AcumosServiceException ase) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			data.setResponseDetail("Solution is published but "+lare.getMessage());
+			data.setResponseDetail("Failed to publish the solution, please try again later");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("Exception occurred while registering license asset : ", lare.getMessage());
+			log.error("Exception occurred while Updating the request : ", ase);
 		}
 		catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			data.setResponseDetail("Exception occured while Updating the request");
+			data.setResponseDetail("Failed to publish the solution, please try again later");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error("Exception occurred while Updating the request : ", e);
 		}

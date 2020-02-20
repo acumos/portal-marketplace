@@ -114,9 +114,9 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 	}
 	
 	@Override
-	public void licenseAssetRegister(String solutionId, String revisionId, String userId) throws LicenseAssetRegistrationException, AcumosServiceException {
+	public boolean licenseAssetRegister(String solutionId, String revisionId, String userId) {
 		log.debug("Enter in register() ..."+" solutionId>>" +solutionId + "revisionId >>"+ revisionId + "userId >>"+  userId);
-		
+		boolean isLicenseAssetRegisterd = false;
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), env.getProperty(PortalConstants.ENV_NEXUS_URL)); 
@@ -125,28 +125,31 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
 			registerAssetRequest.setLoggedIdUser(userId);
 			RegisterAssetResponse response = licenseAsset.register(registerAssetRequest).get();
+			
 			if(response != null && ! response.isSuccess() ) {
-				log.info("LicenseAsset registration response message : "+response.getMessage() + " | " +response.getException().getMessage());
-				throw new LicenseAssetRegistrationException("unable to register license asset",response.getMessage(),response.getException().getMessage());
+				log.info("LicenseAsset registration response message : "+response.getMessage());
+				isLicenseAssetRegisterd = false;
 				
-			}if(response != null && response.isSuccess() ) {
+			}else if(response != null && response.isSuccess() ) {
 				log.info("LicenseAsset registration successfull for solutionId: "+response.getSolutionId()+ " revisionId: " +response.getRevisionId());
-				log.info("LicenseAsset registration successfull "+response.getMessage());
+				isLicenseAssetRegisterd = true;
 			}
 			else {
 				log.info("LicenseAsset registration called sucessfully but response is null from LicenseAsset");
+				isLicenseAssetRegisterd = false;
 			}
 			
 		} 
 		catch(LicenseAssetRegistrationException lare) {
-			log.error("Excetion in registering licence : "+lare.getMessage());
-			throw lare;
+			log.error("LicenseAssetRegistrationException in registering licence : "+lare.getMessage());
+			return isLicenseAssetRegisterd = false;
 		}		
 		catch(Exception e) {
 			log.error("Excetion in registering licence : "+e.getMessage());
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+			return isLicenseAssetRegisterd = false;
 		}
 		log.debug("Exit from register() ...");
+		return isLicenseAssetRegisterd;
 		
 	}
 
