@@ -191,6 +191,7 @@ angular
 						
 						$scope.publishReqeuest = function(index, publishVal){
 							$scope.publishVal = publishVal;
+							$mdDialog.hide();
 							var publishRequestCode = 'DC';
 							if(publishVal == 'approve'){
 								publishRequestCode = 'AP'
@@ -228,7 +229,7 @@ angular
 														function() {
 															$scope.showAlertMessage = false;
 														}, 3000);
-												$mdDialog.hide();
+												
 												if($scope.requestIndex != undefined){
 													$scope.allPublishRequest[$scope.requestIndex] = response.data.response_body;
 												}
@@ -250,7 +251,7 @@ angular
 														}
 													});
 												} else {
-													$scope.msg = "Error Occured while updating the publish request";
+													$scope.msg = response.data.response_detail;
 													$scope.icon = 'report_problem';
 													$scope.styleclass = 'c-error';
 													$scope.showAlertMessage = true;
