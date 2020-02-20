@@ -114,6 +114,8 @@ Specific steps:
 
 #. Click on Model Description and describe your model in terms that your users will understand and wish to use it
 
+#. Click on Model License Profile and add/update/select the license profile.
+
 #. Click on Model Category. Select a Category and Toolkit type from the dropdown box
 
 #. Select Model Documents and add any useful documents, such as release notes or detailed instructions that will help your users
