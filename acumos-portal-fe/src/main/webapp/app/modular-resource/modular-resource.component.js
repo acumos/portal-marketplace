@@ -104,6 +104,7 @@ angular.module('modelResource')
 			$scope.disableRefreshButton = true;
 			$scope.disableDockerRefreshButton = true;
 			
+			$scope.protoExt = '.proto';
 			$scope.disableUploadLicense = false;
 			$scope.disableUploadDLCheckbox = false;
 
@@ -138,7 +139,8 @@ angular.module('modelResource')
 				$scope.fileSubmit = false;
 				$scope.filename = undefined;
 				$scope.modelUploadErrorMsg = undefined;
-				$scope.modelUploadError = false;				
+				$scope.modelUploadError = false;
+				$scope.fileSubmitLicense=true;
 			}
 			// TODO license-profile-editor handlers
 			var selLicProfileTplMsg;
@@ -258,8 +260,10 @@ angular.module('modelResource')
 					var file = $scope.file;
 					$scope.modelUploadError = false;
 				} else {
-					if(isDockerURLLicense) {
+					if(isDockerURLLicense == 'isDockerURLLicense') {
 						var file = $scope.licenseDocfile;
+					} else if(isDockerURLLicense == 'isPredocLicense') { 
+						var file = $scope.licensefiledockermodel;
 					} else {
 						var file = $scope.licensefile;
 					}
@@ -296,6 +300,7 @@ angular.module('modelResource')
 														
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;
+							$scope.fileSubmitLicense = true; 
 														
 						},
 						function(error) {
@@ -309,22 +314,81 @@ angular.module('modelResource')
 								}
 
 								if(isDockerURLLicense){
-									$scope.modelDocLicUploadError = true;
-									$scope.modelDocLicUploadErrorMsg = errorMsg;
-								} else{
-									$scope.modelLicUploadError = true;
-									$scope.modelLicUploadErrorMsg = errorMsg;
-								}
-							} else {
-								$scope.modelUploadError = true;
+									if(isDockerURLLicense == 'isDockerURLLicense') {
+										$scope.modelDocLicUploadError = true;
+										$scope.modelDocLicUploadErrorMsg = errorMsg;
+									} else if(isDockerURLLicense == 'isPredocLicense') { 
+										$scope.predockermodelLicUploadError = true;
+										$scope.predockermodelLicUploadErrorMsg = errorMsg;
+									} else{
+										$scope.modelLicUploadError = true;
+										$scope.modelLicUploadErrorMsg = errorMsg;
+									}
+								} else {
+									$scope.modelUploadError = true;
 								$scope.modelUploadErrorMsg = error;
 							}
 							$scope.filename = '';
 							$rootScope.progressBar = 0;
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;
-						});
+						}
+					});
 			}
+						
+			//protobuf start
+
+				$scope.protofileUpload  = function() {
+					
+					var userId = JSON.parse(browserStorageService.getUserDetail());
+					$scope.fileSubmitproto = true;				
+					var uploadUrl = "api/proto/upload/" +'?protoUploadFlag=true';
+					var promise = modelUploadService.uploadFileToUrl(
+							$scope.protofile, uploadUrl);
+	
+					promise
+					.then(function(response) {							
+								$rootScope.progressBar = 100;
+								$scope.protoProgressBar = $rootScope.progressBar;
+							},
+							function(error) {
+									$scope.filename = '';
+									$rootScope.progressBar = 0;
+	
+						});
+				
+				}			
+			
+				$scope.deleteProtoFile = function() {
+					
+					$scope.fileSubmitproto = false;
+				  
+					   apiService
+					   		.deleteProtoFile() 
+					   		.then(function(response){	   		 
+					   		},
+					   		function(error) {
+					   			$scope.icon = 'info_outline';
+				        		$scope.styleclass = 'c-error';
+				        		$scope.msg = "Error in deleting p file.";
+				        		$scope.showAlertMessage = true;
+			                        $timeout(function() {
+			                        	$scope.showAlertMessage = false;
+			                    }, 8000);
+			                        
+					   		});
+
+				   
+				   if ($scope.uploadingFile && $rootScope.progressBar < 100){
+						modelUploadService.cancelUpload("Upload cancelled by user");
+				   }				   
+
+				   $scope.protofile = '';
+
+				   
+			   }
+				
+			//protobuf ends
 			
 			$scope.closePoup = function(licUploadFlag, dockerURL){
 				if ($scope.uploadingFile && $rootScope.progressBar < 100){
@@ -338,11 +402,15 @@ angular.module('modelResource')
 						$scope.licenseDockerFilename = "";
 						$scope.fileSubmitDocLicense = false;						
 						$scope.modelDocLicUploadError = false;
+						$scope.predockermodelLicUploadError = false;
+						$scope.licensefiledockermodel = "";
 					} else {
 						$scope.licenseFilename = "";
 						$scope.licensefile = "";
 						$scope.fileSubmitLicense = false;
 						$scope.modelLicUploadError = false;
+						$scope.licensefiledockermodel ="";
+						
 					}
 				} else {
 					$scope.filename = "";
@@ -717,8 +785,15 @@ angular.module('modelResource')
 			   $scope.createDockerRef = false;
 			   $scope.solutionList = [];
 			   $scope.artifactUrl = '';
+			   $scope.protofile = {}
+			   $scope.protofilename = '';
+			   //$scope.availableSolution = false;
 			   $scope.searchModel = '';	
+			   $scope.licensefiledockermodel = {};
+			   $scope.licensefiledockermodel = {};
 			   $scope.disableCreateDocker=false;
+			   $scope.predockermodelLicUploadError = false;
+			   $scope.fileSubmitLicense = false;
 		   }
 		   
 		   $scope.checkingSolution = false;

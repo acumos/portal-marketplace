@@ -2579,7 +2579,17 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 .pub-req table.dataTable tbody td{padding:1px 18px;}
 .pub-req table.admin-tbl1 thead tr th{padding-top:0; padding-bottom:0;}
 .pub-req table.admin-tbl1 thead tr th:last-child {text-align: center; min-width:70px;}
+		
 																					 
+/* Upload New Dockerized Model starts  */
+.new-doc-model .upload-image-input{border:none; margin-top:0px !Important; padding:0px;}
+.new-doc-model .upload-file-container{border:1px solid rgba(0,0,0,.12); padding:5px; height:37px;}
+.new-doc-model .upload-file-container .input-div{width:100%;}
+.new-doc-model .input-upload-button{    position: absolute; right: -100px; top: -4px;}
+.new-doc-model .input-div .upload-field{margin:0px;}
+.dc-row.posrel small{position:absolute; bottom:0;}
+ 
+/* Upload New Dockerized Model ends */
 
 /*********** MEDIA QUERIES SECTION START************/
 

@@ -135,6 +135,7 @@ angular.module('AcumosApp')
 		var urlMSStatus = "/api/onboardinghistory/getMSStatus";
 		var urlUpdatePeerSubscription = 'api/admin/peer/subcription/update'
         var urlNotificationPagination = 'api/notifications/pagination';	
+		var urldeleteProtoFile = 'api/deleteProtoFile/';	
 			
      	
         //Acumos ELk Client REST APIs : Elk Controller (all Methods at end)
@@ -875,6 +876,9 @@ angular.module('AcumosApp')
         
         this.deleteRole = function(roleId){
         	return $http.post('/api/deleteRole/' + roleId);
+        }
+        this.deleteProtoFile = function(){
+        	return $http.post(urldeleteProtoFile);
         }
 
         /***role management apis **/
