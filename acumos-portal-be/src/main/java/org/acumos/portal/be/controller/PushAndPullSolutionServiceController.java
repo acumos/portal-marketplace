@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
@@ -50,6 +51,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,6 +75,9 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	
 	@Autowired
 	private LicensingService licensingService;
+	
+	@Autowired
+	private CredentialsService credentialService;
 
 	@Autowired
 	private PushAndPullSolutionService pushAndPullSolutionService;
@@ -373,4 +378,82 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		return responseVO;
 	}
 		
+	@ApiOperation(value = "API to Upload the proto file to the server")
+	@RequestMapping(value = {
+			APINames.UPLOAD_PROTO_FILE }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@ResponseBody
+	public JsonResponse<Boolean> uploadProtoFile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String authorization, 
+			@RequestParam("protoUploadFlag") boolean protoUploadFlag, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		JsonResponse<Boolean> responseVO = new JsonResponse<>();
+		String userId = credentialService.getLoggedInUserId();
+		try {
+			if(protoUploadFlag) {
+				boolean resultFlag = storageService.storeProtoFile(file, userId, protoUploadFlag);
+                          	if(resultFlag) {
+					responseVO.setStatus(resultFlag);
+					responseVO.setResponseDetail("Success");
+					responseVO.setResponseBody(resultFlag);
+					responseVO.setStatusCode(HttpServletResponse.SC_OK);
+                                }else {
+					responseVO.setStatus(resultFlag);
+					responseVO.setResponseDetail("Failed to Upload Proto File");
+					responseVO.setResponseBody(resultFlag);
+					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					log.error("Failed to Upload Proto File::Flag is false");
+				}
+                         }else {
+				responseVO.setStatus(protoUploadFlag);
+				responseVO.setResponseDetail("Failed to Upload Proto File");
+				responseVO.setResponseBody(protoUploadFlag);
+				responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				log.error("Failed to Upload Proto File::Flag is false");
+			}
+				
+		}catch (StorageException e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(e.getMessage());
+			response.flushBuffer();
+			
+			log.error(
+					"Exception Occurred while uploading the proto file in Push and Pull Solution service", e);
+		}
+		catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(
+					"Exception Occurred while uploading the proto file in Push and Pull Solution service", e);
+		}
+		
+			
+		return responseVO;
+	}
+	@ApiOperation(value = "API to delete proto file")
+	@RequestMapping(value = {APINames.DELETE_PROTO_FILE},method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<String> deleteProtoFile(HttpServletRequest request,@RequestHeader("Authorization") String authorization, HttpServletResponse response)throws IOException {
+		JsonResponse<String> responseVO = new JsonResponse<>();
+		String userId = credentialService.getLoggedInUserId();
+		try {
+			storageService.deleteProtoFile(userId);
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Success");
+			responseVO.setResponseBody("Success");
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			log.debug("File deleted successfully");
+		} catch (AcumosServiceException e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(e.getMessage());
+			log.error("Exception Occurred while deleting file", e);
+		}
+		return responseVO;
+	}
+	
 }
