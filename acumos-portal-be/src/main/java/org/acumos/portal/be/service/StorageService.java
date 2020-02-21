@@ -35,4 +35,8 @@ public interface StorageService {
 	
 	void deleteLicenseFile(String userId) throws AcumosServiceException;
 
+	boolean storeProtoFile(MultipartFile file, String userId, boolean protoUploadFlag);
+
+	void deleteProtoFile(String userId)throws AcumosServiceException;
+
 }

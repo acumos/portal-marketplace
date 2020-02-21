@@ -58,12 +58,13 @@ public class FileSystemStorageService implements StorageService {
 
 	private static final String ENV_BLACKLIST = "onboarding.directory.blacklist";
 	private static final String LICENSE_FILE = "license.json";
+	private static final String ENV_MODELSTORAGE = "model.storage.folder.name";
 
 	@Override
 	public boolean store(MultipartFile file, String userId, boolean flag) {
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		
-		log.debug("uploadModel for user " + userId + " file nameeee: " + filename + "fileeee: "+file+ "Fodlerrrrrrrrrrr    "+env.getProperty("model.storage.folder.name"));
+		log.debug("uploadModel for user " + userId + " file nameeee: " + filename + "fileeee: "+file+ "Fodlerrrrrrrrrrr    "+env.getProperty(ENV_MODELSTORAGE));
 		boolean result = false;
 		try {
 			if (file.isEmpty()) {
@@ -81,7 +82,7 @@ public class FileSystemStorageService implements StorageService {
 				
 				log.debug("Remove Previously Uploaded files for User  " + userId );
 				Path modelFolderLocation = Paths
-						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
+						.get(env.getProperty(ENV_MODELSTORAGE) + File.separator + userId);
 
 				log.debug("Upload Location Path  " + modelFolderLocation);
 				
@@ -90,8 +91,8 @@ public class FileSystemStorageService implements StorageService {
 				log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
 	
 				try {
-					file.transferTo(new File( env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE ));	
-
+					file.transferTo(new File( env.getProperty(ENV_MODELSTORAGE) + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE ));	
+					result=true;
 				} catch (Exception e) {
 					throw new StorageException("Failed to store file " + filename, e);
 				}
@@ -109,7 +110,7 @@ public class FileSystemStorageService implements StorageService {
 				
 				log.debug("Remove Previously Uploaded files for User  " + userId );
 				Path modelFolderLocation = Paths
-						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
+						.get(env.getProperty(ENV_MODELSTORAGE) + File.separator + userId);
 				
 				log.debug("Upload Location Path  " + modelFolderLocation);
 				
@@ -118,7 +119,7 @@ public class FileSystemStorageService implements StorageService {
 				log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
 	
 				try {
-					result = PortalFileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId);
+					result = PortalFileUtils.extractZipFile(file, env.getProperty(ENV_MODELSTORAGE) + File.separator + userId);
 					log.debug("Close all File Resource ");
 				} catch (Exception e) {
 					throw new StorageException("Failed to store file " + filename, e);
@@ -156,7 +157,8 @@ public class FileSystemStorageService implements StorageService {
 					if (zipEntry.getName().endsWith(".json"))
 						metadataFilePresent = true;	
 					
-					if(zipEntry.getName().endsWith(".rdata") || zipEntry.getName().endsWith(".r"))
+					if(zipEntry.getName().endsWith(".rdata") || zipEntry.getName().endsWith(".r")
+							|| zipEntry.getName().endsWith(".Rdata") || zipEntry.getName().endsWith(".R"))
 						rdataFilePresent=true;
 				}
 				zis.closeEntry();
@@ -197,7 +199,8 @@ public class FileSystemStorageService implements StorageService {
 				if (zipEntry.getName().endsWith(".json"))
 					metadataFilePresent = true;
 				
-				if(zipEntry.getName().endsWith(".rdata") || zipEntry.getName().endsWith(".r"))
+				if(zipEntry.getName().endsWith(".rdata") || zipEntry.getName().endsWith(".r")
+						|| zipEntry.getName().endsWith(".Rdata") || zipEntry.getName().endsWith(".R"))
 					rdataFilePresent=true;
 			}
 			zis.closeEntry();
@@ -224,7 +227,7 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public void deleteAll(String userId) {
 		FileSystemUtils.deleteRecursively(
-				Paths.get(env.getProperty("model.storage.folder.name") + File.separator + userId)
+				Paths.get(env.getProperty(ENV_MODELSTORAGE) + File.separator + userId)
 						.toFile());
 	}
 
@@ -238,12 +241,12 @@ public class FileSystemStorageService implements StorageService {
 			log.debug("Remove Previously Uploaded files for User  " + userId );
 			
 			Path modelFolderLocation = Paths
-				.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
+				.get(env.getProperty(ENV_MODELSTORAGE) + File.separator + userId);
 
 			log.debug("Upload Location Path  " + modelFolderLocation);
 			Files.createDirectories(modelFolderLocation);
 			log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
-			try(FileWriter file = new FileWriter(env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + LICENSE_FILE)){
+			try(FileWriter file = new FileWriter(env.getProperty(ENV_MODELSTORAGE) + File.separator + userId + File.separator + LICENSE_FILE)){
 				file.write(jsonString);
 				file.flush();
 				responseFlag=true;
@@ -258,11 +261,75 @@ public class FileSystemStorageService implements StorageService {
 
 	public void deleteLicenseFile(String userId) throws AcumosServiceException {
 		try {
-			File file=new File( env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE  );
+			File file=new File( env.getProperty(ENV_MODELSTORAGE) + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE  );
 			file.delete();
 		}
 		catch (Exception e) {
 			throw new AcumosServiceException("Failed to delete file " + FileSystemStorageService.LICENSE_FILE, e);
 		}
+	}		
+	public void deleteProtoFile(String userId) throws AcumosServiceException {
+			try {
+				File fileDirectory=new File( env.getProperty(ENV_MODELSTORAGE) + File.separator + userId );
+				File[] fList = fileDirectory.listFiles();
+				File protoFile=null;
+				if (fList != null) {
+					for (File file : fList) {
+						if (file.isFile() && file.getName().contains(".proto")) {
+							protoFile=new File(file.getAbsolutePath());
+							
+						}
+					}
+				}
+				if(protoFile !=null)
+					protoFile.delete();
+			}
+			catch (Exception e) {
+				throw new AcumosServiceException("Failed to delete proto file " , e);
+			}
+	}
+
+	@Override
+	public boolean storeProtoFile(MultipartFile file, String userId, boolean protoUploadFlag) {
+		String filename = StringUtils.cleanPath(file.getOriginalFilename());
+		
+		log.debug("uploadModel for user " + userId + " file nameeee: " + filename + "fileeee: "+file+ "Fodlerrrrrrrrrrr    "+env.getProperty(ENV_MODELSTORAGE));
+		boolean result = false;
+		try {
+			if (file.isEmpty()) {
+				log.error("Failed to store empty file " + filename );
+				throw new StorageException("Failed to store empty file " + filename);
+			}
+			if (filename.contains("..")) {
+				// This is a security check
+				log.error("Cannot store file with relative path outside current directory " + filename );
+				throw new StorageException(
+						"Cannot store file with relative path outside current directory " + filename);
+			}
+			
+			if(protoUploadFlag){						
+				
+				log.debug("Remove Previously Uploaded files for User  " + userId );
+				Path modelFolderLocation = Paths
+						.get(env.getProperty(ENV_MODELSTORAGE) + File.separator + userId);
+
+				log.debug("Upload Location Path  " + modelFolderLocation);
+				
+				Files.createDirectories(modelFolderLocation);
+				
+				log.debug("Directory Created at Upload Location Path  " + modelFolderLocation);
+	
+				try {
+					file.transferTo(new File( env.getProperty(ENV_MODELSTORAGE) + File.separator + userId + File.separator + filename ));	
+					result=true;
+				} catch (Exception e) {
+					throw new StorageException("Failed to store file " + filename, e);
+				}
+				
+			}
+		}catch (IOException e) {
+			throw new StorageException("Failed to store file " + filename, e);
+		}
+		return result;
 	}
 }

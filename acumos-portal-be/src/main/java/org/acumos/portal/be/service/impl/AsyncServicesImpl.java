@@ -198,7 +198,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					if (file.isFile() && file.getName().contains("license.json")) {
 						licenseFile = new File(file.getAbsolutePath());
 					}
-					if (file.isFile() && file.getName().contains(".rdata") || file.isFile() && file.getName().contains(".r")) {
+					if (file.isFile() && file.getName().contains(".rdata") || file.isFile() && file.getName().contains(".r")
+							|| file.getName().contains(".Rdata") ||file.getName().contains(".R")) {
 						rdataFile=new File(file.getAbsolutePath());
 					}
 
@@ -283,6 +284,10 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				if (licenseFile != null) {
 					builder.addBinaryBody("license", new FileInputStream(licenseFile), ContentType.MULTIPART_FORM_DATA,
 							licenseFile.getName());
+				}
+				if (schemaFile != null) {
+					builder.addBinaryBody("protobuf", new FileInputStream(schemaFile), ContentType.MULTIPART_FORM_DATA,
+							schemaFile.getName());
 				}
 				HttpEntity entity = builder.build();
 				post.setEntity(entity);
