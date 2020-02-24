@@ -35,6 +35,7 @@ import org.acumos.licensemanager.client.rtu.LicenseAsset;
 import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
+import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.LicensingService;
 import org.acumos.portal.be.util.PortalConstants;
@@ -119,7 +120,8 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 		boolean isLicenseAssetRegisterd = false;
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), env.getProperty(PortalConstants.ENV_NEXUS_URL)); 
+			NexusArtifactClient nexusArtifactClient= getNexusClient();
+			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), nexusArtifactClient); 
 			RegisterAssetRequest registerAssetRequest=new RegisterAssetRequest();
 			registerAssetRequest.setSolutionId(UUID.fromString(solutionId));
 			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
