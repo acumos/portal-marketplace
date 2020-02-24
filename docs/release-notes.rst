@@ -21,6 +21,21 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.2 24th Feb 2020
+=================================
+* ACUMOS-4008 - IST: Email Update is not working
+* ACUMOS-4007 - IST: First name, last name and delete token  not saving in the database
+* ACUMOS-3981 - Publish Request: New Pagination Issues
+* ACUMOS-3976 - IST: Preview Model: Default Model Image is not displaying on model details
+* ACUMOS-3975 - Search across pagination | Notifications/Catalog/SELECT FAVORITE CATALOGS
+* ACUMOS-3968 - IST: Manage My Model : Preview Model: Preview model view using older template of license profile
+* ACUMOS-3967 - <IST> License :- While clicking on 'update' button from model description page create new screen is displaying along with schema error message.
+* ACUMOS-3966 - <IST> Manage my model:- Model License Profile:- UI  and few button functionality is not as per expectation.
+* ACUMOS-3965 - IST: ManageMyModel: Deploy to Cloud: Quit/Cancel/Ok button not working on deploy to cloud popup
+* ACUMOS-3952 - Manage new kind of file of the model bundle
+* ACUMOS-3916 - IST: Expand(-) symbol is not displaying on model tiles after click on Expand(+)on marketplace if model have multiple tag 
+* ACUMOS-3829 - Deployment notification in portal when there is a link to deployed model with a url but it is not linked to the swagger? URL Should be clickable?
+
 Version 4.0.1 3rd Feb 2020
 =================================
 * ACUMOS-3749 - As a model user, I would like to view the license profile in a human readable format
