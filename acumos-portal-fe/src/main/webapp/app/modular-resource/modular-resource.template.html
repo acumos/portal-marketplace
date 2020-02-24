@@ -882,10 +882,7 @@ limitations under the License.
 										       
 										   </div>
 										   
-										   <div class="dc-row" ng-if="availableSolution && ((artifactUrl + '').length == 0)">
-											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="disableCreateDocker=true;createDockerImageRef(false, searchModelName);">Create Docker Image Reference</button>
-											</div>
-											<div class="dc-row update-docker" ng-if="artifactUrl">
+										   <div class="dc-row update-docker" ng-if="artifactUrl">
 											     <div class="mdl-cell--10-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 											        <md-input-container class="md-block">
 											           <label for="artifactUrl">My Image Model</label> 
