@@ -953,15 +953,15 @@ limitations under the License.
 																				
 															<div class="progress-bar-div" ng-show="protofile.name && (protofile.name).endsWith(protoExt)">																	
 																<div><span class="namelength">{{protofile.name}}</span></div>
-																<div ng-if="file.size/1024/1024 < 1">{{Math.ceil(protofile.size/1024)}}KB</div>
-																<div ng-if="file.size/1024/1024 > 1">{{Math.ceil(protofile.size/1024/1024)}}MB</div>
-																<div ng-show = "$root.progressBar > 0 && licUploadFlag == true" style="width:80%">
-																	<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}"></div>
-																	<div class="" style="text-align:center;"><span>{{$root.progressBar| number : 0}}%</span></div>
+																<div ng-if="protofile.size/1024/1024 < 1">{{Math.ceil(protofile.size/1024)}}KB</div>
+																<div ng-if="protofile.size/1024/1024 > 1">{{Math.ceil(protofile.size/1024/1024)}}MB</div>
+																<div ng-show="$root.progressBarProto > 0" style="width:80%">
+																	<div class="progress-bar" ng-style="{'width': $root.progressBarProto+'%'}"></div>
+																	<div class="" style="text-align:center;"><span>{{$root.progressBarProto| number : 0}}%</span></div>
 																</div>
-																 <div class="pro-status" ng-show = "$root.progressBar > 0 && licUploadFlag == true">
-																	 <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
-																	 <span ng-show="$root.progressBar == 100" >Done</span>   		
+																 <div class="pro-status" ng-show="$root.progressBarProto > 0">
+																	 <span ng-show="$root.progressBarProto != 100 && $root.progressBarProto != 0" >Uploading</span>
+																	 <span ng-show="$root.progressBarProto == 100">Done</span>   		
 																 </div>
 																 <div class="fileclose" ng-click="deleteProtoFile()"><i class="material-icons">close</i></div>
 															</div>
@@ -1000,15 +1000,15 @@ limitations under the License.
 																						
 															<div class="progress-bar-div" ng-show="licensefiledockermodel.name">																	
 																<div><span class="namelength">{{licensefiledockermodel.name}}</span></div>
-																<div ng-if="file.size/1024/1024 < 1">{{Math.ceil(licensefiledockermodel.size/1024)}}KB</div>
-																<div ng-if="file.size/1024/1024 > 1">{{Math.ceil(licensefiledockermodel.size/1024/1024)}}MB</div>
-																<div ng-show = "$root.progressBar > 0 && licUploadFlag == true" style="width:80%">
-																	<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}"></div>
-																	<div class="" style="text-align:center;"><span>{{$root.progressBar| number : 0}}%</span></div>
+																<div ng-if="licensefiledockermodel.size/1024/1024 < 1">{{Math.ceil(licensefiledockermodel.size/1024)}}KB</div>
+																<div ng-if="licensefiledockermodel.size/1024/1024 > 1">{{Math.ceil(licensefiledockermodel.size/1024/1024)}}MB</div>
+																<div ng-show = "$root.modelLicProgressBar > 0" style="width:80%">
+																	<div class="progress-bar" ng-style="{'width': $root.modelLicProgressBar+'%'}"></div>
+																	<div class="" style="text-align:center;"><span>{{$root.modelLicProgressBar| number : 0}}%</span></div>
 																</div>
-																 <div class="pro-status" ng-show = "$root.progressBar > 0 && licUploadFlag == true">
-																	 <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
-																	 <span ng-show="$root.progressBar == 100" >Done</span>   		
+																 <div class="pro-status" ng-show = "$root.modelLicProgressBar > 0 && licUploadFlag == true">
+																	 <span ng-show="$root.modelLicProgressBar != 100 && $root.modelLicProgressBar != 0" >Uploading</span>
+																	 <span ng-show="$root.modelLicProgressBar == 100" >Done</span>   		
 																 </div>
 																 <div class="fileclose" ng-click="closePoup(true, true)"><i class="material-icons">close</i></div>
 															</div>

@@ -283,7 +283,7 @@ angular.module('modelResource')
 							$rootScope.progressBar = 100;
 							if(licUploadFlag){
 								
-								$scope.modelLicProgressBar = $rootScope.progressBar;
+								$rootScope.modelLicProgressBar = $rootScope.progressBar;
 								$rootScope.progressBar = 0;
 								if(isDockerURLLicense){
 									$scope.fileSubmitDocLicense = true;
@@ -300,7 +300,7 @@ angular.module('modelResource')
 														
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;
-							$scope.fileSubmitLicense = true; 
+							$scope.fileSubmitLicense = false; 
 														
 						},
 						function(error) {
@@ -349,8 +349,11 @@ angular.module('modelResource')
 					promise
 					.then(function(response) {							
 								$rootScope.progressBar = 100;
-								$scope.protoProgressBar = $rootScope.progressBar;
-							},
+								$rootScope.progressBarProto  = $rootScope.progressBar;
+								$rootScope.progressBar = 0;
+								//$rootScope.progressBarProto = 0;
+							},						
+							
 							function(error) {
 									$scope.filename = '';
 									$rootScope.progressBar = 0;
