@@ -53,27 +53,54 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	@Autowired
 	UserRoleService userRoleService;
 	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	@Override
-	public RestPageResponse<MLCatalog> getCatalogs(String userId,RestPageRequest pageRequest) {
+	public RestPageResponse<MLCatalog> getCatalogs(String userId, String apiToken,RestPageRequest pageRequest) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		
-		RestPageResponse<MLPCatalog> mlpCatalogResponse = userRoleService.getUserAccessCatalogs(userId,pageRequest);
-		if (!(PortalUtils.isEmptyList(mlpCatalogResponse.getContent()))) {
-			List<MLPCatalog> mlpCatalogs = mlpCatalogResponse.getContent();
-			ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
-			List<String> favorites = (PortalUtils.isEmptyOrNullString(userId)) ? new ArrayList<>()
-					: dataServiceRestClient.getUserFavoriteCatalogIds(userId);
-			for (MLPCatalog mlpCatalog : mlpCatalogs) {
-				MLCatalog mlCatalog = new MLCatalog(mlpCatalog);
-				mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
-				mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
-				mlCatalogs.add(mlCatalog);
-				}
-			out = PortalUtils.convertRestPageResponse(mlpCatalogResponse, mlCatalogs);
+		Boolean isAdmin=false;
+		ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
+		RestPageResponse<MLPCatalog> mlpCatalogResponse=null;
+		final Claims claims = jwtTokenUtil.getClaimsFromToken(apiToken);
+		List<Map<String,String>> roles=(List<Map<String, String>>) claims.get("role");
+		for(Map<String,String> role:roles) {
+			if(role.get("name").equals(PortalConstants.ADMIN_USER) || role.get("name").equals(PortalConstants.PUBLISHER_USER)) {
+				isAdmin=true;
+				break;
+			}
 		}
-		return out;
+		if(isAdmin) {
+			mlpCatalogResponse = dataServiceRestClient.getCatalogs(pageRequest);
+			if (mlpCatalogResponse != null ) {
+				List<MLPCatalog> mlpCatalogs = mlpCatalogResponse.getContent();
+				List<String> favorites = (PortalUtils.isEmptyOrNullString(userId)) ? new ArrayList<>()
+						: dataServiceRestClient.getUserFavoriteCatalogIds(userId);
+				for (MLPCatalog mlpCatalog : mlpCatalogs) {
+					MLCatalog mlCatalog = new MLCatalog(mlpCatalog);
+					mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+					mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
+					mlCatalogs.add(mlCatalog);
+				}
+			}
+		}else {
+			mlpCatalogResponse = userRoleService.getUserAccessCatalogs(userId,pageRequest);
+			if (!(PortalUtils.isEmptyList(mlpCatalogResponse.getContent()))) {
+				List<MLPCatalog> mlpCatalogs = mlpCatalogResponse.getContent();
+				List<String> favorites = (PortalUtils.isEmptyOrNullString(userId)) ? new ArrayList<>()
+						: dataServiceRestClient.getUserFavoriteCatalogIds(userId);
+				for (MLPCatalog mlpCatalog : mlpCatalogs) {
+					MLCatalog mlCatalog = new MLCatalog(mlpCatalog);
+					mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+					mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
+					mlCatalogs.add(mlCatalog);
+					}
+			}
+		}
+		return out = PortalUtils.convertRestPageResponse(mlpCatalogResponse, mlCatalogs);
+		
 	}
 
 	@Override
