@@ -35,6 +35,8 @@ Version 4.0.2 24th Feb 2020
 * ACUMOS-3952 - Manage new kind of file of the model bundle
 * ACUMOS-3916 - IST: Expand(-) symbol is not displaying on model tiles after click on Expand(+)on marketplace if model have multiple tag 
 * ACUMOS-3829 - Deployment notification in portal when there is a link to deployed model with a url but it is not linked to the swagger? URL Should be clickable?
+* ACUMOS-3824 - add protobuf and license file for upload revision of pre-dockerized model
+* ACUMOS-3823 - Add protobuf and license file for upload new pre-dockerized model
 
 Version 4.0.1 3rd Feb 2020
 =================================
