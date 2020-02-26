@@ -42,7 +42,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.be.test.security.WithMLMockUser;
 import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
@@ -78,6 +80,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 @RunWith(SpringRunner.class)
@@ -128,12 +131,12 @@ public class CatalogServiceControllerTest {
 	private static final String CATALOG_SOLUTION_ID_PATH = CCDS_CATALOG_PATH + SOLUTION_ID_PATH;
 	private static final String ADD_DROP_SOLUTION_PATH = CATALOG_ID_PATH + SOLUTION_ID_PATH;
 	private static final String USER_FAVORITE_PATH = "/user" + VARIABLE + "/favorite";
-	private static final String GET_USER_FAVORITES_PATH = CCDS_CATALOG_PATH + USER_FAVORITE_PATH;
+	private static final String GET_USER_FAVORITES_PATH = "/ccds/catalog/user/e336fd27-388e-4a89-bf31-f15cd46c8df5/favorite";
 	private static final String ADD_DROP_FAVORITES_PATH = CATALOG_ID_PATH + USER_FAVORITE_PATH;
 	private static final String PEER_PATH = "/peer";
 	private static final String CATALOG_ACCESS_PATH = CCDS_PATH + "/access/catalog" + VARIABLE + PEER_PATH;
-	private static final String CATALOG_USER_ACCESS_PATH = CCDS_PATH + "/access/user/%s/catalog";
-	
+	private static final String CATALOG_USER_ACCESS_PATH = CCDS_PATH + "/access/user/e336fd27-388e-4a89-bf31-f15cd46c8df5/catalog";
+	private static final String USER_FAVORITES_PATH ="/ccds/catalog/user/1234-1234-1234-1234-1234/favorite";
 	@Before
 	public void setup(){
 		MockMvcClientHttpRequestFactory requestFactory = new MockMvcClientHttpRequestFactory(mvc);
@@ -172,10 +175,23 @@ public class CatalogServiceControllerTest {
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("Admin")));
 		
 				
-		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, userId)))
+		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH)))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
-		stubFor(get(urlEqualTo(String.format(CATALOG_USER_ACCESS_PATH + "?" + PAGE_REQUEST_PARAMS,userId)))
+		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
+								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
+								+ "\"created\": \"2018-12-16T12:34:56.789Z\","
+								+ "\"description\": \"A catalog of test models\","
+								+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
+								+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
+								+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
+								+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
+								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+		stubFor(get(urlEqualTo(String.format(CATALOG_USER_ACCESS_PATH + "?" + PAGE_REQUEST_PARAMS)))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("{\"content\":" + "[{\"created\": \"2019-04-05T20:47:03Z\","
 								+ "\"modified\": \"2019-04-05T20:47:03Z\","
@@ -187,14 +203,48 @@ public class CatalogServiceControllerTest {
 								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
 								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
 
+		MLPUser userDetails = new MLPUser();
+		userDetails.setFirstName("admin");
+		userDetails.setLastName("Poll");
+		userDetails.setLoginName("admin");
+		userDetails.setLoginHash("!Acumos@73825");
+		userDetails.setEmail("testuser@techmahindra.com");
+		userDetails.setUserId("admin");
+		userDetails.setActive(true);
+		userDetails.setCreated(Instant.now());
+		userDetails.setModified(Instant.now());
 		
-
+		MLPRole role=new MLPRole();
+		role.setRoleId("testroleid");
+		role.setName("Admin");
+		role.setActive(true);
+		List<MLPRole> roleList=new ArrayList<>();
+		roleList.add(role);
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStrRes = Obj.writeValueAsString(roleList);
+		stubFor(get(urlEqualTo("/ccds/user/admin/role")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		String authorization=jwtTokenUtil.generateToken(userDetails, null);
 		HttpHeaders headers = new HttpHeaders();
-		String authorization=jwtTokenUtil.generateToken(credentialService.getUserDetails(), null);
 		headers.setBearerAuth(authorization);
 		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
 
 		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
+				});
+
+		role.setName("MLPSystemUser");
+		jsonStrRes = Obj.writeValueAsString(roleList);
+		stubFor(get(urlEqualTo("/ccds/user/admin/role")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStrRes)));
+		authorization=jwtTokenUtil.generateToken(userDetails, null);
+		headers.setBearerAuth(authorization);
+		requestEntity = new HttpEntity<>(requestJson, headers);
+
+		respEntity = restTemplate.exchange(
 				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS, HttpMethod.POST, requestEntity,
 				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
 				});
@@ -638,7 +688,7 @@ public class CatalogServiceControllerTest {
 		String userId = "1234-1234-1234-1234-1234";
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 
-		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, userId))).willReturn(
+		stubFor(get(urlEqualTo(String.format(USER_FAVORITES_PATH, userId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("[\"" + catalogId + "\"]")));
 

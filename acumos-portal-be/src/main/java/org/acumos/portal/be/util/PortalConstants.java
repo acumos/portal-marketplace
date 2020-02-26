@@ -38,4 +38,5 @@ public class PortalConstants {
 	public static final String LOGIN_EXPIRE_PROPERTY_KEY = "portal.feature.loginExpire.duration";
 	public static final long ONE_DAY_EXPIRY = 24;
 	public static final String ADMIN_USER = "Admin";
+	public static final String PUBLISHER_USER = "publisher";
 }

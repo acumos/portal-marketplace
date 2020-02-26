@@ -31,7 +31,7 @@ import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
 
 public interface CatalogService {
-	RestPageResponse<MLCatalog> getCatalogs(String userId, RestPageRequest pageRequest);
+	RestPageResponse<MLCatalog> getCatalogs(String userId, String apiToken, RestPageRequest pageRequest);
 	
 	RestPageResponse<MLCatalog> searchCatalogs(CatalogSearchRequest catalogRequest);
 	
