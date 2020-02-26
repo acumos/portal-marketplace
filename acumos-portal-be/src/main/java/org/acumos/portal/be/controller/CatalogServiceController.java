@@ -77,11 +77,11 @@ public class CatalogServiceController extends AbstractController {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> catalogs = null;
 		String userId = credentialService.getLoggedInUserId();
-
+		String apiToken = authorization.replace("Bearer ", "");
 		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		userId = SanitizeUtils.sanitize(userId);
 		try {
-			catalogs = catalogService.getCatalogs(userId,pageRequestJson.getBody());
+			catalogs = catalogService.getCatalogs(userId,apiToken,pageRequestJson.getBody());
 			if (catalogs != null) {
 				data.setResponseBody(catalogs);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
