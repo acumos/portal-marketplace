@@ -206,7 +206,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		}
 		List<MLPCodeNamePair> publishStatusList = dataServiceRestClient
 				.getCodeNamePairs(CodeNameType.PUBLISH_REQUEST_STATUS);
-		RestPageResponse<MLPCatalog> mlpCatalogRestResposne=dataServiceRestClient.getUserAccessCatalogs(userId, new RestPageRequest(0, 1000, queryParameters));
+		RestPageResponse<MLPCatalog> mlpCatalogRestResposne=dataServiceRestClient.getCatalogs(new RestPageRequest(0, 1000, queryParameters));
 		int totalCatalogCount=mlpCatalogRestResposne.getNumberOfElements();
 		List<MLPCatalog> catalogList= new ArrayList<>();
 		catalogList=mlpCatalogRestResposne.getContent();

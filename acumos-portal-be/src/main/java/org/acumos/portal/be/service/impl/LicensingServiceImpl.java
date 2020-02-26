@@ -127,7 +127,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
 			registerAssetRequest.setLoggedIdUser(userId);
 			RegisterAssetResponse response = licenseAsset.register(registerAssetRequest).get();
-			
+			log.info("LicenseAsset registration response : "+response.toString());
 			if(response != null && ! response.isSuccess() ) {
 				log.info("LicenseAsset registration response message : "+response.getMessage());
 				isLicenseAssetRegisterd = false;
@@ -147,7 +147,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 			return isLicenseAssetRegisterd = false;
 		}		
 		catch(Exception e) {
-			log.error("Excetion in registering licence : "+e.getMessage());
+			log.error("Excetion in registering licence : "+e);
 			return isLicenseAssetRegisterd = false;
 		}
 		log.debug("Exit from register() ...");
