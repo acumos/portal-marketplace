@@ -24,7 +24,7 @@ limitations under the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-be</artifactId>
-	<version>3.0.28-SNAPSHOT</version>
+	<version>3.0.29-SNAPSHOT</version>
 	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
 	<parent>
@@ -65,7 +65,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.license-manager</groupId>
 			<artifactId>license-manager-client-library</artifactId>
-			<version>1.4.3</version>
+			<version>1.4.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.collections</groupId>

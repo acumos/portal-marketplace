@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.29 28th Feb 2020
+=================================
+* ACUMOS-3960 - LMCL 1.4.4 - Nexus auth support
+
 Version 3.0.28 10th Jan 2020
 =================================
 * ACUMOS-3894 - Hide Module/Component permission while creating/editing Role
