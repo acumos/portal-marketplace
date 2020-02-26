@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.3 26th Feb 2020
+=================================
+* ACUMOS-4030 - All Catalog List is not displaying for publisher and admin role
+
 Version 4.0.2 24th Feb 2020
 =================================
 * ACUMOS-4008 - IST: Email Update is not working
