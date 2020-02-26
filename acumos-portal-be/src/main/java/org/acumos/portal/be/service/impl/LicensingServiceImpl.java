@@ -118,7 +118,7 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 		
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), env.getProperty(PortalConstants.ENV_NEXUS_URL)); 
+			LicenseAsset licenseAsset = new LicenseAsset(dataServiceRestClient, env.getProperty(PortalConstants.ENV_LUM_URL), getNexusClient()); 
 			RegisterAssetRequest registerAssetRequest=new RegisterAssetRequest();
 			registerAssetRequest.setSolutionId(UUID.fromString(solutionId));
 			registerAssetRequest.setRevisionId(UUID.fromString(revisionId));
