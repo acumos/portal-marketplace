@@ -30,7 +30,19 @@ panel in the **on-boarding model** page of the Acumos portal.In this panel you c
 - Upload New 
 
 When you click **Upload New** button , you will get **Model Name** field, just type the desired name of the model
-and click on **Check Availability** to check whether the model name is available. Click the **Create Docker Image Reference** 
+and click on **Check Availability** to check whether the model name is available.
+
+If model name is available, It will ask you for Upload Protobuf file and Upload License file. It is optional.
+	
+	.. image:: ../images/portal/onboarding-dockerized-model-license.PNG
+                 :width: 75%
+				 
+Now Upload Protobuf file with an extension of **.proto** and Upload License file with an extension of **.json**
+
+	.. image:: ../images/portal/onboarding-dockerized-model-license-browse.PNG
+                 :width: 75%
+
+Click the **Create Docker Image Reference** 
 button which is shown after name validation. 
 
 	.. image:: ../images/portal/onboarding-dockerized-model-new.PNG
@@ -38,8 +50,7 @@ button which is shown after name validation.
 
 - Upload Revision
 
-When you click on **Upload Revision** button, you can search the existing model and select that model. You can Click on  
-**Update Docker Image Reference**  button which is shown after selecting your model.
+When you click on **Upload Revision** button, you can search the existing model and select that model. It will ask you for Upload Protobuf file and Upload License file. It is optional. You can Click on **Update Docker Image Reference**  button which is shown after selecting your model.
 
 	.. image:: ../images/portal/onboarding-dockerized-model-uploadrev.PNG
                  :width: 75%
