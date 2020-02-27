@@ -1,0 +1,12 @@
+---
+distribution_type: container
+container_release_tag: 4.0.2
+container_pull_registry: nexus3.acumos.org:10004
+container_push_registry: nexus3.acumos.org:10002
+project: portal-marketplace
+ref: fd805b80868c2e92252b0cc368317bc20631e127
+containers:
+        - name: acumos-portal-fe
+          version: 4.0.2
+        - name: acumos-portal-be
+          version: 4.0.2
