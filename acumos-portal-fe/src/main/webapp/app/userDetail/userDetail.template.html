@@ -289,16 +289,31 @@ limitations under the License.
 	</div>
 	</md-content> </md-tab> <md-tab label="Select Favorite Catalogs">
 	<md-content class="md-padding">
-	<div
-		class="mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-datalist-icon">
-		<label>Select Catalog </label> <input list="solutions" type="text"
-			ng-model="selectedCatalog.name" class="mdl-textfield__input notification-search">
-		<datalist id="solutions">
-			<select class="select-control">
-				<option ng-repeat="catalog in allCatalogList">{{catalog.name}}</option>
-			</select>
-		</datalist>
-	</div>
+		<div class="pagination-wrapper">
+			<div class="pagination-left-section">
+				<span>Show </span>
+				<div class="select-control">
+					<select ng-init="10" 
+					 ng-model="viewby" name="requestResultSize" ng-change="setItemsPerPage(viewby); calculateShowing(currentPage, itemsPerPage)">
+					<option ng-value="10" class="pagination-list-item">10</option>
+					<option ng-value="25" class="pagination-list-item">25</option>
+					<option ng-value="50" class="pagination-list-item">50</option>
+					<option ng-value="100" class="pagination-list-item">100</option>
+					</select>
+				</div>
+				<span class="page-stats"> entries</span>
+			</div>
+			<div class="mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-datalist-icon pagination-right-section">
+				<label class="userdetail-select-cat">Select Catalog </label> 
+				<input list="solutions" type="text"
+					ng-model="selectedCatalog.name" class="mdl-textfield__input notification-search">
+				<datalist id="solutions">
+					<select class="select-control">
+						<option ng-repeat="catalog in allCatalogList">{{catalog.name}}</option>
+					</select>
+				</datalist>
+			</div>
+		</div>	
 	<br/>
 	<div class="catalog-grid-wrapper">
 		<div class="catalog-grid-container">
@@ -339,21 +354,11 @@ limitations under the License.
 			<!-- FE pagination starts -->
 			<div class="pagination-wrapper">
 				<div class="pagination-left-section">
-					<span>Showing </span>
-					<div class="select-control">
-						<md-select ng-model="viewby" name="requestResultSize"
-							ng-change="setItemsPerPage(viewby)">
-						<md-option ng-value="10" class="pagination-list-item">10</md-option>
-						<md-option ng-value="25" class="pagination-list-item">25</md-option>
-						<md-option ng-value="50" class="pagination-list-item">50</md-option>
-						<md-option ng-value="100" class="pagination-list-item">100</md-option>
-						</md-select>
-					</div>
-					<span class="page-stats"> Catalogs</span>
+					Showing {{showingItem}} to {{toTotal}} of {{totalItems}}
 				</div>
 				<div class="pagination-right-section">
 				    <ul uib-pagination total-items="totalItems" ng-model="currentPage" class="pagination-sm fe-pagination" 
-				    boundary-links="true" rotate="false" max-size="maxSize" num-pages="numPages"
+				    boundary-links="true" rotate="false" max-size="maxSize" num-pages="numPages" ng-change="calculateShowing(currentPage, itemsPerPage, totalItems, numPages)"
 				    items-per-page="itemsPerPage" ></ul>
 			    </div>
 			</div>

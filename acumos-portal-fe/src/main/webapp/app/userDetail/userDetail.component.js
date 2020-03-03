@@ -755,13 +755,30 @@ angular
                           /*** catalog Management start**/
                           
                           /***Catalog FE Pagination*/
+                          $scope.calculateShowing = function (currentPage, itemsPerPage, totalItems, numPages){
+	                      	  var currPg = currentPage; 
+	                      	  var items = itemsPerPage;
+	                      	  
+	                      	  if(currentPage === numPages){
+	                      		  $scope.showingItem = (currPg - 1) * items + 1;
+	                      		  $scope.toTotal = totalItems;
+	                      	  }else if (totalItems < itemsPerPage){
+		                      	  	$scope.showingItem = (currPg - 1) * items + 1;
+		                      		$scope.toTotal = totalItems;
+	                      	  }else{
+	                      		  $scope.showingItem = (currPg - 1) * items + 1;
+	                          	  $scope.toTotal = currPg * items;
+	                      	  }
+                          };
+                          
                           $scope.fePagination = function(){
-                        	  $scope.viewby = 10;
+                        	  $scope.viewby = '10';
                               $scope.currentPage = 1;
-                              $scope.itemsPerPage = $scope.viewby;
+                              $scope.itemsPerPage = 10;
                               $scope.maxSize = 5; //Number of pager buttons to show
                               $scope.totalItems = $scope.totalElements;
     	                      $scope.orgAllCatalogList = $scope.allCatalogList;
+    	                      $scope.calculateShowing($scope.currentPage, $scope.itemsPerPage, $scope.totalItems);
                           };
                           
                           $scope.setItemsPerPage = function(num) {
@@ -775,7 +792,10 @@ angular
 	                    		  $scope.allCatalogList = $scope.orgAllCatalogList;  
 	                    	  }
 	                    	  $scope.allCatalogList = filterFilter($scope.allCatalogList, newVal);
-	                    	  $scope.totalItems = $scope.allCatalogList.length;
+	                    	  if($scope.allCatalogList) {
+	                    		  $scope.totalItems = $scope.allCatalogList.length;
+	                    		  $scope.calculateShowing(1, $scope.itemsPerPage, $scope.totalItems);
+	                    	  }
 	                    	  $scope.totalPages = Math.ceil($scope.totalItems / $scope.pageSize);
 	                    	  $scope.currentPage = 1;
 	                      }, true);

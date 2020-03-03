@@ -1122,6 +1122,7 @@ md-checkbox.md-checked .md-icon:after {width: 6px; height: 9px; left: 3px;}
 .user-detail-container hr {display:none}
 .user-contact-settings-container {display:flex; flex-wrap: nowrap; justify-content: space-between;}
 .user-email {display:flex; align-items: center;}
+.userdetail-select-cat{width:40%; min-width:100px}
 
 .user-email a { width:110px; font-size: 12px; margin-left: 10px;}
 .user-location {width:30%;}
@@ -2380,16 +2381,20 @@ table tbody tr td .a-tooltipval {top:5px}
 .text-orange{color:#f86234;}
 label.model-name{color:#0366d6;}
 .request-tbl label{margin-bottom:0;}
-.request-tbl .disabled td > a,
-.request-tbl .disabled td > label,
-.request-tbl .disabled td,
-.request-tbl .disabled td > .admin-action-container{border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
+
+.request-tbl .disabled > label,
+.request-tbl .disabled,
+.request-tbl .disabled > .admin-action-container{border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
+.request-tbl .disabled > a{
+	border-color: #d3d1d1; opacity:1; pointer-events: inherit;
+}
 .publish-request{padding:20px 20px 15px}
 .publishheading{border-bottom: 1px solid #E5E5E5; padding:0 0 10px 0;}
 /*for Manage My Model page*/
 .request-approval{background-image: url(../images/dashboard/request_approval.png); background-repeat: no-repeat; background-position: center;}
 .completed .request-approval{background-image: url(../images/dashboard/request_approval_selected.png); background-repeat: no-repeat; background-position: center;}
 .btn-request{padding: 0 4px;}
+.admin-tbl-padding thead tr th{padding-right: 15px !important;}
 /****** publish request ends *******/
 
 /*** DS menu style starts */
