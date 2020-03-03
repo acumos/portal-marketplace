@@ -133,21 +133,21 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 				isLicenseAssetRegisterd = false;
 				
 			}else if(response != null && response.isSuccess() ) {
-				log.info("LicenseAsset registration successfull for solutionId: "+response.getSolutionId()+ " revisionId: " +response.getRevisionId());
+				log.info("LicenseAsset registration successfully for solutionId: "+solutionId+ " revisionId: " +revisionId);
 				isLicenseAssetRegisterd = true;
 			}
 			else {
-				log.info("LicenseAsset registration called sucessfully but response is null from LicenseAsset");
+				log.info("LicenseAsset registration called successfully but response is null from LicenseAsset");
 				isLicenseAssetRegisterd = false;
 			}
 			
 		} 
 		catch(LicenseAssetRegistrationException lare) {
-			log.error("LicenseAssetRegistrationException in registering licence : "+lare.getMessage());
+			log.error("LicenseAssetRegistrationException in registering license : "+lare.getMessage());
 			return isLicenseAssetRegisterd = false;
 		}		
 		catch(Exception e) {
-			log.error("Excetion in registering licence : "+e);
+			log.error("Exception in registering license : "+e);
 			return isLicenseAssetRegisterd = false;
 		}
 		log.debug("Exit from register() ...");
