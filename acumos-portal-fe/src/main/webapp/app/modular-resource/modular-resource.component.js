@@ -300,8 +300,7 @@ angular.module('modelResource')
 														
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;
-							$scope.fileSubmitLicense = false; 
-														
+							
 						},
 						function(error) {
 							if(licUploadFlag){
