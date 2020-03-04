@@ -179,30 +179,28 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			if (fileList != null) {
 				for (File file : fileList) {
 					if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar")
-							|| file.getName().contains(".bin") || file.getName().contains(".tar")
-							|| file.getName().toUpperCase().contains(".R")) {
+							|| file.getName().contains(".bin") || file.getName().contains(".tar")) {
 						modelFile = new File(file.getAbsolutePath());
 					}
-					if (file.isFile() && file.getName().contains(".proto")) {
-						schemaFile = new File(file.getAbsolutePath());
-					}
-					if (file.isFile() && !file.getName().contains("license.json") && file.getName().contains(".json")) {
-						metadataFile = new File(file.getAbsolutePath());
-					}
-					if (file.isFile() && file.getName().contains(".onnx")) {
-						onnxFile = new File(file.getAbsolutePath());
-					}
-					if (file.isFile() && file.getName().contains(".pfa")) {
-						pfaFile = new File(file.getAbsolutePath());
-					}
-					if (file.isFile() && file.getName().contains("license.json")) {
-						licenseFile = new File(file.getAbsolutePath());
-					}
-					if (file.isFile() && file.getName().contains(".rdata") || file.isFile() && file.getName().contains(".r")
+					else if (file.isFile() && file.getName().contains(".rdata") || file.isFile() && file.getName().contains(".r")
 							|| file.getName().contains(".Rdata") ||file.getName().contains(".R")) {
 						rdataFile=new File(file.getAbsolutePath());
 					}
-
+					else if (file.isFile() && file.getName().contains(".proto")) {
+						schemaFile = new File(file.getAbsolutePath());
+					}
+					else if (file.isFile() && !file.getName().contains("license.json") && file.getName().contains(".json")) {
+						metadataFile = new File(file.getAbsolutePath());
+					}
+					else if (file.isFile() && file.getName().contains(".onnx")) {
+						onnxFile = new File(file.getAbsolutePath());
+					}
+					else if (file.isFile() && file.getName().contains(".pfa")) {
+						pfaFile = new File(file.getAbsolutePath());
+					}
+					else if (file.isFile() && file.getName().contains("license.json")) {
+						licenseFile = new File(file.getAbsolutePath());
+					}
 				}
 			}
 
