@@ -205,9 +205,9 @@ app.component('notificationModule',{
 			$scope.Navigation($scope.selectedPage)
 			$scope.notificationManageObj=[];
 			$scope.selectAllStatus = false;
+			reloadData();
 			//$scope.getNotificationMessage($scope.loginUserID, $scope.page);
 			$scope.totalNotificationMessages($scope.loginUserID);
-			reloadData();
 		}
 		
         $scope.viewNotification=function (notificationId){

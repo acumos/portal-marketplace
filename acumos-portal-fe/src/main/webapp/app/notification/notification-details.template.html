@@ -93,7 +93,7 @@ limitations under the License.
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="notification in notificationManageObj">
+					<tr ng-repeat="notification in notificationManageObj track by $index">
 						<td style="display:none"></td>
 						<td ng-class="{'read-notification': notification.viewed}"><label
 							class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
