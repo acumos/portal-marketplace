@@ -876,24 +876,9 @@ limitations under the License.
 										         		<span ng-if="checkingSolution && !notavailableSolution" alt="Checking" title="Checking">Checking</span>
 										         		<span ng-if="notavailableSolution" alt="Not Available" title="Not Available">Not Available</span>
 										         		<span ng-if="availableSolution" alt="Available" title="Available">Available</span>
-										         </button>
-										         										        	         
-										      </div>
-										       
-										   </div>
-										   
-										   <div class="dc-row update-docker" ng-if="artifactUrl">
-											     <div class="mdl-cell--10-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
-											        <md-input-container class="md-block">
-											           <label for="artifactUrl">My Image Model</label> 
-											           <input type="text" class="md-input" name="artifactUrl" ng-model="artifactUrl" id="artifactUrl1" ng-class="{'disable-input':artifactUrl}">
-											           <div class="notetext">Note: Please log in the Acumos docker registry and tag docker image with the image model</div>
-											        </md-input-container>
-											     </div>
-											     <div class="align-btn">
-											        <button  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="copyText('#artifactUrl1')" alt="Copy" title="Copy" >Copy</button>
-											     </div>
-											  </div>
+										         </button>										         										        	         
+										      </div>										       
+										   </div>										   
 									   </div>
 									   
 									   <div ng-show="newDockerModel===false && !dockerBackScreen">
@@ -904,24 +889,29 @@ limitations under the License.
 									   	   </div>
 									   	   <div class="onboard-new-docker dc-row">
 										   	   <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+										   	   	<md-input-container ng-class="{'non-available-docker':availableSolution && !createDockerRef ,'available-docker':notavailableSolution && !createDockerRef}" class="md-block">
 										   	   		<label>Select Model	</label>
 													<div class="search-select">
-														<input name="modelList" id="modelList" list="solutions" type="text" ng-class="{'disable-input':artifactUrl}" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker" ng-enter="checkModelName(searchModel, 'relatedSearch')" >
-														<span class="search-icon cursor-pointer" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
+														<input name="modelList" id="modelList" list="solutions" type="text" 
+															ng-class="{'disable-input':artifactUrl}" 
+															ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" 
+															class="mdl-textfield__input onboard-new-docker" ng-enter="checkModelName(searchModel, 'relatedSearch')">
+														<span class="search-icon cursor-pointer" ng-click="checkModelName(searchModel, 'relatedSearch')" style="right: 7px;"></span>
 													</div>
 													<datalist id="solutions">
-	    												<select class="select-control">
+	    												<select class="select-control" ng-class="{'disable-input':artifactUrl, 'disablecursor':(notavailableSolution||availableSolution)&& !createDockerRef}">
 	    													<option ng-repeat="solution in solutionList" value="{{solution.name}}">{{solution.name}}</option>
 	    												</select>    
 													</datalist>
 													<div ng-if="availableSolution" class="help-inline validation-msgs validationmsg"><span>Model revision is not present for this model name, please use different model.</span></div>
+												 </md-input-container>
 												</div>
 											</div><br/>										
 										</div>
 										
 										<!-- Upload License/Protobuf file section start -->
 										
-									   	<div  ng-show="(newDockerModel && availableSolution ) || (newDockerModel===false && selectedSolutionId && solutionList && (artifactUrl + '').length == 0)">
+									   	<div ng-show="(newDockerModel && availableSolution) || (newDockerModel===false && selectedSolutionId && solutionList && (artifactUrl + '').length == 0) || ProtobufSection">
 										   <div class="dc-row new-doc-model">
 										   	<div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 									         	<label>Upload Protobuf file</label> 									        	
@@ -932,23 +922,23 @@ limitations under the License.
 																	<div file-upload file="protofile"
 																		uploadid="protofile" id="uploadFile"
 																		filename="protofile" fileinput="file" 
-																		ng-model="protofile" ng-click="fileChosen=true"
+																		ng-model="protofile" ng-click="resetProgress()"
 																		alt="Browse" title="Browse" readonly>
 																	</div>																						
 																	<div class="upload-image-input files-uploaded" >
 													    				<input class="mdl-textfield__input disabledClick"
-																		placeholder="Upload File" type="text"
+																		placeholder="Upload Protobuf File" type="text"
 																		ng-model="protofilename" readonly />
 																	</div>
 																</div>
 																<div class="input-upload-button">
-																	<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="(!(protofile.name).endsWith(protoExt) || fileSubmitproto )" ng-click="protofileUpload();" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																	<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!fileSubmitproto || !(protofile.name)" ng-click="protofileUpload();" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
 																		<span>Upload</span>
 																	</button>
 																</div>
 															</div>	
-																				
-															<div class="progress-bar-div" ng-show="protofile.name && (protofile.name).endsWith(protoExt)">																	
+																					
+															<div class="progress-bar-div" ng-show="protofile.name">																
 																<div><span class="namelength">{{protofile.name}}</span></div>
 																<div ng-if="protofile.size/1024/1024 < 1">{{Math.ceil(protofile.size/1024)}}KB</div>
 																<div ng-if="protofile.size/1024/1024 > 1">{{Math.ceil(protofile.size/1024/1024)}}MB</div>
@@ -963,15 +953,15 @@ limitations under the License.
 																 <div class="fileclose" ng-click="deleteProtoFile()"><i class="material-icons">close</i></div>
 															</div>
 														</div>
-														<small>Supported files type: .proto</small>	
-														<div ng-if="!(protofile.name).endsWith(protoExt) && protofile.name " class="help-inline validation-msgs validationmsg"><span>.proto file is required.</span></div>																											
-													</form>									
+														<small>Supported files type: .proto</small>																																									
+													</form>														
+													<div class="help-inline validation-msgs validationmsg" ng-if="protoErrorMsg"><span ng-bind="protoErrorMsg"></span></div>																																																														
 												 </div>
 										        </div><br/>
 										   
 										   		<div class="dc-row new-doc-model">										   
 									         	<div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
-									         	<label>Upload License file</label> 									        	
+									         	<label>Upload License Profile</label> 									        	
 										        	<form class="ng-pristine ng-valid" name="onboardingForm">
 														<div class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input" data-upgraded=",MaterialTextfield">
 															<div class="upload-file-container">
@@ -984,12 +974,12 @@ limitations under the License.
 																	</div>																						
 																	<div class="upload-image-input files-uploaded" >
 													    				<input class="mdl-textfield__input disabledClick"
-																		placeholder="Upload license profile" type="text"
+																		placeholder="Upload License Profile" type="text"
 																		ng-model="filename" readonly />
 																	</div>
 																</div> 
 																<div class="input-upload-button">
-																	<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!licensefiledockermodel || !fileSubmitLicense" ng-click="fileUpload(true, 'isPredocLicense');" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																	<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!licensefiledockermodel.name || fileSubmitDocLicense" ng-click="fileUpload(true, 'isPredocLicense');" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
 																		<span>Upload</span>
 																	</button>
 																</div>
@@ -1043,8 +1033,8 @@ limitations under the License.
 											     </div>
 											  </div>
 
-										<div class="dc-row update-docker" ng-if="newDockerModel===false && selectedSolutionId && solutionList && (artifactUrl + '').length == 0">
-											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="createDockerImageRef(true, searchModel);disableCreateDocker=true;">Update Docker Image Reference</button>
+											<div class="dc-row update-docker" ng-if="newDockerModel===false && selectedSolutionId && solutionList && (artifactUrl + '').length == 0">
+											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="disableCreateDocker=true;createDockerImageRef(false, searchModel);">Update Docker Image Reference</button>
 											</div>
 											<div class="dc-row update-docker" ng-if="artifactUrl && selectedSolutionId && solutionList">
 											     <div class="mdl-cell--10-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">

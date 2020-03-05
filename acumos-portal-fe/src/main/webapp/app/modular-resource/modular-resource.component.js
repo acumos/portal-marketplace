@@ -105,12 +105,15 @@ angular.module('modelResource')
 			$scope.disableDockerRefreshButton = true;
 			
 			$scope.protoExt = '.proto';
+			$scope.ProtobufSection = false;
 			$scope.disableUploadLicense = false;
 			$scope.disableUploadDLCheckbox = false;
 
 			if(angular.isDefined($rootScope.isMicroserviceEnabled) == false)
 				$rootScope.isMicroserviceEnabled = true;
 			$rootScope.progressBar = 0;
+			$rootScope.modelLicProgressBar = 0;
+			
 			$scope.devEnv = '1';
 			$scope.activeViewModel = false;
 			if(browserStorageService.getUserDetail()){
@@ -140,7 +143,7 @@ angular.module('modelResource')
 				$scope.filename = undefined;
 				$scope.modelUploadErrorMsg = undefined;
 				$scope.modelUploadError = false;
-				$scope.fileSubmitLicense=true;
+				$scope.protoErrorMsg = false;
 			}
 			// TODO license-profile-editor handlers
 			var selLicProfileTplMsg;
@@ -270,6 +273,9 @@ angular.module('modelResource')
 					$scope.modelLicUploadError = false;
 				}		
 				
+				if(licUploadFlag){					
+					$rootScope.modelLicProgressBar = 100;
+				}
 				var uploadUrl = "api/model/upload/" + userId[1] +"/?licUploadFlag=" + licUploadFlag;
 				var promise = modelUploadService.uploadFileToUrl(
 						file, uploadUrl);
@@ -282,11 +288,12 @@ angular.module('modelResource')
 							
 							$rootScope.progressBar = 100;
 							if(licUploadFlag){
-								
-								$rootScope.modelLicProgressBar = $rootScope.progressBar;
+
 								$rootScope.progressBar = 0;
 								if(isDockerURLLicense){
+									$scope.predockermodelLicUploadError = false;
 									$scope.fileSubmitDocLicense = true;
+									$rootScope.modelLicProgressBar = 0;
 								} else {
 									$scope.fileSubmitLicense = true;
 								}
@@ -313,6 +320,7 @@ angular.module('modelResource')
 								}
 
 								if(isDockerURLLicense){
+									$rootScope.modelLicProgressBar = 0;
 									if(isDockerURLLicense == 'isDockerURLLicense') {
 										$scope.modelDocLicUploadError = true;
 										$scope.modelDocLicUploadErrorMsg = errorMsg;
@@ -336,59 +344,63 @@ angular.module('modelResource')
 			}
 						
 			//protobuf start
-
+			$scope.fileSubmitproto = true;
+			$scope.progressBarProtoFlag = false;
 				$scope.protofileUpload  = function() {
 					
-					var userId = JSON.parse(browserStorageService.getUserDetail());
-					$scope.fileSubmitproto = true;				
+				if(!($scope.protofile.name).endsWith($scope.protoExt) && $scope.protofile.name){
+					$scope.protoErrorMsg = ".proto file is required.";
+					return;
+				}
+					var userId = JSON.parse(browserStorageService.getUserDetail());								
 					var uploadUrl = "api/proto/upload/" +'?protoUploadFlag=true';
 					var promise = modelUploadService.uploadFileToUrl(
 							$scope.protofile, uploadUrl);
-	
+					$rootScope.progressBarProto  = 100;				
 					promise
-					.then(function(response) {							
-								$rootScope.progressBar = 100;
-								$rootScope.progressBarProto  = $rootScope.progressBar;
-								$rootScope.progressBar = 0;
-								//$rootScope.progressBarProto = 0;
-							},						
+					.then(function(response) {	
+								$scope.fileSubmitproto = false;
+								$rootScope.progressBarProto  = 0;	
+								$rootScope.protoErrorMsg = false;
+							},				
 							
-							function(error) {
-									$scope.filename = '';
-									$rootScope.progressBar = 0;
-	
-						});
-				
-				}			
-			
-				$scope.deleteProtoFile = function() {
+						function(error) {	
+								$scope.fileSubmitproto = true;
+								$scope.filename = '';
+								$scope.protofile ='';
+								$rootScope.progressBarProto = 0;
+						});	
+
 					
-					$scope.fileSubmitproto = false;
+			}			
+			
+			$scope.deleteProtoFile = function() {
+				
+				$scope.fileSubmitproto = true;
+			  
+				   apiService
+				   		.deleteProtoFile() 
+				   		.then(function(response){	   		 
+				   		},
+				   		function(error) {
+				   			$scope.icon = 'info_outline';
+			        		$scope.styleclass = 'c-error';
+			        		$scope.msg = "Error in deleting p file.";
+			        		$scope.showAlertMessage = true;
+		                        $timeout(function() {
+		                        	$scope.showAlertMessage = false;
+		                    }, 8000);
+		                        
+				   		});
 				  
-					   apiService
-					   		.deleteProtoFile() 
-					   		.then(function(response){	   		 
-					   		},
-					   		function(error) {
-					   			$scope.icon = 'info_outline';
-				        		$scope.styleclass = 'c-error';
-				        		$scope.msg = "Error in deleting p file.";
-				        		$scope.showAlertMessage = true;
-			                        $timeout(function() {
-			                        	$scope.showAlertMessage = false;
-			                    }, 8000);
-			                        
-					   		});
-
-				   
-				   if ($scope.uploadingFile && $rootScope.progressBar < 100){
-						modelUploadService.cancelUpload("Upload cancelled by user");
-				   }				   
-
-				   $scope.protofile = '';
-
-				   
+			   if ($scope.uploadingFile && $rootScope.progressBar < 100){
+					modelUploadService.cancelUpload("Upload cancelled by user");
 			   }
+			   
+			   $scope.protofile = '';
+			   $scope.protoErrorMsg = '';
+			   $rootScope.progressBarProto = 0;
+		   }
 				
 			//protobuf ends
 			
@@ -789,13 +801,14 @@ angular.module('modelResource')
 			   $scope.artifactUrl = '';
 			   $scope.protofile = {}
 			   $scope.protofilename = '';
-			   //$scope.availableSolution = false;
+
 			   $scope.searchModel = '';	
 			   $scope.licensefiledockermodel = {};
-			   $scope.licensefiledockermodel = {};
+
 			   $scope.disableCreateDocker=false;
 			   $scope.predockermodelLicUploadError = false;
 			   $scope.fileSubmitLicense = false;
+         $scope.ProtobufSection = false
 		   }
 		   
 		   $scope.checkingSolution = false;
@@ -868,7 +881,8 @@ angular.module('modelResource')
 
 			   apiService.updateDockerImage($scope.addToReqObj)
                .then(function(response) {
-                   $scope.artifactUrl = response.data.response_body;                    	 
+                   $scope.artifactUrl = response.data.response_body; 
+                   $scope.ProtobufSection = true;
                });			   
 		   }
 		   
