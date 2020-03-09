@@ -127,7 +127,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								true);
+								false);
 						saveImageCommand.setClient(dockerClient);
 						inputStream = saveImageCommand.getDockerImageStream();
 						log.debug(
