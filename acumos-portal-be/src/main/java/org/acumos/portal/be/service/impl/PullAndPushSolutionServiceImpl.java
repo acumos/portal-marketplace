@@ -127,7 +127,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								true);
+								false);
 						saveImageCommand.setClient(dockerClient);
 						inputStream = saveImageCommand.getDockerImageStream();
 						log.debug(
@@ -175,7 +175,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								true);
+								false);
 						saveImageCommand.setClient(dockerClient);
 						// Keep the default buffer size as 8 if no buffer limit is provided
 						Integer buffer = Integer.parseInt(env.getProperty("portal.feature.download_bufferSize", "8"));
