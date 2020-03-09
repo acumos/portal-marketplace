@@ -127,7 +127,7 @@ provide a common description of the model data inputs and outputs.
 It exists three client libraries that supports the onboarding of Python, Java and R models. They are
 mainly composed of a function to create the model bundle in wich artifacts are embeded and a push
 function to push (onboard) the model bundle in Acumos. Once the model bundle is onboarded successfully
-in Acumos, if you have chosen a message respons is displayed with  the Acumos doc
+in Acumos, if you have chosen a message response is displayed with  the Acumos doc
 
 The appropriate client library does the first step of the on-boarding process. This includes:
 
@@ -146,7 +146,7 @@ page). User can also on-board a licence (that must be named "licence.txt") with 
 the path to the licence file in the corresponding parameter of push function of the client libraries.
 
 Once the model bundle is onboarded successfully in Acumos, if you have chosen to create the micro service
-at the end of onboarding process, Acumos Docker image URI is dysplayed in a message response. Then you can 
+at the end of onboarding process, Acumos Docker image URI is displayed in a message response. Then you can 
 use this URI to load the Docker model image in your own Docker repository.
 
 On-Boarding By Web
