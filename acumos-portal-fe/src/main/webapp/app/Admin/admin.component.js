@@ -209,22 +209,23 @@ angular.module('admin').filter('abs', function () {
 						$scope.allCatalogList = {};
 						$scope.showRoleLoader = false;
 						for(var i=0; i<resp.length; i++ ){
-							if(!resp[i].origin){
-								if($scope.allCatalogList['My Catalogs'] === undefined ) {
-									$scope.allCatalogList['My Catalogs'] = [];
+							if( resp[i].accessTypeCode == 'RS') {
+								if(!resp[i].origin){
+									if($scope.allCatalogList['My Catalogs'] === undefined ) {
+										$scope.allCatalogList['My Catalogs'] = [];
+									} else {
+										$scope.allCatalogList['My Catalogs'].push(resp[i]); 
+										$scope.catalogIdsList.push(resp[i].catalogId);
+									}								
 								} else {
-									$scope.allCatalogList['My Catalogs'].push(resp[i]); 
-									$scope.catalogIdsList.push(resp[i].catalogId);
-								}								
-							} else {
-								if($scope.allCatalogList[resp[i].origin] === undefined ) {
-									$scope.allCatalogList[resp[i].origin] = [];
-								} else {
-									$scope.allCatalogList[resp[i].origin].push(resp[i]);
-									$scope.catalogIdsList.push(resp[i].catalogId);
-								}	
+									if($scope.allCatalogList[resp[i].origin] === undefined ) {
+										$scope.allCatalogList[resp[i].origin] = [];
+									} else {
+										$scope.allCatalogList[resp[i].origin].push(resp[i]);
+										$scope.catalogIdsList.push(resp[i].catalogId);
+									}	
+								}
 							}
-							
 						}
 						$scope.catList = angular.copy($scope.allCatalogList);
 					});
