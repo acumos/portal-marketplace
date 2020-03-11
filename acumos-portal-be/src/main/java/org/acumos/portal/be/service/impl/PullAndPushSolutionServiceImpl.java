@@ -134,6 +134,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 								"downloadModelArtifact.1 received stream for artifact {}", artifactId);
 					} catch (Exception e) {
 						log.error("downloadModelArtifact.1 inner failed", e);
+						if(e.toString().contains("FileNotFoundException")) 
+							throw new AcumosServiceException("Exception occurs while downloading docker image",e);
 					} finally {
 						try {
 							dockerClient.close();
@@ -154,6 +156,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			}
 		} catch (Exception e) {
 			log.error("downloadModelArtifact.1 outer failed", e);
+			if(e.toString().contains("FileNotFoundException")) 
+							throw new AcumosServiceException("Exception occurs while downloading docker image",e);
 		}
 		return inputStream;
 	}
@@ -164,7 +168,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 	 * memory.
 	 */
 	@Override
-	public void downloadModelArtifact(String artifactId, HttpServletResponse response) {
+	public void downloadModelArtifact(String artifactId, HttpServletResponse response) throws AcumosServiceException{
 		log.debug("downloadModelArtifact.2 begins for artifact {}",
 				artifactId);
 		try {
@@ -187,6 +191,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 						saveImageCommand.getDockerImageStream(response, buffer);
 					} catch (Exception e) {
 						log.error("downloadModelArtifact.2 inner failed", e);
+						if(e.toString().contains("FileNotFoundException")) 
+							throw new AcumosServiceException("Exception occurs while downloading docker image",e);
 					} finally {
 						try {
 							dockerClient.close();
@@ -208,6 +214,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			}
 		} catch (Exception e) {
 			log.error("downloadModelArtifact.2 outer failed", e);
+			if(e.toString().contains("FileNotFoundException")) 
+				throw new AcumosServiceException("Exception occurs while downloading docker image",e);			
 		}
 	}
 

@@ -47,7 +47,7 @@ public interface PushAndPullSolutionService {
 
 	MLSolutionDownload getSolutionDownload(String solutionId, String artifactId, String userId);
 
-	public void downloadModelArtifact(String artifactId, HttpServletResponse respose);
+	public void downloadModelArtifact(String artifactId, HttpServletResponse respose) throws AcumosServiceException ;
 
 	void downloadModelDocument(String documentId, HttpServletResponse response);
 
