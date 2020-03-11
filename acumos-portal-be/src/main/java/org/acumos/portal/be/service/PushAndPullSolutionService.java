@@ -43,11 +43,11 @@ public interface PushAndPullSolutionService {
 	//TODO Add parameters to the interface
 	public InputStream downloadModelArtifact(String artifactId);
 
-	String getFileNameByArtifactId(String artifactId);
+	String getFileNameByArtifactId(String artifactId) throws AcumosServiceException;
 
 	MLSolutionDownload getSolutionDownload(String solutionId, String artifactId, String userId);
 
-	public void downloadModelArtifact(String artifactId, HttpServletResponse respose);
+	public void downloadModelArtifact(String artifactId, HttpServletResponse respose) throws AcumosServiceException ;
 
 	void downloadModelDocument(String documentId, HttpServletResponse response);
 
