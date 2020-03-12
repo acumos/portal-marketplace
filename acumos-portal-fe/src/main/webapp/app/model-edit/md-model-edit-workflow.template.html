@@ -1105,7 +1105,7 @@ limitations under the License.
 																<div
 																	class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
 																	<button
-																		ng-click="modifyLicenseProfileTemplate($event, false)"
+																		ng-click="modifyLicenseProfileTemplate($event, true)"
 																		ng-if="selectedLicense>=0"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 																		alt="Modify License" title="Modify License">Modify</button>
@@ -1134,7 +1134,7 @@ limitations under the License.
 																			<button
 																				class="mdl-button mdl-js-button btn-primary md-ink-ripple"
 																				type="button"
-																				ng-disabled="!licensefile"
+																				ng-disabled="!licensefile || licensefile.size/1024/1024 > 1"
 																				ng-click="uploadLicenseFile();" title="Upload"
 																				alt="Upload" data-upgraded=",MaterialButton">
 																				<span>Upload</span>
@@ -1146,28 +1146,30 @@ limitations under the License.
 																		<div>
 																			<span class="namelength">{{licensefile.name}}</span>
 																		</div>
-																		<div ng-if="file.size/1024/1024 < 1">
+																		
+																		<div ng-if="licensefile.size/1024/1024 < 1">
 																			{{Math.ceil(licensefile.size/1024)}}KB</div>
-																		<div ng-if="file.size/1024/1024 > 1">
-																			{{Math.ceil(licensefile.size/1024/1024)}}MB</div>
-																		<div
-																			ng-show="$root.progressBar > 0 && licUploadFlag == true"
-																			style="width: 80%">
-																			<!-- ng-show="progressVisible" -->
-																			<div class="progress-bar"
-																				ng-style="{'width': $root.progressBar+'%'}"></div>
+																		
+																		<div ng-show="$root.progressBar > 0" style="width: 80%">
+																			<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}"></div>
 																			<div class="" style="text-align: center;">
 																				<span> {{$root.progressBar| number : 0}}% </span>
 
 																			</div>
 																		</div>
-																		<div class="pro-status" ng-show="$root.progressBar > 0 && licUploadFlag == true">
+																		
+																		<div class="pro-status" ng-show="$root.progressBar > 0">
 																			<span ng-show="$root.progressBar != 100 && $root.progressBar != 0">Uploading</span>
 																			<span ng-show="$root.progressBar == 100">Done</span>
 																		</div>
 																		<div class="fileclose" ng-click="closeLicense()">
 																			<i class="material-icons">close</i>
 																		</div>
+																		
+																	</div>
+																	
+																	<div class="help-inline validation-msgs" ng-if="licensefile.size/1024/1024 > 1">
+																		<span>License file should be max size of 1MB.</span>
 																	</div>
 																	<small>Maximum file size: 1mb | Supported files type: .json</small>
 																</div>
@@ -1183,7 +1185,7 @@ limitations under the License.
 
 														</div>
 
-														<div ng-show="isLicensePresent">
+														<div ng-show="isLicensePresent" class="model-license-profile">
 															<input type="text" value="{{licenseName}}" class="isLicensePresentTextBox" ng-disabled="true" /> 
 															<a ng-click="changeLicense=true; modelUploadErrorMsg=''; file = ''; filename = ''; isLicensePresent=false; !licensefile || fileSubmitLicense;" class="link-blue">Change</a>
 														</div>
