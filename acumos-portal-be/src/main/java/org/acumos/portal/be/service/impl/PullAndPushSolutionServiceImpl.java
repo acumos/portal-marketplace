@@ -114,7 +114,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 	 * Gets artifact to memory then returns an InputStream with contents of the buffer.
 	 */
 	@Override
-	public InputStream downloadModelArtifact(String artifactId) throws AcumosServiceException {
+	public InputStream downloadModelArtifact(String artifactId) {
 		log.debug("downloadModelArtifact.1 begins for artifact {}",
 				artifactId);
 		InputStream inputStream = null;
@@ -127,15 +127,13 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								false);
+								true);
 						saveImageCommand.setClient(dockerClient);
 						inputStream = saveImageCommand.getDockerImageStream();
 						log.debug(
 								"downloadModelArtifact.1 received stream for artifact {}", artifactId);
 					} catch (Exception e) {
 						log.error("downloadModelArtifact.1 inner failed", e);
-						if(e.toString().contains("FileNotFoundException")) 
-							throw new AcumosServiceException("Exception occurs while downloading docker image",e);
 					} finally {
 						try {
 							dockerClient.close();
@@ -156,8 +154,6 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			}
 		} catch (Exception e) {
 			log.error("downloadModelArtifact.1 outer failed", e);
-			if(e.toString().contains("FileNotFoundException")) 
-							throw new AcumosServiceException("Exception occurs while downloading docker image",e);
 		}
 		return inputStream;
 	}
@@ -168,7 +164,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 	 * memory.
 	 */
 	@Override
-	public void downloadModelArtifact(String artifactId, HttpServletResponse response) throws AcumosServiceException{
+	public void downloadModelArtifact(String artifactId, HttpServletResponse response) {
 		log.debug("downloadModelArtifact.2 begins for artifact {}",
 				artifactId);
 		try {
@@ -179,7 +175,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								false);
+								true);
 						saveImageCommand.setClient(dockerClient);
 						// Keep the default buffer size as 8 if no buffer limit is provided
 						Integer buffer = Integer.parseInt(env.getProperty("portal.feature.download_bufferSize", "8"));
@@ -191,8 +187,6 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 						saveImageCommand.getDockerImageStream(response, buffer);
 					} catch (Exception e) {
 						log.error("downloadModelArtifact.2 inner failed", e);
-						if(e.toString().contains("FileNotFoundException")) 
-							throw new AcumosServiceException("Exception occurs while downloading docker image",e);
 					} finally {
 						try {
 							dockerClient.close();
@@ -214,8 +208,6 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			}
 		} catch (Exception e) {
 			log.error("downloadModelArtifact.2 outer failed", e);
-			if(e.toString().contains("FileNotFoundException")) 
-				throw new AcumosServiceException("Exception occurs while downloading docker image",e);			
 		}
 	}
 
