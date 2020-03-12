@@ -114,7 +114,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 	 * Gets artifact to memory then returns an InputStream with contents of the buffer.
 	 */
 	@Override
-	public InputStream downloadModelArtifact(String artifactId) {
+	public InputStream downloadModelArtifact(String artifactId) throws AcumosServiceException {
 		log.debug("downloadModelArtifact.1 begins for artifact {}",
 				artifactId);
 		InputStream inputStream = null;
@@ -124,22 +124,18 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			MLPArtifact mlpArtifact = dataServiceRestClient.getArtifact(artifactId);
 			if (mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
 				if (mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ARTIFACT_TYPE_DI)) {
-					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
-					try {
+					//DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
+					try(DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration)) {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								true);
+								false);
 						saveImageCommand.setClient(dockerClient);
 						inputStream = saveImageCommand.getDockerImageStream();
 						log.debug(
 								"downloadModelArtifact.1 received stream for artifact {}", artifactId);
 					} catch (Exception e) {
 						log.error("downloadModelArtifact.1 inner failed", e);
-					} finally {
-						try {
-							dockerClient.close();
-						} catch (IOException e) {
-							log.warn("downloadModelArtifact.1 failed to close docker client", e);
-						}
+						if(e.toString().contains("NotFoundException")) 
+							throw new AcumosServiceException(e.toString()+"::Exception Occurs while downloading docker image");
 					}
 				} else {
 					NexusArtifactClient artifactClient = getNexusClient();
@@ -152,6 +148,10 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					}
 				}
 			}
+		}catch(AcumosServiceException ex) {
+			log.error(ex.getMessage());
+			if(ex.toString().contains("NotFoundException")) 
+				throw new AcumosServiceException(ex.getMessage());
 		} catch (Exception e) {
 			log.error("downloadModelArtifact.1 outer failed", e);
 		}
@@ -164,7 +164,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 	 * memory.
 	 */
 	@Override
-	public void downloadModelArtifact(String artifactId, HttpServletResponse response) {
+	public void downloadModelArtifact(String artifactId, HttpServletResponse response) throws AcumosServiceException{
 		log.debug("downloadModelArtifact.2 begins for artifact {}",
 				artifactId);
 		try {
@@ -172,10 +172,9 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			MLPArtifact mlpArtifact = dataServiceRestClient.getArtifact(artifactId);
 			if (mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
 				if (mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ARTIFACT_TYPE_DI)) {
-					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
-					try {
+					try(DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration)) {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
-								true);
+								false);
 						saveImageCommand.setClient(dockerClient);
 						// Keep the default buffer size as 8 if no buffer limit is provided
 						Integer buffer = Integer.parseInt(env.getProperty("portal.feature.download_bufferSize", "8"));
@@ -187,12 +186,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 						saveImageCommand.getDockerImageStream(response, buffer);
 					} catch (Exception e) {
 						log.error("downloadModelArtifact.2 inner failed", e);
-					} finally {
-						try {
-							dockerClient.close();
-						} catch (IOException e) {
-							log.warn("downloadModelArtifact.2 failed to close docker client", e);
-						}
+						if(e.toString().contains("NotFoundException")) 
+							throw new AcumosServiceException(e.toString()+"::Exception Occurs while downloading docker image");
 					}
 				} else {
 					NexusArtifactClient artifactClient = getNexusClient();
@@ -206,6 +201,10 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 					}
 				}
 			}
+		}catch(AcumosServiceException ex) {
+			log.error(ex.getMessage());
+			if(ex.toString().contains("NotFoundException")) 
+				throw new AcumosServiceException(ex.getMessage());
 		} catch (Exception e) {
 			log.error("downloadModelArtifact.2 outer failed", e);
 		}

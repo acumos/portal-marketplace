@@ -41,13 +41,13 @@ public interface PushAndPullSolutionService {
 	public File downloadModelDockerImage(String modelName, String imageName, String version);
 	
 	//TODO Add parameters to the interface
-	public InputStream downloadModelArtifact(String artifactId);
+	public InputStream downloadModelArtifact(String artifactId) throws AcumosServiceException;
 
 	String getFileNameByArtifactId(String artifactId);
 
 	MLSolutionDownload getSolutionDownload(String solutionId, String artifactId, String userId);
 
-	public void downloadModelArtifact(String artifactId, HttpServletResponse respose);
+	public void downloadModelArtifact(String artifactId, HttpServletResponse respose) throws AcumosServiceException ;
 
 	void downloadModelDocument(String documentId, HttpServletResponse response);
 

@@ -144,6 +144,10 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			}*/
 
+		} catch(AcumosServiceException ae) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(
+					"Exception Occurred downloading a artifact for a Solution in Push and Pull Solution serive", ae);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(

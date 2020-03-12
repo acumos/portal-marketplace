@@ -24,6 +24,7 @@ import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.docker.cmd.SaveImageCommand;
 import org.acumos.portal.be.service.impl.PullAndPushSolutionServiceImpl;
 import org.junit.Assert;
@@ -45,7 +46,7 @@ public class PullAndPushSolutionServiceImplTest {
 	PullAndPushSolutionServiceImpl impl = new PullAndPushSolutionServiceImpl();
 
 	@Test
-	public void downloadModelArtifact(){
+	public void downloadModelArtifact() throws AcumosServiceException{
 		String artifactId = "00c9bc79-7703-471c-9f44-e1537bf61d9b";
 		MLPArtifact mlpArtifact = new MLPArtifact();
 		mlpArtifact.setArtifactId(artifactId);
