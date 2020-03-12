@@ -81,6 +81,7 @@ import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.JsonUtils;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.wagon.ConnectionException;
@@ -454,10 +455,12 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			mlpSolutionRevisions = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId);
 			if (mlpSolutionRevisions != null) {
 				for (MLPArtifact artifact : mlpSolutionRevisions) {
-					String[] st = artifact.getUri().split("/");
-					String name = st[st.length - 1];
-					artifact.setName(name);
-					artifactList.add(artifact);
+					if(!artifact.getUri().contains(PortalConstants.TOSCA)) {
+						String[] st = artifact.getUri().split("/");
+						String name = st[st.length - 1];
+						artifact.setName(name);
+						artifactList.add(artifact);
+					}
 				}
 			}
 		} catch (IllegalArgumentException e) {

@@ -745,22 +745,20 @@ public class PortalUtils {
 	public static <T, E> RestPageResponse<E> convertRestPageResponse(RestPageResponse<T> first, List<E> content) {
 		return new RestPageResponse<>(content, first.getPageable(), first.getTotalElements());
 	}
-	
-	public static MLArtifact convertToMLArtifact(MLPArtifact mlpArtifact,boolean masked,String validSolution) {
-		MLArtifact mlArtifact = new MLArtifact();
-		if (!mlpArtifact.getUri().contains(PortalConstants.TOSCA)) {
-			mlArtifact.setName(mlpArtifact.getName());
-			mlArtifact.setVersion(mlpArtifact.getVersion());
-			mlArtifact.setCreated(Date.from(mlpArtifact.getCreated()));
-			mlArtifact.setSize(mlpArtifact.getSize());
 
-			mlArtifact.setArtifactId(mlpArtifact.getArtifactId());
-			mlArtifact.setOwnerId(mlpArtifact.getUserId());
-			mlArtifact.setArtifactType(mlpArtifact.getArtifactTypeCode());
-			mlArtifact.setArtifactUri(mlpArtifact.getUri());
-			mlArtifact.setMask(masked);
-			mlArtifact.setValidSolution(validSolution);
-		}
+	public static MLArtifact convertToMLArtifact(MLPArtifact mlpArtifact, boolean masked, String validSolution) {
+		MLArtifact mlArtifact = new MLArtifact();
+		mlArtifact.setName(mlpArtifact.getName());
+		mlArtifact.setVersion(mlpArtifact.getVersion());
+		mlArtifact.setCreated(Date.from(mlpArtifact.getCreated()));
+		mlArtifact.setSize(mlpArtifact.getSize());
+
+		mlArtifact.setArtifactId(mlpArtifact.getArtifactId());
+		mlArtifact.setOwnerId(mlpArtifact.getUserId());
+		mlArtifact.setArtifactType(mlpArtifact.getArtifactTypeCode());
+		mlArtifact.setArtifactUri(mlpArtifact.getUri());
+		mlArtifact.setMask(masked);
+		mlArtifact.setValidSolution(validSolution);
 		return mlArtifact;
 	}
 
