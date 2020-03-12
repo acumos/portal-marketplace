@@ -2973,6 +2973,8 @@ angular
 								 apiService.uploadLicenseFile($scope.loginUserID, $scope.solutionId, $scope.revisionId, $scope.versionId, request)
 					               .then(function(response){ 
 
+					            	   	$location.hash('manage-models');
+					            	   	$anchorScroll();
 					            	    $scope.msg = ($scope.modelLicense)?"License updated successfully":"License uploaded successfully"; 
 										$scope.icon = '';
 										$scope.styleclass = 'c-success';
