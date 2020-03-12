@@ -39,4 +39,5 @@ public class PortalConstants {
 	public static final long ONE_DAY_EXPIRY = 24;
 	public static final String ADMIN_USER = "Admin";
 	public static final String PUBLISHER_USER = "Publisher";
+	public static final String TOSCA = "TOSCA";
 }
