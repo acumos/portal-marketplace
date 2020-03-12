@@ -747,23 +747,23 @@ public class PortalUtils {
 	}
 	
 	public static MLArtifact convertToMLArtifact(MLPArtifact mlpArtifact,boolean masked,String validSolution) {
+		MLArtifact mlArtifact = new MLArtifact();
+		if (!mlpArtifact.getUri().contains(PortalConstants.TOSCA)) {
+			mlArtifact.setName(mlpArtifact.getName());
+			mlArtifact.setVersion(mlpArtifact.getVersion());
+			mlArtifact.setCreated(Date.from(mlpArtifact.getCreated()));
+			mlArtifact.setSize(mlpArtifact.getSize());
 
-          MLArtifact mlArtifact = new MLArtifact();
-          mlArtifact.setName(mlpArtifact.getName());
-          mlArtifact.setVersion(mlpArtifact.getVersion());
-          mlArtifact.setCreated(Date.from(mlpArtifact.getCreated()));
-          mlArtifact.setSize(mlpArtifact.getSize());
+			mlArtifact.setArtifactId(mlpArtifact.getArtifactId());
+			mlArtifact.setOwnerId(mlpArtifact.getUserId());
+			mlArtifact.setArtifactType(mlpArtifact.getArtifactTypeCode());
+			mlArtifact.setArtifactUri(mlpArtifact.getUri());
+			mlArtifact.setMask(masked);
+			mlArtifact.setValidSolution(validSolution);
+		}
+		return mlArtifact;
+	}
 
-          mlArtifact.setArtifactId(mlpArtifact.getArtifactId());
-          mlArtifact.setOwnerId(mlpArtifact.getUserId());
-          mlArtifact.setArtifactType(mlpArtifact.getArtifactTypeCode());
-          mlArtifact.setArtifactUri(mlpArtifact.getUri());
-          mlArtifact.setMask(masked);
-          mlArtifact.setValidSolution(validSolution);
-
-          return mlArtifact;
-        }
-	
 	public static String authenticateFromCookie(String cookie, JwtTokenUtil jwtTokenUtil) {
 
 		Map<String, String> map = new HashMap<>();
