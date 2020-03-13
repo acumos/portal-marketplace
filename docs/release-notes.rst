@@ -21,6 +21,21 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.4 13th March 2020
+=================================
+* ACUMOS-4052 - IST: Text and Icon color mismatch in successful Validate
+* ACUMOS-4041 - IST: Select Favorite Catalog: Showing in the footer is not consistent with application
+* ACUMOS-4040 - IST: Notification Pagination: Incomplete pagination is displaying on first load
+* ACUMOS-4039 - IST: ON-BOARD DOCKERIZED MODEL: Issues List
+* ACUMOS-4037 - IST: View  Comment is non clickable for the model whose request is declined/approved in the publish request
+* ACUMOS-4036 - <IST> While on-boarding (through web on-boarding) a model with license, then on-board button is not getting enabled.
+* ACUMOS-4035 - <IST> While publishing a model, when user is approving a publish request then getting an error as "Fail to publish the solution,please try again later." The icon for message is not correct.
+* ACUMOS-4029 - Publish Request: Sorting Icon getting overlapped on label name
+* ACUMOS-3974 - Api : "/access/user/{userId}/catalog" is not returning user specific catalogs
+* ACUMOS-3966 - <IST> Manage my model:- Model License Profile:- UI  and few button functionality is not as per expectation.
+* ACUMOS-3942 - Remove artifacts that are only used for internal Acumos needs : TOSCAGIF.json, TOSCAPROTOBUF.json (TOSCA artifacts are only intended to be used by Design studio)
+* ACUMOS-3863 - IST: Role Management: Different Icon should display for role management
+
 Version 4.0.3 26th Feb 2020
 =================================
 * ACUMOS-4030 - All Catalog List is not displaying for publisher and admin role
