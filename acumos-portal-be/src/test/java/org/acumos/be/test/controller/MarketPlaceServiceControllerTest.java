@@ -784,7 +784,7 @@ public class MarketPlaceServiceControllerTest {
 	}
 
 	@Test
-	public void readArtifactSolutionsTest() throws AcumosServiceException {
+	public void readArtifactSolutionsTest() {
 			String artifactId = "4cbf491b-c687-459f-9d81-e150d1a0b972";
 			String value = "Artifact read successfully";
 			InputStream resource=new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
