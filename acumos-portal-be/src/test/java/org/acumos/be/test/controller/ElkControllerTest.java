@@ -83,6 +83,7 @@ public class ElkControllerTest {
 		JsonResponse<ElkRepositoriesResponse> jsonResponseFail=elkController.createRepository(request, jsonRequest, response);
 		assertEquals(jsonResponse.getResponseBody(), jsonResponseFail.getResponseBody());
 		assertNull(jsonResponseFail.getResponseBody());
+logger.info("create repository test completed");
 	}
 	
 	@Test
