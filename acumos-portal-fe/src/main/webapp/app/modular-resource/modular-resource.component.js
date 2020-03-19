@@ -799,7 +799,8 @@ angular.module('modelResource')
 			   $scope.createDockerRef = false;
 			   $scope.solutionList = [];
 			   $scope.artifactUrl = '';
-			   $scope.protofile = {}
+			   
+			   $scope.protofile = {};
 			   $scope.protofilename = '';
 
 			   $scope.searchModel = '';	
@@ -883,7 +884,10 @@ angular.module('modelResource')
                .then(function(response) {
                    $scope.artifactUrl = response.data.response_body; 
                    $scope.ProtobufSection = true;
-               });			   
+               });
+			   
+			   $scope.protofile = {};
+			   $scope.licensefiledockermodel = {};
 		   }
 		   
 		   $scope.copyText = function(id){
