@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 3.0.30 20th Mar 2020
+=================================
+* ACUMOS-2038 - WebOnboarding in correct metadata file being sent in some cases
+
 Version 3.0.29 28th Feb 2020
 =================================
 * ACUMOS-3960 - LMCL 1.4.4 - Nexus auth support
