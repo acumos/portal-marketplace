@@ -38,6 +38,7 @@ Selecting the Create New Role button will present a dialog in which roles ca
 	               			  :width: 75%
 
 Admin can give **catalog permissions**. Allowing the user with a particular role to access particular set of catalogs.
+The catalogs are of restricted catalogs which the user is being assigned.
 The **Select All** check-box allows the admin to assign the permissions of all catalogs to a particular role.
 
 				.. image:: images/select_all.PNG

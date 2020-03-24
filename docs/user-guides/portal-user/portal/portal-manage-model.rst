@@ -110,7 +110,7 @@ Specific steps:
 
 #. Select Publish to Marketplace
 
-#. Select the catalog from the drop-down. Catalog will display according to the role assigned to the user.
+#. Select the catalog from the drop-down. The Catalogs are of all public catalogs and restricted catalogs which the user is being assigned.
 
 #. Click on Model Description and describe your model in terms that your users will understand and wish to use it
 
