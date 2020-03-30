@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a4575b5_d35637f9",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 299
+      },
+      "writtenOn": "2020-03-30T13:17:03Z",
+      "side": 1,
+      "message": "only metadata.json file will get checked as per new condition and not other .json files.., is this correct?",
+      "range": {
+        "startLine": 188,
+        "startChar": 5,
+        "endLine": 188,
+        "endChar": 69
+      },
+      "revId": "bd4207d320661e4afd9a3f1aa869012c593a90ea",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
