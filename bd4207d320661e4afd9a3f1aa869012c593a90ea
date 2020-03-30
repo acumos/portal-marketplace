@@ -22,6 +22,30 @@
       "revId": "bd4207d320661e4afd9a3f1aa869012c593a90ea",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37456e21_6514b3f7",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-30T21:53:12Z",
+      "side": 1,
+      "message": "Hi Amol - the case we had problems with was there are two json files metadata.json and context.json and our case context.json was always picked not metadata.json we were running docker under ubuntu 16. If the file names are fixed it would be better to check the entire name for others as well.",
+      "parentUuid": "4a4575b5_d35637f9",
+      "range": {
+        "startLine": 188,
+        "startChar": 5,
+        "endLine": 188,
+        "endChar": 69
+      },
+      "revId": "bd4207d320661e4afd9a3f1aa869012c593a90ea",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
     }
   ]
 }
