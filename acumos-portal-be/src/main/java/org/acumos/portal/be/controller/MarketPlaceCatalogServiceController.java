@@ -425,11 +425,18 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					}
 
 					if ("DI".equals(mlpArtifact.getArtifactTypeCode())) {
+						Boolean maskFlag=false;
+						try {
+							maskFlag = marketPlaceService.checkDockerImage(mlpArtifact.getUri());
+						} catch (AcumosServiceException e) {
+							log.error("Exception Occurred while checking docker image ::",
+									e);
+						}
 						String[] st = mlpArtifact.getUri().split("/");
 						String imagetag_prefix = st[0];
 						if (env.getProperty("docker.registry.url") != null
 								&& imagetag_prefix.equalsIgnoreCase(env.getProperty("docker.registry.url")
-										.replaceAll("http://", "").replaceAll("https://", "").replaceAll("/", ""))) {
+										.replaceAll("http://", "").replaceAll("https://", "").replaceAll("/", "")) && maskFlag) {
 							filteredPeerSolutionArtifacts
 									.add(PortalUtils.convertToMLArtifact(mlpArtifact, false, content));
 						} else {
