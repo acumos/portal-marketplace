@@ -219,11 +219,17 @@ angular.module('modelResource')
 				$scope.isDockerLicense = isDockerLicense;
 				showLicenseProfileEditorDialog(event);
 			};
-			$scope.allTemplates = [];
+			//$scope.allTemplates = [];
 			$scope.modifyLicenseProfileTemplate = function(event, isDockerLicense) {
 				$scope.isDockerLicense = isDockerLicense;
-				var selectedLic = $scope.allTemplates[$scope.selectedLicense];
-				var template = JSON.parse(selectedLic.template);
+				
+				if(isDockerLicense){									
+					var template = $scope.modelLicense;
+					var selectedLic = JSON.stringify($scope.modelLicense);
+				} else {
+					var selectedLic = $scope.allTemplates[$scope.selectedLicense];
+					var template = JSON.parse(selectedLic.template);
+				}
 
 				if (selectedLic) {
 					try {
@@ -346,28 +352,48 @@ angular.module('modelResource')
 			//protobuf start
 			$scope.fileSubmitproto = true;
 			$scope.progressBarProtoFlag = false;
-				$scope.protofileUpload  = function() {
+				$scope.protofileUpload  = function(isProto) {
 					
-				if(!($scope.protofile.name).endsWith($scope.protoExt) && $scope.protofile.name){
-					$scope.protoErrorMsg = ".proto file is required.";
-					return;
-				}
+				
+				if(isProto == 'docoerizedUriproto') {
+					if(!($scope.docoerizedUriprotofile.name).endsWith($scope.protoExt) && $scope.docoerizedUriprotofile.name){
+						$scope.docoerizedUriProtoErrorMsg = ".proto file is required.";
+						$scope.docoerizedUriProtoError = true;
+						
+						return;
+					}
+					var protoFile = $scope.docoerizedUriprotofile;
+				} else {
+					if(!($scope.protofile.name).endsWith($scope.protoExt) && $scope.protofile.name){
+						$scope.protoErrorMsg = ".proto file is required.";
+						return;
+					}
+					var protoFile = $scope.protofile;
+				} 
 					var userId = JSON.parse(browserStorageService.getUserDetail());								
 					var uploadUrl = "api/proto/upload/" +'?protoUploadFlag=true';
 					var promise = modelUploadService.uploadFileToUrl(
-							$scope.protofile, uploadUrl);
+							protoFile, uploadUrl);
 					$rootScope.progressBarProto  = 100;				
 					promise
 					.then(function(response) {	
 								$scope.fileSubmitproto = false;
 								$rootScope.progressBarProto  = 0;	
-								$rootScope.protoErrorMsg = false;
+								if(isProto == 'docoerizedUriproto') {
+									$scope.docoerizedUriProtoError = false;
+								}else{
+									$rootScope.protoErrorMsg = false;
+								}
 							},				
 							
 						function(error) {	
 								$scope.fileSubmitproto = true;
 								$scope.filename = '';
-								$scope.protofile ='';
+								if(isProto == 'docoerizedUriproto') {
+									$scope.docoerizedUriprotofile = '';
+								}else{
+									$scope.protofile ='';
+								}
 								$rootScope.progressBarProto = 0;
 						});	
 
@@ -377,6 +403,7 @@ angular.module('modelResource')
 			$scope.deleteProtoFile = function() {
 				
 				$scope.fileSubmitproto = true;
+				$scope.docoerizedUriProtoError = false;
 			  
 				   apiService
 				   		.deleteProtoFile() 
@@ -396,10 +423,14 @@ angular.module('modelResource')
 			   if ($scope.uploadingFile && $rootScope.progressBar < 100){
 					modelUploadService.cancelUpload("Upload cancelled by user");
 			   }
-			   
+			   $scope.docoerizedUriprotofile = '';
 			   $scope.protofile = '';
-			   $scope.protoErrorMsg = '';
-			   $rootScope.progressBarProto = 0;
+			   if(isProto == 'docoerizedUriproto') {
+					$rootScope.docoerizedUriProtoErrorMsg = false;
+				}else{
+					$rootScope.protoErrorMsg = false;
+				}
+			  $rootScope.progressBarProto = 0;
 		   }
 				
 			//protobuf ends
