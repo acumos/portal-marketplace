@@ -643,6 +643,20 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 input::-webkit-calendar-picker-indicator { display: none;}
 .btn-or{ width: 30px; height: 30px; border-radius: 30px; background-color: #EBEBEB; border:1px solid #671C9D; text-align: center; line-height:28px; display:inline-block;}
 /*new onboarding dockerized model end*/
+
+/* license profile onboarding dockerized model start */
+#modelName #create-new-button, #tab7-panel #create-new-button {margin-left: 15px;}
+#licenseOption md-radio-button{margin-right: 15px;}
+.uploadLicenceProfileLbl{font-weight: bold;color: #671c9d;margin-top: -10px;position: absolute;}
+.uploadProtobufFileLbl{font-weight: bold;color: #671c9d;}
+
+/* license profile onboarding dockerized model end */
+
+/* onboarding dockerized URI protobuf css start */
+.onboardDockerizedUriProtobufBrowse{width: 26em;}
+.onboardDockerizedUriProtobufFileUpload{width: 100%; margin: 0px;}
+/* onboarding dockerized URI protobuf css end*/
+
 /* media query start */
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}
@@ -739,3 +753,4 @@ body,  ul, ol{font-size:12px;}
 	.hasClass .company-market ul li{width:16%;}
 	.hasClass .company-market ul li:last-child{width:19%;}
 }
+
