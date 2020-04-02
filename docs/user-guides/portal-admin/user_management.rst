@@ -78,3 +78,25 @@ The email will be sent from the defined email address of the admin user
 that added the new user.
 
 .. image:: images/admin-user-add.png
+
+
+Update Role for existing user
+=============================
+-  Select the user and click on change role to dropdown.
+
+-  Select the roles and click on change button.
+
+-  Click on the confirm button on the change role popup.
+
+
+Deactivate existing user
+========================
+
+-  Select the user and click on bulk actions  dropdown.
+
+-  Select the Inactive User and click on apply button.
+
+-  Click on the confirm button on the inactive confirmation popup.
+
+
+
