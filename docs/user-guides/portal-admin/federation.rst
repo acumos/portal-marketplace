@@ -58,13 +58,13 @@ The federation process is outlined below:
 How a model is federated which is published in restricted catalog
 =================================================================
 
-* Creation of Restricted Catalog : `Click Here <https://docs.acumos.org/en/clio/submodules/portal-marketplace/docs/user-guides/portal-publisher/catalog-management/manage-catalogs.html>`_
+* Creation of Restricted Catalog : `Click Here <https://docs.acumos.org/en/latest/submodules/portal-marketplace/docs/user-guides/portal-publisher/catalog-management/manage-catalogs.html>`_
 
-* Creation of Role and assign restricted catalog : `Click Here <https://docs.acumos.org/en/clio/submodules/portal-marketplace/docs/user-guides/portal-admin/role_management.html>`_
+* Creation of Role and assign restricted catalog : `Click Here <https://docs.acumos.org/en/latest/submodules/portal-marketplace/docs/user-guides/portal-admin/role_management.html>`_
 
-* Assign role to a user : `Click Here <https://docs.acumos.org/en/clio/submodules/portal-marketplace/docs/user-guides/portal-admin/user_management.html>`_
+* Assign role to a user : `Click Here <https://docs.acumos.org/en/latest/submodules/portal-marketplace/docs/user-guides/portal-admin/user_management.html>`_
 
-* Manage Peer Access : `Click Here <https://docs.acumos.org/en/clio/submodules/portal-marketplace/docs/user-guides/portal-publisher/catalog-management/ManagePeer(s)%20Access.html>`_
+* Manage Peer Access : `Click Here <https://docs.acumos.org/en/latest/submodules/portal-marketplace/docs/user-guides/portal-publisher/catalog-management/ManagePeer(s)%20Access.html>`_
 
 Note: For Step 1 and Step 4 user should have publisher role and for Step 2 and Step 4 admin access is required.
 
