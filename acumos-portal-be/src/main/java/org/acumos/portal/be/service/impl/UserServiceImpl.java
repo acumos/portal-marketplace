@@ -410,9 +410,9 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 		// to user
 		if (passwordChangeSuccessful) {
 			MailData mailData = new MailData();
-			mailData.setSubject("Acumos Change Password Notification");
-			mailData.setFrom("customerservice@acumos.org");
-			mailData.setTemplate("changePass.ftl");
+			mailData.setSubject(PortalConstants.CHANGE_PASS_NOTIFY);
+			mailData.setFrom(PortalConstants.SENDER_MAIL_KEY);
+			mailData.setTemplate(PortalConstants.CHANGE_PASS_TEMPLATE);
 			List<String> to = new ArrayList<String>();
 			to.add(user.getEmail());
 			mailData.setTo(to);
@@ -476,9 +476,9 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         
         //Send mail to user
         MailData mailData = new MailData();
-        mailData.setSubject("Acumos Forgot Password");
-        mailData.setFrom("customerservice@acumos.org");
-        mailData.setTemplate("mailTemplate.ftl");
+        mailData.setSubject(PortalConstants.FORGOT_PASS_NOTIFY);
+        mailData.setFrom(PortalConstants.SENDER_MAIL_KEY);
+        mailData.setTemplate(PortalConstants.NEW_PASS_TEMPLATE);
         List<String> to = new ArrayList<String>();
         to.add(mlpUser.getEmail());
         mailData.setTo(to);
@@ -616,9 +616,9 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         
         //Send mail to user
         MailData mailData = new MailData();
-        mailData.setSubject("Acumos New User Password");
-        mailData.setFrom("customerservice@acumos.org");
-        mailData.setTemplate("mailTemplate.ftl");
+        mailData.setSubject(PortalConstants.NEW_USER_PASS_NOTIFY);
+        mailData.setFrom(PortalConstants.SENDER_MAIL_KEY);
+        mailData.setTemplate(PortalConstants.NEW_PASS_TEMPLATE);
         List<String> to = new ArrayList<String>();
         to.add(mlpUser.getEmail());
         mailData.setTo(to);
