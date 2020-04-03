@@ -410,8 +410,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 		// to user
 		if (passwordChangeSuccessful) {
 			MailData mailData = new MailData();
-			mailData.setSubject(PortalConstants.CHANGE_PASS_NOTIFY);
-			mailData.setFrom(PortalConstants.SENDER_MAIL_KEY);
+			mailData.setSubject(env.getProperty(PortalConstants.CHANGE_PASS_NOTIFY));
+			mailData.setFrom(env.getProperty(PortalConstants.SENDER_MAIL_KEY));
 			mailData.setTemplate(PortalConstants.CHANGE_PASS_TEMPLATE);
 			List<String> to = new ArrayList<String>();
 			to.add(user.getEmail());
@@ -476,8 +476,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         
         //Send mail to user
         MailData mailData = new MailData();
-        mailData.setSubject(PortalConstants.FORGOT_PASS_NOTIFY);
-        mailData.setFrom(PortalConstants.SENDER_MAIL_KEY);
+        mailData.setSubject(env.getProperty(PortalConstants.FORGOT_PASS_NOTIFY));
+        mailData.setFrom(env.getProperty(PortalConstants.SENDER_MAIL_KEY));
         mailData.setTemplate(PortalConstants.NEW_PASS_TEMPLATE);
         List<String> to = new ArrayList<String>();
         to.add(mlpUser.getEmail());
@@ -616,8 +616,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         
         //Send mail to user
         MailData mailData = new MailData();
-        mailData.setSubject(PortalConstants.NEW_USER_PASS_NOTIFY);
-        mailData.setFrom(PortalConstants.SENDER_MAIL_KEY);
+        mailData.setSubject(env.getProperty(PortalConstants.NEW_USER_PASS_NOTIFY));
+        mailData.setFrom(env.getProperty(PortalConstants.SENDER_MAIL_KEY));
         mailData.setTemplate(PortalConstants.NEW_PASS_TEMPLATE);
         List<String> to = new ArrayList<String>();
         to.add(mlpUser.getEmail());
