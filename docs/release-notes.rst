@@ -21,6 +21,17 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.5 3rd April 2020
+=================================
+* ACUMOS-4091 - Model Name validation is not consistent on DOCKERIZED MODEL URI and DOCKERIZED MODEL screen
+* ACUMOS-4089 - Email Header fields hardcoded for notifications
+* ACUMOS-4085 - Wrong link in ON-BOARDING DOCKERIZED MODEL
+* ACUMOS-4065 - Replace "Upload licence file" by" Add licence Profile" for pre-dockerized model
+* ACUMOS-4026 - Add protobuf file for ON-BOARDING DOCKERIZED MODEL URI
+* ACUMOS-3990 - Model Artifacts: Docker Image (tar file) is getting zero kb download after the message
+* ACUMOS-3974 - Api : "/access/user/{userId}/catalog" is not returning user specific catalogs
+* ACUMOS-3144 - Enrich pre-dockerized models
+
 Version 4.0.4 13th March 2020
 =================================
 * ACUMOS-4052 - IST: Text and Icon color mismatch in successful Validate
