@@ -40,4 +40,11 @@ public class PortalConstants {
 	public static final String ADMIN_USER = "Admin";
 	public static final String PUBLISHER_USER = "Publisher";
 	public static final String TOSCA = "TOSCA";
+	public static final String SENDER_MAIL_KEY="portal.feature.mail.sender";
+	public static final String CHANGE_PASS_NOTIFY="portal.feature.mail.subject.changepass";
+	public static final String FORGOT_PASS_NOTIFY="portal.feature.mail.subject.forgotpass";
+	public static final String NEW_USER_PASS_NOTIFY="portal.feature.mail.subject.newpass";
+	public static final String CHANGE_PASS_TEMPLATE="changePass.ftl";
+	public static final String NEW_PASS_TEMPLATE="mailTemplate.ftl";
+	
 }
