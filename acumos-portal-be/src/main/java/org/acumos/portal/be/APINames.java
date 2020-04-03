@@ -338,6 +338,8 @@ public class APINames {
 	//deploy to K8s
 	public static final String GET_DEPLOY_TO_K8_CONFIG = "/getDeployToK8Config";
 	public static final String DEPLOY_TO_K8 ="/deployToK8";
+
+	public static final String GET_PROPERTY = "/getProperty";
 	
   
 
