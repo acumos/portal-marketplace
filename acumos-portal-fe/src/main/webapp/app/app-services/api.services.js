@@ -158,6 +158,7 @@ angular.module('AcumosApp')
         var urlLicenseProfileUrl = "api/licenseProfileUrl";
         var urlTemplateUploadUrl = "api/licenseTemplate/upload";
         var urlGetPublishRequest = "api/publish/request";
+        var urlDockerProperty = "api/generic/getProperty";
 	
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -880,6 +881,12 @@ angular.module('AcumosApp')
         this.deleteProtoFile = function(){
         	return $http.post(urldeleteProtoFile);
         }
+        
+        this.getDockerProperty = function(property){
+        	return $http.get(urlDockerProperty + '?propertyName='+property);
+        }
+        
+        
 
         /***role management apis **/
     }]);

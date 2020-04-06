@@ -1,0 +1,86 @@
+<!--  
+===============LICENSE_START=======================================================
+Acumos Apache-2.0
+===================================================================================
+Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+===================================================================================
+This Acumos software file is distributed by AT&T and Tech Mahindra
+under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+This file is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+===============LICENSE_END=========================================================
+-->
+
+<!-- only for demo remove afterwards -->
+<div class="page-content">
+	<section class="pageheadsection mob-pageheadsection1">						
+		<div class="mdl-grid mdl-grid--no-spacing">
+			<div class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+				<div class="mp-header-btn-container">
+					<span class="headline mob-disblock">Manage License</span>
+				</div>
+				<ul class="c-breadcrumb">
+					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+					<li>Manage License</li>
+				</ul>
+				
+			</div>
+		</div>						
+	</section>
+	
+	
+	<div class="page-wrapper3 publish-request">
+		<div>
+			<h6 class="sectiontitle6">LICENSE PROFILE</h6>
+		</div>
+		
+		<div class="license-wrapper">
+		    <button 
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+				alt="Create New" title="Create New" ng-click="createNewLicenseProfileTemplate()">
+				Create New
+			</button>
+		</div>
+		<div>
+		<span> Default License Profile </span>
+		</div>
+		<div ng-if="allTemplates" class="mp-header-btn-container">											     
+		    <div class="select-control mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone" style="margin-left: 0; padding-left: 0;">
+				
+			    <md-select ng-model="$parent.selectedLicense" placeholder="Select">
+			    	<md-option value="{{$index}}" ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
+				</md-select>
+			</div>
+			<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+			<button 
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btnhistory"
+				alt="Modify" title="Modify" ng-disabled="true">
+				Modify
+			</button>
+			</div>
+	    </div>	
+	</div>
+	
+	
+	<div class="page-wrapper3 publish-request">
+		<div>
+			<h6 class="sectiontitle6">RTU AGREEMENTS</h6>
+		</div>
+		
+		<div class="license-wrapper">
+		    <button 
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+				alt="Launch RTU Editor" title="Launch RTU Editor" ng-click="launchRTU()">
+				Launch RTU Editor
+			</button>
+		</div>
+	</div>
+	
+</div>

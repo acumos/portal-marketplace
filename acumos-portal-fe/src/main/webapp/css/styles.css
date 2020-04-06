@@ -55,6 +55,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .page-wrapper {padding: 10px 20px 15px 20px;}
 .page-wrapper2 {padding: 0 15px; margin-bottom: 30px;}
 .page-wrapper-terms {padding: 12px 0 0 0; margin-bottom: 30px;}
+.license-wrapper {padding: 12px 0 0 0; margin-bottom: 20px;}
 
 .bdr {border: 1px solid #b1b1b1;}
 .bdr-top {border-top: 1px solid #b1b1b1;}
@@ -227,6 +228,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link .icon-catalogs {width: 24px; height: 18px; background: url("../images/sidebar-icons/catalogs_inactive.png") no-repeat center center;}
 .mdl-navigation__link .icon-design_studio {width: 26px; height: 24px; background: url("../images/sidebar-icons/design_studio.png") no-repeat center center;}
 .mdl-navigation__link .icon-site-admin {width: 26px; height: 24px; background: url("../images/sidebar-icons/site_admin.png") no-repeat center center;}
+.mdl-navigation__link .icon-license-admin {width:22px; height:21px;background: url("../images/model_details/icon_license_inactive.png") no-repeat center center; }
 .mdl-navigation__link .icon-qa {width: 28px; height: 26px; background: url("../images/sidebar-icons/qa.png") no-repeat center center;}
 .mdl-navigation__link .icon-documentation {width: 27px; height: 24px; background: url("../images/sidebar-icons/Documentation.png") no-repeat center center;}
 .mdl-navigation__link .icon-publish-request {width: 24px; height: 37px; background: url("../images/sidebar-icons/publish_request.png") no-repeat center center;}
@@ -241,7 +243,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link.active .icon-qa {background: url("../images/sidebar-icons/qa_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-documentation {background: url("../images/sidebar-icons/Documentation_active.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-publish-request {background: url("../images/sidebar-icons/publish_request_selected.png") no-repeat center center;}
-
+.mdl-navigation__link.active .icon-license-admin{width:22px; height:21px;background: url("../images/model_details/icon_license_active.png") no-repeat center center; }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {padding: 0; height: 54px;}
 .cg-sidebar {padding-top:0 !important;}
 .cg-sidebar .mdl-navigation__link {opacity:1; display: flex !important; text-shadow:none; align-items: center; border-bottom: 1px solid #D8D8D8;}

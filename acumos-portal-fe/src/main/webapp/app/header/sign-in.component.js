@@ -70,6 +70,14 @@ angular.module('signInModal')
 					}
 				}
 				
+				this.setLicenseAdmin = function(licenseadmin) {
+					if (sessionStorage.getItem('rm')) {
+						localStorage.setItem('isLicenseAdmin', licenseadmin);
+					} else {
+						sessionStorage.setItem('isLicenseAdmin', licenseadmin);
+					}
+				}
+								
 				this.setPublisher = function(publisher) {
 					if (sessionStorage.getItem('rm')) {
 						localStorage.setItem('isPublisher', publisher);
@@ -83,6 +91,12 @@ angular.module('signInModal')
 						sessionStorage.getItem('isAdmin') :
 						localStorage.getItem('isAdmin');
 				}
+				
+				this.isLicenseAdmin = function() {
+					return sessionStorage.getItem('isLicenseAdmin') ?
+						sessionStorage.getItem('isLicenseAdmin') :
+						localStorage.getItem('isLicenseAdmin');
+				}				
 				
 				this.isPublisher = function() {
 					return sessionStorage.getItem('isPublisher') ?
@@ -134,7 +148,7 @@ angular.module('signInModal')
                             				login : 'false'
                                     };
                                     apiService.getCasEnable().then( function(response){
-                                    	$scope.cas.login = response.data.response_body;
+                                    	 $scope.cas.login = response.data.response_body;
                                     });
                                     $scope.broadcastmessage = "";
                                     
@@ -142,11 +156,21 @@ angular.module('signInModal')
                                           $scope.broadcastmessage = data.message;
                                     });
                                     
+                            		$scope.getCasLoginUrl = function(){
+
+                           			 apiService.getDockerProperty('portal.feature.cas.login')
+                           		        .then(function(response){ 
+                           		     	  $scope.casLoginUrl = response.data.response_body;
+                           		     	  var retUrl = window.location.origin;
+                           		     	  $window.open($scope.casLoginUrl + retUrl , '_self');
+                           		        });
+                            		}                              		
+                                    
                                     $rootScope.showAdvancedLogin = function(ev) {
                                     	if($scope.cas.login === 'true'){
                                     		sessionStorage.setItem('provider', "LFCAS");
-                                    		var retUrl = window.location.origin;
-                                    		$window.open('http://identity.linuxfoundation.org/cas/login?service=' + retUrl , '_self');
+                                    		$scope.getCasLoginUrl();
+                                    		
                                     	}else{
 	                                        $mdDialog.show({
 	                                          controller: signinController,
@@ -277,6 +301,12 @@ angular.module('signInModal')
 //                                            			  sessionStorage.setItem('userRole', 'Admin');
                                             			  browserStorageService.setUserRole('Admin');
                                             		  }
+                                            		  
+                                            		  if('license admin' == value.name.toLocaleLowerCase()){
+                                            			  browserStorageService.setUserRole('License Admin');
+                                            			  browserStorageService.setLicenseAdmin(true);
+                                            		  }
+                                            		  
                                             		});
                                             	  $rootScope.$broadcast('roleCheck');
                                             	  browserStorageService.setAuthToken(response.data.jwtToken);

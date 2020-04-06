@@ -43,6 +43,7 @@ angular.module('headerNav')
 		$rootScope.setLoader = false;
 		$rootScope.userRoleAdmin = false;
 		$rootScope.userRolePublisher = false;
+		$rootScope.userRoleLicenseAdmin = false;
 		
 		$rootScope.parentActive = '';
 		$rootScope.toggleHeader = true; 
@@ -56,15 +57,18 @@ angular.module('headerNav')
 		};
 		
 		if(browserStorageService.isAdmin() === 'true') $rootScope.userRoleAdmin = true;
+		if(browserStorageService.isLicenseAdmin() === 'true') $rootScope.userRoleLicenseAdmin = true;
 		if(browserStorageService.isPublisher() === 'true') $rootScope.userRolePublisher = true;
 		$scope.$on('roleCheck', function() {
 			if(browserStorageService.isAdmin() === 'true') $rootScope.userRoleAdmin = true;
 			if(browserStorageService.isPublisher() === 'true') $rootScope.userRolePublisher = true;
+			if(browserStorageService.isLicenseAdmin() === 'true') $rootScope.userRoleLicenseAdmin = true;
 		});
 		
 		$scope.cas = {
 				login : 'false'
         };
+
         apiService.getCasEnable().then( function(response){
         	$scope.cas.login = response.data.response_body;
         });
@@ -364,6 +368,16 @@ angular.module('headerNav')
 		 
 		}
 		
+		$scope.getCasLogoutUrl = function(){
+
+			 apiService.getDockerProperty('portal.feature.cas.logout')
+		        .then(function(response){ 
+		        	$window.open(response.data.response_body + window.location.origin, '_self');
+					localStorage.removeItem("login");
+		        });
+		}  
+		
+		
 		$scope.logout = function() {
 		//$window.location.reload();
 //			sessionStorage.setItem("userDetail", "");
@@ -390,8 +404,8 @@ angular.module('headerNav')
 					location.reload();
 				}, 0);
 			}else if(sessionStorage.getItem("provider") == "LFCAS"){
-				$window.open('https://identity.linuxfoundation.org/cas/logout?url=' + window.location.origin, '_self');
-				localStorage.removeItem("login");
+				$scope.getCasLogoutUrl();
+				
 			}
 			sessionStorage.removeItem("provider");
 			sessionStorage.clear();

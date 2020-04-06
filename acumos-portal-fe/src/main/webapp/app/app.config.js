@@ -142,6 +142,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			url: '/acuCompose',
 			component: 'acuCompose'
 		})
+		.state('manageLicense', {
+			url: '/manageLicense',
+			component: 'manageLicense'
+		})
 		.state('managePeer', {
 		url: '/managePeer?catalogName&catalogId',
 		component: 'managePeer',
