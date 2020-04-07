@@ -69,7 +69,6 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.DeleteImageCommand;
-import org.acumos.portal.be.docker.cmd.SaveImageCommand;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.UserService;
@@ -1808,22 +1807,4 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
         }
         return mlpSolutionByServiceName;
     }
-
-	@Override
-	public Boolean checkDockerImage(String uri) throws AcumosServiceException {
-		Boolean maskFlag=false;
-		try(DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration)) {
-			SaveImageCommand saveImageCommand = new SaveImageCommand(uri, null, null, null,
-					true);
-			saveImageCommand.setClient(dockerClient);
-			
-			log.debug("Checking docker image is available for uri::", uri);
-			maskFlag=saveImageCommand.searchImage();
-			log.debug("Search docker image result::", maskFlag);
-		} catch (Exception e) {
-			log.error("Exception while checking docker image is available or not", e);
-			throw new AcumosServiceException("Exception occurs while checking docker image::"+e);
-		}
-		return maskFlag;
-	}
 }
