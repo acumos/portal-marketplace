@@ -185,5 +185,7 @@ public interface MarketPlaceCatalogService {
 	MLSolutionWeb getSolutionWebMetadata(String solutionId);
 	
 	RestPageResponse<MLPSolution> getMLPSolutionBySolutionName(Map<String, Object> solutoinNameParameter, boolean flag, RestPageRequest restPageRequest) throws AcumosServiceException;
+
+	Boolean checkDockerImage(String uri) throws AcumosServiceException;
 		   
 }

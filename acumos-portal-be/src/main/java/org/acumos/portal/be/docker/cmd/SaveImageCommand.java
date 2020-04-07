@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.exception.NotFoundException;
+import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 
 /**
@@ -255,5 +257,33 @@ public class SaveImageCommand extends DockerCommand
 	public String getDisplayName()
 	{
 		return "Save image";
+	}
+	
+	/**
+	 * search the docker image
+	 * 
+	 * @return docker image is available or not
+	 * @throws DockerException
+	 *             In case of failure
+	 */
+	public Boolean searchImage() throws DockerException{
+		
+		Boolean isAvailable=false;
+		if (imageName == null || imageName.isEmpty())
+		{
+			throw new IllegalArgumentException("Image Name is not configured");
+		}
+		try {
+			final DockerClient client = getClient();
+			logger.info("Search docker image for ", imageName);
+			client.saveImageCmd(imageName).exec();
+		}catch(NotFoundException ex) {
+			logger.error("Docker image not available for image ::"+imageName);
+			isAvailable=true;
+		}catch(Exception e) {
+			logger.error("Exception occurs in docker image check::" +e);
+			throw e;
+		}
+		return isAvailable;
 	}
 }
