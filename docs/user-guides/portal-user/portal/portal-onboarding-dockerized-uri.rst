@@ -27,7 +27,7 @@ Once you are ready with details, just click on **ON-BOARDING DOCKERIZED MODEL UR
 just right side of the **ON-BOARDING BY WEB** on the **ON-BOARDING MODEL** page of the Acumos portal.
 
 Enter the mandatory details like Model Name, Host(the docker registry), Port and Image , optionally Tag. 
-You can upload the license file associated with this docker URI model as per your choice. When you click on 
+You can upload protobuf file which is optional and You can upload the license file associated with this docker URI model as per your choice. When you click on 
 **On-Board Model** , the model will be on-boarded after completion of backend process steps (like **Create 
 Solution** and **Add Artifacts**) and available in **MY MODELS** page, you can view this by clicking **View Model**. 
 
