@@ -42,38 +42,6 @@ Now Upload Protobuf file with an extension of **.proto** and Upload License file
 	.. image:: ../images/portal/onboarding-dockerized-model-license-browse.PNG
                  :width: 75%
 
-In case of License.....
-
-There are two radio buttons **Upload** and **Select License Profile** 
-from where user can upload license file which must be with an extension of *.json* which contains high level general terms and conditions for use of the model.
-
-
-.. image:: ../images/portal/model-onboarding-docker-uri-license.png
-                 :width: 75%
-
-If **Upload** radio button is selected it will allow user to browse a license.json file. Once the file is selected the **Upload** button is enabled clicking which file will be uploaded. 
-
-.. image:: ../images/portal/model-onboarding-docker-uri-upload.png
-                 :width: 75%
-				 
-**Select License Profile** radio button allows the user to select a license template from a drop-down list. The **Modify** button allows the user to change the content of template. 
-
-.. image:: ../images/portal/model-onboarding-docker-uri-select-license.png
-                 :width: 75%
-				 
-Upon clicking the **Modify** button a pop-up will be opened which allows the user to change license templates content. The **Save** button will save the license template.
-
-.. image:: ../images/portal/model-onboarding-docker-uri-modify.png
-                 :width: 75%
-
-.. image:: ../images/portal/model-onboarding-docker-uri-save.png
-                 :width: 75%
-
-The **Create** button will allow the user to create a new license template. 
-
-.. image:: ../images/portal/model-onboarding-docker-uri-create.png
-                 :width: 75%
-
 Click the **Create Docker Image Reference** 
 button which is shown after name validation. 
 
@@ -85,37 +53,6 @@ button which is shown after name validation.
 When you click on **Upload Revision** button, you can search the existing model and select that model. It will ask you for Upload Protobuf file and Upload License file. It is optional. You can Click on **Update Docker Image Reference**  button which is shown after selecting your model.
 
 	.. image:: ../images/portal/onboarding-dockerized-model-uploadrev.PNG
-                 :width: 75%
-In case of License.....
-
-There are two radio buttons **Upload** and **Select License Profile** 
-from where user can upload license file which must be with an extension of *.json* which contains high level general terms and conditions for use of the model.
-
-
-.. image:: ../images/portal/model-onboarding-docker-uri-license.png
-                 :width: 75%
-
-If **Upload** radio button is selected it will allow user to browse a license.json file. Once the file is selected the **Upload** button is enabled clicking which file will be uploaded. 
-
-.. image:: ../images/portal/model-onboarding-docker-uri-upload.png
-                 :width: 75%
-				 
-**Select License Profile** radio button allows the user to select a license template from a drop-down list. The **Modify** button allows the user to change the content of template. 
-
-.. image:: ../images/portal/model-onboarding-docker-uri-select-license.png
-                 :width: 75%
-				 
-Upon clicking the **Modify** button a pop-up will be opened which allows the user to change license templates content. The **Save** button will save the license template.
-
-.. image:: ../images/portal/model-onboarding-docker-uri-modify.png
-                 :width: 75%
-
-.. image:: ../images/portal/model-onboarding-docker-uri-save.png
-                 :width: 75%
-
-The **Create** button will allow the user to create a new license template. 
-
-.. image:: ../images/portal/model-onboarding-docker-uri-create.png
                  :width: 75%
 
 In the above both cases, you will receive the Acumos image reference in the **My Image Model** field which is to be used 
