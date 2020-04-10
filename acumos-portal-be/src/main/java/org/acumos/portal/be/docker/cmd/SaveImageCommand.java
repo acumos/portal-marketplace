@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.invoke.MethodHandles;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +38,6 @@ import org.slf4j.LoggerFactory;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.exception.NotFoundException;
-import com.github.dockerjava.api.model.SearchItem;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 
 /**
@@ -257,54 +255,5 @@ public class SaveImageCommand extends DockerCommand
 	public String getDisplayName()
 	{
 		return "Save image";
-	}
-	
-	/**
-	 * search the docker image
-	 * 
-	 * @return docker image is available or not
-	 * @throws DockerException
-	 *             In case of failure
-	 */
-	public Boolean searchImage() throws DockerException{
-		
-		if (imageName == null || imageName.isEmpty())
-		{
-			throw new IllegalArgumentException("Image Name is not configured");
-		}
-		final DockerClient client = getClient();
-		InputStream input = null;
-		Boolean isAvailable=null;
-		try
-		{
-			logger.info("getDockerImageStream.2: start pull of image {}", imageName);
-			client.pullImageCmd(imageName).exec(new PullImageResultCallback()).awaitSuccess();
-			logger.info("getDockerImageStream.2: finish pull of image {}", imageName);
-
-			//int bufferSizeBytes = bufferSizeKb * 1024;
-			logger.info("getDockerImageStream.2: save image {} using buffer size {} bytes", imageName);
-			input = client.saveImageCmd(imageName).exec();
-			isAvailable=true;
-			//long bytes = IOUtils.copyLarge(input, response.getOutputStream(), new byte[bufferSizeBytes]);
-			//IOUtils.closeQuietly(response.getOutputStream());
-			logger.info("Docker image is available::",imageName);
-		} catch (NotFoundException e) 
-		{
-			isAvailable=false;
-			logger.error(String.format("getDockerImageStream.2: image '%s' not found ", imageName), e);
-			
-		} catch (Exception e)
-		{
-			
-			final String msg = String.format("getDockerImageStream.2 failed on image '%s'", imageName);
-			logger.error(msg, e);
-			throw new DockerException(msg, org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR, e);
-		}
-		finally
-		{
-			if (input != null)
-				IOUtils.closeQuietly(input);
-		}
-		return isAvailable;
 	}
 }
