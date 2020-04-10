@@ -219,17 +219,11 @@ angular.module('modelResource')
 				$scope.isDockerLicense = isDockerLicense;
 				showLicenseProfileEditorDialog(event);
 			};
-			//$scope.allTemplates = [];
 			$scope.modifyLicenseProfileTemplate = function(event, isDockerLicense) {
-				$scope.isDockerLicense = isDockerLicense;
 				
-				if(isDockerLicense){									
-					var template = $scope.modelLicense;
-					var selectedLic = JSON.stringify($scope.modelLicense);
-				} else {
-					var selectedLic = $scope.allTemplates[$scope.selectedLicense];
-					var template = JSON.parse(selectedLic.template);
-				}
+				$scope.isDockerLicense = isDockerLicense;				
+				var selectedLic = $scope.allTemplates[$scope.selectedLicense];
+				var template = JSON.parse(selectedLic.template);
 
 				if (selectedLic) {
 					try {
