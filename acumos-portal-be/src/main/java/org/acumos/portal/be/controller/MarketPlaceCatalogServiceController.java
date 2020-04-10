@@ -36,10 +36,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPNotification;
@@ -104,10 +104,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -429,18 +425,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					}
 
 					if ("DI".equals(mlpArtifact.getArtifactTypeCode())) {
-						Boolean maskFlag=null;
-						try {
-							maskFlag = marketPlaceService.checkDockerImage(mlpArtifact.getUri());
-						} catch (AcumosServiceException e) {
-							log.error("Exception Occurred while checking docker image ::",
-									e);
-						}
 						String[] st = mlpArtifact.getUri().split("/");
 						String imagetag_prefix = st[0];
 						if (env.getProperty("docker.registry.url") != null
 								&& imagetag_prefix.equalsIgnoreCase(env.getProperty("docker.registry.url")
-										.replaceAll("http://", "").replaceAll("https://", "").replaceAll("/", "")) && maskFlag) {
+										.replaceAll("http://", "").replaceAll("https://", "").replaceAll("/", ""))) {
 							filteredPeerSolutionArtifacts
 									.add(PortalUtils.convertToMLArtifact(mlpArtifact, false, content));
 						} else {
