@@ -843,25 +843,19 @@ angular.module('modelResource')
 			   if(modelName) {		 
 				  var request = {
 							  "request_body": {
-								    "published" : true,
-								    "active": true,
-								    "nameKeyword" : [modelName],
-								    "userId": $scope.userId[1],
-								    "pageRequest": {
-								      "page" : 0,
-								      "size" : 1000
-								    }
-								  }
+								    "description" : "exactSearch",
+								    "searchTerm" : modelName
+								   }
 								};
 				  $scope.checkingSolution=true;
 				  $scope.availableSolution=false;
 				  $scope.selectedSolutionId = '';
-	              apiService.fetchUserSolutions(request)
+	              apiService.searchSolutionsByName(request)
 	               .then(
 	                       function(response) {
 	                    	   $scope.checkingSolution = false;
 	                    	  
-	                           if(!response.data.response_body.content.length) {
+	                           if(!response.data.response_body.totalElements) {
 	                        	   $scope.availableSolution = true;
 	                        	   $scope.notavailableSolution = false;	                        	  
 	                           } else {
