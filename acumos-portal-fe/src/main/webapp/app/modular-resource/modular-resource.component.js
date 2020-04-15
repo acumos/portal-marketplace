@@ -99,6 +99,7 @@ angular.module('modelResource')
 			$scope.model = {};
 			$scope.disableOnboardingButton = false;
 			$scope.licenseOption = 'Upload';
+			$scope.isDockerModelLicUploaded = false;
 			
 			$scope.dockerBackScreen = true;
 			$scope.disableRefreshButton = true;
@@ -220,13 +221,12 @@ angular.module('modelResource')
 				showLicenseProfileEditorDialog(event);
 			};
 			$scope.modifyLicenseProfileTemplate = function(event, isDockerLicense) {
-				
-				$scope.isDockerLicense = isDockerLicense;				
-				var selectedLic = $scope.allTemplates[$scope.selectedLicense];
-				var template = JSON.parse(selectedLic.template);
 
-				if (selectedLic) {
-					try {
+				$scope.isDockerLicense = isDockerLicense;
+					var selectedLic = $scope.allTemplates[$scope.selectedLicense];
+					var template = JSON.parse(selectedLic.template);
+					if (selectedLic) {
+						try {
 						var msgObj = {
 							"key": "input",
 							"value": template
@@ -629,10 +629,22 @@ angular.module('modelResource')
 			$scope.clearNotificationInterval = function(){
 				$scope.disableOnboardingButton = false;
 				$scope.file = '';
-				 $scope.isLicenseUploaded = false;
+				$scope.isLicenseUploaded = false;
 				$scope.licensefile = "";
 				$scope.licenseDocfile = '';
 				$scope.fileSubmitDocLicense = "";
+				
+				$scope.modelDockerURLName = "";
+				$scope.dockerUrlForm.modelDockerURLName.$touched = false;
+				
+				$scope.host = "";
+				$scope.dockerUrlForm.host.$touched = false;
+				
+				$scope.port = "";
+				$scope.dockerUrlForm.port.$touched = false;
+				
+				$scope.image = "";
+				$scope.dockerUrlForm.image.$touched = false;
 				
 				$interval.cancel($scope.clearInterval);
 			}
@@ -662,11 +674,13 @@ angular.module('modelResource')
                 $scope.isDockerLicUploaded = false;
                 $scope.licenseDockerFilename = '';
                 $scope.licenseDocfile = false;
-		$scope.selectedLicense = -1;
-		$scope.host = '';
-		$scope.port = '';
-		$scope.image = '';
-		$scope.modelDockerURLName = '';
+				$scope.selectedLicense = -1;
+				$scope.host = '';
+				$scope.port = '';
+				$scope.image = '';
+				$scope.modelDockerURLName = '';
+				$scope.docoerizedUriprotofile = {};
+				$scope.docoerizedUriprotofileName = '';
                 $scope.dockerUrlForm.$setPristine();
                 $scope.dockerUrlForm.$setUntouched();
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');

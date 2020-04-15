@@ -664,58 +664,59 @@ limitations under the License.
 										      </div>
 										      </div>
 										      
-									 <!-- added part -->
-										    <div class="dc-row">
-										    <div class="new-doc-model">
-										   	<div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
-									         	<label class="uploadbufFileLbl">Upload Protobuf File</label> 									        	
-										        	<form class="ng-pristine ng-valid" name="onboardingForm">
-														<div class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input" data-upgraded=",MaterialTextfield">
-															<div class="upload-file-container">
-																<div  ng-class="{'disabledButton': !host || !image || !port || !modelDockerURLName}" class="input-div">
-																
-																	<div file-upload file="docoerizedUriprotofile"
-																		uploadid="docoerizedUriprotofile" id="uploadFile"
-																		filename="docoerizedUriprotofile" fileinput="file" 
-																		ng-model="docoerizedUriprotofile" ng-click="resetProgress()"
-																		alt="Browse" title="Browse" readonly>
-																	</div>																						
-																	<div class="upload-image-input files-uploaded" >
-													    				<input class="mdl-textfield__input disabledClick"
-																		placeholder="Upload Protobuf File" type="text"
-																		ng-model="docoerizedUriProtofilename" readonly />
+
+										     <md-input-container class="md-block">
+												      <div class="new-doc-model">
+												   		<div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+											         	<label>Upload Protobuf File</label> 	
+											         	<hr style="visibility: hidden; margin: 2px;"/>								        	
+												        	<form class="ng-pristine ng-valid" name="onboardingForm">
+																<div class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input" data-upgraded=",MaterialTextfield">
+																	<div class="upload-file-container">
+																		<div  ng-class="{'disabledButton': !host || !image || !port || !modelDockerURLName}" class="input-div">
+																		
+																			<div file-upload file="docoerizedUriprotofile"
+																				uploadid="docoerizedUriprotofile" id="uploadFile"
+																				filename="docoerizedUriprotofileName" fileinput="file" 
+																				ng-model="docoerizedUriprotofile" ng-click="resetProgress()"
+																				alt="Browse" title="Browse" readonly>
+																			</div>																						
+																			<div class="upload-image-input files-uploaded">
+															    				<input class="mdl-textfield__input disabledClick placeholderClass"
+																				placeholder="Upload Protobuf File" type="text"
+																				ng-model="docoerizedUriProtofilename" readonly/>
+																			</div>
+																		</div>
+																		<div class="input-upload-button">
+																			<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!fileSubmitproto || !(docoerizedUriprotofile.name)" ng-click="protofileUpload('docoerizedUriproto');" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																				<span>Upload</span>
+																			</button>
+																		</div>
+																	</div>	
+																							
+																	<div class="progress-bar-div" ng-show="docoerizedUriprotofile.name">																
+																		<div><span class="namelength">{{docoerizedUriprotofile.name}}</span></div>
+																		<div ng-if="docoerizedUriprotofile.size/1024/1024 < 1">{{Math.ceil(docoerizedUriprotofile.size/1024)}}KB</div>
+																		<div ng-if="docoerizedUriprotofile.size/1024/1024 > 1">{{Math.ceil(docoerizedUriprotofile.size/1024/1024)}}MB</div>
+																		<div ng-show="$root.progressBarProto > 0" style="width:80%">
+																			<div class="progress-bar" ng-style="{'width': $root.progressBarProto+'%'}"></div>
+																			<div class="" style="text-align:center;"><span>{{$root.progressBarProto| number : 0}}%</span></div>
+																		</div>
+																		 <div class="pro-status" ng-show="$root.progressBarProto > 0">
+																			 <span ng-show="$root.progressBarProto != 100 && $root.progressBarProto != 0" >Uploading</span>
+																			 <span ng-show="$root.progressBarProto == 100">Done</span>   		
+																		 </div>
+																		 <div class="fileclose" ng-click="deleteProtoFile()"><i class="material-icons">close</i></div>
 																	</div>
 																</div>
-																<div class="input-upload-button">
-																	<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!fileSubmitproto || !(docoerizedUriprotofile.name)" ng-click="protofileUpload('docoerizedUriproto');" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
-																		<span>Upload</span>
-																	</button>
-																</div>
-															</div>	
-																					
-															<div class="progress-bar-div" ng-show="docoerizedUriprotofile.name">																
-																<div><span class="namelength">{{docoerizedUriprotofile.name}}</span></div>
-																<div ng-if="docoerizedUriprotofile.size/1024/1024 < 1">{{Math.ceil(docoerizedUriprotofile.size/1024)}}KB</div>
-																<div ng-if="docoerizedUriprotofile.size/1024/1024 > 1">{{Math.ceil(docoerizedUriprotofile.size/1024/1024)}}MB</div>
-																<div ng-show="$root.progressBarProto > 0" style="width:80%">
-																	<div class="progress-bar" ng-style="{'width': $root.progressBarProto+'%'}"></div>
-																	<div class="" style="text-align:center;"><span>{{$root.progressBarProto| number : 0}}%</span></div>
-																</div>
-																 <div class="pro-status" ng-show="$root.progressBarProto > 0">
-																	 <span ng-show="$root.progressBarProto != 100 && $root.progressBarProto != 0" >Uploading</span>
-																	 <span ng-show="$root.progressBarProto == 100">Done</span>   		
-																 </div>
-																 <div class="fileclose" ng-click="deleteProtoFile()"><i class="material-icons">close</i></div>
-															</div>
-														</div>
-														<small>Supported files type: .proto</small>																																									
-													</form>														
-													<div class="help-inline validation-msgs validationmsg" ng-if="docoerizedUriProtoError"><span ng-bind="docoerizedUriProtoErrorMsg"></span></div>																																																														
-												 </div>
-										        </div>
-										        </div>
-										        <!-- added part -->
-										      </div>
+																<small>Supported files type: .proto</small>																																									
+															</form>														
+															<div class="help-inline validation-msgs validationmsg" ng-if="docoerizedUriProtoError"><span ng-bind="docoerizedUriProtoErrorMsg"></span></div>																																																														
+														 </div>
+												        </div>
+										         </md-input-container>
+										          
+									 		</div>
 											
 									<div id="modelName">			
 										<md-checkbox aria-label="Upload License" ng-class ="{!isDockerLicUploaded : licenseDocfile = false;}"  ng-disabled="disableUploadDLCheckbox == true || !host || !image || !port || !modelDockerURLName" ng-model="isDockerLicUploaded" ng-click="deleteLicenseFile();"></md-checkbox>																				
@@ -971,7 +972,8 @@ limitations under the License.
 									   	<div ng-show="(newDockerModel && availableSolution) || (newDockerModel===false && selectedSolutionId && solutionList && (artifactUrl + '').length == 0) || ProtobufSection">
 										   <div class="dc-row new-doc-model">
 										   	<div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
-									         	<label class="uploadProtobufFileLbl">Upload Protobuf File</label> 									        	
+									         	<label>Upload Protobuf File</label>
+									         	<hr style="visibility: hidden; margin: 2px;"/> 									        	
 										        	<form class="ng-pristine ng-valid" name="onboardingForm">
 														<div class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input" data-upgraded=",MaterialTextfield">
 															<div class="upload-file-container">
@@ -1015,58 +1017,57 @@ limitations under the License.
 													<div class="help-inline validation-msgs validationmsg" ng-if="protoErrorMsg"><span ng-bind="protoErrorMsg"></span></div>																																																														
 												 </div>
 										        </div><br/>
-										        <br/>
 										        
-										        <!-- added part start-->
-										        <label class="uploadLicenceProfileLbl">Upload License Profile</label> 
-										        <div id="modelName"  class="upload-model-bundle-left single-upload" ng-show="!isLicensePresent || changeLicense == true">
-										        <div id="modelName">
-																<md-radio-group ng-model="licenseOption"
-																	id="licenseOption"
-																	ng-change="modelLicUploadError=false; licensefile=false; selectedLicense=-1; modelUploadErrorMsg=''; ">
-																<md-radio-button value="Upload" checked="true">Upload</md-radio-button>
-																<md-radio-button value="selectLicProfile"
-																	ng-if="allTemplates"> Select License
-																Profile</md-radio-button> </md-radio-group>
-																
-																<b>OR</b>
-																<button id="create-new-button"
-																	ng-click="createNewLicenseProfileTemplate($event, false);"
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-																	alt="Create New License" title="Create New License">Create
-																	New</button>
-																
-															 </div>
-															 <div
-																ng-if="licenseOption=='selectLicProfile' && allTemplates"
-																class="license-detail-form dc-row">
-																<div
-																	class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
-																	<md-select ng-model="$parent.selectedLicense"
-																		placeholder="Select"> <md-option
-																		value="{{$index}}"
-																		ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
-																	</md-select>
-																</div>
-																<div
-																	class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
-																	<button
-																		ng-click="modifyLicenseProfileTemplate($event, true)"
-																		ng-if="selectedLicense>=0"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-																		alt="Modify License" title="Modify License">Modify</button>
-																</div>
-															</div>
+										        <div>			
+													<md-checkbox aria-label="Upload License" 
+														ng-model="isDockerModelLicUploaded">
+													</md-checkbox>																				
+													<label>Add License Profile</label>
+												</div>
+											
+												<div id="modelName" class="upload-model-bundle-left single-upload" ng-show="isDockerModelLicUploaded">
+										        	<label>Upload License Profile</label>
+										        	<hr style="visibility: hidden; margin: 2px;"/>
+										        	<div>
+														<md-radio-group ng-model="licenseOption"
+															id="licenseOption"
+															ng-change="modelLicUploadError=false; licensefile=false; selectedLicense=-1; modelUploadErrorMsg=''; ">
+														<md-radio-button value="Upload" checked="true">Upload</md-radio-button>
+														<md-radio-button value="selectLicProfile"
+															ng-if="allTemplates"> Select License
+														Profile</md-radio-button> </md-radio-group>
+														
+														<b>OR</b>
+														<button id="create-new-button"
+															ng-click="createNewLicenseProfileTemplate($event, false);"
+															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+															alt="Create New License" title="Create New License">Create
+															New</button>
+														
+													</div>
+													 <div
+														ng-if="licenseOption=='selectLicProfile' && allTemplates"
+														class="license-detail-form dc-row">
+														<div
+															class="select-control mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+															<md-select ng-model="$parent.selectedLicense"
+																placeholder="Select"> <md-option
+																value="{{$index}}"
+																ng-repeat='template in allTemplates'>{{template.templateName}}</md-option>
+															</md-select>
+														</div>
+														<div
+															class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
+															<button
+																ng-click="modifyLicenseProfileTemplate($event, true)"
+																ng-if="selectedLicense>=0"
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																alt="Modify License" title="Modify License">Modify</button>
+														</div>
+													</div>
 													</div>
 															
-															
-													<!-- added part end-->
-															
-															
-															
-															
-										   
-										   		<div class="dc-row new-doc-model" ng-hide="licenseOption=='selectLicProfile' && allTemplates">										   
+												<div class="dc-row new-doc-model" ng-hide="(licenseOption=='selectLicProfile' && allTemplates) || !isDockerModelLicUploaded">										   
 									         	<div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 									         										        	
 										        	<form class="ng-pristine ng-valid" name="onboardingForm">
