@@ -21,6 +21,13 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.7 17th April 2020
+=================================
+* ACUMOS-4098 - ON-BOARD DOCKERIZED MODEL URI:Browse option of protobuf file should be disabled until user fill mandatory field
+* ACUMOS-4091 - Model Name validation is not consistent on DOCKERIZED MODEL URI and DOCKERIZED MODEL screen
+* ACUMOS-4088 - SSO CAS config: server is hard coded
+* ACUMOS-4099 - ON-BOARD DOCKERIZED MODEL/ON-BOARD DOCKERIZED MODEL URI: Modify license is opening the create new license i-frame
+
 Version 4.0.6 10th April 2020
 =================================
 * ACUMOS-4098 - ON-BOARD DOCKERIZED MODEL URI:Browse option of protobuf file should be disabled until user fill mandatory field
