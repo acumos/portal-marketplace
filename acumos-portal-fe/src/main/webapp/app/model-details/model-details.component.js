@@ -135,7 +135,7 @@ angular
 							});
 						}
 													
-						$scope.getAllRatings();
+					
 						
 						$scope.getAverageRatings = function(){
 							$stateParams.solutionId
@@ -161,7 +161,7 @@ angular
 										console.warn("Error: ",data);
 									});
 						}
-						$scope.getAverageRatings();
+						
 						
 						$scope.onItemRating = function(rating){
 							
@@ -286,13 +286,10 @@ angular
 										$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
 									}
 								 
-								}).error(
-									function(data, status, headers,config) {
-										console.log("Error: "+status);
-									});
+								})
 							}
 						}; 
-						$scope.getSolutionratings();
+						
 						
 					  //API for rating the model End
 						
@@ -373,31 +370,17 @@ angular
 								.success(
 										function(data, status, headers, config) {
 											console.log(data.response_body);
-											$scope.authorList = data.response_body;
-											
-										})
-								.error(function(data, status, headers, config) {
-										// called asynchronously if an error occurs
-										// or server returns response with an error
-										// status.
-										console.log(status);
+											$scope.authorList = data.response_body;											
 										});
 					}
 					
-					$scope.getModelAuthors();
-					
 					var modelType = '';
-					$scope.apiUrl;
-
-						$scope.apiUrl = '/api/solutions/'
-								+ $stateParams.solutionId + '/' + $stateParams.revisionId;
-				
-					
+									
 					$scope.getModelDetails = function() {
 						
 						$http({
 							method : 'GET',
-							url : $scope.apiUrl,
+							url : '/api/solutions/'+ $stateParams.solutionId + '/' + $stateParams.revisionId,
 						})
 								.success(
 										function(data, status, headers, config) {
@@ -494,17 +477,15 @@ angular
 											   $scope.getLicenseFile();
 											
 											var solutionName = $scope.solution.name;
-										})
+										});
 										
-								.error(function(data, status, headers, config) {
-									// called asynchronously if an error occurs
-									// or server returns response with an error
-									// status.
-									console.log(status);
-								});
 						}
 					 $scope.getModelDetails();
-						// };
+					 $scope.getAllRatings();
+					 $scope.getAverageRatings();
+					 $scope.getSolutionratings();
+					 $scope.getModelAuthors();
+					
 					 
 					 $scope.checkOnapCompatibility = function (){
 						 if($rootScope.enableDCAE && $scope.loginUserID) {
@@ -1570,8 +1551,9 @@ angular
 								$anchorScroll();
 							}
 							
+							$scope.editModel = true;
 							$scope.disableEdit = function(){
-								$scope.editModel = true;
+								
 								if($scope.solution.active == false){$scope.editModel = true;}
 								else{
 									if($scope.solution.ownerId != $scope.loginUserID){

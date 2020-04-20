@@ -2454,7 +2454,6 @@ label.model-name{color:#0366d6;}
 .catalog-page-wrapper {padding: 0px 20px 15px 20px;}
 .catalog-grid-container {display:flex; flex-direction: row;flex-wrap: wrap; }
 .catalog-grid-item {border: 1px solid #d5d5d5;width:230px;margin-right: 30px; margin-bottom: 30px;}
-.catalog-grid-item:hover { box-shadow: 0 5px 10px rgba(0,0,0,0.15);transform:scale(1.02);transition: all 0.2s ease-in-out;position:relavtive;z-index:2000;}
 .catalog-grid-top-section {position:relative;}
 .catalog-grid-bottom-section {padding: 5px 8px;}
 .ct-item-row {display:flex; flex-direction: row; justify-content: space-between;margin-bottom: 15px; position:relative;}
