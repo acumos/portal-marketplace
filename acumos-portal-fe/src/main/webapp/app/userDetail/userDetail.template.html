@@ -293,8 +293,7 @@ limitations under the License.
 			<div class="pagination-left-section">
 				<span>Show </span>
 				<div class="select-control">
-					<select ng-init="10" 
-					 ng-model="viewby" name="requestResultSize" ng-change="setItemsPerPage(viewby); calculateShowing(currentPage, itemsPerPage)">
+					<select ng-model="viewby" name="requestResultSize" ng-change="setItemsPerPage(viewby); calculateShowing(currentPage, itemsPerPage)">
 					<option ng-value="10" class="pagination-list-item">10</option>
 					<option ng-value="25" class="pagination-list-item">25</option>
 					<option ng-value="50" class="pagination-list-item">50</option>

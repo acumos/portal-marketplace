@@ -772,9 +772,9 @@ angular
                           };
                           
                           $scope.fePagination = function(){
-                        	  $scope.viewby = '10';
+                        	  $scope.viewby = '100'; 
                               $scope.currentPage = 1;
-                              $scope.itemsPerPage = 10;
+                              $scope.itemsPerPage = 100; 
                               $scope.maxSize = 5; //Number of pager buttons to show
                               $scope.totalItems = $scope.totalElements;
     	                      $scope.orgAllCatalogList = $scope.allCatalogList;
