@@ -154,5 +154,18 @@ public class LicensingServiceImpl extends AbstractServiceImpl implements Licensi
 		return isLicenseAssetRegisterd;
 		
 	}
+	@Override
+	public MLPLicenseProfileTemplate createLicenseProfileTemplate(MLPLicenseProfileTemplate licenseProfileTemplate) {
+		log.debug("createLicenseProfileTemplate ={}", licenseProfileTemplate.getUserId());
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPLicenseProfileTemplate mlpLicenseProfileTemplate=dataServiceRestClient.createLicenseProfileTemplate(licenseProfileTemplate);
+		return mlpLicenseProfileTemplate;
+	}
+	@Override
+	public void updateLicenseProfileTemplate(MLPLicenseProfileTemplate licenseProfileTemplate) {
+		log.debug("updateLicenseProfileTemplate ={}", licenseProfileTemplate.getUserId());
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.updateLicenseProfileTemplate(licenseProfileTemplate);
+	}
 
 }	  

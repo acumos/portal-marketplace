@@ -44,7 +44,7 @@ limitations under the License.
 		<div class="license-wrapper">
 		    <button 
 				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-				alt="Create New" title="Create New" ng-click="createNewLicenseProfileTemplate()">
+				alt="Create New" title="Create New" ng-click="createNewLicenseProfileTemplate(false)">
 				Create New
 			</button>
 		</div>
@@ -61,7 +61,7 @@ limitations under the License.
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
 			<button 
 				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btnhistory"
-				alt="Modify" title="Modify" ng-disabled="true">
+				alt="Modify" title="Modify" ng-disabled="$parent.selectedLicense == -1" ng-click="modifyLicenseProfileTemplate()">
 				Modify
 			</button>
 			</div>
@@ -78,7 +78,7 @@ limitations under the License.
 		    <button 
 				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 				alt="Launch RTU Editor" title="Launch RTU Editor" ng-click="launchRTU()">
-				Launch RTU Editor
+				RTU Editor
 			</button>
 		</div>
 	</div>
