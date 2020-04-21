@@ -205,6 +205,7 @@ angular.module('manageModule')
 										    "published" : false,
 										    "tags" : $scope.tagFilter,
 										    "nameKeyword" :  $scope.toBeSearch,
+										    "descriptionKeyword" : $scope.toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
@@ -303,6 +304,7 @@ angular.module('manageModule')
 										    "published" : true,
 										    "active": true,
 										    "nameKeyword" :  $scope.toBeSearch,
+										    "descriptionKeyword" : $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
@@ -408,6 +410,7 @@ angular.module('manageModule')
 									  "request_body": {
 										    "active": false,
 										    "nameKeyword" :  $scope.toBeSearch,
+										    "descriptionKeyword" : $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
@@ -908,6 +911,7 @@ angular.module('manageModule')
 									  "request_body": {
 										    "active": $scope.activeType,
 										    "nameKeyword" :  $scope.toBeSearch,
+										    "descriptionKeyword" : $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
