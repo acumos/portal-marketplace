@@ -886,6 +886,13 @@ angular.module('AcumosApp')
         	return $http.get(urlDockerProperty + '?propertyName='+property);
         }
         
+        this.createLicenseProfileTemplate = function(request){
+        	return $http.post('/api/createLicenseProfileTemplate', request);
+        }
+        
+        this.updateLicenseProfileTemplate = function(request){
+        	return $http.put('/api/updateLicenseProfileTemplate', request);
+        }
         
 
         /***role management apis **/

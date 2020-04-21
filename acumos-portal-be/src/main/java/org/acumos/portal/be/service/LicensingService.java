@@ -40,4 +40,7 @@ public interface LicensingService {
 	
 	boolean licenseAssetRegister(String solutionId, String revisionId, String userId);
 
+	MLPLicenseProfileTemplate createLicenseProfileTemplate(MLPLicenseProfileTemplate licenseProfileTemplate);
+	
+	void updateLicenseProfileTemplate(MLPLicenseProfileTemplate licenseProfileTemplate);
 }

@@ -17,6 +17,7 @@ import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileExcep
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JSONTags;
+import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
@@ -294,6 +295,54 @@ public class LicensingServiceController extends AbstractController{
 		responseVO.setStatus(true);
 		responseVO.setResponseDetail("Success");
 		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
+    
+	@ApiOperation(value = "Create License Profile By LicenseTemplate")
+	@RequestMapping(value = { APINames.CREATE_LICENSE_PROFILE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPLicenseProfileTemplate> createTemplate(HttpServletRequest request,@RequestBody JsonRequest<MLPLicenseProfileTemplate> templateJson,
+			HttpServletResponse response) {
+		JsonResponse<MLPLicenseProfileTemplate> responseVO=new JsonResponse<>();
+		MLPLicenseProfileTemplate licenseProfileTemplate=null;
+		try {
+			licenseProfileTemplate=licensingService.createLicenseProfileTemplate(templateJson.getBody());
+			if (licenseProfileTemplate != null) {
+				responseVO.setResponseBody(licenseProfileTemplate);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("License Profile created successfully");
+			} else {
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				responseVO.setResponseDetail("Error occured while creating License Profile");
+				log.error("Error Occurred in creating License Profile");
+			}
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while creating License Profile", e);
+		}
+		return responseVO;
+	}
+	
+	@ApiOperation(value = "Update License Profile By LicenseTemplate", response = MLPLicenseProfileTemplate.class)
+	@RequestMapping(value = { APINames.UPDATE_LICENSE_PROFILE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> updateTemplate(HttpServletRequest request,@RequestBody JsonRequest<MLPLicenseProfileTemplate> templateJson,
+			HttpServletResponse response) {
+		JsonResponse<String> responseVO=new JsonResponse<>();
+		try {
+				licensingService.updateLicenseProfileTemplate(templateJson.getBody());
+				responseVO.setResponseBody("Updated Successfully");
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("License Profile updated successfully");
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error( "Exception Occurred while updating License Profile", e);
+		}
 		return responseVO;
 	}
 

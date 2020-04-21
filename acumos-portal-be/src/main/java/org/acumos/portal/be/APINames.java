@@ -177,6 +177,8 @@ public class APINames {
 	public static final String VALIDATE_LICENSE_PROFILE="/validateLicenseProfile";
 	public static final String UPLOAD_LICENSE_TEMPLATE = "/licenseTemplate/upload/{userId}/{solutionId}/{revisionId}/{versionId}";
 	public static final String LICENSE_PROFILE_URL = "/licenseProfileUrl";
+	public static final String USER_ACCESS_SOLUTIONS = "userAccess/solution/{userId}";
+	public static final String GET_AVG_SOLUTION_RATING = "solution/avgRating/{solutionId}";
 
 
 	// Role APIs for MarketPlace user
