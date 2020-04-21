@@ -953,7 +953,7 @@ limitations under the License.
 															ng-class="{'disable-input':artifactUrl}" 
 															ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" 
 															class="mdl-textfield__input onboard-new-docker" ng-enter="checkModelName(searchModel, 'relatedSearch')">
-														<span class="search-icon cursor-pointer" ng-click="checkModelName(searchModel, 'relatedSearch')" style="right: 7px;"></span>
+														<span class="search-icon cursor-pointer" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
 													</div>
 													<datalist id="solutions">
 	    												<select class="select-control" ng-class="{'disable-input':artifactUrl, 'disablecursor':(notavailableSolution||availableSolution)&& !createDockerRef}">
