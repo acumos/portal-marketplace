@@ -632,7 +632,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .align-btn{display:flex; fles-wrap:nowrap; align-items:flex-start; margin-top:30px;}
 .checking-loader{background-image:url(../images/checking-loader.gif); background-repeat:no-repeat;height:16px; width:140px; background-position:10px 7px;}   
 .available-docker input{color:#009900;border-color:#009900 !important;}
-.onboard-new-docker .search-select span.search-icon{right:42px;}
+.onboard-new-docker .search-select span.search-icon{ right:7px;top: 5px; }
 .available-docker .btn-primary{color:#009900; border-color:#009900; background-color: #fff;}
 .available-docker .btn-primary:hover{background-color:#FFF !important;}
 .non-available-docker input{border-color:#FF2527 !important;color:#FF2527;}
