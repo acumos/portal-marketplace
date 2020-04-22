@@ -850,7 +850,7 @@ angular.module('headerNav')
      																		$scope.showAlertMessage = false;
          																	$rootScope.$broadcast("MyLogOutEvent",{"request_body" : $scope.user});
          																}
-     																}, 2000);
+     																}, 5000);
      													}
      													$scope.closePoup();
      													$scope.oldPswd = '';
