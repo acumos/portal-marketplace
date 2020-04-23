@@ -95,9 +95,11 @@ public class OnboardingDockerUploadController<T>  extends AbstractController {
 					
 					mlSolutions = onboardingDockerService.getRelatedSolution(restPageReq) ;	
 				}else if(restPageReq.getBody().getDescription().equals("exactSearch")) {					
-					Map<String, Object> solutoinNameParameter =  new HashMap<>();
-					solutoinNameParameter.put("name", restPageReq.getBody().getSearchTerm());
-					mlSolutions = catalogService.getMLPSolutionBySolutionName(solutoinNameParameter, false, new RestPageRequest());
+					Map<String, Object> solutoinParameter =  new HashMap<>();
+					solutoinParameter.put("name", restPageReq.getBody().getSearchTerm());
+					if(!PortalUtils.isEmptyOrNullString(restPageReq.getBody().getUserId()))
+						solutoinParameter.put("userId", restPageReq.getBody().getUserId());
+					mlSolutions = catalogService.getMLPSolutionBySolutionName(solutoinParameter, false, new RestPageRequest());
 					data.setResponseBody(mlSolutions);
 				}									
 			} else {				
