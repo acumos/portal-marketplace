@@ -861,6 +861,9 @@ angular.module('modelResource')
 								    "searchTerm" : modelName
 								   }
 								};
+				  if($scope.newDockerModel==false ) { 
+                      request.request_body.userId = $scope.userId[1]; 
+				  }
 				  $scope.checkingSolution=true;
 				  $scope.availableSolution=false;
 				  $scope.selectedSolutionId = '';
