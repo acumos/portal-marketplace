@@ -213,9 +213,11 @@ angular.module('admin').filter('abs', function () {
 								if(!resp[i].origin){
 									if($scope.allCatalogList['My Catalogs'] === undefined ) {
 										$scope.allCatalogList['My Catalogs'] = [];
-									} else {										
+									} 
+									/*else {										
 										$scope.catalogIdsList.push(resp[i].catalogId);
-									}
+									}*/
+									$scope.catalogIdsList.push(resp[i].catalogId);
 									$scope.allCatalogList['My Catalogs'].push(resp[i]); 
 								} else {
 									if($scope.allCatalogList[resp[i].origin] === undefined ) {
@@ -346,8 +348,11 @@ angular.module('admin').filter('abs', function () {
                      .then(
                          function (response) {
                             var role = response.data.response_body;
+                            $scope.roleSelectedCatalogList = role;
+                            $scope.checkAllCatalogs = [];
                             if(role && role.catalogIds){
                                    angular.forEach($scope.allCatalogList,function (value, key) {
+                                	   $scope.checkAllCatalogs.push(value);
                                           for (var j = 0; j < $scope.allCatalogList[key].length; j++) {
                                                  if((role.catalogIds).indexOf($scope.allCatalogList[key][j].catalogId) > -1){
                                                        $scope.allCatalogList[key][j].checked = true;
@@ -356,11 +361,11 @@ angular.module('admin').filter('abs', function () {
                                                 
                                           }
                                    });
-                                   if($scope.catalogIdsList.length == $scope.selectedCatalogList.length){
-                                                $scope.selectAllCatalogs = {"checked":true};
-                                 } else {
-                                 $scope.selectAllCatalogs = {"checked":false};
-                                 }
+                                   if($scope.roleSelectedCatalogList.catalogIds.length == $scope.checkAllCatalogs[0].length){
+                                	   $scope.selectAllCatalogs = {"checked":true};
+                                   } else {
+                                	   $scope.selectAllCatalogs = {"checked":false};
+                                   }
                             }
                             $mdDialog.show({
                                  templateUrl: '../app/Admin/create-role.html',
@@ -4013,8 +4018,8 @@ angular.module('admin').filter('abs', function () {
 			
 			
 			$scope.selectedCatalogList = [];
-			$scope.toggleCatalogSelection = function(catalogid){				
-			
+			$scope.toggleCatalogSelection = function(catalogid){	
+				
 				var index = $scope.selectedCatalogList.indexOf(catalogid);
 			    if (index > -1) {
 			      $scope.selectedCatalogList.splice(index, 1);
@@ -4033,10 +4038,21 @@ angular.module('admin').filter('abs', function () {
 			
 			 $scope.checkAllRoles = function(selected){
 				 var allcatalogs = Object.keys($scope.allCatalogList);
-        	        if(selected)
-	           	        $scope.selectedCatalogList = angular.copy($scope.catalogIdsList);
-        	        else  
-        	        	 $scope.selectedCatalogList = [];
+				 $scope.selectedCatalogTempList = []
+				 if(selected){
+     	        	for (var i = 0; i < allcatalogs.length ; i++) {
+	        		     for (var j = 0; j < $scope.allCatalogList[allcatalogs[i]].length; j++) {
+	           	          $scope.allCatalogList[allcatalogs[i]][j].checked = selected;
+	           	          $scope.selectedCatalogTempList.push(
+	           	              $scope.allCatalogList[allcatalogs[i]][j].catalogId);  
+	        		     }
+	        		    $scope.selectedCatalogList = angular.copy($scope.selectedCatalogTempList);
+	        	
+     	            }
+     	        }
+    	        else {
+    	        	$scope.selectedCatalogList = [];
+    	        } 
 				 for (var i = 0; i < allcatalogs.length ; i++) {
 	        		for (var j = 0; j < $scope.allCatalogList[allcatalogs[i]].length; j++) {
 	           	        $scope.allCatalogList[allcatalogs[i]][j].checked = selected;
