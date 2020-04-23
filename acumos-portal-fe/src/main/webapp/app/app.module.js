@@ -482,7 +482,8 @@ angular
             imageerror: "=?",
             docerror: "=",
             imagetypeerror : "=?",
-            validfilename : "=?"           
+            validfilename : "=?",
+            fileExtensionError : "=?"
           },
         link: function (scope, element, attrs) {
 
@@ -519,6 +520,11 @@ angular
             		}*/
                 	
                 	//check for extension
+                	if(!scope.file.type) {
+                    	$scope.fileExtensionError = true;
+                    	return;
+                    }
+
                 	if(scope.file.type.includes(scope.accept)){
                 		scope.imagetypeerror = false;
                 		//scope.validfilename = true;

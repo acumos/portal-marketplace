@@ -1374,7 +1374,7 @@ limitations under the License.
 																			<div file-upload file="$parent.solutionFile" 
 																						uploadid="documentuploadid" id="uploadFile"
 																						filename="parent.privatefilename"
-																						ng-model="solutionFile" accept = "" validfilename="validfilename"
+																						ng-model="solutionFile" accept = "" fileExtensionError="fileExtensionError" validfilename="validfilename"
 																						size=10000000 docerror="docerror"  readonly alt="Browse" title="Browse">	
 																			</div>
 																		
@@ -1392,9 +1392,8 @@ limitations under the License.
 														            </div>
 														            <div class="help-inline validation-msgs">
 																		<span ng-show="docerror">Document should be of max size 10MB.</span>
-																	</div>
-																	<div class="help-inline validation-msgs">
 																		<span ng-show="validfilename">Spaces and special characters are not allowed in file name.</span>
+																		<span ng-show="fileExtensionError">Please provide valid file with extension.</span>		
 																	</div>
 																			</div>
 																		</div>

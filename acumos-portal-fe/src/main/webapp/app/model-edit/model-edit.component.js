@@ -113,11 +113,13 @@ angular
 						$rootScope.progressBar = 0;
 						$scope.imageerror = false;
 						$scope.imagetypeerror = false;
+						$scope.fileExtensionError = false;
 						$scope.docerror = false;
 						$scope.flag = false;
 						$scope.mybody = angular.element(document).find('body');
 						$scope.selectedItem = null;
 						$scope.searchText = null;
+						
 					
 						$scope.checkPublish  = false;
 						

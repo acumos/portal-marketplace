@@ -25,7 +25,7 @@ angular
                 'manageLicense',
                 {
                     templateUrl : '/app/manage-license/manage-license.template.html',
-                    controller : function($scope, $mdDialog, apiService, browserStorageService, $rootScope ,$sce ) {
+                    controller : function($scope, $mdDialog, apiService, browserStorageService, $rootScope ,$sce, $timeout ) {
                     	
              		   $scope.allTemplates = [];
             		   $scope.getAllLicenseTemplates = function(){
@@ -61,7 +61,7 @@ angular
 	    						templateUrl:'./app/manage-license/rtu-editor-dialog.template.html',
 	    						parent: angular.element(document.body),
 	    						targetEvent: event,
-	    						clickOutsideToClose:false
+	    						clickOutsideToClose:true
 	    					});
                     	}
                     	
