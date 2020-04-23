@@ -633,6 +633,8 @@ angular.module('modelResource')
 				$scope.licensefile = "";
 				$scope.licenseDocfile = '';
 				$scope.fileSubmitDocLicense = "";
+				$scope.licenseDockerFilename = "";
+				$scope.isDockerLicUploaded = false;
 				
 				$scope.modelDockerURLName = "";
 				$scope.dockerUrlForm.modelDockerURLName.$touched = false;
@@ -645,6 +647,11 @@ angular.module('modelResource')
 				
 				$scope.image = "";
 				$scope.dockerUrlForm.image.$touched = false;
+				
+				$scope.tag = "";
+				
+				$scope.docoerizedUriprotofile = {};
+				$scope.docoerizedUriprotofileName = '';
 				
 				$interval.cancel($scope.clearInterval);
 			}
@@ -678,6 +685,8 @@ angular.module('modelResource')
 				$scope.host = '';
 				$scope.port = '';
 				$scope.image = '';
+				$scope.tag = '';
+				$scope.isDockerLicUploaded = false;
 				$scope.modelDockerURLName = '';
 				$scope.docoerizedUriprotofile = {};
 				$scope.docoerizedUriprotofileName = '';
