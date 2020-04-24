@@ -21,6 +21,8 @@ package org.acumos.be.test.service.impl;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
@@ -88,13 +90,10 @@ public class LicensingServiceImplTest {
 	@Test
 	public void getTemplates() throws LicenseProfileException, AcumosServiceException {
 		
-		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		MLPLicenseProfileTemplate licenseProfileTemplate=getLicenseTemplate();
 		List<MLPLicenseProfileTemplate> licenseProfileTemplateList=new ArrayList<>();
-		licenseProfileTemplate.setTemplate("My Licence");
-		licenseProfileTemplate.setTemplateName("My Sample Test template");
-		licenseProfileTemplate.setTemplateId(101L);
 		licenseProfileTemplateList.add(licenseProfileTemplate);
-	        PageRequest pageRequest = PageRequest.of(0, 3);
+	    PageRequest pageRequest = PageRequest.of(0, 3);
 		int totalElements = 15;
 		RestPageResponse<MLPLicenseProfileTemplate> restResponse = new RestPageResponse<>(licenseProfileTemplateList, pageRequest, totalElements);
 		ObjectMapper Obj = new ObjectMapper();
@@ -108,9 +107,7 @@ public class LicensingServiceImplTest {
 		stubFor(get(urlEqualTo(LICENSE_TEMPLATE_URL)).willReturn(
                 aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .withBody(jsonStr)));
-		when(env.getProperty("cdms.client.url")).thenReturn(url);
-		when(env.getProperty("cdms.client.username")).thenReturn(user);
-		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		cdsProperties();
 		List<MLPLicenseProfileTemplate> licenseProfileTemplateListSuccess=impl.getTemplates();
 		assertNotNull(licenseProfileTemplateListSuccess);
 		assertEquals(licenseProfileTemplateList, licenseProfileTemplateListSuccess);
@@ -119,10 +116,7 @@ public class LicensingServiceImplTest {
 	@Test
 	public void getTemplate() throws LicenseProfileException, AcumosServiceException {
 		long templateId=101;
-		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
-		licenseProfileTemplate.setTemplate("My Licence");
-		licenseProfileTemplate.setTemplateName("My Sample Test template");
-		licenseProfileTemplate.setTemplateId(101L);
+		MLPLicenseProfileTemplate licenseProfileTemplate=getLicenseTemplate();
 		ObjectMapper Obj = new ObjectMapper();
 		String jsonStr=null;
 		try { 
@@ -135,14 +129,42 @@ public class LicensingServiceImplTest {
                 aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .withBody(jsonStr)));
 
-		when(env.getProperty("cdms.client.url")).thenReturn(url);
-		when(env.getProperty("cdms.client.username")).thenReturn(user);
-		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		cdsProperties();
 		MLPLicenseProfileTemplate licenseProfileTemplateSuccess=impl.getTemplate(templateId);
 		assertNotNull(licenseProfileTemplateSuccess);
 		assertEquals(licenseProfileTemplate, licenseProfileTemplateSuccess);
 	}
 	
+	@Test
+	public void createTemplate() {
+		MLPLicenseProfileTemplate licenseProfileTemplate=getLicenseTemplate();
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStr=null;
+		try { 
+			jsonStr = Obj.writeValueAsString(licenseProfileTemplate); 
+		} 
+		catch (IOException e) { 
+			logger.error("Exception occurred while parsing rest page response to string ",e.getMessage());
+		} 
+		stubFor(post(urlEqualTo("/ccds/lic/templ")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .withBody(jsonStr)));
+
+		cdsProperties();
+		MLPLicenseProfileTemplate licenseProfileTemplateSuccess=impl.createLicenseProfileTemplate(licenseProfileTemplate);
+		assertNotNull(licenseProfileTemplateSuccess);
+	}
+	
+	@Test
+	public void updateTemplate() {
+		MLPLicenseProfileTemplate licenseProfileTemplate=getLicenseTemplate();
+		stubFor(put(urlEqualTo("/ccds/lic/templ/101")).willReturn(
+                aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+
+		cdsProperties();
+		impl.updateLicenseProfileTemplate(licenseProfileTemplate);
+				
+	}
 	@Test
 	public void validateTest() throws LicenseProfileException, AcumosServiceException {
 		
@@ -150,12 +172,24 @@ public class LicensingServiceImplTest {
 				 "\"copyright\": {\"year\":2019,\"company\":\"VendorA\",\"suffix\":\"AllRights Reserved\"},\"softwareType\": " +
 				 "\"Machine Learning Model\",\"companyName\": \"Vendor A\",\"contact\": {\"name\": \"Vendor A Team\",\"URL\": " +
 				 "\"Vendor-A.com\",\"email\": \"support@Vendor-A.com\"},\"additionalInfo\": \"Vendor-A.com\"}";
-		when(env.getProperty("cdms.client.url")).thenReturn(url);
-		when(env.getProperty("cdms.client.username")).thenReturn(user);
-		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		cdsProperties();
 		String validateResult=impl.validate(jsonInput);
 		assertNotNull(validateResult);
 	//	assertEquals(validateResult, "SUCCESS");
-}
-
+	}
+	private MLPLicenseProfileTemplate getLicenseTemplate() {
+		MLPLicenseProfileTemplate licenseProfileTemplate=new MLPLicenseProfileTemplate();
+		long tempalteId=101L;
+		licenseProfileTemplate.setTemplate("My Licence");
+		licenseProfileTemplate.setTemplateName("My Sample Test template");
+		licenseProfileTemplate.setTemplateId(tempalteId);
+		return licenseProfileTemplate;
+	}
+	
+	private void cdsProperties() {
+		when(env.getProperty("cdms.client.url")).thenReturn(url);
+		when(env.getProperty("cdms.client.username")).thenReturn(user);
+		when(env.getProperty("cdms.client.password")).thenReturn(pass);
+		
+	}
 }

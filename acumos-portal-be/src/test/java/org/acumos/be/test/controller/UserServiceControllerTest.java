@@ -19,6 +19,18 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.lang.invoke.MethodHandles;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
@@ -26,8 +38,10 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.UserServiceController;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
+import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.UserServiceImpl;
+import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
@@ -46,18 +60,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
-
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.lang.invoke.MethodHandles;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceControllerTest {
@@ -81,6 +83,9 @@ public class UserServiceControllerTest {
 
 	@Mock
 	private UserServiceController userController;
+	
+	@Mock
+	private UserRoleService userRoleService;
 
 	@Mock
 	private JwtTokenUtil jwtTokenUtil;
@@ -92,28 +97,51 @@ public class UserServiceControllerTest {
 	String userId = "601f8aa5-5978-44e2-996e-2dbfc321ee73";
 
 	@Test
-	public void createUserTest() {	
-		try{
+	public void createUserTest() throws UserServiceException {	
+	
 			User user = getUser();
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
 
+			List<MLRole> userRoles=new ArrayList<>();
+			MLRole mlpRole=new MLRole();
+			mlpRole.setRoleId("someroleid");
+			mlpRole.setName("MLP System User");
+			userRoles.add(mlpRole);
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(userReq);
 			MLPUser mlpUser = getMLPUser();
-			Mockito.when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(mlpUser);
+			when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(mlpUser);
 			value =userServiceController.createUser(request, userReq, response);
 			logger.info("successfully  created user ");
 			Assert.assertNotNull(value);
 
-			Mockito.when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(mlpUser);
+			when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(null);
+			when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(mlpUser);
 			value =userServiceController.createUser(request, userReq, response);
+			when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(null);
+			when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(null);
+			when(userRoleService.getAllRoles()).thenReturn(userRoles);
+			userServiceController.createUser(request, userReq, response);
+			List<MLRole> roles=new ArrayList<>();
+			MLRole mlRole=new MLRole();
+			mlRole.setRoleId("someroleid");
+			mlRole.setName("Role User");
+			roles.add(mlRole);
+			MLPRole role=new MLPRole();
+			role.setRoleId("someroleid");
+			role.setName("Role User");
+			
+			when(userService.save(Mockito.any())).thenReturn(user);
+			when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(null);
+			when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(null);
+			when(userRoleService.getAllRoles()).thenReturn(roles);
+			when(userRoleService.createRole(Mockito.any())).thenReturn(role);
+			userServiceController.createUser(request, userReq, response);
 			userReq.setBody(null);
 			userServiceController.createUser(request, userReq, response);
-		} catch (UserServiceException e) {
-			logger.debug("Error while creating user profile ", e);
-		}
+
 	}
 
 	@Test
