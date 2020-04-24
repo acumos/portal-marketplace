@@ -21,6 +21,19 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.8 24th April 2020
+=================================
+* ACUMOS-4125 - On-boarding Screen: Upload License Profile text is displaying unnecessary for select profile option
+* ACUMOS-4122 - Upload Revision : Login user able to add revision for other's user model
+* ACUMOS-4121 - <IST> After creating a new role by selecting all the catalogs and then while editing it, the 1st catalog remains unchecked and update button remains enabled by default
+* ACUMOS-4120 - Success Message and green tick color is different
+* ACUMOS-4118 - Password Change: Success Message is disappearing in a very less span
+* ACUMOS-4117 - ON-BOARD DOCKERIZED MODEL: In Upload Revision Search Icon is misplaced from original position
+* ACUMOS-4108 - IST: Manage my model button remain enable for few secs for other user's model
+* ACUMOS-4101 - ON-BOARD DOCKERIZED MODEL URI UI Issues:
+* ACUMOS-4063 - As a License Admin I want to be able to launch the RTU editor in order to fill out RTU Agreement
+* ACUMOS-3828 - As a data scientist when I view the notifications I would like the last event that happened to show up at the top
+
 Version 4.0.7 17th April 2020
 =================================
 * ACUMOS-4098 - ON-BOARD DOCKERIZED MODEL URI:Browse option of protobuf file should be disabled until user fill mandatory field
