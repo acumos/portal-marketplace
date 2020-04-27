@@ -196,7 +196,7 @@ limitations under the License.
 								ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
 							<div class="new-note-container">
 								<span class="notification-text"
-									ng-click="viewNotification(notification.notificationId)" ng-bind-html="notification.message" compile></span>
+									ng-click="viewNotification(notification.notificationId)" ng-bind-html="notification.message.toString().split('_').join(' ')" compile></span>
 								<md-button class="mdl-button mdl-js-button mdl-button--icon"
 									ng-click="deleteNotification(notification.notificationId)">
 								<i class="fa fa-times" aria-hidden="true"></i> </md-button>

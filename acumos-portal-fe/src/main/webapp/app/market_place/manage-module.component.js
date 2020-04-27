@@ -490,12 +490,13 @@ angular.module('manageModule')
 						//uncomment this to fetch section wise solutions and comment loadMore() calling*/
 						/*for fetching section wise data*/
 						function getModels(){
-							if($scope.searchBox!=null && $scope.searchBox!='')
-								 $scope.toBeSearch[0] = $scope.searchBox;
-							else 
-								 $scope.toBeSearch = [];		
+							if($scope.searchBox!=null && $scope.searchBox!=''){
+								$scope.toBeSearch[0] = $scope.searchBox.toString().split(" ").join("_");
+							}
+							else{
+								$scope.toBeSearch = [];
+							}
 							$scope.getPrivateModels();
-							
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
                             $rootScope.valueToSearch = '';
