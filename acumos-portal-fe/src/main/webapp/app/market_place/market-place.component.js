@@ -516,6 +516,10 @@ angular
 								if(inputChangedPromise){
 							        $timeout.cancel(inputChangedPromise);
 							    }
+								if($scope.searchBox){
+									$scope.searchBox = $scope.searchBox.toString().split(" ").join("_");
+								}
+								
 								$scope.mktPlaceStorage.keyword = $scope.searchBox;
 							    inputChangedPromise = $timeout($scope.loadMore(0),0);
 							    return;

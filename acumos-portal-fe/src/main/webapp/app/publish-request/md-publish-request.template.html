@@ -81,7 +81,7 @@ limitations under the License.
 					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq ">
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
 							<a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId,requestUserId:publishReq.requestUserId,requestStatusCode:publishReq.requestStatusCode,catalogId:publishReq.catalogId,catalogName:publishReq.catalogName})">
-								<label class="model-name">{{publishReq.solutionName}}</label>
+								<label class="model-name">{{publishReq.solutionName.toString().split("_").join(" ")}}</label>
 							</a>
 							<label class="small" title="{{publishReq.solutionId}}">{{publishReq.solutionId}}</label></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label

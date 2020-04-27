@@ -89,7 +89,7 @@ limitations under the License.
 								class="mdl-checkbox__label"></span>
 						</label> </th>
 						<th>Subject</th>
-						<th>Date - Time</th>
+						<th>Date &amp; Time</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -103,10 +103,10 @@ limitations under the License.
 								ng-checked="notification.Selected" ng-click="removeSelectAll()">
 								<span class="mdl-checkbox__label"></span>
 						</label></td>
-						<td class="sub-container" ng-bind-html="notification.message"
+						<td class="sub-container" ng-bind-html="notification.message.toString().split('_').join(' ')"
 							ng-class="{'read-notification': notification.viewed}" compile>{{notification}}</td>
 						<td ng-class="{'read-notification': notification.viewed}">
-						{{notification.start | date : "MM/dd/yyyy - h:mm:ss a" }}</td>
+						{{notification.start | date : "MM/dd/yyyy | h:mm a" }}</td>
 					</tr>
 				</tbody>
 			</table>
