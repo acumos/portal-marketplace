@@ -31,8 +31,8 @@ limitations under the License.
 			   <div class="custom-tooltip">
 				<span  class="md-headline4 mob-disblock">
 					<img class="solutions-img" ng-src="/api/solutions/{{solution.solutionId}}/picture"
-						onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name}}	</span>
-						      <span class="custom-tooltip-text">{{solution.name}}</span>
+						onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name.toString().split("_").join(" ")}}	</span>
+						      <span class="custom-tooltip-text">{{solution.name.toString().split("_").join(" ")}}</span>
    				</div>
 										
 				<div class="md-head-container3">
@@ -127,8 +127,8 @@ limitations under the License.
 						ng-if="$root.parentActive == 'marketplace'">Marketplace</a> <a
 						ui-sref="manageModule" ng-if="$root.parentActive == 'mymodel'">My
 							Model</a></li>
-				<li class="custom-tooltip"><span class="md-breadcrumb-item">{{solution.name}}</span>
-				    <span class="custom-tooltip-text">{{solution.name}}</span></li>
+				<li class="custom-tooltip"><span class="md-breadcrumb-item">{{solution.name.toString().split("_").join(" ")}}</span>
+				    <span class="custom-tooltip-text">{{solution.name.toString().split("_").join(" ")}}</span></li>
                      <li><span class="solution_id_bg">Solution ID:{{solution.solutionId}}</span></li>
 			</ul>
 				<span class="md-lbl1" >Version {{versionId}} |
@@ -292,7 +292,7 @@ limitations under the License.
 									<li><img src="images/solution2.jpg" alt=""
 										ng-click="onClickModel(val.solutionId, val.ownerId)"
 										title="solution"></li>
-									<li><label class="rel-title">{{val.name}}</label> <span
+									<li><label class="rel-title">{{val.name.toString().split("_").join(" ")}}</label> <span
 										class="rating"> <span><i
 												class="material-icons fa fa-star"
 												ng-class="{'fa-star1': val.solutionRatingAvg == null || val.solutionRatingAvg < 1}"></i></span>
@@ -594,8 +594,8 @@ limitations under the License.
 						<div class="md-rate-grid">
 							<div
 								class="rate-grid-cell1">
-								<h6 class="sectiontitle9 rate-title" title="{{solution.name}}">RATE:
-									{{solution.name}}</h6>
+								<h6 class="sectiontitle9 rate-title" title="{{solution.name.toString().split('_').join(' ')}}">RATE:
+									{{solution.name.toString().split("_").join(" ")}}</h6>
 							</div>
 							<div  ng-show="version.accessTypeCode == 'PB'"
 								class="rate-grid-cell2">
@@ -1174,7 +1174,7 @@ limitations under the License.
 		<form ng-cloak>
 			<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Downloading - {{solution.name}}</h2>
+				<h2>Downloading - {{solution.name.toString().split("_").join(" ")}}</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="handleDismiss()">
 				<i class="material-icons">close</i> </md-button>
@@ -1186,7 +1186,7 @@ limitations under the License.
 					<span class="checkmark1" aria-hidden="true"></span>
 				</div>
 				<p class="md-text1">
-					Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
+					Thank you for downloading <br /> <span class="wrap_text">{{solution.name.toString().split("_").join(" ")}}</span>
 					version {{versionId}}
 				</p>
 				<p class="md-text2">
@@ -1222,7 +1222,7 @@ limitations under the License.
 		<form ng-cloak>
 			<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Downloading - {{solution.name}}</h2>
+				<h2>Downloading - {{solution.name.toString().split("_").join(" ")}}</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="handleDismiss()">
 				<i class="material-icons">close</i> </md-button>
@@ -1231,7 +1231,7 @@ limitations under the License.
 			<md-dialog-content>
 			<div class="md-dialog-content">
 				<p class="wrap_text">Please choose any file of
-					{{solution.name}} from below.</p>
+					{{solution.name.toString().split("_").join(" ")}} from below.</p>
 		
 
 				<div class="modal-row1 modal-row-new1" ng-repeat="value in artifactDownload">
@@ -1290,7 +1290,7 @@ limitations under the License.
 		<form ng-cloak>
 			<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Rate this Model - {{solution.name}}</h2>
+				<h2>Rate this Model - {{solution.name.toString().split("_").join(" ")}}</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="handleDismiss()">
 				<i class="material-icons">close</i> </md-button>

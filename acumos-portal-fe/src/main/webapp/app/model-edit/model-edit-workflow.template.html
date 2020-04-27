@@ -22,7 +22,7 @@ limitations under the License.
 <section class="description_box container-fluid">
 	<div class="description-content">
 		<div class="description-content-left">
-			<h4 class="inline-block text-bold">Manage {{solution.name}}</h4>
+			<h4 class="inline-block text-bold">Manage {{solution.name.toString().split("_").join(" ")}}</h4>
 			<span>| Version - {{artifactVersion}}|</span>
 			<!-- <span>Model ID-  |</span>  -->
 			<span>Owners - </span> <span> <i class="fa fa-user user-icon"
@@ -39,7 +39,7 @@ limitations under the License.
 			<ol class="breadcrumb col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<li><a data-target="#">Home</a></li>
 				<li>Manage My Model</li>
-				<li>{{solution.name}}</li>
+				<li>{{solution.name.toString().split("_").join(" ")}}</li>
 			</ol>
 		</div>
 		<div class="clearfix"></div>
@@ -307,7 +307,7 @@ limitations under the License.
 								</p>
 								<br>
 								<p>
-									<b>Sharing "{{solution.name}} | version-
+									<b>Sharing "{{solution.name.toString().split("_").join(" ")}} | version-
 										{{artifactVersion}}</b>
 								</p>
 								<form>
@@ -439,7 +439,7 @@ limitations under the License.
 														</div>
 
 														<p class="editable-desc" ng-hide="showSolName"
-															ng-click="showSolName = !showSolName">{{solution.name}}</p>
+															ng-click="showSolName = !showSolName">{{solution.name.toString().split("_").join(" ")}}</p>
 
 														<div ng-show="showSolName">
 															<form class="edit-form">
@@ -1065,7 +1065,7 @@ limitations under the License.
 																Not Started</span>
 														</h2>
 														<p class="editable-desc" ng-hide="showPBSolName"
-															ng-click="showPBSolName = !showPBSolName">{{solution.name}}</p>
+															ng-click="showPBSolName = !showPBSolName">{{solution.name.toString().split("_").join(" ")}}</p>
 
 														<div ng-show="showPBSolName">
 															<form class="edit-form">
@@ -1776,7 +1776,7 @@ limitations under the License.
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">{{solution.name}}</h4>
+				<h4 class="modal-title">{{solution.name.toString().split("_").join(" ")}}</h4>
 			</div>
 			<div class="modal-body">
 				<section class="">
