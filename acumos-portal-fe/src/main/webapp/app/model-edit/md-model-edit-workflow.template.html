@@ -33,8 +33,8 @@ limitations under the License.
 				class="mdl-cell mdl-cell--9-col mdl-cell--4-col-phone mdl-cell--8-col-tablet">
 				<div class="md-container1 block-container">
 					<span class="custom-tooltip disblock">
-					<span class="md-headline5 mob-disblock">Manage {{solution.name}}</span>
-					<span class="custom-tooltip-text">{{solution.name}}</span></span>
+					<span class="md-headline5 mob-disblock">Manage {{solution.name.toString().split("_").join(" ")}}</span>
+					<span class="custom-tooltip-text">{{solution.name.toString().split("_").join(" ")}}</span></span>
 					<span class="hide-xs hide-sm md-vertical-seperator"> | </span>
 					<div class="version-container">
 						<button id="demo-menu-lower-right"
@@ -105,7 +105,7 @@ limitations under the License.
 					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
 					<li><a ui-sref="manageModule"
 						ng-click="$root.parentActive = ''">Manage My Model</a></li>
-					<li class="custom-tooltip"><span class="md-breadcrumb-item">{{solution.name}}</span><span class="custom-tooltip-text">{{solution.name}}</span> </li>
+					<li class="custom-tooltip"><span class="md-breadcrumb-item">{{solution.name.toString().split("_").join(" ")}}</span><span class="custom-tooltip-text">{{solution.name.toString().split("_").join(" ")}}</span> </li>
 					<li><span class="solution_id_bg">Solution ID:{{solution.solutionId}}</span></li>
 				</ul>
 			</div>
@@ -389,7 +389,7 @@ limitations under the License.
 								</div>
 								<div>
 									<ul class="ulinline-dash solution_id_top">
-										<li class="purple">Sharing "{{solution.name}}"</li>
+										<li class="purple">Sharing "{{solution.name.toString().split("_").join(" ")}}"</li>
 										<li>|</li>
 										<li>Version - {{versionId}}</li>
 										<li>|</li>
@@ -816,7 +816,7 @@ limitations under the License.
 																Not Started</span>
 
 														</h2>
-														<p ng-hide="showSolName">{{solution.name}}</p>
+														<p ng-hide="showSolName">{{solution.name.toString().split("_").join(" ")}}</p>
 														
 														<!-- update model name -->
 														<div class="popovers skippopover hide">
@@ -1831,7 +1831,7 @@ limitations under the License.
 										<form ng-cloak>
 											<md-toolbar>
 											<div class="md-toolbar-tools">
-												<h2>Preview For Model : {{solution.name}} ( Version :
+												<h2>Preview For Model : {{solution.name.toString().split("_").join(" ")}} ( Version :
 													{{versionId}} )</h2>
 												<span flex></span>
 												<md-button class="md-icon-button" ng-click="closeDialog()">
@@ -1861,7 +1861,7 @@ limitations under the License.
 																			</figure>
 																		</div>
 																		<div class="mpdetailscontainer">
-																			<label class="griditem-title">{{solution.name}}
+																			<label class="griditem-title">{{solution.name.toString().split("_").join(" ")}}
 																				<!-- <span class="text-xsmall link-orange">In Process</span> -->
 																			</label> <label class="grid-item-text-container"><span
 																				class="griditem-text2 grid-item-lbl">by
@@ -1920,7 +1920,7 @@ limitations under the License.
 																class="md-padding"> <!-- Model Detail Preview -->
 															<md-content> <span
 																class="md-headline2 mob-disblock"> <img
-																class="solutions-img" ng-src="/api/solutions/{{solution.solutionId}}/picture" onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name}}
+																class="solutions-img" ng-src="/api/solutions/{{solution.solutionId}}/picture" onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name.toString().split("_").join(" ")}}
 															
 															</span>
 															
@@ -2663,7 +2663,7 @@ limitations under the License.
 		<form ng-cloak>
 			<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Downloading - {{solution.name}}</h2>
+				<h2>Downloading - {{solution.name.toString().split("_").join(" ")}}</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="handleDismiss(); closeDialog()">
 				<i class="material-icons">close</i> </md-button>
@@ -2675,7 +2675,7 @@ limitations under the License.
 					<span class="checkmark1" aria-hidden="true"></span>
 				</div>
 				<p class="md-text1">
-					Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
+					Thank you for downloading <br /> <span class="wrap_text">{{solution.name.toString().split("_").join(" ")}}</span>
 					version {{versionId}}
 				</p>
 				<p class="md-text2">
@@ -2710,7 +2710,7 @@ limitations under the License.
 		<md-dialog aria-label="Delete Model"
 			> <md-toolbar>
 		<div class="md-toolbar-tools">
-			<h2>Delete Model: {{solution.name}}</h2>
+			<h2>Delete Model: {{solution.name.toString().split("_").join(" ")}}</h2>
 			<span flex></span>
 			<md-button class="md-icon-button" ng-click="closePoup()">
 			<i class="material-icons">close</i> </md-button>
