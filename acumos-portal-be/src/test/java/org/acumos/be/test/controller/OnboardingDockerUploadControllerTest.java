@@ -2,20 +2,25 @@ package org.acumos.be.test.controller;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.OnboardingDockerUploadController;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.OnboardingDockerService;
+import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,6 +52,8 @@ public class OnboardingDockerUploadControllerTest {
 	@InjectMocks 
 	private MarketPlaceCatalogServiceController marketPlaceController;
 	 
+	@Mock
+	MarketPlaceCatalogService catalogService;
 	
 	@Test
 	public void testGetSearchSolutions() {
@@ -57,15 +64,27 @@ public class OnboardingDockerUploadControllerTest {
 			List<MLPSolution> mlpSolutionList = new ArrayList<MLPSolution>();
 			mlpSolutionList.add(mlpsolution);
 			RestPageResponse<MLPSolution> mlpSolutionsRest = new RestPageResponse<>(mlpSolutionList);
-			mlpSolutionsRest = new RestPageResponse<>(mlpSolutionList);
+			//mlpSolutionsRest = new RestPageResponse<>(mlpSolutionList);
 			RestPageRequestBE body = new RestPageRequestBE();
 			body.setPage(0);
 			body.setSize(9);
+			body.setDescription("relatedSearch");
+			body.setSearchTerm("test");
 			restPageReqBE.setBody(body);
-			JsonResponse<RestPageResponse<MLPSolution>> value = new JsonResponse<>();
-			Mockito.when(onboardingDockerService.getRelatedSolution(restPageReqBE)).thenReturn(mlpSolutionsRest);
-			value = onboardingDockerUploadController.getSearchSolutions(request, response, restPageReqBE);
+			Map<String, Object> solutoinParameter =  new HashMap<>();
+			solutoinParameter.put("name", "test");
+			RestPageRequest restPageRequest=new RestPageRequest(); 
+			//JsonResponse<RestPageResponse<MLPSolution>> value = new JsonResponse<>();
+			Mockito.when(onboardingDockerService.getRelatedSolution(Mockito.any())).thenReturn(mlpSolutionsRest);
+			Mockito.when(catalogService.getMLPSolutionBySolutionName(solutoinParameter, false, restPageRequest)).thenReturn(mlpSolutionsRest);
+			JsonResponse<RestPageResponse<MLPSolution>> value = onboardingDockerUploadController.getSearchSolutions(request, response, restPageReqBE);
 			Assert.assertNotNull(value);
+			body.setDescription("exactSearch");
+			restPageReqBE.setBody(body);
+			Mockito.when(catalogService.getMLPSolutionBySolutionName(solutoinParameter,false,new RestPageRequest())).thenReturn(mlpSolutionsRest);
+			JsonResponse<RestPageResponse<MLPSolution>> value1 = onboardingDockerUploadController.getSearchSolutions(request, response, restPageReqBE);
+			
+			
 		} catch (Exception e) {
 			logger.error("Failed to execute getSearchSolutions testcase", e);
 

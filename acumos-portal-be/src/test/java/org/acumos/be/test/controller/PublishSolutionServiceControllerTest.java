@@ -25,6 +25,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.portal.be.common.CredentialsService;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.PublishSolutionServiceController;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
@@ -60,6 +61,8 @@ public class PublishSolutionServiceControllerTest {
 	
 	@Mock
 	PublishSolutionService publishSolutionService;
+	@Mock
+	CredentialsService credentialService;
 	
 	@Mock
 	private MarketPlaceCatalogService catalogService;
@@ -90,6 +93,7 @@ public class PublishSolutionServiceControllerTest {
 			String catalogId = "1234-1234-1234-1234-1234";
 			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, catalogId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
+			Mockito.when(credentialService.getLoggedInUserId()).thenReturn(userId);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, catalogId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
