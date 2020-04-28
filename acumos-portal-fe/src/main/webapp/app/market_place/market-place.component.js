@@ -290,13 +290,11 @@ angular
 							$scope.selectedPage = pageNumber;
 							$scope.dataLoading = true;
 
-							if($scope.searchBox!=null && $scope.searchBox!='')
-								toBeSearch[0] = $scope.searchBox;
-							
+							if($scope.searchBox!=null && $scope.searchBox!=''){
+								toBeSearch[0] = $scope.searchBox.toString().split(" ").join("_");
+							}
 							$scope.MlSoltionCount = false;
-
 							var fieldToSort = {};
-							
 							if( $scope.sortBy == 'ML' ) {
 								fieldToSort = { "ratingAverageTenths" : "DESC" };
 							} else if( $scope.sortBy == 'FL' ) {
@@ -517,10 +515,11 @@ angular
 							        $timeout.cancel(inputChangedPromise);
 							    }
 								if($scope.searchBox){
-									$scope.searchBox = $scope.searchBox.toString().split(" ").join("_");
+									$scope.mktPlaceStorage.keyword = $scope.searchBox.toString().split(" ").join("_");
+								}else{
+									$scope.mktPlaceStorage.keyword = $scope.searchBox;
 								}
 								
-								$scope.mktPlaceStorage.keyword = $scope.searchBox;
 							    inputChangedPromise = $timeout($scope.loadMore(0),0);
 							    return;
 							}
