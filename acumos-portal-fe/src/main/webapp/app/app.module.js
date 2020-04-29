@@ -521,7 +521,7 @@ angular
                 	
                 	//check for extension
                 	if(!scope.file.type) {
-                    	$scope.fileExtensionError = true;
+                    	scope.fileExtensionError = true;
                     	return;
                     }
 
