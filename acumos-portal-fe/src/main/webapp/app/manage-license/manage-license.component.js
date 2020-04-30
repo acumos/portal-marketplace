@@ -29,9 +29,11 @@ angular
                     	
              		   $scope.allTemplates = [];
             		   $scope.getAllLicenseTemplates = function(){
+            			   $rootScope.setLoader = true;
             			   apiService.getAllLicenseProfile()
                            .then(
-                                   function(response) {                   	  
+                                   function(response) {
+                                	   $rootScope.setLoader = false;
                                        if(response.data.response_body.length) {
                                     	  $scope.allTemplates = response.data.response_body;
                                     	  $scope.selectedLicense = -1;
@@ -83,7 +85,6 @@ angular
                     	$scope.isEdit = false;
                     	var userId = JSON.parse(browserStorageService.getUserDetail())[1];
                     	$scope.createLicenseTemplate  = function(licenseText, templateName){
-                    		
                     		var request = {
                     				"request_body":{
                     					"template" : licenseText,
@@ -103,7 +104,7 @@ angular
              							$scope.showAlertMessage = true;
              							$timeout(function() {
              								$scope.showAlertMessage = false;
-             							}, 2500);
+             							}, 6000);
 
              		             });
              					} else {
@@ -117,7 +118,7 @@ angular
                							$scope.showAlertMessage = true;
                							$timeout(function() {
                								$scope.showAlertMessage = false;
-               							}, 2500);
+               							}, 6000);
 
                		             });
              					}
