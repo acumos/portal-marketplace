@@ -28,4 +28,5 @@ Portal Marketplace
        user-guides/portal-admin/index
        user-guides/portal-user/index
        user-guides/portal-publisher/index
+       user-guides/portal-LicenseAdminUser/index
        
