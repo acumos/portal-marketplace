@@ -49,6 +49,9 @@ app.component('notificationModule',{
 		$scope.dtOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withDisplayLength(10)
+        .withLanguage({"sLengthMenu": "Show _MENU_ Notifications",
+        	"sInfo": "Showing _START_ to _END_ of _TOTAL_ Notifications",
+			"sInfoEmpty": "Showing 0 to 0 of 0 Notifications"})
         $scope.dtColumnDefs = [
         	 DTColumnDefBuilder.newColumnDef(0).notVisible(),
         	 DTColumnDefBuilder.newColumnDef(1).notSortable(),

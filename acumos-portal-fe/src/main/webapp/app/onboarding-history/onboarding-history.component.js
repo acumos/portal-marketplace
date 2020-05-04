@@ -99,6 +99,9 @@ angular
 			            $scope.dtOptions = DTOptionsBuilder.newOptions()
 		                .withPaginationType('full_numbers')
 		                .withDisplayLength(10)
+		                .withLanguage({"sLengthMenu": "Show _MENU_ On-Boarding History",
+		                				"sInfo": "Showing _START_ to _END_ of _TOTAL_ On-Boarding History",
+		                				"sInfoEmpty": "Showing 0 to 0 of 0 On-Boarding History"})
 		                /*.withDOM('pitrfl');*/
 			            $scope.dtColumnDefs = [
 			                DTColumnDefBuilder.newColumnDef(0),

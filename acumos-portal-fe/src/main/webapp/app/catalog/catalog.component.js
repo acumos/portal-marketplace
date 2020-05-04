@@ -40,6 +40,8 @@ angular.module('catalog')
                 $scope.selectedPage = 0;
                 $scope.showCatalogSection = false;
                 
+                
+                
 				$scope.setStartCount = function(val) {
 					if (val == "preBunch") {
 						$scope.setPageStart = $scope.setPageStart - 5
@@ -78,6 +80,9 @@ angular.module('catalog')
 				 $scope.dtOptions = DTOptionsBuilder.newOptions()
 	                .withPaginationType('simple_numbers')
 	                .withDisplayLength(10)
+	                .withLanguage({"sLengthMenu": "Show _MENU_ Catalogs",
+	                	"sInfo": "Showing _START_ to _END_ of _TOTAL_ Catalogs",
+        				"sInfoEmpty": "Showing 0 to 0 of 0 Catalogs"})
 	                /*.withDOM('pitrfl');*/
 		            $scope.dtColumnDefs = [
 		                DTColumnDefBuilder.newColumnDef(0),
@@ -303,6 +308,9 @@ angular.module('catalog')
 	            $scope.mdClosePoup = function(){
 					$mdDialog.hide();
 				}
+	            
+	           
+               
 				
 				/*$scope.search = function(pageNumber, filterValue)
 				{

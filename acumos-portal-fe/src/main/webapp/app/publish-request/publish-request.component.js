@@ -106,6 +106,9 @@ angular
 			            $scope.dtOptions = DTOptionsBuilder.newOptions()
 		                .withPaginationType('simple_numbers')
 		                .withDisplayLength(10)
+		                .withLanguage({"sLengthMenu": "Show _MENU_ Requests",
+		                				"sInfo": "Showing _START_ to _END_ of _TOTAL_ Requests",
+		                				"sInfoEmpty": "Showing 0 to 0 of 0 Requests"})
 		                /*.withDOM('pitrfl');*/
 			            $scope.dtColumnDefs = [
 			                DTColumnDefBuilder.newColumnDef(0),
