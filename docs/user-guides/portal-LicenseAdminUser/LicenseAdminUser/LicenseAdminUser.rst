@@ -41,16 +41,14 @@ From **MANAGE LICENSE** page, User can create a new license profile and modify a
 #.User can create a new license profile on clicking **Create New** button which will open an iframe that results the creation of new License profile.
 	
 	.. image:: ../images/LicenseAdminUser/New-License-Profile.PNG
-       :width: 75%
-
+       
 #.User can Modify an existing License Profile by choosing an existing License Profile from the drop down named **Default License Profile** and click on Modify button will open an iframe which results modifying a License Profile.
 
 	.. image:: ../images/LicenseAdminUser/Modify-License-Profile.PNG
-       :width: 75%
-
+       
 #.User can be able to Access **RTU Editor** from Portal screen itself on clicking the button named **RTU Editor** present in **RTU Agreements** Portion. 
 
 	.. image:: ../images/LicenseAdminUser/RTU-Editor.PNG
-       :width: 75% 
+       
 
 
