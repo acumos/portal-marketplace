@@ -329,7 +329,7 @@ a {cursor:pointer;}
 a:hover, button:hover {text-decoration: none;}
 
 md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon {
-    background-color: #671C9D;
+    background-color: #671C9D !important;
 }
 .text-tranformnone {text-transform: none;}
 .md-select-value .md-select-icon:after {content:"";}
@@ -2598,6 +2598,41 @@ md-select-menu md-content md-option[selected], md-select-menu md-content md-opti
 .dc-row.posrel small{position:absolute; bottom:0;}
  
 /* Upload New Dockerized Model ends */
+
+/*Favourite Catalogs*/
+md-checkbox{
+	margin-bottom:0px !important;
+}
+md-checkbox.md-checked .md-icon:after {
+    width: 7px !important;
+    height: 13px !important;
+    left: 4px !important;
+}
+.catalogSolutionAlignment{
+	display:flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+.catalogSolutionAlignment div{
+	padding: 5px 15px;
+    width: 49%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marketplace-btn-tabs{
+    display: flex;
+    flex-wrap: nowrap;
+    margin-right: 21px;
+}
+.marketplace-btn-tabs button:first-child{
+	border-radius:3px 0px 0px 3px;
+}
+.marketplace-btn-tabs button:last-child{
+	border-radius:0px 3px 3px 0px;
+}
 
 /*********** MEDIA QUERIES SECTION START************/
 

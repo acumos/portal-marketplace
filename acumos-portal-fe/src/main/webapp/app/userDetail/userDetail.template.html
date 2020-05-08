@@ -21,7 +21,7 @@ limitations under the License.
 
 <alert-message msg="msg" icon="icon" styleclass="styleclass"
 	ng-show="showAlertMessage"></alert-message>
-<div class="page-content">
+<div class="page-content" id="userDetailPage">
 	<section class="pageheadsection">
 		<div class="mdl-grid mdl-grid--no-spacing">
 			<div
@@ -287,159 +287,49 @@ limitations under the License.
 			class="mdl-button mdl-js-button btn-primary btn-gap"
 			ng-click="putNotificationPref()" alt="Save" title="Save">Save</button>
 	</div>
-	</md-content> </md-tab> <md-tab label="Select Favorite Catalogs">
+	</md-content> </md-tab> 
+	
+	
+	<md-tab label="Select Favorite Catalogs">
 	<md-content class="md-padding">
-		<div class="pagination-wrapper">
-			<div class="pagination-left-section">
-				<span>Show </span>
-				<div class="select-control">
-					<select ng-init="10" 
-					 ng-model="viewby" name="requestResultSize" ng-change="setItemsPerPage(viewby); calculateShowing(currentPage, itemsPerPage)">
-					<option ng-value="10" class="pagination-list-item">10</option>
-					<option ng-value="25" class="pagination-list-item">25</option>
-					<option ng-value="50" class="pagination-list-item">50</option>
-					<option ng-value="100" class="pagination-list-item">100</option>
-					</select>
-				</div>
-				<span class="page-stats"> Catalogs</span>
-			</div>
-			<div class="mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-datalist-icon pagination-right-section">
-				<label class="userdetail-select-cat">Select Catalog </label> 
-				<input list="solutions" type="text"
-					ng-model="selectedCatalog.name" class="mdl-textfield__input notification-search">
-				<datalist id="solutions">
-					<select class="select-control">
-						<option ng-repeat="catalog in allCatalogList">{{catalog.name}}</option>
-					</select>
-				</datalist>
-			</div>
-		</div>	
-	<br/>
 	<div class="catalog-grid-wrapper">
-		<div class="catalog-grid-container">
+		<div class="" id="dataTab">
+			<!-- Catalog table code -->
 			
-			<!-- Catalog grid item code -->
-			<div class="catalog-grid-item" ng-repeat="Catalog in allCatalogList.slice(((currentPage-1)*itemsPerPage), 
-				((currentPage)*itemsPerPage)) | filter : selectedCatalog ">
-				<div class="catalog-grid-top-section">
-					<img class="ct-img1" ng-src='/images/catalog.jpg'>
-				</div>
-				<div class="catalog-grid-bottom-section">
-					<div class="ct-item-row" >
-						<div class="posrel" style="overflow: hidden;">
-							<label class="ct-lbl2" style="overflow: hidden; text-overflow: ellipsis; line-height: 1.3em;">{{Catalog.name}}</label>
-							 <label class="ct-lbl3">Published by: {{Catalog.publisher}}</label> 
-							 <label class="ct-lbl3">{{Catalog.created | date :"MM/dd/yyyy" }}</label>
-						</div>
-						  <span class="ct-lbl1" ng-show ="{{$index == 0 && selectedPage==0}}">New</span>							  							 															
-						  <span class="ct-info-container a-tooltip" ><span class="catalog-icon-info a-tooltipval" ></span><span class="a-tooltiptext">{{Catalog.description}}</span></span>
-						</div>	
-					</div>
-					<div class="ct-item-row">
-						<div>
-							<label class="ct-lbl2">Total Models - {{Catalog.solutionCount}}</label>
-						</div>						
-						<button
-							class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-							ng-disabled="!loginUserID"
-							ng-click="Catalog.favorite = !Catalog.favorite; updateFavorite(Catalog.catalogId, Catalog.favorite)"
-							alt="Favorite" title="Favorite">
-							<i class="material-icons"
-								ng-class="{'unselected-fav':!Catalog.favorite ,'selected-fav':Catalog.favorite}">favorite_border</i>
-						</button>
-					</div>
-				</div>
-			</div>
-			<!-- Catalog grid item code -->
-			<!-- FE pagination starts -->
-			<div class="pagination-wrapper">
-				<div class="pagination-left-section">
-					Showing {{showingItem}} to {{toTotal}} of {{totalItems}}
-				</div>
-				<div class="pagination-right-section">
-				    <ul uib-pagination total-items="totalItems" ng-model="currentPage" class="pagination-sm fe-pagination" 
-				    boundary-links="true" rotate="false" max-size="maxSize" num-pages="numPages" ng-change="calculateShowing(currentPage, itemsPerPage, totalItems, numPages)"
-				    items-per-page="itemsPerPage" ></ul>
-			    </div>
-			</div>
-			
-			<!-- FE pagination ends -->
-			
-			<!-- BE Pagination Start -->
-			<!-- <div class="pagination-wrapper" ng-if="allCatalogListLength > 0">
-				<div class="pagination-left-section">
-					<span>Showing </span>
-					<div class="select-control">
-						<md-select ng-model="requestResultSize" name="requestResultSize"
-							ng-change="filterChange(requestResultSize)">
-						<md-option ng-value="10" class="pagination-list-item">10</md-option>
-						<md-option ng-value="25" class="pagination-list-item">25</md-option>
-						<md-option ng-value="50" class="pagination-list-item">50</md-option>
-						<md-option ng-value="100" class="pagination-list-item">100</md-option>
-						</md-select>
+			<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl tbl-overflowscroll admin-tbl-padding"
+				datatable="ng" dt-options="dtOptions" dt-columns="dtColumns" dt-column-defs="dtColumnDefs">
+				
+				<thead>
+					<tr>
+						<th>Favorite</th>
+						<th>Catalog Name</th>
+						<th>Created Date</th>
+						<th>Total Models</th>
+					</tr>
+				</thead>
+				<tbody>
 
-					</div>
-
-					<span class="page-stats"> Catalogs</span>
-
-				</div>
-				<div class="pagination-right-section">
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary"
-							ng-disabled="selectedPage==0 || SetDataLoaded"
-							ng-click="setStartCount('pre');loadCatalog(selectedPage)">Previous</button>
-					</div>
-					<div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-click="setStartCount('preBunch');loadCatalog(setPageStart)"
-							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-					</div>
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart == selectedPage}"
-							ng-click="loadCatalog(setPageStart);">{{setPageStart+1}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+1)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+1);">{{setPageStart+2}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+2)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+2);">{{setPageStart+3}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="totalPages<=(setPageStart+3)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+3);">{{setPageStart+4}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="(totalPages)<=(setPageStart+4)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
-							ng-click="loadCatalog(setPageStart+4);">{{setPageStart+5}}</button>
-					</div>
-					<div class="count-btn-container"
-						ng-hide="(totalPages)<=(setPageStart + 5)">
-						<button class="mdl-button mdl-js-button btn-secondary count-btn"
-							ng-click="setStartCount('nextBunch');loadCatalog(setPageStart);"
-							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-					</div>
-					<div class="count-btn-container">
-						<button class="mdl-button mdl-js-button btn-secondary"
-							ng-click="setStartCount('next');loadCatalog(selectedPage);"
-							ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
-					</div>
-				</div>
-			</div>	 -->
-			<!-- BE Pagination Ends -->	
+					<tr ng-repeat="Catalog in allCatalogList">
+						<td><md-checkbox class="md-primary" aria-label="Select Catalog" md-no-ink 
+							ng-model="Catalog.favorite"
+							ng-true-value="true" ng-false-value="false"
+							ng-change="updateFavorite(Catalog.catalogId, Catalog.favorite)"></md-checkbox></td>
+						<td><a href="" ng-click="fetchSolutionsByCatalog($event, Catalog.catalogId, Catalog.solutionCount, Catalog.name)">
+							<label>{{Catalog.name}}</label></a>
+						</td>
+						<td><label>{{Catalog.created}}</label></td>
+						<td><label>{{Catalog.solutionCount}}</label></td>
+						
+					</tr>
+				</tbody>
+			</table>
 		</div>
+		<md-button ui-sref="marketPlace({isMyFavCatalogSelected: true})"
+			class="mdl-button mdl-js-button btn-primary" alt="Favorite Catalogs"
+			title="View Favorite Catalogs"> View Favorite Catalogs </md-button>
 	</div>
-	</md-content> </md-tab>
+	</md-content> 
+	</md-tab>
 	
 	</md-tabs>
 </div>
@@ -549,6 +439,50 @@ limitations under the License.
 	</md-dialog>
 </div>
 <!-- material popup  for deactication account confirmation ends -->
+
+
+<!-- material popup  for models under a specific catalog  starts -->
+<div class="md-dialog-container" id="dialogCatalogModels"
+	style="height: 0;">
+	<md-dialog aria-label="Catalog"
+		class="ud-deactivate-account"> <md-toolbar>
+	<div class="md-toolbar-tools">
+		<h2>{{fetchedSolutionCatName}}</h2>
+		<span flex></span>
+		<md-button class="md-icon-button" ng-click="closePoup()">
+		<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+	</div>
+	</md-toolbar> <md-dialog-content>
+	<form>
+		<div class="md-dialog-content">
+			<div>
+				<strong>Catalog {{fetchedSolutionCatName}} consist of the following models/solutions.</strong>
+			</div>
+			<br />
+			<div class="catalogSolutionAlignment">
+				<div ng-repeat="catalogSolutions in catalogSolution">
+					<a title="{{catalogSolutions.name}}" style="cursor: default">
+						<strong>{{catalogSolutions.name}}</strong>
+					</a>
+				</div>
+			</div>
+			
+		</div>
+	</md-dialog-content> 
+	<md-dialog-actions>
+	<div class="dialog-footer-container1">
+		<md-button ng-click="closePoup();"
+			class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
+			title="Cancel"> Cancel </md-button>
+		
+	</div>
+	</md-dialog-actions>
+	</form>
+	</md-dialog>
+</div>
+<!-- material popup  for models under a specific catalog ends -->
+
+
 
 
 

@@ -388,6 +388,7 @@ angular.module('headerNav')
 			localStorage.removeItem("solutionId");
 			browserStorageService.removeAuthToken();
 			browserStorageService.removeMktPlaceStorage();
+			browserStorageService.removeFavCatStorage();
 			deleteCookie('userDetail');
 			deleteCookie('authToken');
 			deleteCookie('userRole');

@@ -19,7 +19,4 @@ limitations under the License.
 */
 
 'use strict';
-angular.module('userDetail',[]).config(
-	function() {
-		console.log("userDetail");
-	});
+angular.module('userDetail', ['datatables'])

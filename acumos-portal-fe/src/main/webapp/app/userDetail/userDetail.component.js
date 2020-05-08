@@ -112,7 +112,8 @@ angular
 				{
 					templateUrl : './app/userDetail/userDetail.template.html',
 					controller : function($scope, $http, $location, $rootScope, $timeout, $stateParams, filterFilter,
-							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll, browserStorageService) {
+							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll, browserStorageService,
+							DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder) {
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
 						$scope.disableEmail = true;
@@ -310,7 +311,7 @@ angular
 														config) {
 													//alert("User deactivated successfully..");
 													$mdDialog.hide();
-													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+													$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
 					                                $scope.msg = "User deactivated successfully."; 
 					                                $scope.icon = '';
@@ -361,7 +362,7 @@ angular
 													
 													//alert('User detail updated successfully..')
 													$mdDialog.hide();
-													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+													$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
 					                                $scope.msg = 'User detail updated successfully..'; 
 					                                $scope.icon = '';
@@ -419,7 +420,7 @@ angular
 											getUserDetail();
 											//alert('User email updated successfully..')
 											$mdDialog.hide();
-											$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+											$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 			                                $anchorScroll(); 
 			                                $scope.msg = 'User email updated successfully..'; 
 			                                $scope.icon = '';
@@ -626,7 +627,7 @@ angular
 												
 												if(response.data.error_code == 500){
 													$scope.nofiticationPrefMsg = response.data.response_detail;
-													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+													$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
 					                                $scope.msg = 'Something Went Wrong'; 
 					                                $scope.icon = 'report_problem';
@@ -638,7 +639,7 @@ angular
 					                                $scope.getNotificationPref();
 												}else{
 													$scope.nofiticationPrefMsg = response.data.response_detail;
-													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+													$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
 					                                $scope.msg = $scope.nofiticationPrefMsg; 
 					                                $scope.icon = '';
@@ -672,7 +673,7 @@ angular
 												
 												if(response.data){
 													$scope.nofiticationPrefMsg = response.data.response_detail;
-													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+													$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
 					                                $scope.msg = $scope.nofiticationPrefMsg; 
 					                                $scope.icon = '';
@@ -684,7 +685,7 @@ angular
 					                                $scope.getNotificationPref();
 												}else{
 													$scope.nofiticationPrefMsg = response.data.response_detail;
-													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+													$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
 					                                $scope.msg = 'Something Went Wrong'; 
 					                                $scope.icon = 'report_problem';
@@ -732,7 +733,7 @@ angular
                                                                         {
 	                                                                          $scope.user.apiToken = null;
 	                                                                          $mdDialog.hide();
-	                                                                          $location.hash('myDialog');  
+	                                                                          $location.hash('userDetailPage');  
 	                                                                          $anchorScroll(); 
 	                                                                          $scope.msg = "Token deleted successfully."; 
 	                                                                          $scope.icon = '';
@@ -836,6 +837,18 @@ angular
   						}
                       	
 
+                      	//catalog table pagination 
+                      	$scope.dtOptions = DTOptionsBuilder.newOptions()
+		                .withPaginationType('simple_numbers')
+		                .withDisplayLength(100)
+		                .withLanguage({"sLengthMenu": "Show _MENU_ Catalogs",
+		                				"sInfo": "Showing _START_ to _END_ of _TOTAL_ Catalogs",
+		                				"sInfoEmpty": "Showing 0 to 0 of 0 Catalogs"})
+		                /*.withDOM('pitrfl');*/
+			            $scope.dtColumnDefs = [
+			                DTColumnDefBuilder.newColumnDef(0).notSortable()
+			            ];
+                      	
                       	$scope.loadCatalog = function(pageNumber, totalElements) {
   							$scope.allCatalogList = [];
   							$scope.SetDataLoaded = true;
@@ -874,6 +887,49 @@ angular
   											});
   						}
                       	
+                      	/*Catalog model Pop-up*/
+						$scope.dialogCatalogModels = function(ev) {
+		                	  $scope.error = false;
+			                	$mdDialog.show({
+			                      contentElement: '#dialogCatalogModels',
+			                      parent: angular.element(document.body),
+			                      targetEvent: ev,
+			                      clickOutsideToClose: true
+			                    });
+						};
+						
+						//solutions by catalog
+						
+						$scope.fetchSolutionsByCatalog = function(ev, catalogId, noOfModels, name) {
+							$scope.fetchedSolutionCatName = name;
+							$scope.dialogCatalogModels(ev);
+							$scope.SetDataLoaded = true;
+							$rootScope.setLoader = true;
+  							var reqObject = {
+  								"request_body" : {
+  									"fieldToDirectionMap" : {
+  										"created" : "DESC"
+  									},
+  									"page" : 0,
+  									"size" : noOfModels 
+  								},
+  								"request_from" : "string",
+  								"request_id" : "string"
+  							};
+  							apiService
+  									.fetchSolutionsByCatalog(catalogId, reqObject)
+  									.then(
+  											function successCallback(response) {
+  												$scope.catalogSolution = response.data.response_body.content;
+  												$scope.SetDataLoaded = false;
+  												$rootScope.setLoader = false;
+  											},
+  											function errorCallback(response) {
+  												$scope.SetDataLoaded = false;
+  												$rootScope.setLoader = false;												
+  											});
+  						}
+                      	
 						if($scope.loginUserID)
 							$scope.loadCatalogPages(0);
 						
@@ -897,9 +953,27 @@ angular
   							apiService
   									.createFav(catalogID, $scope.loginUserID)
   									.then(
-  											function successCallback(response) {  												
+  											function successCallback(response) {
+  												$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
+				                                $anchorScroll(); 
+				                                $scope.msg = "Catalog Marked as Favorite successfully"; 
+				                                $scope.icon = '';
+				                                $scope.styleclass = 'c-success';
+				                                $scope.showAlertMessage = true;
+				                                $timeout(function() {
+				                                	$scope.showAlertMessage = false;
+				                                }, 4000);
   											},
-  											function errorCallback(response) {  												
+  											function errorCallback(response) {
+  												$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
+				                                $anchorScroll(); 
+  												$scope.msg = 'Something Went Wrong'; 
+				                                $scope.icon = 'report_problem';
+				                                $scope.styleclass = 'c-error';
+				                                $scope.showAlertMessage = true;
+				                                $timeout(function() {
+				                                	$scope.showAlertMessage = false;
+				                                }, 4000);
   											});
   						}
 						 
@@ -907,9 +981,27 @@ angular
   							apiService
   									.deleteFav(catalogID, $scope.loginUserID)
   									.then(
-  											function successCallback(response) {  												
+  											function successCallback(response) {
+  												$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
+				                                $anchorScroll(); 
+				                                $scope.msg = "Catalog removed from Favorite successfully."; 
+				                                $scope.icon = '';
+				                                $scope.styleclass = 'c-success';
+				                                $scope.showAlertMessage = true;
+				                                $timeout(function() {
+				                                	$scope.showAlertMessage = false;
+				                                }, 4000);
   											},
-  											function errorCallback(response) {  											
+  											function errorCallback(response) {
+  												$location.hash('userDetailPage');  // id of a container on the top of the page - where to scroll (top)
+				                                $anchorScroll(); 
+  												$scope.msg = 'Something Went Wrong'; 
+				                                $scope.icon = 'report_problem';
+				                                $scope.styleclass = 'c-error';
+				                                $scope.showAlertMessage = true;
+				                                $timeout(function() {
+				                                	$scope.showAlertMessage = false;
+				                                }, 4000);
   											});
   						}	
 					// if redirected from Marketplace then show the Select Fav Catalog tab
