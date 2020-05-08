@@ -27,7 +27,7 @@ angular
 				{
 					templateUrl : '/app/market_place/market-place.template.html',
 					controller : function($scope, $compile, $location, $http,
-							$state, $stateParams, $sessionStorage, $rootScope,
+							$state, $stateParams, $sessionStorage, $rootScope,$anchorScroll,
 							apiService, $element, $timeout, $window,$mdDialog, browserStorageService) {
 
 						$scope.setPageStart = 0;
@@ -110,6 +110,12 @@ angular
 	  													});
 	  													
 		  												catalogIds = $scope.catalogIds;
+		  												
+		  												if($stateParams.isMyFavCatalogSelected == true && 
+		  														browserStorageService.getFavCatStorage() == true){
+		  													$scope.filterChange($scope.favCatalogIds,'SearchbyCatalog');
+		  												}
+		  												
 		  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 		  											});
 	  							} else {
@@ -282,6 +288,16 @@ angular
 							$scope.SetDataLoaded = true;
 							$rootScope.setLoader = true;
 							var toBeSearch = [];
+							//check if fav cat is selected
+							$scope.favCatStorageSerive = browserStorageService.getFavCatStorage();
+							if($scope.favCatStorageSerive){
+								$scope.favCatStorageSerive = browserStorageService.getFavCatStorage();
+								catalogIds = $scope.favCatalogIds;
+							}else{
+								catalogIds = $scope.catalogIds;
+								$scope.favCatStorageSerive = false;
+							}
+							
 							if ($scope.isBusy)
 								return;
 							else
@@ -567,6 +583,7 @@ angular
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;	
 							else if(type == 'SearchbyCatalog'){
+								$scope.favCatalogNavigator(checkbox);
 								if(angular.isArray(checkbox))
 									catalogIds = $scope.favCatalogIds;
 								else
@@ -574,6 +591,33 @@ angular
 							}
 							$scope.loadMore(0);
 						}
+						
+						//method to store user selection of fav catalog and remember it when user navigates 
+						// away from the page
+						
+						$scope.favCatalogNavigator = function (checkbox){
+							if(angular.isArray(checkbox)){
+								$scope.myFavCatSelected = true;	
+								browserStorageService.setFavCatStorage($scope.myFavCatSelected);
+							}
+							else{
+								$scope.myFavCatSelected = false;
+								browserStorageService.setFavCatStorage($scope.myFavCatSelected);
+							}
+	                        $scope.favCatStorageSerive = browserStorageService.getFavCatStorage();
+						}
+						
+						// if redirected from Marketplace then show the Select Fav Catalog tab
+						  $scope.$watch('$stateParams.isMyFavCatalogSelected', function() {
+							  
+							if($stateParams.isMyFavCatalogSelected == true){
+								$scope.loadCatalog();
+								$location.hash('marketplaceTemplate');  
+                                $anchorScroll(); 
+								browserStorageService.setFavCatStorage(true);
+							}
+						  });
+						
 						
 						$scope.selectChip = function(index){
 							$scope.selectedChip[index] = !$scope.selectedChip[index];

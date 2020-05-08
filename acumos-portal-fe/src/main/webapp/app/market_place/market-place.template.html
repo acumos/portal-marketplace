@@ -19,20 +19,35 @@ limitations under the License.
 -->
 
 <!-- only for demo remove afterwards -->
-<div class="page-content">
+<div class="page-content" id="marketplaceTemplate">
 					<section class="pageheadsection mob-pageheadsection1">						
 						<div class="mdl-grid mdl-grid--no-spacing">
-							<div class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+							<div class="mdl-cell mdl-cell--10-col mdl-cell--8-col-tablet mdl-cell--6-col-phone">
 								<div class="mp-header-btn-container">
-									<span class="headline mob-disblock">Marketplace</span>							
+									<span class="headline mob-disblock">Marketplace  |</span>							
 									<div class="fed-srch-container" ng-show="loginUserID">
-										<div class="select-control">
+									<!-- <div class="select-control">
 											<md-select ng-model="SelectedCatalog"  
 												class="btn-sort bdr mdl-button md-no-underline"> 
 												<md-option value='0' ng-selected="true" ng-click="filterChange('','SearchbyCatalog');">All Catalogs</md-option>
 												<md-option value='1' ng-click="filterChange(favCatalogIds,'SearchbyCatalog');">My Favorite Catalogs</md-option>					
 											</md-select>
+										</div> -->
+										
+										<div class="marketplace-btn-tabs">
+											<button 
+												class="mdl-button mdl-js-button mdl-js-ripple-effect" 
+												ng-click="filterChange('','SearchbyCatalog');" alt="All Catalogs" 
+												ng-class="favCatStorageSerive == false ||  favCatStorageSerive == '' ? 'btn-primary' : 'btn-secondary'"
+												title="All Catalogs" data-upgraded=",MaterialButton" style="">All Catalogs</button>
+												
+											<button  
+												class="mdl-button mdl-js-button mdl-js-ripple-effect" 
+												ng-click="filterChange(favCatalogIds,'SearchbyCatalog');" alt="My Favorite Catalogs"
+												ng-class="favCatStorageSerive == true ? 'btn-primary' : 'btn-secondary'" 
+												title="My Favorite Catalogs" data-upgraded=",MaterialButton" style="">My Favorite Catalogs</button>
 										</div>
+										
 										<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary " 
 											ui-sref="userDetail({isCatalogSelected: true})" alt="Select Favorite Catalogs" 
 											title="Select Favorite Catalogs">

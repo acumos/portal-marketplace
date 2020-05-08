@@ -786,6 +786,10 @@ angular.module('AcumosApp')
         this.searchCatalogs = function (request) {
         	return $http.post('api/catalogs/search', request );
         };
+        
+        this.fetchSolutionsByCatalog = function (catalogId, request){
+        	return $http.post('api/catalogs/solutions?ctlg='+catalogId, request);
+        };
 
 		this.searchPublishRequestWithCatalogIds = function (revisionId,catalogId) {
         	return $http.get('api/publish/request/search/revision/'+revisionId+'/'+catalogId );

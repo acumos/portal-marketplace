@@ -136,6 +136,18 @@ angular.module('signInModal')
 				this.removeMktPlaceStorage = function() {
 					sessionStorage.removeItem('mktPlaceStorage');
 				}
+				
+				this.setFavCatStorage = function(obj){
+					sessionStorage.setItem('favCatStorage', JSON.stringify(obj));
+				}
+				
+				this.getFavCatStorage = function(){
+					return JSON.parse(sessionStorage.getItem('favCatStorage'));
+				}
+				
+				this.removeFavCatStorage = function() {
+					sessionStorage.removeItem('favCatStorage');
+				}
 			})
             .component(
                         'signinContent',

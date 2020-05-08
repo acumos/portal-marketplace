@@ -60,6 +60,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 		.state('marketPlace', {
 			url: '/marketPlace',
 			component: 'marketPlace',
+			params : {
+				isMyFavCatalogSelected: null
+			}
 			
 		})
 		.state('manageModule', {
