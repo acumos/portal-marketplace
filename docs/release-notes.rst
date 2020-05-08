@@ -21,6 +21,17 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.9 8th May 2020
+=================================
+* ACUMOS-4138 - Replace entries  with screen title on pagination screen
+* ACUMOS-4137 - License Admin: Modify License Profile: Loader is not displaying when user modify license and save
+* ACUMOS-4136 - License Admin icon is not matching with the VD
+* ACUMOS-4135 - License Admin: Create New License: Success Message is not displaying when user create/modify license
+* ACUMOS-4130 - Notification Screen: Time format is not consistent in the application
+* ACUMOS-4116 - IST2- Error when attaching a document
+* ACUMOS-4107 - There is not submit button in the Select Favorite Catalog screen
+* ACUMOS-4083 - Search functionality is not displaying models when searching with model names
+
 Version 4.0.8 24th April 2020
 =================================
 * ACUMOS-4125 - On-boarding Screen: Upload License Profile text is displaying unnecessary for select profile option
