@@ -2477,7 +2477,7 @@ label.model-name{color:#0366d6;}
 .catalog-txtarea {width: 100%; outline: none; border:1px solid #d5d5d5; height: 70px;}
 .ct-img1 {position:relative; max-width: 100%; height: auto; margin: auto;}
 .ct-info-container {position:relative;align-self: flex-end;}
-.ct-info-container .catalog-icon-info {display:inline-block;width: 20px; height:20px; background: url("../images/general-icons/ico_info.png") no-repeat center center; position:relative;}
+.ct-info-container .catalog-icon-info {display:inline-block;width: 20px; height:22px; background: url("../images/general-icons/ico_info.png") no-repeat center center; position:relative; vertical-align: middle; }
 .ct-info-container:hover {cursor:pointer;}
 .catalog-container1 { width: 65%;margin-bottom: 20px;}
 .catalog-container2 {display:flex; flex-direction: row;justify-content: space-between;margin-bottom: 15px; padding-top: 15px;}
@@ -2616,11 +2616,66 @@ md-checkbox.md-checked .md-icon:after {
 }
 .catalogSolutionAlignment div{
 	padding: 5px 15px;
-    width: 49%;
+    width: 47%;
+    margin: 5px;
+    background: #efefef;
+}
+
+.catalog-icon-alignment{
+	position: relative;
+    align-self: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.catalog-icon-alignment label{
+	font-weight: normal;
+    margin-bottom: 5px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    display: block;
+    width: 88%;
 }
+
+.catalog-icon-info .catalog-icon-tooltip {
+	visibility: hidden; 
+	width: 200px;
+    background-color: #2e2f2f;
+    color: #fff;
+    text-align: left;
+    border-radius: 2px;
+    padding: 4px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: -356%;
+    left: -524%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-style: normal;
+    font-size: 13px;
+    top: 30px;	
+}
+
+.catalog-icon-info .catalog-icon-tooltip::after {
+	content: "";
+    position: absolute;
+    top: -16%;
+    left: 87%;
+    margin-left: -5px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #2e2f2f transparent;
+}
+	
+.catalog-icon-info:hover .catalog-icon-tooltip {
+	visibility: visible; 
+	opacity: 1 !important;
+}
+
 
 .marketplace-btn-tabs{
     display: flex;
@@ -2632,6 +2687,15 @@ md-checkbox.md-checked .md-icon:after {
 }
 .marketplace-btn-tabs button:last-child{
 	border-radius:0px 3px 3px 0px;
+}
+.btn-bordered{
+	background: #fff;
+    color: #671C9D;
+    border: 1px solid #671C9D;
+}
+
+.catalog-grid-wrapper .mdl-button{
+    line-height: 34px;
 }
 
 /*********** MEDIA QUERIES SECTION START************/
