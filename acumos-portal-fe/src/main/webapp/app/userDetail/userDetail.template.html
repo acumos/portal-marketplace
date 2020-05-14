@@ -317,7 +317,7 @@ limitations under the License.
 						<td><a href="" ng-click="fetchSolutionsByCatalog($event, Catalog.catalogId, Catalog.solutionCount, Catalog.name)">
 							<label>{{Catalog.name}}</label></a>
 						</td>
-						<td><label>{{Catalog.created}}</label></td>
+						<td><label>{{Catalog.created | date : "MM/dd/yyyy | h:mm a" }}</label></td>
 						<td><label>{{Catalog.solutionCount}}</label></td>
 						
 					</tr>
@@ -326,7 +326,10 @@ limitations under the License.
 		</div>
 		<md-button ui-sref="marketPlace({isMyFavCatalogSelected: true})"
 			class="mdl-button mdl-js-button btn-primary" alt="Favorite Catalogs"
-			title="View Favorite Catalogs"> View Favorite Catalogs </md-button>
+			> View Favorite Catalogs </md-button>
+		<md-button ui-sref="marketPlace({isMyFavCatalogSelected: false})"
+			class="mdl-button mdl-js-button btn-bordered" alt="All Catalogs"
+			> View All Catalogs </md-button>
 	</div>
 	</md-content> 
 	</md-tab>
@@ -461,22 +464,20 @@ limitations under the License.
 			<br />
 			<div class="catalogSolutionAlignment">
 				<div ng-repeat="catalogSolutions in catalogSolution">
-					<a title="{{catalogSolutions.name}}" style="cursor: default">
-						<strong>{{catalogSolutions.name}}</strong>
-					</a>
+					<span class="ct-info-container catalog-icon-alignment">
+						<label>{{catalogSolutions.name}}</label>
+						<i class="catalog-icon-info" ng-mouseover="getSolutionRevisions(catalogSolutions.solutionId)">
+							<section class="catalog-icon-tooltip">
+								<span ng-bind-html="solutionDescription" ng-show="!tooltiploader"></span>
+								<span class="a-overlay1" ng-show="tooltiploader" style="height:70px"></span>
+							</section>
+						</i>
+					</span>
 				</div>
 			</div>
 			
 		</div>
 	</md-dialog-content> 
-	<md-dialog-actions>
-	<div class="dialog-footer-container1">
-		<md-button ng-click="closePoup();"
-			class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
-			title="Cancel"> Cancel </md-button>
-		
-	</div>
-	</md-dialog-actions>
 	</form>
 	</md-dialog>
 </div>
