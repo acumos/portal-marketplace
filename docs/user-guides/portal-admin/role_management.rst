@@ -65,7 +65,7 @@ The **Update** button updates the existing permissions with new permissions.
 				.. image:: images/update_role.PNG
 	               			 :width: 75%
 
-The **Delete** Icon allows the admin to delete a particular Role along with their pemissions.
+The **Delete** Icon allows the admin to delete a particular Role along with their permissions.
 
 				.. image:: images/delete_role.PNG
 	                		 :width: 75%

@@ -124,8 +124,9 @@ Password Expiration
 
 Favorite Catalog
 ================
-User can favorite or unfavorite catalog by clicking on favorite icon. Once user click on favorite icon, icon will get changed into filled one.
-The Catalogs are of all public catalogs and restricted catalogs which the user is being assigned.
+1)User can view favourite catalogs under **SELECT FAVOURITE CATALOG** tab.
+
+2)**SELECT FAVOURITE CATALOG** tab will display all the catalogs among which favourite catalogs can be displayed as checked.
 
     .. image:: images/portal/Account_setting_favorite_selected_catalog.png
 
