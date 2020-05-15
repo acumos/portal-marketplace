@@ -124,23 +124,23 @@ Password Expiration
 
 Favorite Catalog
 ================
-1)User can view favourite catalogs under **SELECT FAVOURITE CATALOG** tab.
+1)User can view favorite catalogs under **SELECT FAVORITE CATALOG** tab.
 
-2)**SELECT FAVOURITE CATALOG** tab will display all the catalogs among which favourite catalogs can be displayed as checked.
+2)**SELECT FAVORITE CATALOG** tab will display all the catalogs among which favorite catalogs can be displayed as checked.
 
-	.. image:: images/portal/Account_setting_favorite_selected_catalog.PNG
+	.. image:: images/portal/Account_setting_favorite_selected_catalog.png
 
-3)User can make any of the catalog as favourite by clicking the checkbox.
+3)User can make any of the catalog as favorite by clicking the checkbox.
 
 4)Clicking on the catalog name will show a dialogbox which displays a list of models associated with that catalog
 
 	.. image:: images/portal/AccountSettings_favorite_solutions.PNG
 
-5)User can see the models associated with favourite catalogs on clicking **VIEW FAVOURITE CATALOGS** button present at bottom left cornor.
+5)User can see the models associated with favorite catalogs on clicking **VIEW FAVORITE CATALOGS** button present at bottom left cornor.
 
 	.. image:: images/portal/AccountSettings_view_favorite_catalogs.PNG
 
-6)**VIEW FAVOURITE CATALOGS** will redirect to **My Favourite Catalogs** section under **Marketplace** page.
+6)**VIEW FAVORITE CATALOGS** will redirect to **My Favorite Catalogs** section under **Marketplace** page.
 
 	.. image:: images/portal/AccountSettings_marketplace_favorite_catalogs.PNG
 
