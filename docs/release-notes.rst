@@ -21,6 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.10 15th May 2020
+=================================
+* ACUMOS-4151 - Select Favorite Catalog Issues
+* ACUMOS-4149 - Notification: For failed onboarding notification is getting misaligned
+* ACUMOS-4148 - Portal Documentation: Update the docs for ETE Sprint 4
+
 Version 4.0.9 8th May 2020
 =================================
 * ACUMOS-4138 - Replace entries  with screen title on pagination screen
