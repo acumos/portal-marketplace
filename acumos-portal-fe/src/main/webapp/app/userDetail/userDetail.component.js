@@ -899,9 +899,9 @@ angular
 						};
 						
 						//solutions by catalog
-						
 						$scope.fetchSolutionsByCatalog = function(ev, catalogId, noOfModels, name) {
 							$scope.fetchedSolutionCatName = name;
+							$scope.catalogId = catalogId;
 							$scope.dialogCatalogModels(ev);
 							$scope.SetDataLoaded = true;
 							$rootScope.setLoader = true;
@@ -929,6 +929,54 @@ angular
   												$rootScope.setLoader = false;												
   											});
   						}
+						
+						
+						//solution description on mouseover
+						$scope.tooltiploader = false;
+						$scope.getSolutionRevisions = function (solutionId){
+							$scope.tooltiploader = true;
+							$scope.solutionDescription = "";
+							var request = {
+									method: 'GET',
+									url: '/api/solutions/'+solutionId+'/revisions'
+									};
+							
+							$http(request)
+							.success(
+									function(data) {
+										$scope.revisionId = data.response_body[0].revisionId;
+										$scope.getSolutionDescription($scope.revisionId)
+										
+									})
+							.error(
+									function(data) {
+										console.warn("Error fetching revisionId");
+										$scope.tooltiploader = false;
+									});
+						};
+						
+						$scope.getSolutionDescription = function(revisionId) {
+							var req = {
+									method : 'GET',
+									url : '/api/solution/revision/' + revisionId  + '/' + $scope.catalogId  + "/description"
+								};
+								$http(req)
+										.success(
+												function(data) {
+													if(data.response_body.description){
+														$scope.solutionDescription = data.response_body.description;
+													}else{
+														$scope.solutionDescription = "<p>No description available</p>";
+													}
+													$scope.tooltiploader = false;
+													
+												})
+										.error(
+												function(data) {
+													$scope.tooltiploader = false;
+													$scope.solutionDescription = "<p>No description available</p>";
+												});
+						}
                       	
 						if($scope.loginUserID)
 							$scope.loadCatalogPages(0);

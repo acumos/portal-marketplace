@@ -607,7 +607,7 @@ angular
 	                        $scope.favCatStorageSerive = browserStorageService.getFavCatStorage();
 						}
 						
-						// if redirected from Marketplace then show the Select Fav Catalog tab
+						// if redirected from user details then show the Select Fav Catalog tab
 						  $scope.$watch('$stateParams.isMyFavCatalogSelected', function() {
 							  
 							if($stateParams.isMyFavCatalogSelected == true){
@@ -615,6 +615,11 @@ angular
 								$location.hash('marketplaceTemplate');  
                                 $anchorScroll(); 
 								browserStorageService.setFavCatStorage(true);
+							}else{
+								$scope.loadCatalog();
+								$location.hash('marketplaceTemplate');  
+                                $anchorScroll(); 
+								browserStorageService.setFavCatStorage(false);
 							}
 						  });
 						

@@ -103,7 +103,8 @@ limitations under the License.
 								ng-checked="notification.Selected" ng-click="removeSelectAll()">
 								<span class="mdl-checkbox__label"></span>
 						</label></td>
-						<td class="sub-container" ng-bind-html="notification.message.toString().split('_').join(' ')"
+						<td class="sub-container notification-anchor-format" 
+							ng-bind-html="notification.message.toString().split('_').join(' ')"
 							ng-class="{'read-notification': notification.viewed}" compile>{{notification}}</td>
 						<td ng-class="{'read-notification': notification.viewed}">
 						{{notification.start | date : "MM/dd/yyyy | h:mm a" }}</td>
