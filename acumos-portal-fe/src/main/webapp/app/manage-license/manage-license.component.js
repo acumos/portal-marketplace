@@ -69,6 +69,19 @@ angular
                     	
                     	$scope.createNewLicenseProfileTemplate = function(isEdit){
                     		$scope.isEdit = isEdit;
+                    		
+                    		var onCompleteLicProfileTplDialog = function(scope, element, options) {
+        						
+                        		if(!isEdit){
+                        			var iframe = document.getElementById('iframe-license-profile-editor');
+            							// send message to License Profile Editor iframe
+                        				selLicProfileTplMsg = " ";
+            							iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+
+                        		}      						
+        						
+        					};      					
+                    		
                     		$mdDialog.show({
 	    						controller: function DialogController($scope, $mdDialog) {
 	    							$scope.closeDialog = function() {
@@ -78,13 +91,15 @@ angular
 	    						templateUrl:'./app/modular-resource/license-profile-editor-dialog.template.html',
 	    						parent: angular.element(document.body),
 	    						targetEvent: event,
-	    						clickOutsideToClose:false
+	    						clickOutsideToClose:false,
+	    						onComplete: onCompleteLicProfileTplDialog
 	    					});
                     	}
                     	
                     	$scope.isEdit = false;
                     	var userId = JSON.parse(browserStorageService.getUserDetail())[1];
                     	$scope.createLicenseTemplate  = function(licenseText, templateName){
+                    		
                     		var request = {
                     				"request_body":{
                     					"template" : licenseText,
@@ -197,3 +212,15 @@ angular
         				window.licProfEdMsgHandlerRef = winMsgHandler;
                     }
                 });
+
+angular
+.module('AcumosApp').filter('templateName',function(){
+    return function(input)
+    {
+          var templateName = ((input).templateName);
+          if(JSON.parse(input.template).copyright.company){
+        	  templateName += " - "  + JSON.parse(input.template).copyright.company;
+          }
+          return templateName;
+    }
+});
