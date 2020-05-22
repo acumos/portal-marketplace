@@ -21,6 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.11 22th May 2020
+=================================
+* ACUMOS-4162 - Site Admin: On clicking on site admin giving 404 error when user open application on https by default user
+* ACUMOS-4152 - License Profile Icon is showing truncated on model description screen
+* ACUMOS-4150 - License Admin: Modify License popup is opening when user click on create new buttonp
+
 Version 4.0.10 15th May 2020
 =================================
 * ACUMOS-4151 - Select Favorite Catalog Issues
