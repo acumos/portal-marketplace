@@ -165,7 +165,7 @@ angular.module('admin').filter('abs', function () {
             }
 
             $scope.checkAdmin = function () {
-                if (browserStorageService.getUserRole() == 'Admin' || browserStorageService.getUserRole() == 'admin') {
+                if (browserStorageService.isAdmin() == 'true') {
 
                 } else {
                     $state.go('404Error');
