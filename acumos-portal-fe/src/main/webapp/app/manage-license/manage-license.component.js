@@ -186,7 +186,9 @@ angular
 
         						if (selLicProfileTplMsg && iframe) {
         							// send message to License Profile Editor iframe
-        							iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+									if($scope.isEdit){
+										iframe.contentWindow.postMessage(selLicProfileTplMsg, '*');
+									}       							
         						}
         					}
         				},
