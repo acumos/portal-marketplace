@@ -21,6 +21,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.12 26th May 2020
+=================================
+* ACUMOS-4150 - License Admin: Modify License popup is opening when user click on create new buttonp
+
 Version 4.0.11 22th May 2020
 =================================
 * ACUMOS-4162 - Site Admin: On clicking on site admin giving 404 error when user open application on https by default user
