@@ -3022,7 +3022,7 @@ How to Clone
 1. Open Source or GitShell Command Line Interface
 2. Browse to your preferred directory and run below command:
 
-git clone https://<userid>@gerrit.acumos.org/portal-marketplace.git
+git clone --depth 1 https://<userid>@gerrit.acumos.org/portal-marketplace.git
 
 Note: replace with your user id.
 3.  Once the repository is cloned.
