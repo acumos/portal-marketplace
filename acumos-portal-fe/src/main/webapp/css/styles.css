@@ -2607,6 +2607,7 @@ md-checkbox.md-checked .md-icon:after {
     width: 7px !important;
     height: 13px !important;
     left: 4px !important;
+	bottom: 2px !important;
 }
 .catalogSolutionAlignment{
 	display:flex;
