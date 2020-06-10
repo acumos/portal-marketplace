@@ -2934,10 +2934,7 @@ angular
 				    //$scope.allTemplates = [];
 				    $scope.modifyLicenseProfileTemplate = function(event, isUpdateLicense) {
 				    	
-				    	if(isUpdateLicense){									
-							var template = $scope.modelLicense;
-							var selectedLic = JSON.stringify($scope.modelLicense);
-						} else {
+				    	if(!isUpdateLicense){									
 							var selectedLic = $scope.allTemplates[$scope.selectedLicense];
 							var template = JSON.parse(selectedLic.template);
 						}
