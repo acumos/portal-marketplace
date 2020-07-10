@@ -21,6 +21,14 @@
 Portal Marketplace Release Notes
 ================================
 
+
+Version 4.0.13 10th July 2020
+=================================
+* ACUMOS-4169 - Change Password popup: Cancel is showing in the tool tip of Confirm button
+* ACUMOS-4167 - Manage My Model: Publish to Marketplace: Modify License is not opening the selected license from dropdown
+* ACUMOS-4154 - <IST><Marketplace Tab><Filter By Category>The tick inside the checkbox is not in place.
+* ACUMOS-4116 - IST2- Error when attaching a document
+
 Version 4.0.12 26th May 2020
 =================================
 * ACUMOS-4150 - License Admin: Modify License popup is opening when user click on create new buttonp
