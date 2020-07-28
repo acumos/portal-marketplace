@@ -1069,7 +1069,7 @@ limitations under the License.
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="modifyLicenseProfileTemplate($event, true);">Model License Profile</a> | 
+															<a>Model License Profile</a> | 
 															<span class="green" ng-if="isLicensePresent"> Completed on {{solution.modified | date:'MM/dd/yyyy' }}</span> 
 															<span class="red" ng-if="!isLicensePresent">Not Started</span>
 														</h2>
@@ -1105,7 +1105,7 @@ limitations under the License.
 																<div
 																	class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone">
 																	<button
-																		ng-click="modifyLicenseProfileTemplate($event, true)"
+																		ng-click="modifyLicenseProfileTemplate($event, false)"
 																		ng-if="selectedLicense>=0"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 																		alt="Modify License" title="Modify License">Modify</button>
