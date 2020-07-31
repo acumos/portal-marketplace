@@ -861,9 +861,9 @@ public class AdminServiceController extends AbstractController {
 	 */
 	private void sendCredentialsmail(User mlpUser) {
 		MailData mailData = new MailData();
-		mailData.setSubject("Acumos New User Credentials");
-		mailData.setFrom("support@acumos.org");
-		mailData.setTemplate("newuserCredentials.ftl");
+		mailData.setSubject(PortalConstants.NEW_USER_CRED_NOTIFYY);
+		mailData.setFrom(PortalConstants.FROM_MAIL_SUPPORT_KEY);
+		mailData.setTemplate(PortalConstants.NEW_USER_TEMPLATE);
 		List<String> to = new ArrayList<String>();
 		to.add(mlpUser.getEmailId());
 		mailData.setTo(to);

@@ -41,10 +41,17 @@ public class PortalConstants {
 	public static final String PUBLISHER_USER = "Publisher";
 	public static final String TOSCA = "TOSCA";
 	public static final String SENDER_MAIL_KEY="portal.feature.mail.sender";
+	public static final String FROM_MAIL_KEY="portal.feature.mail.from";
+	public static final String FROM_MAIL_SUPPORT_KEY="portal.feature.mail.support";
 	public static final String CHANGE_PASS_NOTIFY="portal.feature.mail.subject.changepass";
 	public static final String FORGOT_PASS_NOTIFY="portal.feature.mail.subject.forgotpass";
 	public static final String NEW_USER_PASS_NOTIFY="portal.feature.mail.subject.newpass";
+	public static final String NEW_USER_VERIFY_NOTIFY="portal.feature.mail.subject.newUserVerifyNotify";
+	public static final String NEW_USER_NOTIFY="portal.feature.mail.subject.newUserNotify";
+	public static final String NEW_USER_CRED_NOTIFYY="portal.feature.mail.subject.newUserCred";
 	public static final String CHANGE_PASS_TEMPLATE="changePass.ftl";
 	public static final String NEW_PASS_TEMPLATE="mailTemplate.ftl";
+	public static final String MAIL_TEMPLATE="accountCreated.ftl";
+	public static final String NEW_USER_TEMPLATE="newuserCredentials.ftl";
 	
 }

@@ -136,12 +136,12 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
         String portalAddress = env.getProperty("portal.ui.server.address");
         if(isVerifyAccountEnabled())
-        	mailData.setSubject("New Account Verification Notification");
+        	mailData.setSubject(PortalConstants.NEW_USER_VERIFY_NOTIFY);
         else 
-        	mailData.setSubject("New User Account Notification");
+        	mailData.setSubject(PortalConstants.NEW_USER_NOTIFY);
 
-        mailData.setFrom("no-reply@acumos.org");
-        mailData.setTemplate("accountCreated.ftl");
+        mailData.setFrom(PortalConstants.FROM_MAIL_KEY);
+        mailData.setTemplate(PortalConstants.MAIL_TEMPLATE);
         List<String> to = new ArrayList<String>();
         to.add(mlpUser.getEmail());
         mailData.setTo(to);
