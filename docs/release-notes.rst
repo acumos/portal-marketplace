@@ -21,6 +21,11 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.14 31th July 2020
+=================================
+* ACUMOS-3591 - <IST><Portal Marketplace> Throughout application, column headers are clickable for sorting but still displaying cursor on hovering.
+* ACUMOS-4167 - Manage My Model: Publish to Marketplace: Modify License is not opening the selected license from dropdown
+* ACUMOS-4228 - add C++ in "Language and toolkits category" of the "ONBOARDING BY COMMAND LINE" PANEL
 
 Version 4.0.13 10th July 2020
 =================================

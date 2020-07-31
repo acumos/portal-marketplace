@@ -24,7 +24,7 @@ limitations under the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-be</artifactId>
-	<version>4.0.13-SNAPSHOT</version>
+	<version>4.0.14-SNAPSHOT</version>
 	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
 	<parent>

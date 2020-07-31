@@ -23,7 +23,7 @@ limitations under the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-fe</artifactId>
-	<version>4.0.13-SNAPSHOT</version>
+	<version>4.0.14-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Acumos Portal frontend server</name>
 	<description>Acumos Portal AngularJS Front End</description>
