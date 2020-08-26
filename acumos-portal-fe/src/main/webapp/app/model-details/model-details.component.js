@@ -1180,7 +1180,8 @@ angular
 														
 													}
 													
-													if( response.data.response_body[x].name.endsWith('.pfa') || response.data.response_body[x].name.endsWith('.onnx') ){
+													//|| response.data.response_body[x].name.endsWith('.onnx') - removed onnx check
+													if( response.data.response_body[x].name.endsWith('.pfa') ){
 														$scope.isOnnxOrPFAModelFound = true;
 													}
 												}
