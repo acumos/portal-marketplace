@@ -466,13 +466,28 @@ limitations under the License.
 				<div ng-repeat="catalogSolutions in catalogSolution">
 					<span class="ct-info-container catalog-icon-alignment">
 						<label>{{catalogSolutions.name}}</label>
-						<i class="catalog-icon-info" ng-mouseover="getSolutionRevisions(catalogSolutions.solutionId)">
-							<section class="catalog-icon-tooltip">
+						
+						<i class="catalog-icon-info" ng-click="getSolutionRevisions(catalogSolutions.solutionId)">
+							
+							<!-- <section class="catalog-icon-tooltip">
 								<span ng-bind-html="solutionDescription" ng-show="!tooltiploader"></span>
 								<span class="a-overlay1" ng-show="tooltiploader" style="height:70px"></span>
-							</section>
+							</section> -->
+							
+							<!-- Popover Starts -->
+				 		<section ng-show="catalogSolutions.solutionId == descSolId" class="catalog-icon-tooltip">
+							<span ng-bind-html="solutionDescription"></span>
+						</section>
+		 				<!-- Popover Ends -->
 						</i>
+						
+						<!-- Popover Starts -->
+				 		<!-- <section ng-show="isActiveDesc(catalogSolutions.solutionId)" class="fav-catalog-desc">
+							<span ng-bind-html="solutionDescription"></span>
+						</section> -->
+		 				<!-- Popover Ends -->
 					</span>
+					
 				</div>
 			</div>
 			
