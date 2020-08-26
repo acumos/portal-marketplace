@@ -562,6 +562,8 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .is-active .R{background-image:url("../images/ico_rcloud_active.png");}
 .managelefticon .java{ margin-top: 15px; background-image:url("../images/ico_java_inactive.png"); background-repeat:no-repeat; width:20px; height:26px; display:inline-block;}
 .is-active .java{margin-top: 15px; background-image:url("../images/ico_java_active.png");}
+.managelefticon .cpp{ margin-top: 15px; background-image:url("../images/cpp-Black-icon.png"); background-repeat:no-repeat; width:24px; height:26px; display:inline-block;}
+.is-active .cpp{margin-top: 15px; background-image:url("../images/cpp-icon.png");}
 .R-cloud{ background-image:url("../images/ico_R_inactive.png"); background-repeat:no-repeat; width:20px; height:15px; display:inline-block;}
 .is-active .R-cloud{background-image:url("../images/ico_R_active.png");}
 .popovers .progress-bar{margin:5px 0 3px;}
