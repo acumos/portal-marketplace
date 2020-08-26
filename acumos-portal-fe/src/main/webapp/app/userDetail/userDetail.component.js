@@ -934,8 +934,11 @@ angular
 						//solution description on mouseover
 						$scope.tooltiploader = false;
 						$scope.getSolutionRevisions = function (solutionId){
-							$scope.tooltiploader = true;
 							$scope.solutionDescription = "";
+							$scope.descSolId = solutionId;
+							$scope.tooltiploader = true;
+							
+							//$scope.activeDesc = ($scope.isActiveDesc($scope.descSolId)) ? null : $scope.descSolId;
 							var request = {
 									method: 'GET',
 									url: '/api/solutions/'+solutionId+'/revisions'
@@ -955,6 +958,14 @@ angular
 									});
 						};
 						
+						/*$scope.activeDesc = null;
+						var countr = 0 ;
+						
+                        $scope.isActiveDesc = function (isActiveSolId) {
+                        	console.log("countr: ", countr++);
+                        	return $scope.activeDesc == isActiveSolId;
+                        }
+                        */
 						$scope.getSolutionDescription = function(revisionId) {
 							var req = {
 									method : 'GET',
@@ -976,7 +987,7 @@ angular
 													$scope.tooltiploader = false;
 													$scope.solutionDescription = "<p>No description available</p>";
 												});
-						}
+						};
                       	
 						if($scope.loginUserID)
 							$scope.loadCatalogPages(0);
