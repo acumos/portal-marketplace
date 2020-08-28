@@ -21,6 +21,13 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 4.0.15 28th August 2020
+=================================
+* ACUMOS-4089 - Email Header fields hardcoded for notifications
+* ACUMOS-4264 - proto file available for Model docker URI and ONNX model
+* ACUMOS-4228 - add C++ in "Language and toolkits category" of the "ONBOARDING BY COMMAND LINE" PANEL
+* ACUMOS-4151 - Select Favorite Catalog Issues
+
 Version 4.0.14 31th July 2020
 =================================
 * ACUMOS-3591 - <IST><Portal Marketplace> Throughout application, column headers are clickable for sorting but still displaying cursor on hovering.
