@@ -1,4 +1,5 @@
 # UUID                                                                               	Group Name
 #
 42f0c83244389e408b42fa668348002012ecba46                                             	GitHub Replication
+9d62dbb4c9444c32873bbe04bac86a8dcb6df110                                             	saml/acumos-gerrit-portal-marketplace-committers
 ldap:cn=acumos-gerrit-portal-marketplace-committers,ou=Groups,dc=freestandards,dc=org	ldap/acumos-gerrit-portal-marketplace-committers
