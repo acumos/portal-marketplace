@@ -88,6 +88,12 @@ limitations under the License.
 								class="tab-icons tab-federation"></span> <span>Federation</span>
 						</span>
 						</a> 
+						<a href="#tab8-panel" ng-click='menuName = "Model Deployment Automation"' class="mdl-tabs__tab "> 
+							<span class="tab-box"> 
+								<span class="tab-icons tab-federation"></span> 
+								<span>Model Deployment Automation</span>
+							</span>
+						</a>
 						<!--  <a href="#tab6-panel" ng-click='menuName = "Requests"'
 							class="mdl-tabs__tab"> <span class="tab-box"> <span
 								class="tab-icons tab-subscription_requests"></span> <span>Requests</span>
@@ -2108,7 +2114,53 @@ limitations under the License.
 						</div>
 					</div>
 					<!-- admin validation tab (workflow configuration) end -->
-
+					
+					<!-- model deployment automation starts -->
+					<div class="mdl-tabs__panel" id="tab8-panel">
+						<div class="admin-tab-heading admin-box2">
+							<div>
+								<span class="admin-title2">Model Deployement Automation</span>
+							</div>
+						</div>
+						
+						<div>
+							<div class="rowcontainer admin-sccontainer1">
+								<form name="deploymentAutomation">
+									<div class="deployementAutomationForm">
+										<div>
+											<label>Location of Jenkins Server</label>
+											<input type="text" ng-model="jenkinsServer" placeholder="Eg: IP address:port"/>
+										</div>
+										<div>
+											<label>Name of the Jenkins Job</label>
+											<input type="text" ng-model="jenkinsJob" placeholder="Eg: Acumos_model_deployment"/>
+										</div>
+										<div>
+											<label>Name of the Parameter</label>
+											<input type="text" ng-model="jenkinsName" placeholder="Eg: model_name"/>
+										</div>
+										<div>
+											<label>Value of the parameter</label>
+											<input type="text" ng-model="jenkinsValue" placeholder="Docker URI of the docker image"/>
+										</div>
+										<div>
+											<label>Jenkins login</label>
+											<input type="text" ng-model="jenkinsLogin" placeholder="Login"/>
+										</div>
+										<div>
+											<label>Jenkins security token</label>
+											<input type="text" ng-model="jenkinsToken" placeholder="Security Token"/>
+										</div>
+										
+										<button ng-click='submitDeployment()' 
+											class="mdl-button mdl-js-button btn-primary">Submit</button>
+									</div>
+								</form>
+								 
+							</div>
+						</div>
+					</div>
+					<!-- model deployement automation ends -->
 				</div>
 			</div>
 		</div>
