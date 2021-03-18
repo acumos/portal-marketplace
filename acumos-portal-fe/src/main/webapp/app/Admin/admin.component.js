@@ -4059,6 +4059,58 @@ angular.module('admin').filter('abs', function () {
 	        		}
 	        	}
 			 }
+			 
+			// Deployment Automation starts
+			 $scope.submitDeployment = function(){
+				 var deployementObject = {};
+				 deployementObject['jsr'] = $scope.jenkinsServer;
+				 deployementObject['jjb'] = $scope.jenkinsJob;
+				 deployementObject['param'] = $scope.jenkinsName;
+				 deployementObject['paramValue'] = $scope.jenkinsValue;
+				 deployementObject['jlog'] = $scope.jenkinsLogin;
+				 deployementObject['jst'] = $scope.jenkinsToken;
+				 
+				 var deployementObjectStrTemp = JSON.stringify(deployementObject);
+				 var deployementObjectStr = deployementObjectStrTemp.replace(/"/g, '\"');
+				 
+				 var reqObj = {
+	                        "request_body": {
+	                            "configKey": "deployment_jenkins_config",
+	                            "configValue": deployementObjectStr,
+	                            "userId": userId
+	                        }
+	                    };
+				 console.log("reqObj: ", reqObj);
+				 
+				 if (typeof $scope.deployment_jenkins_config === "undefined") {
+                     apiService
+                         .createSiteConfig(reqObj)
+                         .then(
+                             function (response) {
+                                 $scope.msg = "Deployment Automation Updated successfully.";
+                                 $scope.icon = '';
+                                 $scope.styleclass = 'c-success';
+                                 $scope.showAlertMessage = true;
+                                 $timeout(function () {
+                                     $scope.showAlertMessage = false;
+                                 }, 5000);
+                             });
+                 } else {
+                     apiService
+                         .updateSiteConfig("deployment_jenkins_config", reqObj)
+                         .then(
+                             function (response) {
+                                 $scope.msg = "Deployment Automation Updated successfully.";
+                                 $scope.icon = '';
+                                 $scope.styleclass = 'c-success';
+                                 $scope.showAlertMessage = true;
+                                 $timeout(function () {
+                                     $scope.showAlertMessage = false;
+                                 }, 5000);
+                             });
+                 }
+			 };
+			 // Deployment Automation ends
 
         }
     })
