@@ -8,9 +8,9 @@ This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
 This file is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
@@ -36,7 +36,7 @@ angular.module('admin').filter('abs', function () {
             };
             //Sorting
             $rootScope.setLoader = false;
-            
+
             $scope.orderByField = 'username'; $scope.reverseSort = false;
             $scope.orderByFieldFed = 'created'; $scope.reverseSortFederation = true;
             $scope.showAllModelsTable = false;
@@ -189,17 +189,17 @@ angular.module('admin').filter('abs', function () {
                         function (error) { });
             }
             getRole();
-            
+
             $scope.getAllCatalogs = function(){
-				
-				var reqObject = {											  							
+
+				var reqObject = {
 						"request_body": {
 							"fieldToDirectionMap": {"created":"ASC"},
 					        "page": 0,
 					        "size": 1000
 						  }
 					};
-								
+
 				$scope.catalogIdsList = [];
 				$scope.showRoleLoader = true;
 				apiService.getCatalogs(reqObject)
@@ -213,16 +213,16 @@ angular.module('admin').filter('abs', function () {
 								if(!resp[i].origin){
 									if($scope.allCatalogList['My Catalogs'] === undefined ) {
 										$scope.allCatalogList['My Catalogs'] = [];
-									} 
-									/*else {										
+									}
+									/*else {
 										$scope.catalogIdsList.push(resp[i].catalogId);
 									}*/
 									$scope.catalogIdsList.push(resp[i].catalogId);
-									$scope.allCatalogList['My Catalogs'].push(resp[i]); 
+									$scope.allCatalogList['My Catalogs'].push(resp[i]);
 								} else {
 									if($scope.allCatalogList[resp[i].origin] === undefined ) {
 										$scope.allCatalogList[resp[i].origin] = [];
-									} else {										
+									} else {				
 										$scope.catalogIdsList.push(resp[i].catalogId);
 									}
 									$scope.allCatalogList[resp[i].origin].push(resp[i]);
@@ -232,22 +232,22 @@ angular.module('admin').filter('abs', function () {
 						$scope.catList = angular.copy($scope.allCatalogList);
 					});
 			}
-            
+
             $scope.getAllCatalogs();
-            
+
             //API for get Roles
             function getAllRole() {
             	$scope.showRoleLoader = true;
                 apiService
-                    .getAllRole()  
+                    .getAllRole()
                     .then(
                         function (response) {
-                            $scope.allRoles = response.data.response_body;                           
+                            $scope.allRoles = response.data.response_body;
                         	$scope.showRoleLoader = false;
                         });
             }
-            
-           
+
+
             getAllRole();
             //API for user count
             function userDetailsFetch() {
@@ -304,9 +304,9 @@ angular.module('admin').filter('abs', function () {
                 $scope.storyCarousel = {}
                 $scope.carouselForm.$setPristine();
                 $scope.carouselForm.$setUntouched();
-                
+
                 $scope.getPeerSubscriptionCounts();
-                
+
                 $scope.eventForm.$setPristine();
                 $scope.eventForm.$setUntouched();
 
@@ -323,7 +323,7 @@ angular.module('admin').filter('abs', function () {
                 fetchPeer(); fetchCat(); $scope.hidePeer = false; $scope.data = '';
 
             }
-            //Open popup 
+            //Open popup
             $scope.showPopup = function (ev) {
                 $mdDialog.show({
                     contentElement: '#myDialog',
@@ -332,9 +332,9 @@ angular.module('admin').filter('abs', function () {
                     clickOutsideToClose: true
                 });
             }
-			
-            
-            $scope.selectAllCatalogs = {"checked":false};          
+
+
+            $scope.selectAllCatalogs = {"checked":false};
             
             $scope.addNewRole = function (role) {
 
@@ -343,7 +343,7 @@ angular.module('admin').filter('abs', function () {
                 $scope.allCatalogList = angular.copy($scope.catList);
                 if(role){
                       $scope.roleName = role.name;
-                     
+
                      apiService.getCatalogsOfRole(role.roleId)
                      .then(
                          function (response) {
@@ -358,7 +358,7 @@ angular.module('admin').filter('abs', function () {
                                                        $scope.allCatalogList[key][j].checked = true;
                                                        $scope.selectedCatalogList.push($scope.allCatalogList[key][j].catalogId);
                                                 }
-                                                
+
                                           }
                                    });
                                    if($scope.roleSelectedCatalogList.catalogIds.length == $scope.checkAllCatalogs[0].length){
@@ -375,11 +375,11 @@ angular.module('admin').filter('abs', function () {
                              });
                         });
 
-                            
-                    $scope.roleId = role.roleId; 
+
+                    $scope.roleId = role.roleId;
               } else {
-                    $scope.roleName = ''; 
-                    $scope.roleId = ''; 
+                    $scope.roleName = '';
+                    $scope.roleId = '';
                     $scope.selectedCatalogList = [];
                     $mdDialog.show({
                         templateUrl: '../app/Admin/create-role.html',
@@ -387,8 +387,8 @@ angular.module('admin').filter('abs', function () {
                         scope: $scope.$new(),
                         clickOutsideToClose: true
                     });
-              } 
-                
+              }
+ 
             }
 
             //Open popup Add Peer
@@ -695,7 +695,7 @@ angular.module('admin').filter('abs', function () {
                                        $rootScope.headerImage, uploadUrl).then(
                                                function(response) {
                                                    console.log(response);
-                                               	
+
                                                },
                                                function() {
                                                    //$scope.serverResponse = 'An error has occurred';
@@ -755,7 +755,7 @@ angular.module('admin').filter('abs', function () {
                                                 $rootScope.headerImage, uploadUrl).then(
                                                         function(response) {
                                                             console.log(response);
-                                                        	
+
                                                         },
                                                         function() {
                                                             //$scope.serverResponse = 'An error has occurred';
@@ -1214,7 +1214,7 @@ angular.module('admin').filter('abs', function () {
                     check = true;
                 }
 
-                // new code 
+                // new code
                 if ($scope.categoryValue) {
                     cat = '"modelTypeCode":"' + $scope.categoryValue + '"'
                 }
@@ -1255,38 +1255,38 @@ angular.module('admin').filter('abs', function () {
                     console.log("success>> ", response);
                 });
             }
-            
-       
+
+
             //update frequency based on peer id subscription starts
             var reqobj1;
             $scope.toUpdatePeer = function(freq,SUBID){
-            	            	
+
             	$scope.freqChange(freq);
-                      	
+
             	$rootScope.setLoader = true;
                  	apiService.getSubsDetails(SUBID)
                  	 .then(
               			 function(response) {
-              				
+
               				$scope.changedCatalogId=response.data.response_body.selector;
               				 reqobj1 = {
-                        			"request_body":{           				
+                        			"request_body":{
                         				"peerId" : $scope.peerIdForSubsList,
-                        				"refreshInterval":freqChangeValue,            				
-                        				"frequencySelected": freq, 
+                        				"refreshInterval":freqChangeValue,
+                        				"frequencySelected": freq,
                         				"selector": $scope.changedCatalogId,
                         				"subId":SUBID,
                         				"userId":userId
-                        			}           		
+                        			}
                         	}
               				$scope.CallUpdateSubscrption(reqobj1);
               			 },
               			 function (error) {
                              console.log(error);
-                         });	                 	 
+                         }); 	 
             }
-            
-            $scope.CallUpdateSubscrption = function(reqobj1)  {              	
+
+            $scope.CallUpdateSubscrption = function(reqobj1)  {
             	apiService.updateSubscription(reqobj1).then(
     					function(response) {
     						$rootScope.setLoader = false;
@@ -1295,21 +1295,21 @@ angular.module('admin').filter('abs', function () {
                             $scope.msg = "Updated successfully.";
                             $scope.icon = '';
                             $scope.styleclass = 'c-success';
-                            $scope.showSuccessMessage = true;                           
+                            $scope.showSuccessMessage = true;                         
                             $timeout(function () {
                                 $scope.showSuccessMessage = false;
-                            }, 5000);                             
+                            }, 5000);
                         },
                         function (error) {
                         	$rootScope.setLoader = false;
                             console.log(error);
-                        });	
+                        });
     					}
-            	
+
           //update frequency based on peer id subscription  ends
-            
-            
-                     
+
+
+
             //delete subscription
             $scope.deleteSub = function (subId, index) {
                 //deleteSubscription
@@ -1408,11 +1408,11 @@ angular.module('admin').filter('abs', function () {
                     },
                             function(error){console.log('Error :' +error);});*/
             }
-            
+
             $scope.closePopup = function(){
             	$mdDialog.hide();
             }
-            
+
             //Add Role
             $scope.addRole = function (roleName) {
                 var roleDetails = {
@@ -1429,7 +1429,7 @@ angular.module('admin').filter('abs', function () {
                     .then(
                         function (response) {
                         	getAllRole();
-                        	$scope.selectedCatalogList = [];                           
+                        	$scope.selectedCatalogList = [];
                             $scope.msg = "Role created successfully.";
                             $scope.icon = '';
                             $scope.styleclass = 'c-success';
@@ -1444,7 +1444,7 @@ angular.module('admin').filter('abs', function () {
                     .then(
                         function (response) {
                         	getAllRole();
-                        	$scope.selectedCatalogList = [];                           
+                        	$scope.selectedCatalogList = [];
                             $scope.msg = "Role updated successfully.";
                             $scope.icon = '';
                             $scope.styleclass = 'c-success';
@@ -1456,7 +1456,7 @@ angular.module('admin').filter('abs', function () {
                 }
 
             }
-            
+
             $scope.updateRole = function (roleName) {
                 var roleDetails = {
                     "request_body": {
@@ -1471,7 +1471,7 @@ angular.module('admin').filter('abs', function () {
                         function (response) {
                         	$scope.closePopup();
                         	getAllRole();
-                        	$scope.selectedCatalogList = [];                           
+                        	$scope.selectedCatalogList = [];
                             $scope.msg = "Role created successfully.";
                             $scope.icon = '';
                             $scope.styleclass = 'c-success';
@@ -1481,8 +1481,6 @@ angular.module('admin').filter('abs', function () {
                             }, 5000);
                         });
             }
-            
-			 
 
 			$scope.confirmDeleteRole = function(role){
 
@@ -1492,10 +1490,10 @@ angular.module('admin').filter('abs', function () {
                      parent:  angular.element(document.body),
                      clickOutsideToClose: true
                  }).then(function(flag){
-                          	
+
                  });
              }
-			
+
 			$scope.deleteRole = function() {
 
 			  $scope.closePopup();
@@ -1504,7 +1502,7 @@ angular.module('admin').filter('abs', function () {
                   .then(
                       function (response) {
                     	  getAllRole();
-                          $scope.msg = response.data.response_detail;         
+                          $scope.msg = response.data.response_detail;
                           $scope.showAlertMessage = true;
                           if(response.data.error_code == '100'){
                         	  $scope.icon = '';
@@ -1519,7 +1517,7 @@ angular.module('admin').filter('abs', function () {
                           }, 3000);
                       },
                  );
-            
+
 			}
             //Change role by admin
             $scope.roleArr = []; var roleMap = []; var roleFin = [];
@@ -1577,7 +1575,7 @@ angular.module('admin').filter('abs', function () {
                 if (val == 'update') {
                     var json = [];
                     /*angular.forEach($scope.roleArr, function(value, key) {
-                        json.push({                                          		    
+                        json.push({
                               "roleId": '',
                               "updatedRoleId": $scope.roleIdSelected,
                               "userId": value
@@ -1627,10 +1625,10 @@ angular.module('admin').filter('abs', function () {
                 $http.post(url).success(function (response) {
                     $scope.subId = '';
                     if (response.response_body.length > 0) {
-                    
+
                         $scope.subId = response.response_body[0].subId;
                     }
-                   
+
 
                     $scope.arrSub = [];
                     angular.forEach(response.response_body, function (value, key) {
@@ -1693,7 +1691,7 @@ angular.module('admin').filter('abs', function () {
 
                 });
             }
-            //Delete user 
+            //Delete user
             $scope.deleteUser = function () {
                 var obj = {
                     "request_body": {
@@ -1798,10 +1796,10 @@ angular.module('admin').filter('abs', function () {
             }
 
             /*
-             * Have Added this function for the count as for now. This is not good for the performance. 
+             * Have Added this function for the count as for now. This is not good for the performance.
              * Please remove and ask BE team for an api to return the counts
-             * 
-             * Have removed the subscription count - 
+             *
+             * Have removed the subscription count -
              */
             /*$scope.countSubscriptions = function(){
                 $scope.subscriptionCount = [];
@@ -1817,10 +1815,10 @@ angular.module('admin').filter('abs', function () {
                                                 "peerId" : value.peerId,
                                                 "subscriptionLength" : response.response_body.length,
                                            }
-                                  ) 
-                              	
+                                  )
+
                         }).error(function(error){
-                           
+
                         });
                       });
                 }
@@ -1916,10 +1914,10 @@ angular.module('admin').filter('abs', function () {
                       $scope.msg = "Please select any catalog";
                       $scope.icon = 'info_outline';
                       $scope.styleclass = 'c-error';
-                      $scope.showSuccessMessage = true;                           
+                      $scope.showSuccessMessage = true;
                       $timeout(function () {
                           $scope.showSuccessMessage = false;
-                      }, 5000);      	 
+                      }, 5000);
                  } else {
 	                var reqAddObj = {
 	                    "request_body": {
@@ -1929,7 +1927,7 @@ angular.module('admin').filter('abs', function () {
 	                        "catalogName": $scope.CatalogSendDeatils.name
 	                    }
 	                };
-	                
+
 	                angular.element(document.body).css('cursor', 'progress');
 	                angular.element('#addSubscriptionBtn').css('cursor', 'progress');
 	                apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
@@ -1945,12 +1943,12 @@ angular.module('admin').filter('abs', function () {
 	                            $scope.msg = "Local catalog shares name with remote catalog, resolve conflict and try again";
 	                            $scope.icon = 'info_outline';
 	                            $scope.styleclass = 'c-error';
-	                            $scope.showSuccessMessage = true;                           
+	                            $scope.showSuccessMessage = true;
 	                            $timeout(function () {
 	                                $scope.showSuccessMessage = false;
-	                            }, 5000); 
+	                            }, 5000);
 	                        }
-	
+
 	                    },
 	                    function (error) {
 	                        angular.element(document.body).css('cursor', 'default');
@@ -1961,10 +1959,10 @@ angular.module('admin').filter('abs', function () {
 	                    });
 	            }
             }
-            
+
             /*End add all models*/
 
-            /*fetch number of subscriptions per peer. 
+            /*fetch number of subscriptions per peer.
              * Currently invoking api from fe
              * Need counts from BE since performance reduces.
              * */
@@ -2155,10 +2153,10 @@ angular.module('admin').filter('abs', function () {
                 $mdDialog.hide();
             };
             // Upload Image
-           
-           
+
+
             $scope.enableclose=false;
-            
+
             $scope.uploadLogoImg = function () {
             	if($scope.logoImage) {
                     var data = $scope.fileData.split('base64,').pop();
@@ -2185,19 +2183,19 @@ angular.module('admin').filter('abs', function () {
                                 $timeout(function () {
                                     $scope.showAlertMessage = false;
                                 }, 5000);
-                                
+
                             },
                             function (error) {
                                 $scope.serverResponse = 'An error has occurred';
                             })
             	}
             }
-            
+
             $scope.deleteLogoImg = function () {
             	apiService.deleteCobrandLogo()
                 .then(
                     function (response) {
-                    	
+
                     	$scope.enableclose=false;
                     	$scope.showDialogue=false;
                     	$scope.preview='images/img-list-item.png';
@@ -2218,13 +2216,13 @@ angular.module('admin').filter('abs', function () {
                         $scope.serverResponse = 'An error has occurred';
                         console.error(error);
                     })
-	
-             
+
+
                $mdDialog.hide();
             }
-            
+
             //GET Co-Branding Logo
-            
+
             $scope.getCobrandingLogo = function() {
          	   apiService.getCobrandLogo()
  				 .then(
@@ -2241,11 +2239,11 @@ angular.module('admin').filter('abs', function () {
  							$scope.upload=false;
  							$scope.showDialogue=true;
  							}
- 							
+
  						 });
              }
             $scope.getCobrandingLogo();
-            
+
             $scope.showDeleteDialog = function() {
 				$mdDialog.show({
 					templateUrl : '../app/Admin/image-logo-delete.template.html',
@@ -2260,7 +2258,7 @@ angular.module('admin').filter('abs', function () {
 				});
 			}
 
-            //Search Data 
+            //Search Data
             $scope.searchData = function (searchValue) {
                 var rolename = "";
                 angular.forEach(searchValue.userAssignedRolesList, function (userAssignedRolesList) {
@@ -3254,7 +3252,7 @@ angular.module('admin').filter('abs', function () {
                 $scope.successCarousel = val;
                 //	                 	   $scope.successBGFileName = val['bgImageUrl'];
                 //	                 	   $scope.successInfoFileName = val['InfoImageUrl'];
-                //	                 	   
+                //
                 //	                 	   $scope.event_Text_Aling = val['textAling'];
                 //	                 	   $scope.event_Info_Aling = val['infoImageAling'];
 
@@ -3427,9 +3425,9 @@ angular.module('admin').filter('abs', function () {
                         function successCallback(response) {
                             $scope.listCatalog = response.data.response_body;
                             $scope.CatalogValue = "";
-                            
+
                             //$scope.allCatalogList = [];
-                            
+
                             if($scope.listCatalog.length < 1){
                             	$scope.catalogError = true;
                             }
@@ -3445,14 +3443,14 @@ angular.module('admin').filter('abs', function () {
             $scope.getCatalogDetails = function (CatalogId) {
               //  $scope.allCatalogList = [];
                 $scope.selectedCatalogId = CatalogId;
-            
+
                 //Filtering now on List of catalogs with selected CatalogId
-                
-              if($scope.listCatalog.length>0){ 
+
+              if($scope.listCatalog.length>0){
                 Object.values($scope.listCatalog).forEach(function(value, index) {
                     if (value.catalogId == $scope.selectedCatalogId) {
                         $scope.CatalogSendDeatils = value;
-                                                
+
                     }
                 });
             }
@@ -3472,22 +3470,22 @@ angular.module('admin').filter('abs', function () {
             }
 
             /* Catalog changes */
-           
-            
+
+
             /************Maintained Backup Logs Methods***********/
             //call all get methods when the left hand side tab is clicked and not on page load, to decrease the wait time of overall page load
             //will call only when needed
             $scope.getMaintainedBackupLogs = function(){
             	$scope.getAllSnapshot();
 				$scope.getAllArchives();
-				
+
             }
-            
+
             $scope.orderSnapshots='backupName';
             $scope.reverseSortbackup = true;
             $scope.disableSnapshotButton = true;
             $scope.disableArchiveButton = true;
-            
+
             $scope.getAllSnapshot = function () {
                 $scope.snapshots = [];
                 $scope.showContentLoader = true;
@@ -3497,18 +3495,18 @@ angular.module('admin').filter('abs', function () {
                               $scope.showContentLoader = false;
                               //snapshots with snapshots clubbed in same repo.
                               $scope.allRepoSnapshots =  response.data.response_body.elasticsearchSnapshots;
-                              
+
                             //snapshots with snapshots separate.
                               var allRepo =  response.data.response_body.elasticsearchSnapshots;
                               for(var i=0; i<allRepo.length;i++){
-                                    if(allRepo[i].snapshots.length > 0){                                    	                                    		
+                                    if(allRepo[i].snapshots.length > 0){
                                         angular.forEach(allRepo[i].snapshots, function (value, key) {
                                         	  var snapshot = {};
                                         	  snapshot['repositoryName'] = allRepo[i].repositoryName;
                                               snapshot['backupName'] = value.snapShotId;
                                               snapshot['createdDate'] = value.startTime;
                                               $scope.snapshots.push(snapshot);
-                                        });                                           
+                                        });
                                     }
                               }
                               $scope.loadBackups(0);
@@ -3518,20 +3516,20 @@ angular.module('admin').filter('abs', function () {
                               console.log(error);
                         });
             };
-            
+
             $scope.loadBackups = function (pageNumber) {
             	$scope.selectedPage = pageNumber;
 				if($scope.snapshots){
 					$scope.totalPages = Math.ceil($scope.snapshots.length / $scope.requestResultSize);
-					$scope.allSnapshots = ($scope.snapshots).slice($scope.requestResultSize*pageNumber, 
+					$scope.allSnapshots = ($scope.snapshots).slice($scope.requestResultSize*pageNumber,
             			($scope.requestResultSize*pageNumber)+$scope.requestResultSize);
 				}
             }
-           
-           
-            
+
+
+
             $scope.checkedSnapshot = false;
-            
+
             $scope.checkAllSnapshot = function(selected){
             	$scope.selectAllSnapshotStatus = true;
         		for (var i = 0; i < $scope.allRepoSnapshots.length; i++) {
@@ -3539,7 +3537,7 @@ angular.module('admin').filter('abs', function () {
            	        $scope.disableSnapshotButton=!selected;
         		}
             };
-            
+
             $scope.removeSelectAllSnapshot = function(selected){
       		   $scope.selectAllSnapshotStatus = false;
       		   $scope.disableSnapshotButton = ($scope.allRepoSnapshots.filter(snapshot =>snapshot.checked).length) == 0;
@@ -3554,7 +3552,7 @@ angular.module('admin').filter('abs', function () {
             $scope.setStartCount = function(val){
                   if(val == "preBunch"){$scope.setPageStart = $scope.setPageStart-5}
                   if(val == "nextBunch"){$scope.setPageStart = $scope.setPageStart+5}
-                  if(val == "pre"){ 
+                  if(val == "pre"){
                         if($scope.selectedPage == $scope.setPageStart)
                         {
                         	$scope.setPageStart = $scope.setPageStart - 1;
@@ -3576,13 +3574,13 @@ angular.module('admin').filter('abs', function () {
             $scope.filterChange = function(pagination, size) {
             	$scope.requestResultSize = size;
             	$scope.loadBackups(0);
-				$scope.loadArchives(0);				
+				$scope.loadArchives(0);
             }
-            
-			/********************Archive methods*************/ 
+
+			/********************Archive methods*************/
             //$scope.orderArchives='backupName';
             $scope.reverseSortarchive = true;
-          
+
             $scope.getAllArchives = function () {
             	$scope.allArchives = [];
             	$scope.archives = [];
@@ -3593,21 +3591,21 @@ angular.module('admin').filter('abs', function () {
                         	$scope.showContentLoader = false;
                         	//archives with snapshots clubbed in same repo.
                         	$scope.allRepoArchives = response.data.response_body.archiveInfo;
-                        	
+
                         	//archives with snapshot separate 
                         	var allArchives = response.data.response_body.archiveInfo;
                             for(var i = 0; i < allArchives.length; i++){
-                                  if(allArchives[i].snapshots.length > 0){                                    	                                    		
+                                  if(allArchives[i].snapshots.length > 0){
                                       angular.forEach(allArchives[i].snapshots, function (value, key) {
                                       	  var archives = {};
                                       	  archives['repositoryName'] = allArchives[i].repositoryName;
                                       	  archives['backupName'] = value.snapShotId;
                                       	  archives['createdDate'] = value.startTime;
                                           $scope.archives.push(archives);
-                                      });                                           
+                                      });
                                   }
                             }
-                            
+
                         	$scope.loadArchives(0);
                         },
                         function (error) {
@@ -3615,7 +3613,7 @@ angular.module('admin').filter('abs', function () {
                              $scope.showContentLoader = false;
                         });
             };
-            
+
             $scope.loadArchives = function (pageNumber) {
             	$scope.selectedPage = pageNumber;
 				if($scope.archives){
@@ -3632,12 +3630,12 @@ angular.module('admin').filter('abs', function () {
            	        $scope.disableArchiveButton=!selected;
         		}
             };
-            
+
             $scope.removeSelectAllArchives = function(){
             	$scope.selectAllArchiveStatus = false;
-      			$scope.disableArchiveButton = ($scope.allRepoArchives.filter(archive =>archive.checked).length) == 0;   
+      			$scope.disableArchiveButton = ($scope.allRepoArchives.filter(archive =>archive.checked).length) == 0;
             };
-            
+
 			$scope.confirmCreateRestoreArchive = function (action, repositoryName, selectAll) {
             	$scope.archiveRepoName = [];
                 $scope.archiveAction = action;
@@ -3650,23 +3648,23 @@ angular.module('admin').filter('abs', function () {
                 				$scope.archiveRepoName.push(repositoryName[i].backUpName);
                 			}
                 		}
-                		
+
                 	}
                 	$scope.removeSelectAllArchives();
-                
+
                 }else{
                 	$scope.archiveRepoName.push(repositoryName);
                 }
-                
-                
+
+
                 $mdDialog.show({
                     contentElement: '#archiveRestoreModal',
                     parent: angular.element(document.body),
                     clickOutsideToClose: true
                 });
-            }																				   
+            }
             $scope.createRestoreArchive = function(action, repositoryName){
-				$scope.closePoup();				
+				$scope.closePoup();
                 var reqBody = {
                     "request_body": {
                     	"action": action,
@@ -3680,7 +3678,7 @@ angular.module('admin').filter('abs', function () {
                         	$scope.checkedArchive = false;
                         	$scope.checkedSnapshot = false;
                             $scope.responseMessage = response;
-                            $location.hash('myDialog'); 
+                            $location.hash('myDialog');
                             $anchorScroll();
                             $scope.msg = response.data.response_body.msg;
                             $scope.icon = '';
@@ -3692,7 +3690,7 @@ angular.module('admin').filter('abs', function () {
                             $scope.getMaintainedBackupLogs();
                         },
                         function (error) {
-                            $location.hash('myDialog'); 
+                            $location.hash('myDialog');
                             $anchorScroll();
                             $scope.msg = error.data.response_detail;
                             $scope.icon = 'info_outline';
@@ -3704,8 +3702,8 @@ angular.module('admin').filter('abs', function () {
                             $scope.getMaintainedBackupLogs();
                         });
             };
-          
-            
+
+
             $scope.deleteSnapshot = function(){
                 var reqBody = {
                     "request_body": {
@@ -3718,7 +3716,7 @@ angular.module('admin').filter('abs', function () {
                     .then(
                         function (response) {
                         	$scope.responseMessage = response;
-                            $location.hash('myDialog'); 
+                            $location.hash('myDialog');
                             $anchorScroll();
                             $scope.msg = "Repository deleted successfully.";
                             $scope.icon = '';
@@ -3728,12 +3726,12 @@ angular.module('admin').filter('abs', function () {
                             	$scope.showAlertMessage = true;
                             }, 3000);
                             $scope.getMaintainedBackupLogs();
-								
+
 
                         },
                         function (error) {
                             var error = error.data.message;
-                            $location.hash('myDialog'); 
+                            $location.hash('myDialog');
                             $anchorScroll();
                             $scope.msg = "Error Occurred while deleting repository.";
                             $scope.icon = 'info_outline';
@@ -3744,20 +3742,20 @@ angular.module('admin').filter('abs', function () {
                             }, 3000);
                             $scope.fetchAllRepositories();
                         });
-            
+
             }
-            
-            
-            
+
+
+
             /******** Repository Methods **************/
-            
+
             $scope.createFirstRepo = false;
             $scope.createBackup = function(ev) {
             	var _isRepoAvailable = $scope.isRepoAvailable;
-            	var _createFirstRepo = $scope.createFirstRepo; 
+            	var _createFirstRepo = $scope.createFirstRepo;
                 var parentScope = $scope;
                 $scope.parentDialog = $mdDialog.show({
-                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo, parentScope:parentScope}, 
+                 locals: {isRepoAvailable: _isRepoAvailable, createFirstRepo: _createFirstRepo, parentScope:parentScope},
                  templateUrl: '../app/Admin/create-backup.template.html',
                  parent: angular.element(document.body),
                  targetEvent: ev,
@@ -3771,7 +3769,7 @@ angular.module('admin').filter('abs', function () {
 						$scope.closePoup = function(){
 							$mdDialog.hide();
 	                    };
-                        
+
 						$scope.fetchAllRepositories = function () {
 			                $scope.allRepositories = [];
 			                $scope.showContentLoader = true;
@@ -3791,9 +3789,9 @@ angular.module('admin').filter('abs', function () {
 			                        	$scope.showContentLoader = false;
 			                        	$scope.isRepoAvailable = false;
 			                        });
-			            }; 
+			            };
 			            $scope.fetchAllRepositories();
-			            
+
 			            $scope.fetchAllIndices = function () {
 			                $scope.allIndices = [];
 			                $scope.showContentLoader = true;
@@ -3802,12 +3800,12 @@ angular.module('admin').filter('abs', function () {
 			                        function (response) {
 			                            if(response.data.response_body.indices){
 			                                angular.forEach(response.data.response_body.indices, function (value, key) {
-			                                	$scope.allIndices.push({ 
-			                                				"name": value, 
+			                                	$scope.allIndices.push({
+			                                				"name": value,
 			                                				"checked": false
 			                                				});
 			                                });
-			                                
+
 			                                $scope.isRepoAvailable = true;
 			                            }else{
 			                                $scope.isRepoAvailable = false;
@@ -3818,28 +3816,28 @@ angular.module('admin').filter('abs', function () {
 			                        	console.log(error);
 			                        	$scope.showContentLoader = false;
 			                        });
-			            }; 
+			            };
 			            $scope.fetchAllIndices();
-			            
+
 			            $scope.selectAllIndices = function(selected){
 	                		for (var i = 0; i < $scope.allIndices.length; i++) {
 	                   	        $scope.allIndices[i].checked = !selected;
 	                		}
                         };
-                        
+
                         $scope.removeSelectAll = function(){
                  		   $scope.selectAllStatus = false;
                  		   var selectedCount = 0;
                  		   angular.forEach($scope.allIndices, function (value, key) {
                  			   if (value.checked == true) {
                  				  selectedCount++
-                 			   } 
+                 			   }
                  		   });
                  		   return selectedCount;
                         };
-                       
+
                         $scope.createRepository = function(repositoryName){
-                        	
+
                         		$scope.selectRepository = true;
                         		var reqBody = {
                                 "request_body": {
@@ -3861,7 +3859,7 @@ angular.module('admin').filter('abs', function () {
                                         //createRepo.reset();
                                         $scope.fetchAllRepositories();
                                       },
-                                      
+
                                     function (error) {
                                     	$scope.repositoryStatus=true;
                                         var error = error.data;
@@ -3876,24 +3874,24 @@ angular.module('admin').filter('abs', function () {
                                         //createRepo.reset();
                                         $scope.fetchAllRepositories();
                                     });
-                        	
-            
+
+
                         };
                         $scope.elements = [];
-                        
-                       
+
+
                         $scope.createBackup = function(){
                         	$scope.selectedRepoName = $scope.selectRepo;
                         	$scope.allIndices;
                         	$scope.reqBodyIndice = [];
-                        	
+
                         	//check which all indices are checked
                         	angular.forEach($scope.allIndices, function (value, key) {
                                 if (value.checked == true) {
                                 	$scope.reqBodyIndice.push(value.name);
-                                }  
+                                }
                             });
-                        	
+
                             var reqBody = {
                             		  "request_body": {
                             			    "createSnapshots": [
@@ -3928,12 +3926,12 @@ angular.module('admin').filter('abs', function () {
                                     	$scope.closePoup();
                                     	$scope.parent.backupStatus=true;
                                         var error = error.data;
-                                        $location.hash('myDialog'); 
+                                        $location.hash('myDialog');
                                         $anchorScroll();
                                         $scope.parent.msg = "Error Occurred while creating backup.";
                                         $scope.parent.icon = 'info_outline';
                                         $scope.parent.styleclass = false;
-                                      
+
                                         $timeout(function () {
                                         	$scope.parent.backupStatus = false;
                                         }, 3000);
@@ -3941,10 +3939,10 @@ angular.module('admin').filter('abs', function () {
                                         $scope.selectRepo=" ";
                                         $scope.parent.getAllSnapshot();
                                         $scope.fetchAllRepositories();
-										
+	
                                     });
                         };
-                        
+
                         //Delete Indices
 						$scope.confirmDeleteIndice = function(indiceName){
 
@@ -3956,13 +3954,13 @@ angular.module('admin').filter('abs', function () {
                                 clickOutsideToClose: true
                             }).then(function(flag){
                             	if(flag){
-                            		$scope.deleteIndices();                      		
+                            		$scope.deleteIndices();
                             	} else {
                             		$scope.parent.createBackup();
-                            	}                            	
+                            	}
                             });
                         }
-						
+
                         $scope.deleteIndices = function(indiceName){
                         	var deleteIndiceName = indiceName;
                         	var reqBody = {
@@ -3974,7 +3972,7 @@ angular.module('admin').filter('abs', function () {
                               .deleteIndices(reqBody)
                               .then(
                                   function (response) {
-                                     $location.hash('backupLogs'); 
+                                     $location.hash('backupLogs');
                                       $anchorScroll();
                                       $scope.parent.msg = response.data.response_body.message;
                                       $scope.parent.icon = '';
@@ -3987,7 +3985,7 @@ angular.module('admin').filter('abs', function () {
                                   function (error) {
                                       $scope.status = error.data;
                                       console.log($scope.status);
-                                      $location.hash('backupLogs'); 
+                                      $location.hash('backupLogs');
                                       $anchorScroll();
                                       $scope.parent.msg = 'Error Occurred while deleting Indices.';
                                       $scope.parent.icon = 'info_outline';
@@ -3997,29 +3995,29 @@ angular.module('admin').filter('abs', function () {
                                           $scope.parent.showAlertMessage = false;
                                       }, 3000);
                                       $scope.fetchAllIndices();
-                                      
+
                                   });
                         }
-                        
-                        
+
+
 					}
                 })
-                
+
             };
-			
+
 			$scope.closeIndice = function(flag){
 				$mdDialog.hide(flag);
 			}
 
-            
+
             /************Maintained Backup Logs Methods***********/
-			
+
 			/*** Role management**/
-			
-			
+
+
 			$scope.selectedCatalogList = [];
-			$scope.toggleCatalogSelection = function(catalogid){	
-				
+			$scope.toggleCatalogSelection = function(catalogid){
+
 				var index = $scope.selectedCatalogList.indexOf(catalogid);
 			    if (index > -1) {
 			      $scope.selectedCatalogList.splice(index, 1);
@@ -4035,7 +4033,7 @@ angular.module('admin').filter('abs', function () {
 
 
 			}
-			
+
 			 $scope.checkAllRoles = function(selected){
 				 var allcatalogs = Object.keys($scope.allCatalogList);
 				 $scope.selectedCatalogTempList = []
@@ -4047,18 +4045,71 @@ angular.module('admin').filter('abs', function () {
 	           	              $scope.allCatalogList[allcatalogs[i]][j].catalogId);  
 	        		     }
 	        		    $scope.selectedCatalogList = angular.copy($scope.selectedCatalogTempList);
+
 	        	
      	            }
      	        }
     	        else {
     	        	$scope.selectedCatalogList = [];
-    	        } 
+    	        }
 				 for (var i = 0; i < allcatalogs.length ; i++) {
 	        		for (var j = 0; j < $scope.allCatalogList[allcatalogs[i]].length; j++) {
 	           	        $scope.allCatalogList[allcatalogs[i]][j].checked = selected;
 	        		}
 	        	}
 			 }
+
+			// Deployment Automation starts
+			 $scope.submitDeployment = function(){
+				 var deployementObject = {};
+				 deployementObject['jsr'] = $scope.jenkinsServer;
+				 deployementObject['jjb'] = $scope.jenkinsJob;
+				 deployementObject['param'] = $scope.jenkinsName;
+				 deployementObject['paramValue'] = $scope.jenkinsValue;
+				 deployementObject['jlog'] = $scope.jenkinsLogin;
+				 deployementObject['jst'] = $scope.jenkinsToken;
+
+				 var deployementObjectStrTemp = JSON.stringify(deployementObject);
+				 var deployementObjectStr = deployementObjectStrTemp.replace(/"/g, '\"');
+
+				 var reqObj = {
+	                        "request_body": {
+	                            "configKey": "deployment_jenkins_config",
+	                            "configValue": deployementObjectStr,
+	                            "userId": userId
+	                        }
+	                    };
+				 console.log("reqObj: ", reqObj);
+
+				 if (typeof $scope.deployment_jenkins_config === "undefined") {
+                     apiService
+                         .createSiteConfig(reqObj)
+                         .then(
+                             function (response) {
+                                 $scope.msg = "Deployment Automation Updated successfully.";
+                                 $scope.icon = '';
+                                 $scope.styleclass = 'c-success';
+                                 $scope.showAlertMessage = true;
+                                 $timeout(function () {
+                                     $scope.showAlertMessage = false;
+                                 }, 5000);
+                             });
+                 } else {
+                     apiService
+                         .updateSiteConfig("deployment_jenkins_config", reqObj)
+                         .then(
+                             function (response) {
+                                 $scope.msg = "Deployment Automation Updated successfully.";
+                                 $scope.icon = '';
+                                 $scope.styleclass = 'c-success';
+                                 $scope.showAlertMessage = true;
+                                 $timeout(function () {
+                                     $scope.showAlertMessage = false;
+                                 }, 5000);
+                             });
+                 }
+			 };
+			 // Deployment Automation ends
 
         }
     })

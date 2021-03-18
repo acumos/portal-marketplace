@@ -1,4 +1,4 @@
-<!--  
+<!--
 ===============LICENSE_START=======================================================
 Acumos  Apache-2.0
 ===================================================================================
@@ -8,9 +8,9 @@ This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
 This file is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
@@ -77,17 +77,23 @@ limitations under the License.
 								class="tab-icons tab-site_configuration"></span> <span>Site
 									Configuration</span>
 						</span>
-						</a> 
+						</a>
 						<a href="#tab9-panel" ng-click='menuName = "Maintained Backup Logs"; getMaintainedBackupLogs();'
 							class="mdl-tabs__tab"> <span class="tab-box"> <span
-								class="tab-icons tab-maintained_logs"></span> <span>Maintained 
+								class="tab-icons tab-maintained_logs"></span> <span>Maintained
 								Backup Logs</span>
 						</span>
 						</a> <a href="#tab5-panel" ng-click='menuName = "Federation"'
 							class="mdl-tabs__tab "> <span class="tab-box"> <span
 								class="tab-icons tab-federation"></span> <span>Federation</span>
 						</span>
-						</a> 
+						</a>
+						<a href="#tab8-panel" ng-click='menuName = "Model Deployment Automation"' class="mdl-tabs__tab ">
+							<span class="tab-box">
+								<span class="tab-icons tab-federation"></span>
+								<span>Model Deployment Automation</span>
+							</span>
+						</a>
 						<!--  <a href="#tab6-panel" ng-click='menuName = "Requests"'
 							class="mdl-tabs__tab"> <span class="tab-box"> <span
 								class="tab-icons tab-subscription_requests"></span> <span>Requests</span>
@@ -199,7 +205,7 @@ limitations under the License.
 						</div>
 						<div class="admin-button-row1">
 							<div class="admin-container-row1-inner3">
-								<!-- <div class="">															
+								<!-- <div class="">
 															<div class="note-btn-container">
 																<button id="demo-menu-lower-right3" class="mdl-button mdl-js-button btn-sort bdr">
 																	<span class="hide-xs">Bulk Actions</span>
@@ -210,9 +216,9 @@ limitations under the License.
 																	<li class="mdl-menu__item">2147584</li>
 																	<li class="mdl-menu__item">2147583</li>
 																	<li class="mdl-menu__item">2147582</li>
-																	<li class="mdl-menu__item">2147581</li> 
+																	<li class="mdl-menu__item">2147581</li>
 																</ul>
-															</div>		
+															</div>
 														</div> -->
 								<div>
 									<div class="note-btn-container">
@@ -239,7 +245,7 @@ limitations under the License.
 																	<li class="mdl-menu__item">2147584</li>
 																	<li class="mdl-menu__item">2147583</li>
 																	<li class="mdl-menu__item">2147582</li>
-																	<li class="mdl-menu__item">2147581</li> 
+																	<li class="mdl-menu__item">2147581</li>
 																</ul> -->
 										<md-select ng-model="roleIdSelected"
 											placeholder="Change Role To" ng-disabled='!roleArr.length'
@@ -359,9 +365,9 @@ limitations under the License.
 
 						</table>
 					</div>
-					
+
 					<div class="mdl-tabs__panel" id="tab10-panel">
-					
+
 						<div class="admin-box1 admin-tab-heading">
 							<span class="admin-title2">Role Management</span> <span>
 
@@ -373,7 +379,7 @@ limitations under the License.
 						</div>
 						<div class="posrel"><content-loader ng-show="showRoleLoader"></content-loader>
 						<div class="admin-button-row1 pull-right">
-							<div>								
+							<div>
 								<div
 									class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input adminsearchicon" type="text"
@@ -381,7 +387,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						  
+
 						<table
 							class="mdl-data-table scroll-table clear_both">
 
@@ -400,34 +406,34 @@ limitations under the License.
 										class="gridcell-sort"></span>
 									</th>
 
-									<th>Action</th>									
+									<th>Action</th>
 								</tr>
 							</thead>
 
 							<tbody ng-repeat="val in ( filteredRole = (allRoles | orderBy:orderByField:!reverseSortRole  | filter : searchRole : strict))">
 								<tr ng-class="{adminrow: (val.name=='Admin')}">
 									<td>{{val.name}}</td>
-									
+
 									<td>
 										<button  class="mdl-button mdl-button--icon" ng-click="addNewRole(val);" ng-disabled="val.name=='Admin'">
 											<span class="gridicon-edit" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>
 										</button>
 										<button class="mdl-button mdl-button--icon" type="button"  aria-label="Delete" title="Delete"  ng-class="{disabledClick: (val.name=='Admin')}" ng-disabled="val.name=='Admin'" ng-click="confirmDeleteRole(val)">
-											<span class="gridicon-delete" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>															  
+											<span class="gridicon-delete" ng-class="(val.name =='Admin') ? 'disabled' : '' "></span>
 										</button>
 									</td>
 								</tr>
-								
+
 							</tbody>
 							<tbody ng-if="filteredRole.length == 0">
 								<tr class="alert c-info text-center">
 									<td class="text-center" colspan="2"><strong>No
 											Results Found</strong></td>
 								</tr>
-								
-								
+
+
 							</tbody>
-						
+
 						</table>
 						</div>
 					</div>
@@ -710,14 +716,14 @@ limitations under the License.
 									ng-disabled="validImageFile == false || enableclose"
 									class="mdl-button mdl-js-button btn-primary upload-btn">Upload</button>
 								<div ng-show="logoImage.name" class="file-name">
-								 		{{logoImage.name}} 
+								 		{{logoImage.name}}
 								</div>
-						
+
 							<div>
 									<div class="help-inline validation-msgs">
 										<span ng-show="isImageTypeError">File should be
 											JPG, GIF or PNG</span>
-									</div> 
+									</div>
 									<div class="help-inline validation-msgs">
 										<span ng-show="isHeightError">Co-Branding Logo height should be less than 54px</span>
 									</div>
@@ -731,7 +737,7 @@ limitations under the License.
 							<div class="co-br_logo_wrapper">
 							<div class="co-br_logo_inner-wrapper" >
 								<span class="co-br-logo"><img ng-src="{{preview}}" ></span>
-								<label class="img-lbl-1">Co-Branding Logo</label>			 
+								<label class="img-lbl-1">Co-Branding Logo</label>
 								<button class="btn-cobr-close" ng-click="showDeleteDialog()" ng-hide="!enableclose"><i class="material-icons">close</i></button>
 							</div>
 						</div>
@@ -926,15 +932,15 @@ limitations under the License.
 						</form>
 						<!-- Dymanic form END -->
 					</div>
-					
+
 					<!-- HTML code for Maintained Backup Logs page -->
 					<div class="mdl-tabs__panel" id="tab9-panel">
 						<div class="admin-tab-heading">
 							<span class="admin-title2">Maintained Backup Logs</span>
 					</div>
-					
+
 						<div class="site-content-wrapper">
-							
+
 							<md-tabs md-dynamic-height md-border-bottom>
 								<md-tab label="Backup Logs">
 									<md-content class="md-padding">
@@ -946,7 +952,7 @@ limitations under the License.
 											<div class="fedrow-cell1">
 												<button class="mdl-button mdl-js-button btn-primary" ng-click="createBackup($event);">Create Backup</button>
 												<button class="mdl-button mdl-js-button btn-secondary btn-gap"
-												ng-disabled="disableSnapshotButton" ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>												
+												ng-disabled="disableSnapshotButton" ng-click="confirmCreateRestoreArchive('archive', allRepoSnapshots, true)">Archive</button>
 											</div>
 											<div class="fed-row2">
 												<div class="fed-srch-container">
@@ -955,7 +961,7 @@ limitations under the License.
 														<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
 															ng-model="searchSnapshot">
 													</div>
-												</div>												
+												</div>
 											</div>
 										</div>
 										<hr />
@@ -983,7 +989,7 @@ limitations under the License.
 												<tbody ng-repeat="snapshot in allRepoSnapshots | orderBy:orderSnapshots:reverseSortbackup 
 													| filter:searchSnapshot as filteredSnapshot">
 													<!-- Code based on Repository -->
-													
+
 													<tr>
 														<td>
 															<md-checkbox
@@ -992,31 +998,31 @@ limitations under the License.
 														</td>
 														<td>
 										                    <span aria-label="More" style="cursor: pointer"
-																ng-click="expanded = !expanded"> 
+																ng-click="expanded = !expanded">
 															 	<md-icon>
 																		<i class="material-icons" style="margin: 0"
 																			ng-show="!expanded">add</i> <i
 																			class="material-icons" style="margin: 0"
-																			ng-show="expanded">remove</i> 
+																			ng-show="expanded">remove</i>
 																</md-icon>
 															</span>
-															
+
 															<span>{{snapshot.repositoryName}}</span>
 														</td>
 														<td>
-															<md-button class="md-icon-button md-primary" aria-label="archive" title="archive" 
+															<md-button class="md-icon-button md-primary" aria-label="archive" title="archive"
 																ng-click="confirmCreateRestoreArchive('archive', snapshot.repositoryName)">
 																<i class="gridicon-archive"></i>
 															</md-button>
 														</td>
 													</tr>
 													<tr ng-show="expanded">
-														
+
 														<td colspan="3" class="no_padding">
 															<table class="create_bkp_inner_tbl">
 															<colgroup>
 																<col style="width:80%">
-																<col style="width:20%;">															
+																<col style="width:20%;">
 															</colgroup>
 															<thead>
 																<tr>
@@ -1032,22 +1038,22 @@ limitations under the License.
 															</tbody>
 															</table>
 														</td>
-													</tr> 
+													</tr>
 													<!-- Content Loader directive -->
 													<content-loader ng-show="showContentLoader"></content-loader>
 												</tbody>
 											</table>
-											
+
 											<div class="alert c-info text-center" ng-if="filteredSnapshot.length == 0">
 												<strong>No Results Found</strong>
 											</div>
 											<div class="alert text-center"
 												ng-if="allRepoSnapshots.length == 0">
 												<strong>No data available</strong>
-											</div> 
-											
+											</div>
+
 										</div>
-										
+
 										<div class="pagination-wrapper" ng-if="snapshots.length > 10">
 			                              <div class="pagination-left-section">
 			                                 <span>Showing </span>
@@ -1116,10 +1122,10 @@ limitations under the License.
 			                                 </div>
 			                              </div>
 			                           </div>
-			                           
+
 									</md-content>
 								</md-tab>
-								
+
 								<md-tab label="Archived Logs">
 									<md-content class="md-padding">
 										<div class="c-alert c-warning static-position margin-backlog">
@@ -1130,7 +1136,7 @@ limitations under the License.
 										<div class="fed-row1">
 												<div class="fedrow-cell1">
 														<button class="mdl-button mdl-js-button btn-primary"  ng-click="confirmCreateRestoreArchive('restore', allRepoArchives, true)" ng-disabled="disableArchiveButton">Restore</button>
-														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)" ng-disabled="disableArchiveButton">Delete</button>											
+														<button class="mdl-button mdl-js-button btn-secondary btn-gap"  ng-click="confirmCreateRestoreArchive('delete', allRepoArchives, true)" ng-disabled="disableArchiveButton">Delete</button>
 												</div>
 												<div class="fed-row2">
 													<div class="fed-srch-container">
@@ -1139,11 +1145,11 @@ limitations under the License.
 															<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Search"
 																ng-model="searchArchives">
 														</div>
-													</div>												
+													</div>
 												</div>
 											</div>
 										<hr />
-	 
+
 										<div>
 											<table class="mdl-data-table mdl-js-data-table fullwidth backlog-list checkbox_align">
 												<colgroup>
@@ -1163,7 +1169,7 @@ limitations under the License.
 																ng-if='orderArchives=="backupName"'
 																ng-class="reverseSortArchives?'ascending':'descending'"
 																class="gridcell-sort"></span></th> -->
-														<th ng-click="orderArchives='repositoryName';reverseSortArchives = !reverseSortArchives">															
+														<th ng-click="orderArchives='repositoryName';reverseSortArchives = !reverseSortArchives">
 															Repository Name <span ng-if='orderArchives!="repositoryName"'
 																class="gridcell-sort deactivate"></span><span
 																ng-if='orderArchives=="repositoryName"'
@@ -1181,8 +1187,8 @@ limitations under the License.
 													</tr>
 												</thead>
 												<tbody ng-repeat="archive in allRepoArchives | orderBy:orderArchives:reverseSortArchives | filter:searchArchives as filteredArchives">
-													<tr> 
-														<td>															
+													<tr>
+														<td>
 															<md-checkbox
 																	ng-model="archive.checked" ng-change="removeSelectAllArchives()">
 																</md-checkbox>
@@ -1191,12 +1197,12 @@ limitations under the License.
 														<!-- <td><span>{{archive.backupName}}</span></td> -->
 														<td>
 															<span aria-label="More" style="cursor: pointer"
-																ng-click="expandedArchive = !expandedArchive"> 
+																ng-click="expandedArchive = !expandedArchive">
 															 	<md-icon>
 																		<i class="material-icons" style="margin: 0"
 																			ng-show="!expandedArchive">add</i> <i
 																			class="material-icons" style="margin: 0"
-																			ng-show="expandedArchive">remove</i> 
+																			ng-show="expandedArchive">remove</i>
 																</md-icon>
 															</span>
 															<span>{{archive.repositoryName}}</span>
@@ -1206,20 +1212,20 @@ limitations under the License.
 															<md-button class="md-icon-button md-primary" aria-label="Restore" title="Restore"
 															 ng-click="confirmCreateRestoreArchive('restore', archive.repositoryName)">
 																<span class="gridicon-restore"></span>
-																				  
+
 															</md-button>
 															<a ng-click="confirmCreateRestoreArchive('delete', archive.repositoryName)" title="delete">
 																<span class="gridicon-delete"></span>
 															</a>
 														</td>
 													</tr>
-													
+
 													<tr ng-show="expandedArchive">
 														<td colspan="3" class="no_padding">
 															<table class="create_bkp_inner_tbl">
 															<colgroup>
 																<col style="width:80%">
-																<col style="width:20%;">															
+																<col style="width:20%;">
 															</colgroup>
 															<thead>
 																<tr>
@@ -1238,16 +1244,16 @@ limitations under the License.
 													</tr>
 											</tbody>
 											</table>
-											
+
 											<div class="alert c-info text-center" ng-if="filteredArchives.length == 0">
 												<strong>No Results Found</strong>
 											</div>
 											<div class="alert text-center"
 												ng-if="allRepoArchives.length == 0">
 												<strong>No data available</strong>
-											</div> 
+											</div>
 										</div>
-										
+
 										<div class="pagination-wrapper" ng-if="archives.length > 10">
 			                              <div class="pagination-left-section">
 			                                 <span>Showing </span>
@@ -1316,14 +1322,14 @@ limitations under the License.
 			                                 </div>
 			                              </div>
 			                           </div>
-			                           
+
 									</md-content>
 								</md-tab>
 							</md-tabs>
 						</div>
 					</div>
 					<!-- HTML code for Maintained Backup Logs page Ends -->
-					
+
 					<div class="mdl-tabs__panel" id="tab5-panel">
 						<div class="admin-tab-heading admin-box2">
 							<div>
@@ -1336,7 +1342,7 @@ limitations under the License.
 									ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;verify=true;'>
 									<span class="admin-btn-add"></span> Add Peer
 								</button>
-								
+
 								<a data-target class="admin-help-link" title="Help"></a>
 							</div>
 						</div>
@@ -1774,12 +1780,12 @@ limitations under the License.
 														</div>
 													</article>
 												</div>
-												<!-- <div class="list-validation-box">		
-																					<article class="timeline-entry">			
-																						<div class="timeline-entry-inner">			
+												<!-- <div class="list-validation-box">
+																					<article class="timeline-entry">
+																						<div class="timeline-entry-inner">
 																							<div class="timeline-icon">
 																								<span class="entypo-feather">2</span>
-																							</div>			
+																							</div>
 																							<div class="timeline-label">
 																								<h2>Security Scan</h2>
 																								<ul>
@@ -1787,26 +1793,26 @@ limitations under the License.
 																									<li>added on 01/22/2018 </li>
 																								</ul>
 																							</div>
-																						</div>			
+																						</div>
 																					</article>
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
 																				</div>
-																				<div class="list-validation-box">		
-																					<article class="timeline-entry">			
-																						<div class="timeline-entry-inner">			
+																				<div class="list-validation-box">
+																					<article class="timeline-entry">
+																						<div class="timeline-entry-inner">
 																							<div class="timeline-icon">
 																								<span class="entypo-feather">3</span>
-																							</div>			
+																							</div>
 																							<div class="timeline-label">
 																								<h2>Licence Check</h2>
 																								<ul>
 																									<li>Onboarding</li>
 																									<li>added on 01/22/2018 </li>
-																								</ul>																								
+																								</ul>
 																							</div>
-																						</div>			
+																						</div>
 																					</article>
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
@@ -1872,12 +1878,12 @@ limitations under the License.
 														</div>
 													</article>
 												</div>
-												<!-- <div class="list-validation-box">		
-																					<article class="timeline-entry">			
-																						<div class="timeline-entry-inner">			
+												<!-- <div class="list-validation-box">
+																					<article class="timeline-entry">
+																						<div class="timeline-entry-inner">
 																							<div class="timeline-icon">
 																								<span class="entypo-feather">2</span>
-																							</div>			
+																							</div>
 																							<div class="timeline-label">
 																								<h2>Security Scan</h2>
 																								<ul>
@@ -1885,37 +1891,37 @@ limitations under the License.
 																									<li>added on 01/22/2018 </li>
 																								</ul>
 																							</div>
-																						</div>			
+																						</div>
 																					</article>
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
 																				</div>
-																				<div class="list-validation-box">		
-																					<article class="timeline-entry">			
-																						<div class="timeline-entry-inner">			
+																				<div class="list-validation-box">
+																					<article class="timeline-entry">
+																						<div class="timeline-entry-inner">
 																							<div class="timeline-icon">
 																								<span class="entypo-feather">3</span>
-																							</div>			
+																							</div>
 																							<div class="timeline-label">
 																								<h2>Licence Check</h2>
 																								<ul>
 																									<li>Onboarding</li>
 																									<li>added on 01/22/2018 </li>
-																								</ul>																								
+																								</ul>
 																							</div>
-																						</div>			
+																						</div>
 																					</article>
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
 																				</div>
-																				<div class="list-validation-box">		
-																					<article class="timeline-entry">			
-																						<div class="timeline-entry-inner">			
+																				<div class="list-validation-box">
+																					<article class="timeline-entry">
+																						<div class="timeline-entry-inner">
 																							<div class="timeline-icon">
 																								<span class="entypo-feather">4</span>
-																							</div>			
+																							</div>
 																							<div class="timeline-label">
 																								<h2>Text Check</h2>
 																								<ul>
@@ -1923,18 +1929,18 @@ limitations under the License.
 																									<li>added on 01/22/2018 </li>
 																								</ul>
 																							</div>
-																						</div>			
+																						</div>
 																					</article>
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
-																				</div> 
-																				<div class="list-validation-box">		
-																					<article class="timeline-entry">			
-																						<div class="timeline-entry-inner">			
+																				</div>
+																				<div class="list-validation-box">
+																					<article class="timeline-entry">
+																						<div class="timeline-entry-inner">
 																							<div class="timeline-icon">
 																								<span class="entypo-feather">5</span>
-																							</div>			
+																							</div>
 																							<div class="timeline-label">
 																								<h2>Manual Text Check</h2>
 																								<ul>
@@ -1942,7 +1948,7 @@ limitations under the License.
 																									<li>added on 01/22/2018 </li>
 																								</ul>
 																							</div>
-																						</div>			
+																						</div>
 																					</article>
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
@@ -2108,7 +2114,53 @@ limitations under the License.
 						</div>
 					</div>
 					<!-- admin validation tab (workflow configuration) end -->
-
+					
+					<!-- model deployment automation starts -->
+					<div class="mdl-tabs__panel" id="tab8-panel">
+						<div class="admin-tab-heading admin-box2">
+							<div>
+								<span class="admin-title2">Model Deployement Automation</span>
+							</div>
+						</div>
+						
+						<div>
+							<div class="rowcontainer admin-sccontainer1">
+								<form name="deploymentAutomation">
+									<div class="deployementAutomationForm">
+										<div>
+											<label>Location of Jenkins Server</label>
+											<input type="text" ng-model="jenkinsServer" placeholder="Eg: IP address:port"/>
+										</div>
+										<div>
+											<label>Name of the Jenkins Job</label>
+											<input type="text" ng-model="jenkinsJob" placeholder="Eg: Acumos_model_deployment"/>
+										</div>
+										<div>
+											<label>Name of the Parameter</label>
+											<input type="text" ng-model="jenkinsName" placeholder="Eg: model_name"/>
+										</div>
+										<div>
+											<label>Value of the parameter</label>
+											<input type="text" ng-model="jenkinsValue" placeholder="Docker URI of the docker image"/>
+										</div>
+										<div>
+											<label>Jenkins login</label>
+											<input type="text" ng-model="jenkinsLogin" placeholder="Login"/>
+										</div>
+										<div>
+											<label>Jenkins security token</label>
+											<input type="text" ng-model="jenkinsToken" placeholder="Security Token"/>
+										</div>
+										
+										<button ng-click='submitDeployment()' 
+											class="mdl-button mdl-js-button btn-primary">Submit</button>
+									</div>
+								</form>
+								 
+							</div>
+						</div>
+					</div>
+					<!-- model deployement automation ends -->
 				</div>
 			</div>
 		</div>
@@ -2305,7 +2357,7 @@ limitations under the License.
 
 	<!-- Modal box start Add new Role-->
 	<div class="md-dialog-container" id="addRole" style="height: 0;position:relative;">
-		
+
 	</div>
 	<!-- Modal box end -->
 
@@ -2331,8 +2383,8 @@ limitations under the License.
 					</div>
 					<!-- <div flex="33">
 										   	<md-input-container class="md-block" flex-gt-sm>
-												<label>Subject Name</label> 
-												<input type="text"  required ng-model='subNamePop'/> 
+												<label>Subject Name</label>
+												<input type="text"  required ng-model='subNamePop'/>
 											</md-input-container>
 										  </div> -->
 					<div flex="50">
@@ -2477,7 +2529,7 @@ limitations under the License.
 				<div ng-class={'a-overlay1':$root.setLoader} ng-if="$root.setLoader">
                <span ng-class={'a-overlay1-inner-msg':$root.setLoader}>Please wait...</span></div>
 			<div class="md-dialog-content">
-				<div class="subscontainer" id="subscontainer">									
+				<div class="subscontainer" id="subscontainer">
 				<alert-message msg="msg" icon="icon" styleclass="styleclass"
 	ng-show="showSuccessMessage"></alert-message>
 					<div class="subscontainerinner1">
@@ -2517,11 +2569,11 @@ limitations under the License.
 									<col>
 									<col>
 									<col>
-									 
+
 								</colgroup>
 								<thead>
 									<tr>
-										 
+
 										<!-- <th>Description</th>	 -->
 										<th>SUBSCRIPTIONS ID</th>
 										<th>CATALOG NAME </th>
@@ -2529,7 +2581,7 @@ limitations under the License.
 										<!-- <th>Updated on</th> -->
 										<th>Frequency of update</th>
 										<th class="text-center">ACTION</th>
-										 
+
 									</tr>
 								</thead>
 								<tbody
@@ -2852,24 +2904,24 @@ limitations under the License.
 
 						</li>
 						<!-- <li>
-															<div class="steppointer arrow_box"> 
+															<div class="steppointer arrow_box">
                                                               <div class="imageplace">
                                                                      <span class="imagecontent create-docker">
                                                                      </span>
-                                                              </div>                                                             
+                                                              </div>
                                                               <div class="text">Create Docker Micro-service</div>
 															</div>
                                                             <div class="count-circle">
 																2
-															</div> 
+															</div>
                                                        </li>
                                                        <li class="progress-status"></li>
                                                        <li>
-															<div class="steppointer arrow_box"> 
+															<div class="steppointer arrow_box">
                                                               <div class="imageplace">
                                                                      <span class="imagecontent create-tosca">
                                                                      </span>
-                                                              </div>                                                              
+                                                              </div>
                                                               <div class="text">Create Tosca</div>
 															</div>
                                                             <div class="count-circle">
@@ -2895,20 +2947,20 @@ limitations under the License.
 																<div class="imageplace">
                                                                      <span class="imagecontent add-repository"> 
                                                                      </span>
-																</div>                                                              
+																</div>
 																<div class="text">Add to Repository</div>
 															</div>
                                                             <div class="count-circle">
 																5
-															</div> 
+															</div>
                                                        </li>
                                                        <li class="progress-status"></li>
 													   <li>
 													   		<div class="steppointer  arrow_box removescan" ng-show = "removeTC">
 																<div class="imageplace" >
-                                                                     <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent create-security"> 
+                                                                     <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent create-security">
                                                                      </span></a>
-																</div>                                                              
+																</div>
 																<div class="text">Text Check</div>
 																<div class="removestepicon">
 																	<i class="material-icons"><a href="">remove_circle</a></i>
@@ -2916,14 +2968,14 @@ limitations under the License.
 															</div>
 															<div class="steppointer  arrow_box active" ng-show = "!removeTC">
 																<div class="imageplace">
-                                                                     <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent add-security"> 
+                                                                     <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent add-security">
                                                                      </span></a>
-																</div>                                                              
+																</div>
 																<div class="text">Please Add Text Check if required</div>
 															</div>
                                                             <div class="count-circle">
 																6
-															</div> 
+															</div>
                                                        </li>
 													   <li class="progress-status"></li>
                                                        <li>
@@ -2931,12 +2983,12 @@ limitations under the License.
 																<div class="imageplace">
                                                                     <span class="imagecontent not-yet-onboarded">
                                                                      </span>
-																</div>                                                       
+																</div>
 																<div class="text">Not yet onboarded</div>
 															</div>
                                                             <div class="count-circle">
 																7
-															</div>                                                             
+															</div>
                                                        </li>                         -->
 					</ul>
 				</div>
@@ -3327,25 +3379,25 @@ limitations under the License.
 							</div>
 							<!-- <div class="link-button-container">
 																<div display="block">
-																<label>       </label> 
+																<label>       </label>
 																	<input type="checkbox" ng-model="carouselSlide.links.external.enabled">
 																</div>
 																<div class="cancelbox">
 																	<i class="material-icons">cancel</i>
 																</div>
 																<div class="buttonlabel">
-																	<label>Button Label</label> 
+																	<label>Button Label</label>
 																	<input type="text" placeholder="External Link" ng-model="carouselSlide.links.external.label">
 																</div>
 																<div>
 																	<div>
 																		<div class="select-control">
-																			<label>Link button to</label> 
+																			<label>Link button to</label>
 																			<input type="text" ng-model="carouselSlide.links.external.address" >
 																		</div>
 																	</div>
 																</div>
-																
+
 															</div> -->
 
 						</div>
@@ -3903,7 +3955,7 @@ limitations under the License.
                </div>
        </div>
        <!-- Modal box end -->
-	   
+
 		<!-- Create Backup Modal box end -->
 	<div class="page-wrapper2">
 		<div class="md-dialog-container" id="deleteIndex"
@@ -3937,8 +3989,8 @@ limitations under the License.
 			</md-dialog>
 		</div>
 	</div>
-	
-	
+
+
 	<!-- Delete role -->
 	<div class="page-wrapper2">
 		<div class="md-dialog-container" id="deleteRole"
@@ -3971,8 +4023,8 @@ limitations under the License.
 			</form>
 			</md-dialog>
 		</div>
-	</div>		
-			
+	</div>
+
 		<!-- Archive/Restore backup confirmation dialog -->
 		<div class="page-wrapper2">
 		<div class="md-dialog-container" id="archiveRestoreModal"
@@ -4008,4 +4060,4 @@ limitations under the License.
 			 </md-dialog>
                </div>
        </div>
-       <!-- Modal box end -->	
+       <!-- Modal box end -->
