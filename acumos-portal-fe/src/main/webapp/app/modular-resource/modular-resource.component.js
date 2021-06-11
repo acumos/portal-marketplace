@@ -110,8 +110,9 @@ angular.module('modelResource')
 			$scope.disableUploadLicense = false;
 			$scope.disableUploadDLCheckbox = false;
 
-			if(angular.isDefined($rootScope.isMicroserviceEnabled) == false)
+			if(angular.isDefined($rootScope.isMicroserviceEnabled) == false){
 				$rootScope.isMicroserviceEnabled = true;
+			}
 			$rootScope.progressBar = 0;
 			$rootScope.modelLicProgressBar = 0;
 			
@@ -737,7 +738,8 @@ angular.module('modelResource')
 					 if($rootScope.isMicroserviceEnabled && $rootScope.isOnnxOrPFAModel == false){
 						$scope.addToReqObj = { 
 							  "request_body": {
-								    "deploymentEnv" : $scope.devEnv
+								    "deploymentEnv" : $scope.devEnv,
+								    "deploy": $scope.automaticDeployment
 								  }
 							}
 					}
@@ -1005,5 +1007,30 @@ angular.module('modelResource')
 				   		});
 			   }
 		   }
+		   
+		   /**************** Automatic Deployement **************/
+		   $scope.toggleAutomaticDeployement = function(isMicroserviceEnabled){
+			   $scope.checkMicroserviceEnabled = isMicroserviceEnabled;
+			   $rootScope.isMicroserviceEnabled;
+			   if(isMicroserviceEnabled == false){
+				   $scope.automaticDeployment = false
+			   }
+			   debugger;
+			   
+		   }
+		   
 		}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
