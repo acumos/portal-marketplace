@@ -394,9 +394,22 @@ limitations under the License.
 																			</md-input-container>
 																		</div>
 																		<div id="modelName" ng-hide="$root.isOnnxOrPFAModel">
-																			<md-checkbox aria-label="Create micro-service during on-boarding" ng-model="$root.isMicroserviceEnabled" ng-disabled="disableOnboardingButton==true  || ($root.trackId && !$root.dockerURIonboarding)"></md-checkbox>					
+																			<md-checkbox aria-label="Create micro-service during on-boarding" 
+																				ng-model="$root.isMicroserviceEnabled" 
+																				ng-disabled="disableOnboardingButton==true  || ($root.trackId && !$root.dockerURIonboarding)"
+																				ng-click="toggleAutomaticDeployement(!$root.isMicroserviceEnabled)"></md-checkbox>					
 																			<span>Create micro-service during on-boarding</span>
 																		</div>
+																		
+																		
+																		<div id="automaticDeployment" style="margin:5px 0;">
+																			<md-checkbox aria-label="Automatic Deployment" 
+																				title="Automatic Deployement can only be enabled if Create micro-service during on-boarding is enabled."
+																				ng-model="automaticDeployment"
+																				ng-disabled="!$root.isMicroserviceEnabled"></md-checkbox>					
+																			<span>Automatic Deployment</span>
+																		</div>
+																		
 																		<div ng-show="$root.isMicroserviceEnabled && !$root.isOnnxOrPFAModel" class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone remove-marleft6">
 																			<div class="select-control">
 																				<label class="fedlbl4">Select Deployment Environment</label>

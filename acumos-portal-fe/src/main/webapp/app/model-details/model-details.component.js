@@ -1719,7 +1719,8 @@ angular
 										   "deploymentEnv": $scope.devEnv,
 										   "modName": $scope.solution.name,
 										   "revisionId": $scope.revisionId,
-										   "solutioId": $scope.solutionId,									   
+										   "solutioId": $scope.solutionId,
+										   "deploy": $scope.automaticDeployment
 										 }
 										};
 									 
@@ -1728,12 +1729,12 @@ angular
 								        .createMicroservice(requestObj)
 								        .then(function(response) {
 							        		$scope.getArtifacts();
-                                                                           	if(response.data.status_code == 0){
+                                           	if(response.data.status_code == 0){
 								        		$scope.icon = 'info_outline';
 								        		$scope.styleclass = 'c-error';
 								        		$scope.msg = "Micro service generation failed.";
 								        	}
-                                                                           	$scope.showAlertMessage = true;
+                                           	$scope.showAlertMessage = true;
 											$timeout(function() {$scope.showAlertMessage = false;}, 5000);
 								         },  function(response) {
 								             $scope.showMicroService = true;
