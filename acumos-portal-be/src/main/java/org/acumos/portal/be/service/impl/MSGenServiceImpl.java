@@ -46,6 +46,7 @@ public class MSGenServiceImpl extends AbstractServiceImpl implements MSGenServic
 			requestHeaders.add("tracking-id", mSGeneration.getTrackingID());
 			requestHeaders.add("provider", mSGeneration.getProvider());
 			requestHeaders.add("Request-ID", mSGeneration.getRequestId());
+			requestHeaders.add("deploy", mSGeneration.getDeploy()+"");
 
 			// adding the query params to the URL
 			UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
