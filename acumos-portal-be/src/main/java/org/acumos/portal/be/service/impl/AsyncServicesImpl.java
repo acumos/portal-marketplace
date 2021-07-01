@@ -134,7 +134,23 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		HttpResponse response = null;
 
 		HttpResponse retObject = processService(uuid, user, solution, provider, access_token, modelName, dockerfileURI,
-				deploymentEnv, httpclient, response,null);
+				deploymentEnv, httpclient, response,null, false);
+
+		return retObject;
+	}
+	
+	@Override
+	public HttpResponse callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
+			String access_token, String modelName, String dockerfileURI,
+			String deploymentEnv, boolean deploy) throws InterruptedException, ClientProtocolException, IOException {
+
+		log.debug("CallOnboarding service Async");
+		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
+		CloseableHttpClient httpclient = hcbuilder.build();
+		HttpResponse response = null;
+
+		HttpResponse retObject = processService(uuid, user, solution, provider, access_token, modelName, dockerfileURI,
+				deploymentEnv, httpclient, response,null, deploy);
 
 		return retObject;
 	}
@@ -151,14 +167,14 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		HttpResponse response = null;
 
 		HttpResponse retObject = processService(uuid, user, solution, provider, access_token, modelName, dockerfileURI,
-				deploymentEnv, httpclient, response,dockerUploadResult);
+				deploymentEnv, httpclient, response,dockerUploadResult, false);
 
 		return retObject;
 	}	
 
 	private HttpResponse processService(String uuid, MLPUser user, UploadSolution solution, String provider,
 			String access_token, String modelName, String dockerfileURI, String deploymentEnv,
-			CloseableHttpClient httpclient, HttpResponse response,DockerUploadResult dockerUploadResult) throws IOException {
+			CloseableHttpClient httpclient, HttpResponse response,DockerUploadResult dockerUploadResult, boolean deploy) throws IOException {
 		
 		try {
 			String directory = PortalUtils.getEnvProperty(env, ENV_MODELSTORAGE) + File.separator + user.getUserId();
@@ -216,6 +232,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					post.setHeader("deployment_env", deploymentEnv);
 				}
 
+				post.setHeader("deploy", deploy+"");
 				String tokenMode = PortalUtils.getEnvProperty(env, ENV_TOKENMODE);
 				if (tokenMode.equals("jwtToken")) {
 					if (StringUtils.isEmpty(provider)) {

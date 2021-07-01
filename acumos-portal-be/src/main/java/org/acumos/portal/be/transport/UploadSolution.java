@@ -26,6 +26,7 @@ public class UploadSolution {
 	private String version;
 	private String dockerfileURI;
 	private String deploymentEnv;
+	private boolean deploy;
 	
 	/**
 	 * @return the name
@@ -76,6 +77,12 @@ public class UploadSolution {
 	 */
 	public void setDeploymentEnv(String deploymentEnv) {
 		this.deploymentEnv = deploymentEnv;
+	}
+	public boolean isDeploy() {
+		return deploy;
+	}
+	public void setDeploy(boolean deploy) {
+		this.deploy = deploy;
 	}  
 
 }

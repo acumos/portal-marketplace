@@ -127,17 +127,21 @@ public class WebBasedOnboardingController extends AbstractController {
 							String modelName = null;
 							String dockerfileURI = null;
 							String deploymentEnv = null;
+							boolean deploy = false;
 							if (restPageReq.getBody() != null){
 								modelName = restPageReq.getBody().getName();
 								dockerfileURI = restPageReq.getBody().getDockerfileURI();
 								if(restPageReq.getBody().getDeploymentEnv() != null){
 									deploymentEnv = restPageReq.getBody().getDeploymentEnv();
 								}
+								if(restPageReq.getBody().isDeploy()){
+									deploy = true;
+								}
 							}
 							
 							
 							return (HttpResponse) asyncService.callOnboarding(uuid, requestUser, solution, provider,
-									access_token, modelName, dockerfileURI, deploymentEnv);
+									access_token, modelName, dockerfileURI, deploymentEnv, deploy);
 						}
 					});
 					executor.execute(futureTask_1);

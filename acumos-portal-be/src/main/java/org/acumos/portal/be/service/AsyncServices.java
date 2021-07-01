@@ -41,7 +41,9 @@ public interface AsyncServices {
 	HttpResponse callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
 			String access_token, String modelName,String dockerfileURI, String DevEnvironment,DockerUploadResult dockerUploadResult) throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException;
 
-
+	HttpResponse callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
+			String access_token, String modelName, String dockerfileURI, String DevEnvironment, boolean deploy) throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException;
+	
 	Boolean checkONAPCompatible(String solutioId, String revisionId, String userId, String tracking_id);
 
 	Boolean checkONAPCompatible(String solutioId, String revisionId);

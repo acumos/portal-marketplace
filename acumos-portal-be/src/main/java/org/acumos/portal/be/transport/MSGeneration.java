@@ -10,6 +10,7 @@ public class MSGeneration {
 	String modName;
 	String deploymentEnv;
 	String requestId;
+	boolean deploy;
 	
 	public String getSolutioId() {
 		return solutioId;
@@ -59,6 +60,11 @@ public class MSGeneration {
 	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
-	
+	public boolean isDeploy() {
+		return deploy;
+	}
+	public void setDeploy(boolean deploy) {
+		this.deploy = deploy;
+	}
 	
 }
