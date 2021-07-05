@@ -34,8 +34,8 @@ component and its metadata and component.proto with the protobuf specs.
 You can retrieve all the information to create your model bundle in the 
 "ON-BOARDING BY WEB" home page
 
-    .. image:: ../images/portal/models_onboardingWeb.png
-
+    .. image:: ../images/portal/models_onboardingWeb.jpg
+	   :width: 75%
 Once your model bundle has been created, follow these steps:
 
 #. Select the "ON-BOARDING MODEL" tab in the outer left menu
@@ -52,7 +52,7 @@ include creating the microservice that will run in a docker container,
 creating a TOSCA file for your model so it can be used in the Design Studio, 
 and storing the artifacts and model.
 
-    .. image:: ../images/portal/models_onboardingWebSuccess.png
+    .. image:: ../images/portal/models_onboardingWebSuccess.jpg
        :width: 75%
 
 On-boarding is finished when all steps turn green. Click the **View Model** 
@@ -66,11 +66,13 @@ you need help debugging, please reach out to the Acumos Community or Dev
 Discuss `mailing lists <https://lists.acumos.org/g/main/subgroups>`_ or post on 
 `StackOverflow <https://stackoverflow.com/search?q=acumos>`_.
 
-The above On-boarding process is along with microservice generation. If you dont
+The above On-boarding process is along with microservice generation and automatic deployment. If you dont
 want MicroService Generation you can uncheck  **Create micro-service during on-boarding**
 checkbox which is checked by default.
-
-    .. image:: ../images/portal/model-onboarding-wo-microservice-success.png
+If you dont
+want Automatic Deployment you can uncheck  **Automatic Deployment**
+checkbox which is unchecked by default.
+    .. image:: ../images/portal/model-onboarding-microservice-success.jpg
              :width: 75%
 	  
 The above process will skip the steps **Dockerize** and **Add Docker Image** when we uncheck 
@@ -86,7 +88,7 @@ from where user can upload license file which must be with an extension of *.jso
 high level general terms and conditions for use of the model. Checkbox will be disabled till the model 
 is uploaded.
 
-.. image:: ../images/portal/model-onboarding-with-license.png
+.. image:: ../images/portal/model-onboarding-with-license.jpg
                  :width: 75%
 
 
@@ -94,14 +96,10 @@ is uploaded.
 If **Upload** radio button is selected it will allow user to browse a license.json file. 
 Once the file is selected the **Upload** button is enabled clicking which file will be uploaded. 
 
-.. image:: ../images/portal/model-onboarding-upload.png
-                 :width: 75%
 				 
 **Select License Profile** radio button allows the user to select a license template from a drop-down list. 
 The **Modify** button allows the user to change the content of template. 
 
-.. image:: ../images/portal/model-onboarding-select-license.png
-                 :width: 75%
 				 
 Upon clicking the **Modify** button a pop-up will be opened which allows the user to change license templates content. 
 The **Save** button will save the license template.

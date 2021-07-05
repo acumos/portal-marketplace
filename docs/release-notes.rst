@@ -21,6 +21,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 5.0.2 01st July 2021
+=================================
+* ACUMOS-4309 - Add a new item in SITE ADMIN : "model deployment automation"
+* ACUMOS-4311 - Take into account "deploy" parameter in obdr by Web
+* ACUMOS-4315 - Take into account "deploy" parameter in asynchronous microservice generation
+
 Version 4.0.15 28th August 2020
 =================================
 * ACUMOS-4089 - Email Header fields hardcoded for notifications

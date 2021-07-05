@@ -1,4 +1,4 @@
-.. ===============LICENSE_START=======================================================
+﻿.. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
 .. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
@@ -16,22 +16,25 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================================
-Portal and Marketplace Admin Guide
-==================================
+.. _model-deployment:
 
-.. toctree::
-   :maxdepth: 2
-   :numbered:
+============================
+Model Deployment Automation
+============================
 
-   intro.rst
-   monitoring.rst
-   role_management.rst
-   user_management.rst
-   site_content.rst
-   site_configuration.rst
-   federation.rst
-   maintained_backup_logs.rst
-   model_deployment.rst
+This tab "model deployment automation" the users will be able to fullfil the folowings parameters :
 
+-  Location of the jenkins server
 
+-  Name tof the jenkins jobs
+
+-  Name of the parameter
+
+-  Value of the parameter
+
+-  Jenkins login
+
+-  Jenkins security token
+
+				.. image:: images/model_deployment.jpg
+	               			  :width: 75%

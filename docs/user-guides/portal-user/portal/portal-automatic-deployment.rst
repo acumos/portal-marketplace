@@ -1,7 +1,7 @@
 .. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
-.. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+.. Copyright (C) 2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
 .. ===================================================================================
 .. This Acumos documentation file is distributed by AT&T and Tech Mahindra
 .. under the Creative Commons Attribution 4.0 International License (the "License");
@@ -16,22 +16,14 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================================
-Portal and Marketplace Admin Guide
-==================================
+======================
+Automatic Deployment
+======================
 
-.. toctree::
-   :maxdepth: 2
-   :numbered:
-
-   intro.rst
-   monitoring.rst
-   role_management.rst
-   user_management.rst
-   site_content.rst
-   site_configuration.rst
-   federation.rst
-   maintained_backup_logs.rst
-   model_deployment.rst
-
+The goal of this feature is to deploy a model automatically  in a target environment.
+Automation of model deployment is based on an external Jenkins server fully managed by the Acumos users. 
+Some specifics Jenkins jobs must be created by the Acumos user and then, based on some parameters 
+that must be fullfiled by Acumos users (ip adress of the jenkins server, jenkins login and security token, etc ...), 
+Acumos will trigger these Jenkins jobs. 
+Deployment of the model is performed by the Jenkins Jobs, not by Acumos.
 
