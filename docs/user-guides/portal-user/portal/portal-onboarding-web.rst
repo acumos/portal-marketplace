@@ -72,7 +72,7 @@ checkbox which is checked by default.
 If you dont
 want Automatic Deployment you can uncheck  **Automatic Deployment**
 checkbox which is unchecked by default.
-    .. image:: ../images/portal/model-onboarding-microservice-success.jpg
+    .. image:: ../images/portal/model-onboarding-wo-microservice-success.jpg
              :width: 75%
 	  
 The above process will skip the steps **Dockerize** and **Add Docker Image** when we uncheck 
