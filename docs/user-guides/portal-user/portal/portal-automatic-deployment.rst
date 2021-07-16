@@ -20,10 +20,7 @@
 Automatic Deployment
 ======================
 
-The goal of this feature is to deploy a model automatically  in a target environment.
-Automation of model deployment is based on an external Jenkins server fully managed by the Acumos users. 
-Some specifics Jenkins jobs must be created by the Acumos user and then, based on some parameters 
-that must be fullfiled by Acumos users (ip adress of the jenkins server, jenkins login and security token, etc ...), 
-Acumos will trigger these Jenkins jobs. 
+The goal of this feature is to trigger the launch of a Jenkins job automatically. 
+Some specifics Jenkins jobs must be created by the Acumos user and then, based on some parameters that must be fullfiled by Acumos users like : ip adress of the jenkins server, jenkins login and security token, etc … (see Portal and Marketplace Admin guide section 9 ), Acumos will trigger these Jenkins jobs. This functionality can be used with Web onboarding through the Acumos UI or with onboarding by CLI with acumos-python-client, acumos-r-client and acumos-java-client. 
 Deployment of the model is performed by the Jenkins Jobs, not by Acumos.
 

@@ -22,7 +22,7 @@
 Model Deployment Automation
 ============================
 
-This tab "model deployment automation" the users will be able to fullfil the folowings parameters :
+This tab “model deployment automation” must be used to trigger the launch of a Jenkins Job on an external Jenkins server, please refers to the “model deployment project : https://wiki.acumos.org/display/MM/Model+Deployment+project ”  wiki page to set up properly all the following parameters:
 
 -  Location of the jenkins server
 
