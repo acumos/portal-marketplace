@@ -4065,7 +4065,7 @@ angular.module('admin').filter('abs', function () {
 				 deployementObject['jsr'] = $scope.jenkinsServer;
 				 deployementObject['jjb'] = $scope.jenkinsJob;
 				 deployementObject['param'] = $scope.jenkinsName;
-				 deployementObject['paramValue'] = $scope.jenkinsValue;
+				 //deployementObject['paramValue'] = $scope.jenkinsValue;
 				 deployementObject['jlog'] = $scope.jenkinsLogin;
 				 deployementObject['jst'] = $scope.jenkinsToken;
 
