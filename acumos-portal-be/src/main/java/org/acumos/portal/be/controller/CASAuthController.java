@@ -129,7 +129,7 @@ public class CASAuthController extends AbstractController {
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 		queryParams.put("ticket", ticket);
 		queryParams.put("service", service);
-		queryParams.put("format", "JSON");
+		queryParams.put("format", "XML");
 		
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(env.getProperty("cas.service.validate.url"));
 		if (queryParams != null && queryParams.size() > 0) {
