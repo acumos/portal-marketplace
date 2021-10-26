@@ -8,9 +8,9 @@
  * under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * This file is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -75,26 +75,25 @@ public class CASAuthController extends AbstractController {
 
     @Autowired
     private Environment env;
-    
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRoleService userRoleService;
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 
     public CASAuthController() {
         // TODO Auto-generated constructor stub
     }
 
-
     @ApiOperation(value = "Get CAS login Enables ot not", response = JsonResponse.class)
     @RequestMapping(value = {"/enabled"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
 	public JsonResponse<String> getDocurl(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		String docUrl = env.getProperty("portal.feature.cas_enabled", "false");
 		JsonResponse<String> responseVO = new JsonResponse<String>();
 		responseVO.setResponseBody(docUrl);
@@ -112,7 +111,7 @@ public class CASAuthController extends AbstractController {
 	 *            Ticket from CAS
 	 * @param service
 	 *            Service from CAS
-	 * @return data 
+	 * @return data
 	 *            JsonResponse
 	 */
 	@ApiOperation(value = "Returns the UserObject from CAS", response = JsonResponse.class)
@@ -122,15 +121,15 @@ public class CASAuthController extends AbstractController {
 			HttpServletResponse theHttpResponse,
 			@RequestParam(value = "ticket") String ticket
 			, @RequestParam(value = "service") String service) {
-		
+
 		log.debug( "ticket=" + ticket + " service=" + service);
 		JsonResponse<Object> jsonResponse = new JsonResponse<>();
-		
+
 		Map<String, Object> queryParams = new HashMap<String, Object>();
 		queryParams.put("ticket", ticket);
 		queryParams.put("service", service);
-		queryParams.put("format", "JSON");
-		
+		queryParams.put("format", "XML");
+
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(env.getProperty("cas.service.validate.url"));
 		if (queryParams != null && queryParams.size() > 0) {
 			for (Map.Entry<String, ? extends Object> entry : queryParams.entrySet()) {
@@ -142,21 +141,21 @@ public class CASAuthController extends AbstractController {
 				builder.queryParam(entry.getKey(), value);
 			}
 		}
-		
+
 		URI uri = builder.build().encode().toUri();
 		ResponseEntity<String> response = null;
 		try {
-			
+
 			RestTemplate restTemplate = getRestTemplate(uri.toString());
-			
+
 			response = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
-			
+
 			StringReader reader = new StringReader(response.getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ServiceResponse.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			
+
 			ServiceResponse resp = (ServiceResponse) jaxbUnmarshaller.unmarshal(reader);
-			
+
 			if(!PortalUtils.isEmptyOrNullString(resp.getAuthenticationFailure())) {
 				jsonResponse.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				jsonResponse.setStatusCode(400);
@@ -165,7 +164,7 @@ public class CASAuthController extends AbstractController {
 				log.error( "Exception Occurred while serviceValidate()", resp.getAuthenticationFailure());
 				return jsonResponse;
 			} else {
-				
+
 				boolean isUserExists = false;
 				String loginUser =  null;
 				String userEmail =  null;
@@ -196,7 +195,7 @@ public class CASAuthController extends AbstractController {
 						isUserExists = true;
 					}
 				}
-				
+
 				if(!isUserExists) {
 					UserMasterObject usermasterobject = new UserMasterObject();
 		        	usermasterobject.setActive(true);
@@ -206,13 +205,13 @@ public class CASAuthController extends AbstractController {
 		        	usermasterobject.setUsername(loginUser);
 		        	user = PortalUtils.convertUserMasterIntoMLPUser(usermasterobject);
 		        	user = userService.save(user);
-		        	
+
 		        	//create role for user
 					if(user != null && !PortalUtils.isEmptyOrNullString(user.getUserId())){
 						createRole(user.getUserId());
-						user.setUserAssignedRolesList(userService.getUserRole(user.getUserId())); 
+						user.setUserAssignedRolesList(userService.getUserRole(user.getUserId()));
 					}
-					
+
 				} else {
 					user = PortalUtils.convertToMLPuser(mlpUser);
 				}
@@ -221,8 +220,8 @@ public class CASAuthController extends AbstractController {
 				//JsonUtils.serializer().toPrettyString(response.getBody());
 				jsonResponse.setContent(user);
 			}
-			
-			
+
+
 		}
 		catch (Exception x) {
 			x.printStackTrace();
@@ -233,10 +232,10 @@ public class CASAuthController extends AbstractController {
 		}
 		finally {
 			log.info( uri + " response " + response);
-		}		
-		return jsonResponse;		
+		}
+		return jsonResponse;
 	}
-	
+
 	private void createRole(String userId) {
 		List<MLPRole> userAssignedRolesList = new ArrayList<>();
 		try {
@@ -276,11 +275,11 @@ public class CASAuthController extends AbstractController {
 			log.error( "Exception Occurred while createRole :", e);
 		}
 	}
-	
+
 	public RestTemplate getRestTemplate(String webapiUrl) {
-		
+
 		RestTemplate restTemplate = new RestTemplate();
-		
+
 		if (webapiUrl == null)
 			throw new IllegalArgumentException("Null URL not permitted");
 
