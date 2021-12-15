@@ -24,17 +24,17 @@ Model Deployment Automation
 
 This tab “model deployment automation” must be used to trigger the launch of a Jenkins Job on an external Jenkins server, please refers to the “model deployment project : https://wiki.acumos.org/display/MM/Model+Deployment+project ”  wiki page to set up properly all the following parameters:
 
--  Location of the jenkins server
+-  Location of the jenkins server : Ip adress and port in the form : "http://X.X.X.X:Y"
 
--  Name tof the jenkins jobs
+-  Name tof the jenkins jobs : The Name of your jenkins jobs
 
--  Name of the parameter
+-  Name of the parameter : Name of the parameter you used to trigered your Jenkins Jobs remotly
 
--  Value of the parameter
+-  Value of the parameter : In the very mast version of Elpis (end of 2021) this parameter has been removed. Acumos is able to retrieve this parameter (model docker URI) and send it to Jenkins
 
--  Jenkins login
+-  Jenkins login : your Jenkins login
 
--  Jenkins security token
+-  Jenkins security token : your jenkins token
 
 				.. image:: images/model_deployment.jpg
 	               			  :width: 75%
